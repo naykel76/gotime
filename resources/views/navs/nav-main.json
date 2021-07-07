@@ -1,0 +1,28 @@
+{
+  "main": {
+    "links": [
+      {
+        "title":"Home",
+        "route_name": "home",
+        "url": "/"
+      },
+      {
+        "title":"Contact",
+        "route_name": "contact",
+        "url": "/contact"
+      }
+    ]
+  },
+  "footer": {
+    "links": [
+      {
+        "title":"Privacy Policy",
+        "url": "/privacy-policy"
+      },
+      {
+        "title":"Terms and Conditions",
+        "url": "/terms-and-conditions"
+      }
+    ]
+  }
+}

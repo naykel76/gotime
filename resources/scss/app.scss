@@ -1,0 +1,13 @@
+// !! Variable overrides and custom scss MUST come before importing nk_jtb  !!
+// !! variable specified in custom.scss will take precedence over app.scss  !!
+
+// $navbar-bg: rgba(0, 0, 0, .5);
+// $primary: #B75C31;
+// $secondary: yellow;
+
+// To add custom scss add file the uncomment below
+@import 'custom';
+
+@import '~nk_jtb/scss/nk_jtb';
+
+
