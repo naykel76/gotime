@@ -8,31 +8,27 @@
 
         {{-- main navigation --}}
         {{-- <x-gotime-menu menuname="main" class="hide-up-to-tablet" /> --}}
-        <x-gotime-menu menuname="main" class="hide-up-to-tablet">
-            {{-- if admin route exists and authorised user then show admin link --}}
-            {{-- @if(Route::has('admin'))
-                @hasanyrole('super|admin')
-                    <a href="{{ route('admin') }}" class="btn-info">Admin</a>
-                @endhasanyrole
-            @endif --}}
-        </x-gotime-menu>
+        <x-gotime-menu menuname="main" class="hide-up-to-tablet"> </x-gotime-menu>
 
-        @if(1 == 2)
+        {{-- if auth user can access admin, show button --}}
+
+            @can('access admin')
+                <a href="{{ route('admin') }}" class="btn-info">Admin</a>
+            @endcan
+
             @if(Route::has('login'))
-                <h1>kjhdsffkjh</h1>
                 @auth
-                    {{-- <x-authit::account-actions /> --}}
+                    <x-authit::account-actions />
                 @else
-                    {{-- <x-authit::login-register /> --}}
+                    <x-authit::login-register />
                 @endauth
             @endif
-        @endif
 
-        <div class="hide-from-tablet">
-            <svg class="icon burger txt-white wh40" @click="showSidebar = !showSidebar">
-                <use xlink:href="/svg/nk_icon-defs.svg#icon-menu"></use>
-            </svg>
-        </div>
+            <div class="hide-from-tablet">
+                <svg class="icon burger txt-white wh40" @click="showSidebar = !showSidebar">
+                    <use xlink:href="/svg/nk_icon-defs.svg#icon-menu"></use>
+                </svg>
+            </div>
 
     </div>
 
