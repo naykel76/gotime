@@ -6,29 +6,30 @@
             <a href="{{ url('/') }}"><img src="{{ config('naykel.logo') }}" alt="{{ config('app.name') }}"></a>
         </div>
 
-        {{-- main navigation --}}
-        {{-- <x-gotime-menu menuname="main" class="hide-up-to-tablet" /> --}}
-        <x-gotime-menu menuname="main" class="hide-up-to-tablet"> </x-gotime-menu>
+        <div class="flex">
+            {{-- main navigation --}}
+            <x-gotime-menu menuname="main" class="hide-up-to-tablet">
+                @can('access admin')
+                    <a href="{{ route('admin') }}" class="btn-info mr">Admin</a>
+                @endcan
+            </x-gotime-menu>
 
-        {{-- if auth user can access admin, show button --}}
-
-            @can('access admin')
-                <a href="{{ route('admin') }}" class="btn-info">Admin</a>
-            @endcan
-
-            @if(Route::has('login'))
+            @if(config('naykel.account.register'))
                 @auth
-                    <x-authit::account-actions />
+                    <x-authit::account-dropdown />
                 @else
                     <x-authit::login-register />
                 @endauth
-            @endif
 
-            <div class="hide-from-tablet">
-                <svg class="icon burger txt-white wh40" @click="showSidebar = !showSidebar">
-                    <use xlink:href="/svg/nk_icon-defs.svg#icon-menu"></use>
-                </svg>
-            </div>
+            @endif
+        </div>
+
+
+        <div class="hide-from-tablet">
+            <svg class="icon burger txt-white wh40" @click="showSidebar = !showSidebar">
+                <use xlink:href="/svg/nk_icon-defs.svg#icon-menu"></use>
+            </svg>
+        </div>
 
     </div>
 

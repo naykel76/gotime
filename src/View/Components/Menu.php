@@ -7,7 +7,6 @@ use Illuminate\View\Component;
 class Menu extends Component
 {
     public $filename; // name of json file in navs directory
-    public $dir = "../resources/views/navs/"; // json file storage directory
     public $menuname; // name of menu in json file
 
     public function __construct($filename = "nav-main", $menuname)
@@ -19,7 +18,7 @@ class Menu extends Component
     public function render()
     {
 
-        $file = $this->dir . $this->filename . '.json';
+        $file = resource_path('navs/') . $this->filename . '.json';
 
         // check file exists
         if (!file_exists($file)) {

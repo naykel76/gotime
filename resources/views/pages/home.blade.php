@@ -1,21 +1,6 @@
 @extends('gotime::layouts.' . config('naykel.template'))
 
 @section('top-a')
-<img src="images/nk/banner1920-001.jpg" alt="NK Sample Banner">
-@endsection
-
-@section('content')
-
-<div class="container pxy-lg txt-ctr">
-
-    <div class="w200 max">
-        <img src="/images/nk/logo.svg" alt="NAYKEL Web Applications" class="w400">
-    </div>
-
-    <h1>NAYKEL Laravel Application</h1>
-
-</div>
-
 <section class="section info-light py-4">
     <div class="container tac">
         <h3 class="txt-secondary ">INNOVATIVE AND <span class="txt-primary fw9">COST-EFFECTIVE</span> SOLUTIONS</h3>
@@ -50,6 +35,11 @@
         </div>
     </div>
 </section>
+@endsection
+
+
+@section('content')
+
 
 <section class="section light py-4">
     <div class="container">
@@ -92,30 +82,6 @@
 
 @section('bottom-a')
 <div class="dark">
-    <div class="container">
-        <div class="row tac">
-            <div class="col-md-33">
-                <div class="bx">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam culpa minima veritatis numquam earum esse fugiat rerum aut in quisquam.
-                </div>
-            </div>
-            <div class="col-md-33">
-                <div class="bx">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam culpa minima veritatis numquam earum esse fugiat rerum aut in quisquam.
-                </div>
-            </div>
-            <div class="col-md-33">
-                <div class="bx">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam culpa minima veritatis numquam earum esse fugiat rerum aut in quisquam.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
-
-@section('bottom-b')
-<div class="light">
     <div class="container">
         <div class="row tac">
             <div class="col-md-33">
