@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+
+- fix publish tags
+
 ## 0.0.3
 
 - update nk_svg

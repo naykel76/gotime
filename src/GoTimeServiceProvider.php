@@ -24,7 +24,7 @@ class GoTimeServiceProvider extends ServiceProvider
         ]);
 
 
-        /** Required Assets 
+        /** Stubs and Configuration Files
          * ==================================================================
          * Publish with the --force flag after initial install only.
          * 
@@ -33,12 +33,11 @@ class GoTimeServiceProvider extends ServiceProvider
             [
                 __DIR__ . '/Providers' => app_path('Providers'),
                 __DIR__ . '/config/naykel.php' => './config/naykel.php',
-                __DIR__ . '/routes.php' => './routes/web.php',
             ],
             'nkr-stubs'
         );
 
-        /** Publish Views (optional) 
+        /** Required Assets
          * ==================================================================
          * 
          */
@@ -49,10 +48,10 @@ class GoTimeServiceProvider extends ServiceProvider
                 __DIR__ . '/../resources/navs' => resource_path('navs'),
                 __DIR__ . '/../resources/scss' => resource_path('scss'),
                 __DIR__ . '/../resources/views/pages/' => resource_path('views/pages/'),
+                __DIR__ . '/routes.php' => './routes/web.php',
                 __DIR__ . '/webpack.mix.js' => './webpack.mix.js',
-
             ],
-            'nk-resources'
+            'nkr'
         );
     }
 }
