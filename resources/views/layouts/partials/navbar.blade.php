@@ -3,7 +3,7 @@
     <div class="container va-t">
 
         <div class="logo">
-            <a href="{{ url('/') }}"><img src="{{ config('naykel.logo') }}" alt="{{ config('app.name') }}"></a>
+            <a href="{{ url('/') }}"><img src="{{ config('naykel.logo.path') }}" height="{{ config('naykel.logo.height') }}" alt="{{ config('app.name') }}"></a>
         </div>
 
         <div class="flex">

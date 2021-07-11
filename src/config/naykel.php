@@ -1,17 +1,37 @@
 <?php
 
 return [
-    
-    'copyright' => env('NK_COPYRIGHT', 'NAYKEL'), // footer copyright company
 
     /**
      * ----------------------------------------------------------------------
-     * Application Image Path
+     * Account Features
+     * ----------------------------------------------------------------------
+     *
+     * Fortify routes are created based on the Fortify features array. This 
+     * account array is used to show or hide elements throughout the site.
+     * 
+     */
+    'account' => [
+        'register' => env('NK_ALLOW_REGISTER', true), // show or hide login/register buttons
+    ],
+
+
+    /**
+     * ----------------------------------------------------------------------
+     * Basic Settings
      * ----------------------------------------------------------------------
      *
      */
-    'logo' => env('NK_LOGO', '/images/nk/logo-alt.svg'),
+
+    'logo' => [
+        'path' => env('NK_LOGO_PATH', '/images/nk/logo-alt.svg'),
+        'height' => env('NK_LOGO_HEIGHT', ''),
+    ],
+
+
     'icon' => env('NK_ICON', '/images/nk/favicon.ico'),
+    'copyright' => env('NK_COPYRIGHT', 'NAYKEL'), // footer copyright company
+
 
     /**
      * ----------------------------------------------------------------------

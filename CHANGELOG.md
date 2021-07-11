@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5
+
+- add height control for navbar logo
+- template updates
+
 ## 0.0.4
 
 - fix publish tags
