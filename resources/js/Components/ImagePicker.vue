@@ -7,7 +7,7 @@
 
       <div class="btn-success mr file" :class="componentClasses">
 
-        <input type="file" name="image_path" accept="image/*" @change="onChange" id="xx" />
+        <input type="file" name="uploaded_file" accept="image/*" @change="onChange" id="xx" />
 
         <svg class="icon">
           <use xlink:href="/svg/nk_icon-defs.svg#icon-upload"></use>

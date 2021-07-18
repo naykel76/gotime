@@ -19,8 +19,13 @@
 
         <div class="navbar">
 
-            <img src="images/nk/logo-light.svg" alt="{{ config('app.name') }}" height=40>
+            <div class="logo">
+                <a href="{{ url('/admin') }}"><img src="/images/nk/logo-light.svg" alt="{{ config('app.name') }}" height=40></a>
+            </div>
 
+            <nav>
+                <a href="/" target="blank">Home Page</a>
+            </nav>
             @if(Route::has('login'))
                 <x-authit::account-dropdown />
             @endif

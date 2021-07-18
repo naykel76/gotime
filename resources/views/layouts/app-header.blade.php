@@ -17,15 +17,11 @@
 
     <div id="app">
 
-        <header id="nk-header">
-
-            @if(View::exists('layouts.partials.navbar'))
-                @include('layouts.partials.navbar')
-            @else
-                @include('gotime::layouts.partials.navbar')
-            @endif
-
-        </header>
+        @if(View::exists('layouts.partials.header'))
+            @include('layouts.partials.header')
+        @else
+            @include('gotime::layouts.partials.header')
+        @endif
 
         @yield('top-a')
         @yield('top-b')

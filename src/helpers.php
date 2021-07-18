@@ -39,7 +39,7 @@ function redirectTo($resource, $id)
  * @param string $name optional parameter for user defined file name
  * @return array ['filePath' => $filePath, 'fileName' => $fileName]
  */
-function addOverrideFile($file, $path, $name = null, $disk = 'public')
+function storeOverrideFile($file, $path, $name = null, $disk = 'public')
 {
 
     if ($name == null) {

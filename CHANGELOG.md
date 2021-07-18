@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+- template updates
+
 ## 0.0.5
 
 - add height control for navbar logo

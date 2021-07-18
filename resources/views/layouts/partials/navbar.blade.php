@@ -6,9 +6,10 @@
             <a href="{{ url('/') }}"><img src="{{ config('naykel.logo.path') }}" height="{{ config('naykel.logo.height') }}" alt="{{ config('app.name') }}"></a>
         </div>
 
-        <div class="flex">
+        <div class="flex hide-up-to-tablet">
+
             {{-- main navigation --}}
-            <x-gotime-menu menuname="main" class="hide-up-to-tablet">
+            <x-gotime-menu menuname="main">
                 @can('access admin')
                     <a href="{{ route('admin') }}" class="btn-info mr">Admin</a>
                 @endcan
@@ -20,8 +21,8 @@
                 @else
                     <x-authit::login-register />
                 @endauth
-
             @endif
+
         </div>
 
 
@@ -37,6 +38,16 @@
 
 <sidebar :showing="showSidebar" @close="showSidebar = false">
 
-    <p>This is the navbar sidebar!</p>
+   @if(config('naykel.account.register'))
+        <div class="pxy bdr-b">
+            @auth
+                <x-authit::account-dropdown />
+            @else
+                <x-authit::login-register/>
+            @endauth
+        </div>
+    @endif
+
+    <x-gotime-menu menuname="main" class="nav"> </x-gotime-menu>
 
 </sidebar>
