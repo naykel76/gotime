@@ -3,7 +3,7 @@
 
 <head>
 
-    @if (View::exists('layouts.partials.head'))
+    @if(View::exists('layouts.partials.head'))
         @include('layouts.partials.head')
     @else
         @include('gotime::layouts.partials.head')
@@ -17,7 +17,7 @@
 
     <div id="app">
 
-        @if (View::exists('layouts.partials.navbar'))
+        @if(View::exists('layouts.partials.navbar'))
             @include('layouts.partials.navbar')
         @else
             @include('gotime::layouts.partials.navbar')
@@ -26,15 +26,12 @@
         @yield('top-a')
         @yield('top-b')
 
-        {{-- do not add container or padding here, let the content to the work --}}
-        <main id="nk-main">
-            @yield('content')
-        </main>
+      
 
         @yield('bottom-a')
         @yield('bottom-b')
 
-        @if (View::exists('layouts.partials.footer'))
+        @if(View::exists('layouts.partials.footer'))
             @include('layouts.partials.footer')
         @else
             @include('gotime::layouts.partials.footer')

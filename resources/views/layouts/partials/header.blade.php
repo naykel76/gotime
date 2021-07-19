@@ -34,11 +34,11 @@
         </div>
     </div>
 
-    <div class="navbar">
+    <div class="navbar hide-up-to-tablet">
 
         <div class="container">
 
-            <x-gotime-menu menuname="main" class="hide-up-to-tablet">
+            <x-gotime-menu menuname="main" class="">
                 @can('access admin')
                     <a href="{{ route('admin') }}" class="btn-info mr">Admin</a>
                 @endcan
@@ -54,6 +54,20 @@
 
 <sidebar :showing="showSidebar" @close="showSidebar = false">
 
-    <p>This is the navbar sidebar!</p>
+    <x-gotime-menu menuname="main" class="nav nm bdr-b"> </x-gotime-menu>
 
+    <div class="bdr-b">
+        @if(config('naykel.account.register'))
+            @auth
+                <x-authit::account-nav />
+            @else
+                <div class="pxy"><x-authit::login-register /></div>
+            @endauth
+        @endif
+    </div>
+
+
+    @can('access admin')
+        <div class="pxy"><a href="{{ route('admin') }}" class="btn-info fullwidth">Admin</a></div>
+    @endcan
 </sidebar>
