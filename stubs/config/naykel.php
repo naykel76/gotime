@@ -25,6 +25,7 @@ return [
     'logo' => [
         'path' => env('NK_LOGO_PATH', '/images/logo.svg'),
         'height' => env('NK_LOGO_HEIGHT', ''), // don't set default
+        'width' => env('NK_LOGO_WIDTH', ''), // don't set default
         'sidebar_path' => env('NK_LOGO_SIDEBAR_PATH', '/images/logo.svg'),
         'sidebar_height' => env('NK_LOGO_HEIGHT', '40'),
     ],
