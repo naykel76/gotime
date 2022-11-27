@@ -13,7 +13,7 @@ trait WithCrud
     public $tmpUpload;
     public $showModal;
 
-    public $confirmingDeleteId = false;
+    public $confirmingActionId = false;
 
     public function cancel(): void
     {
@@ -21,10 +21,9 @@ trait WithCrud
         $this->resetErrorBag();
     }
 
-    public function confirmDelete($id)
+    public function setConfirmAction($id)
     {
-        // using id instead of bool
-        $this->confirmingDeleteId = $id;
+        $this->confirmingActionId = $id;
     }
 
     /**
@@ -34,8 +33,6 @@ trait WithCrud
     {
         return self::$model::make($this->initialData);
     }
-
-
 
     /**
      * Edit the selected model
@@ -89,7 +86,7 @@ trait WithCrud
     public function delete($id, $redirectAction = null): void
     {
         self::$model::find($id)->delete();
-        $this->confirmingDeleteId = false;
+        $this->confirmingActionId = false;
         $this->emit('refreshComponent');
 
         $this->handleRedirect($redirectAction);
