@@ -1,4 +1,4 @@
-@props([ 'for' => null, 'label' => null, 'helpText' => null, 'rowClass' => null, 'inline' => false, 'req' => false, 'initialValue' => null ])
+@props([ 'for' => null, 'label' => null, 'helpText' => null, 'rowClass' => null, 'inline' => false, 'req' => false, 'initialValue' => null, ])
 
 @php
     // if wire:model exists even if it is null then isLivewire = true
@@ -17,22 +17,23 @@
         }"
     x-init="setValue(); $watch('value', () => isFocused() && setValue())"
     x-on:trix-change="value = $event.target.value"
-    {{ $attributes->whereDoesntStartWith('wire:model') }}
     wire:ignore
 >
 
     @isset($label)
-        <label @error($for) class="txt-red fw9 " @enderror for="{{ $for }}">{{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
+        <label @error($for) class="txt-red fw9 " @enderror for="{{ $for }}">
+            {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
     @endisset
 
-    @isset($helpText)
-        <div class="help mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
-    @endisset
+    <div  {{ $attributes->class(['fullwidth'])->whereDoesntStartWith('wire:model') }}>
 
-    <div class="fullwidth">
+        @isset($helpText)
+            <div class="help my-05 txt-muted"> <small>{{ $helpText }}</small> </div>
+        @endisset
+
         <input id="{{ $for }}" type="hidden" name="{{ $for }}">
 
-        <trix-editor x-ref="trix" input="{{ $for }}"></trix-editor>
+        <trix-editor x-ref="trix" input="{{ $for }}" ></trix-editor>
 
         @error($for)
             <small class="txt-red" role="alert"> {{ $message }} </small>

@@ -12,7 +12,7 @@
 
         @else
 
-            <button class="flex px-0 nbdr fw7 cursor-pointer">
+            <button class="flex px-0 bdr-0 fw7 cursor-pointer">
 
                 <span>{{ $slot }}</span>
 

@@ -4,14 +4,13 @@ namespace Naykel\Gotime\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-class CurrencyCast implements CastsAttributes
+class MoneyCast implements CastsAttributes
 {
     /**
      * Cast the given value from cents to dollars
      */
     public function get($model, $key, $value, $attributes)
     {
-
         return number_format($value / 100, 2, '.', '');
     }
 

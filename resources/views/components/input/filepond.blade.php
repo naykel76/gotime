@@ -4,8 +4,11 @@
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
     <style>
-        .filepond--item {
+        /* .filepond--item {
             width: calc(25% - 0.5em);
+        } */
+        #nk-main .filepond--root ul{
+            list-style: none;
         }
     </style>
 @endpush
@@ -16,7 +19,7 @@
     wire:ignore
     x-data="{pond: null}"
     x-init="
-        FilePond.registerPlugin(FilePondPluginImagePreview);
+        {{-- FilePond.registerPlugin(FilePondPluginImagePreview); --}}
         pond = FilePond.create($refs.input);
         pond.setOptions({
             allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
@@ -33,7 +36,7 @@
             pond.removeFiles();
         });
     ">
-        <input type="file" name="{{ $for }}" x-ref="input">
+        <input type="file" name="{{ $for }}" x-ref="input" style="display:none">
 
     </div>
 

@@ -1,10 +1,10 @@
-@props([ 'text' => 'Add', 'icon' => false, 'iconClass' => '', 'iconOnly' => false ])
+@props([ 'text' => 'Edit', 'icon' => false, 'iconClass' => '', 'iconOnly' => false ])
 
-<button type="button" {{ $attributes->merge(['class' => 'btn success']) }}>
+<button type="button" {{ $attributes->merge(['class' => 'btn blue']) }}>
 
     @if($icon || $iconOnly)
         @php
-        $icon = is_string($icon) ? $icon : 'plus-round';
+            $icon = is_string($icon) ? $icon : 'edit-o';
         @endphp
         <x-dynamic-component :component="'iconit-' .$icon" class="icon {{ $iconClass }}" />
     @endif

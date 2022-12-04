@@ -9,22 +9,23 @@ trait WithCrud
 {
     use WithFileUploads;
 
-    public $config = ['dbField' => 'image'];
+    /**
+     * Flag to show or hide modal
+     * @var bool
+     */
+    public bool $showModal;
+
+    /**
+     * Id of the item to be deleted
+     * @var bool|int
+     */
+    public bool|int $confirmingActionId = false;
+
+    /**
+     * Livewire temporary file upload
+     * @var mixed
+     */
     public $tmpUpload;
-    public $showModal;
-
-    public $confirmingActionId = false;
-
-    public function cancel(): void
-    {
-        $this->showModal = false;
-        $this->resetErrorBag();
-    }
-
-    public function setConfirmAction($id)
-    {
-        $this->confirmingActionId = $id;
-    }
 
     /**
      * Create model instance of the current resource and set default values.
@@ -35,7 +36,7 @@ trait WithCrud
     }
 
     /**
-     * Edit the selected model
+     * Edit the selected model (non-route method)
      */
     public function edit($id): void
     {
@@ -44,7 +45,7 @@ trait WithCrud
     }
 
     /**
-     * Create blank model with default values
+     * Create blank model with default values (non-route method)
      */
     public function create(): void
     {
@@ -52,14 +53,22 @@ trait WithCrud
         $this->showModal = true;
     }
 
-    public function save($redirectAction = null)
+    /**
+     * Persist and manage before and after save actions including redirect
+     * @return void
+     */
+    public function save(string $redirectAction = null)
     {
+
         $this->validate();
         $this->beforePersistHook();
         $this->editing->save();
         $this->afterPersistHook();
+
+
         // this fires a little quick
         $this->dispatchBrowserEvent('notify', ($this->message ?? 'Saved!'));
+
         // the action is only required on the first save to redirect to the
         // edit form if need be. I am not sure how this will go with livewire
         // only modal components
@@ -67,20 +76,6 @@ trait WithCrud
 
         $this->showModal = false;
         $this->emit('refreshComponent');
-    }
-
-    /**
-     * Save and return new instance
-     * @return void
-     */
-    public function saveCreate()
-    {
-        $this->validate();
-        $this->beforePersistHook();
-        $this->editing->save();
-        $this->afterPersistHook();
-
-        return $new;
     }
 
     public function delete($id, $redirectAction = null): void
@@ -92,28 +87,44 @@ trait WithCrud
         $this->handleRedirect($redirectAction);
     }
 
+    /**
+     * Cancel actions for modals and full page components
+     * @return void
+     */
+    public function cancel(): void
+    {
+        $this->showModal = false;
+        $this->resetErrorBag();
+    }
 
+    public function setConfirmAction($id)
+    {
+        $this->confirmingActionId = $id;
+    }
 
     public function handleRedirect($action)
     {
         switch ($action) {
             case 'save_stay':
                 // this feels a bit hacky, but if there is not slug field or it is null it should work fine
-                return redirect(route("admin.$this->resource.edit", ($this->editing->slug ?? $this->editing->id)));
+                return redirect(route("$this->routePrefix.edit", ($this->editing->slug ?? $this->editing->id)));
                 break;
             case 'save_close':
-                return redirect(route("admin.$this->resource.index"));
+                return redirect(route("$this->routePrefix.index"));
                 break;
             case 'save_new':
-                return redirect(route("admin.$this->resource.create"));
+                return redirect(route("$this->routePrefix.create"));
                 break;
             case 'delete_close':
-                return redirect(route("admin.$this->resource.index"));
+                return redirect(route("$this->routePrefix.index"));
                 break;
         }
     }
 
-    public function handleUpload($file, $disk, $dbField, $hashFilename = false): void
+    /**
+     *
+     */
+    public function handleUpload($file, string $disk, string $dbField, $hashFilename = false): void
     {
         tap($this->editing->$dbField, function ($previous) use ($file, $disk, $dbField, $hashFilename) {
 
@@ -135,6 +146,17 @@ trait WithCrud
         // i am not sure this a good place to reset but it seems to work \o/
         $this->dispatchBrowserEvent('pondReset');
         $this->reset(['tmpUpload']);
+    }
+
+    /**
+     * Automatically assign next highest sort oder value to current editing resource
+     * @return void
+     */
+    protected function setSortOrder($collection): void
+    {
+        if ($this->editing->sort_order === '' || $this->editing->sort_order === null) {
+            $this->editing->sort_order = addToEnd($collection);
+        }
     }
 
     /**

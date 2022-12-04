@@ -1,8 +1,5 @@
 <?php
 
-use Naykel\Gotime\Facades\Filesys;
-
-
 // ------------------------------------------------------------------
 // -- GENERAL HELPERS --
 // ------------------------------------------------------------------
@@ -23,6 +20,92 @@ if (!function_exists('addToEnd')) {
     }
 }
 
+if (!function_exists('dotLastItem')) {
+    /**
+     * explode dot notation and return the last item
+     * ----------------------------------------------------------------------------
+     */
+    function dotLastItem($item)
+    {
+        $arr = explode(".", $item);
+        return end($arr);
+    }
+}
+
+// ------------------------------------------------------------------
+// -- ROUTES AND REDIRECTS --
+// ------------------------------------------------------------------
+if (!function_exists('handleRedirect')) {
+    /**
+     *
+     * @param mixed $routeName without the action
+     * @param mixed $redirectAction case or action description
+     * @param int|string|null $param
+     * @return mixed
+     */
+
+
+    function handleRedirect(string $routeName, string $redirectAction, int|string $param = null)
+    {
+        switch ($redirectAction) {
+            case 'save_stay':
+                // this feels a bit hacky, but if there is not slug field or it is null it should work fine
+                return redirect(route("$routeName.edit", $param));
+                break;
+            case 'save_close':
+                return redirect(route("$routeName.index"));
+                break;
+            case 'save_new':
+                return redirect(route("$routeName.create"));
+                break;
+            case 'delete_close':
+                return redirect(route("$routeName.index"));
+                break;
+        }
+    }
+}
+
+//
+//
+//
+// /**
+//  * On form submit, redirect based on form action using resource id
+//  * --------------------------------------------------------------------------
+//  * @param string $action request from form action=''
+//  * @param string $routeName (full route name e.g. admin.courses, courses)
+//  * @param integer $id
+//  */
+
+// if (!function_exists('redirectById')) {
+//     function redirectById($routeName, $id)
+//     {
+//         // dd($routeName);
+//         switch (request('action')) {
+//             case 'save_stay':
+//                 // dd($routeName . ".edit" . $id);
+//                 return redirect(route("$routeName.edit", $id))->with('flash', 'Saved!');
+//                 break;
+//             case 'save_close':
+//                 return redirect(route("$routeName.index"))->with('flash', 'Saved!');
+//                 break;
+//             case 'save_new':
+//                 return redirect(route("$routeName.create"))->with('flash', 'Saved!');
+//                 break;
+//             case 'save_preview':
+//                 return redirect(route("$routeName.show", $id))->with('flash', 'Saved!');
+//                 break;
+//             case 'close':
+//                 return redirect(route("$routeName.index"));
+//                 break;
+//         }
+//     }
+// }
+//
+//
+//
+//
+//
+//
 // ------------------------------------------------------------------
 // -- FILES AND FILESYSTEM --
 // ------------------------------------------------------------------
@@ -63,95 +146,7 @@ if (!function_exists('getFileNames')) {
 //
 //
 
-/**
- * On form submit, redirect based on form action using resource id
- * --------------------------------------------------------------------------
- * @param string $action request from form action=''
- * @param string $routeName (full route name e.g. admin.courses, courses)
- * @param integer $id
- */
 
-if (!function_exists('redirectById')) {
-    function redirectById($routeName, $id)
-    {
-        // dd($routeName);
-        switch (request('action')) {
-            case 'save_stay':
-                // dd($routeName . ".edit" . $id);
-                return redirect(route("$routeName.edit", $id))->with('flash', 'Saved!');
-                break;
-            case 'save_close':
-                return redirect(route("$routeName.index"))->with('flash', 'Saved!');
-                break;
-            case 'save_new':
-                return redirect(route("$routeName.create"))->with('flash', 'Saved!');
-                break;
-            case 'save_preview':
-                return redirect(route("$routeName.show", $id))->with('flash', 'Saved!');
-                break;
-            case 'close':
-                return redirect(route("$routeName.index"));
-                break;
-        }
-    }
-}
-
-
-/**
- * On form submit, redirect based on form action using resource slug
- * --------------------------------------------------------------------------
- * @param string $action request from form action=''
- * @param string $routeName (full route name e.g. admin.courses, courses)
- * @param string $id
- */
-
-if (!function_exists('redirectBySlug')) {
-    function redirectBySlug($routeName, $slug)
-    {
-        // NK::TD add preview ??
-        switch (request('action')) {
-            case 'save_stay':
-                return redirect(route("$routeName.edit", $slug))->with('flash', 'Saved!');
-                break;
-            case 'save_close':
-                return redirect(route("$routeName.index"))->with('flash', 'Saved!');
-                break;
-            case 'save_new':
-                return redirect(route("$routeName.create"))->with('flash', 'Saved!');
-                break;
-        }
-    }
-}
-
-
-/**
- *  validate/merge additional data fields before persisting
- * ----------------------------------------------------------------------
- * @param mixed $request
- * @param mixed|null $storageDir can be null when no file
- * @return mixed[] $validatedData
- */
-
-// NK::DEPRECIATE/DELETE
-if (!function_exists('validateMergeData')) {
-    function validateMergeData($request, $storageDir = null)
-    {
-
-        // validated fields from request
-        $validatedData = $request->validated();
-
-        if ($request->has('uploaded_file')) {
-            /**
-             * NK::TD need to add options for different types of upload
-             * e.g. override, custom name
-             */
-            $fileData = Filesys::addOverrideFile($request->uploaded_file, $storageDir);
-            $validatedData['image_path'] = $fileData['filepath'];
-        }
-
-        return $validatedData;
-    }
-}
 
 /**
  * Uploads file to nominated storage directory and removes old one if exists.

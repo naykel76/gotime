@@ -1,9 +1,3 @@
-{{-- nav-item are nested inside the component style and therefor
-can be different styles for different components.For example the
-.navbar.nav-item or .menu.nav-item --}}
-
-{{-- add props to component class --}}
-
 <nav {{ $attributes }}>
 
     @foreach($menu->$menuname->links as $item)
@@ -21,7 +15,15 @@ can be different styles for different components.For example the
             $children = ($item->children ?? null);
         ?>
 
+        @if(!isset($link))
+            {{ dd($item->title .' --- Is missing a route or url in nav.json---') }}
+        @endif
+
         <x-gotime::menu-item href="{{ $link }}" :active=$active :children=$children class="{{ $itemClass }}">
+
+            @if($useIconit)
+                <x-dynamic-component :component="'iconit-'.$item->iconit" class="icon" />
+            @endif
 
             @if($useIcons)
                 @isset($item->icon)

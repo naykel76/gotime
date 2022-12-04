@@ -1,4 +1,18 @@
-@props(['buttonText', ])
+@props([ 'text' => 'Save', 'icon' => false, 'iconClass' => '', 'iconOnly' => false ])
 
-<button {{ $attributes }} class="btn primary">
-    <x-iconit-save-o class="icon" /> <span>{{ $buttonText ?? 'Save' }}</span></button>
+<button type="button" {{ $attributes->merge(['class' => 'btn primary']) }}>
+
+    @if($icon || $iconOnly)
+        @php
+            $icon = is_string($icon) ? $icon : 'save-o';
+        @endphp
+        <x-dynamic-component :component="'iconit-' .$icon" class="icon {{ $iconClass }}" />
+    @endif
+
+    @unless($iconOnly)
+        @isset($text)
+            <span>{{ $text }}</span>
+        @endisset
+    @endunless
+
+</button>
