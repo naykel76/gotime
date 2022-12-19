@@ -1,6 +1,62 @@
 <?php
 
 // ------------------------------------------------------------------
+// -- CONVERSION HELPERS --
+// ------------------------------------------------------------------
+
+if (!function_exists('toUrl')) {
+    /**
+     * Convert dot notation to relative url or path. Same as fromDot()
+     */
+    function toUrl(string $input): string
+    {
+        return str_replace('.', '/', ltrim($input, '/'));
+    }
+}
+
+if (!function_exists('fromDot')) {
+    /**
+     * Convert dot notation to relative url or path
+     */
+    function fromDot(string $input): string
+    {
+        return str_replace('.', '/', ltrim($input, '/'));
+    }
+}
+
+if (!function_exists('toDot')) {
+    /**
+     * Convert url or path to dot notation
+     */
+    function toDot(string $input): string
+    {
+        return str_replace('/', '.', ltrim($input, '.'));
+    }
+}
+
+// ------------------------------------------------------------------
+// -- FILES AND FILESYSTEM --
+// ------------------------------------------------------------------
+
+if (!function_exists('getJsonFile')) {
+    /**
+     * Get json file contents
+     * --------------------------------------------------------------
+     */
+    function getJsonFile(string $path, bool $returnAsArray = false): array|object
+    {
+
+        if (file_exists($path)) {
+            return json_decode(file_get_contents($path), $returnAsArray);
+        }
+
+        throw new FileNotFoundException("File does not exist at path {$path}.");
+    }
+}
+
+
+
+// ------------------------------------------------------------------
 // -- GENERAL HELPERS --
 // ------------------------------------------------------------------
 
@@ -65,47 +121,6 @@ if (!function_exists('handleRedirect')) {
     }
 }
 
-//
-//
-//
-// /**
-//  * On form submit, redirect based on form action using resource id
-//  * --------------------------------------------------------------------------
-//  * @param string $action request from form action=''
-//  * @param string $routeName (full route name e.g. admin.courses, courses)
-//  * @param integer $id
-//  */
-
-// if (!function_exists('redirectById')) {
-//     function redirectById($routeName, $id)
-//     {
-//         // dd($routeName);
-//         switch (request('action')) {
-//             case 'save_stay':
-//                 // dd($routeName . ".edit" . $id);
-//                 return redirect(route("$routeName.edit", $id))->with('flash', 'Saved!');
-//                 break;
-//             case 'save_close':
-//                 return redirect(route("$routeName.index"))->with('flash', 'Saved!');
-//                 break;
-//             case 'save_new':
-//                 return redirect(route("$routeName.create"))->with('flash', 'Saved!');
-//                 break;
-//             case 'save_preview':
-//                 return redirect(route("$routeName.show", $id))->with('flash', 'Saved!');
-//                 break;
-//             case 'close':
-//                 return redirect(route("$routeName.index"));
-//                 break;
-//         }
-//     }
-// }
-//
-//
-//
-//
-//
-//
 // ------------------------------------------------------------------
 // -- FILES AND FILESYSTEM --
 // ------------------------------------------------------------------
@@ -132,14 +147,7 @@ if (!function_exists('getFileNames')) {
 }
 
 
-//
-//
-//
-//
-//
-//
-//
-//
+
 //
 //
 // IN REVIEW
@@ -212,22 +220,9 @@ if (!function_exists('centsToDollars')) {
     }
 }
 
-if (!function_exists('fetchJsonFile')) {
-    /**
-     * fetch json file contents (as object or array)
-     * --------------------------------------------------------------
-     * @param mixed $path
-     * @param bool $returnAsArray
-     * @return mixed
-     */
-    function fetchJsonFile($path, $returnAsArray = false)
-    {
-        $file = resource_path($path);
-        return json_decode(file_get_contents($file), $returnAsArray);
-    }
-}
 
 
+// DEPRECIATE
 /**
  * Convert dot notation and remove leading forward slash
  * @param string $input

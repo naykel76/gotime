@@ -17,13 +17,8 @@ class Menu extends Component
 
     public function render()
     {
-        $file = 'navs/' . $this->filename . '.json';
+        $file = getJsonFile(resource_path("navs/$this->filename.json"));
 
-        if (!file_exists(resource_path($file))) {
-            dd($file . ' not found');
-            return;
-        }
-
-        return view('gotime::components.menu')->with(['menu' => fetchJsonFile($file)]);
+        return view('gotime::components.menu')->with(['menu' => $file]);
     }
 }

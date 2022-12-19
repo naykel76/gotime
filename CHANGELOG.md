@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+- add icon components
+- housekeeping to remove unused files
+- update helpers
+- update Menu component
+- update jtb classes
+- wip new route builder methods
+
 ## 0.2.0
 - update buttons
 - update controls

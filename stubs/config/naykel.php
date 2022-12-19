@@ -24,13 +24,13 @@ return [
 
     'logo' => [
         'path' => env('NK_LOGO_PATH', '/images/logo.svg'),
-        'height' => env('NK_LOGO_HEIGHT', ''), // don't set default
-        'width' => env('NK_LOGO_WIDTH', ''), // don't set default
+        'height' => env('NK_LOGO_HEIGHT', ''),  // don't set default
+        'width' => env('NK_LOGO_WIDTH', ''),    // don't set default
         'sidebar_path' => env('NK_LOGO_SIDEBAR_PATH', '/images/logo.svg'),
         'sidebar_height' => env('NK_LOGO_HEIGHT', '40'),
     ],
 
-    'icon' => env('NK_ICON', '/images/favicon.ico'),
+    'icon' => env('NK_ICON', '/favicon.ico'),
     'copyright' => env('NK_COPYRIGHT', 'NAYKEL'), // footer copyright company
 
     'date_format' => env('NK_DATE_FORMAT', 'm/d/Y'),

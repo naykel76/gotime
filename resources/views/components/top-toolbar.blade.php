@@ -6,8 +6,17 @@
         <div class="container flex space-between">
 
             @if(Route::has('login'))
-
-                <x-gotime-menu menuname="dev" filename="nav-admin" class="space-x" itemClass="txt-red hover:primary" />
+                {{-- these routes will start working when all the moons align
+                and there is nothing left to complain about! --}}
+                <nav class="space-x">
+                    @if(Route::has('user1'))
+                        <a href="{{ route('user1') }}">Quick Login</a>
+                    @endif
+                    @auth
+                        <a href="{{ route('admin') }}">Admin</a>
+                    @endauth
+                    <a href="/dev">Dev</a>
+                </nav>
 
                 <div>
                     @auth

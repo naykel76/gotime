@@ -15,7 +15,7 @@
                 @if ($req) <span class='txt-red'>*</span> @endif </label>
         @endisset
 
-        <div class="flex-col fullwidth">
+        <div class="flex-col w-full">
 
             {{ $slot }}
 

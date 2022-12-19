@@ -7,12 +7,62 @@ use Illuminate\Support\Facades\Route;
 class RouteBuilder
 {
 
+    public function generate(array|object $items): void
+    {
+        foreach ($items as $item) {
+            if (empty($item->exclude_route)) {
+                isset($item->children) ? $this->generateChildren($item->children) : null;
+                $this->make($item);
+            }
+        }
+    }
+
+    function generateChildren(array|object $items): void
+    {
+        foreach ($items as $item) {
+            if (empty($item->exclude_route)) {
+                isset($item->children) ? $this->generateGrandChildren($item->children) : null;
+                $this->make($item);
+            }
+        }
+    }
+
+    function generateGrandChildren(array|object $items): void
+    {
+        foreach ($items as $item) {
+            if (empty($item->exclude_route)) {
+                $this->make($item);
+            }
+        }
+    }
+
+    public function make(array|object $item, array $data = null): void
+    {
+        // if item url is null, then generate one based on route name structure
+        $url = toUrl($item->route_name ?? $item->url);
+        // unless view, follow url or route structure
+        $view = !empty($item->view) ? $item->view : $url;
+        // set the route name. or null
+        $name = $item->route_name ?? null;
+
+        // unless view, use page??
+
+        Route::get($url, function () use ($data, $view) {
+            return view("pages." . $view)->with($data);
+        })->name($name);
+    }
+
+    //
+    //
+    //
+    // DEPRECIATED
+    //
+    //
     protected array $data = [];
 
     public function create(string $filename, string $layout = null)
     {
-
-        $navObject = fetchJsonFile("navs/$filename.json");
+        $navObject = getJsonFile(resource_path("navs/$filename.json"));
 
         $this->data['navJsonFile'] = $filename;
         $this->data['menus'] =  $this->getMenuKeys($navObject);
@@ -50,7 +100,6 @@ class RouteBuilder
                     }
 
                     $this->buildRoute($url, $view, ($item->route_name ?? null));
-
                 };
             }
         }
@@ -85,5 +134,4 @@ class RouteBuilder
 
         return $menus;
     }
-
 }

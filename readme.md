@@ -80,3 +80,36 @@ Do not define a variable data type that is a file as a `string`. Why? It's a fil
     </script>
 
     @endpush
+
+
+## Adding New Icons
+
+**For consistency:**
+
+- icons should be saved 20 high
+- icons should not have any fill color
+
+##### Step 1. Save SVG files in `resources/views/components/icon`.
+
+##### Step 2. change extension from `svg` to `blade.php`
+
+You can batch update the file extensions by running the following command in the `resources/views/components` directory.
+
+```bash
+for i in *.svg; do mv -- "$i" "${i%.svg}.blade.php"; done
+```
+
+##### Step 3. Remove fill color
+
+Using the editor find and replace, remove the fill colour to allow default styles to work.
+
+
+##### Step 4. Add $attributes
+
+Search for
+
+    <svg xmlns="http://www.w3.org/2000/svg"
+
+Replace with
+
+    <svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg"

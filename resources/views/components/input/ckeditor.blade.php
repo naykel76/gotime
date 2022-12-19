@@ -9,7 +9,7 @@
 <div class='frm-row {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
     @isset($label)
-        <label @error($for) class="txt-red fw9 " @enderror for="{{ $for }}">
+        <label @error($for) class="txt-red fw-9 " @enderror for="{{ $for }}">
             {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
     @endisset
 
@@ -20,10 +20,10 @@
         @enderror
     @endunless
 
-    <div wire:ignore x-cloak {{ $attributes->class(['fullwidth', 'bdr-3 bdr-red' => $errors->has( $for )]) }}
+    <div wire:ignore x-cloak {{ $attributes->class(['w-full', 'bdr-3 bdr-red' => $errors->has( $for )]) }}
         x-data="{ value: @entangle($attributes->wire('model')) }"
         x-init="
-            ClassicEditor.create(document.querySelector('#ckeditor'))
+        ClassicEditor.create(document.querySelector('#ckeditor'))
             .then(editor => {
                 editor.model.document.on('change:data', () => {
                     @this.set('{{ $for }}', editor.getData());
@@ -42,6 +42,18 @@
 
 @once('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    {{-- <script>
+        ClassicEditor
+            .create(document.querySelector('#message'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                @this.set('message', editor.getData());
+                })
+           })
+            .catch(error => {
+                console.error(error);
+            });
+    </script> --}}
 @endonce
 
 @push('styles')

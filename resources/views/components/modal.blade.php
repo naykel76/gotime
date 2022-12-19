@@ -3,9 +3,9 @@
     @php
         $maxWidth = [
         'xs' => 'maxw300',
-        'sm' => 'maxw400',
-        'md' => 'maxw600',
-        'lg' => 'maxw800',
+        'sm' => 'maxw-400',
+        'md' => 'maxw-600',
+        'lg' => 'maxw-800',
         'xl' => 'container',
         ][$maxWidth ?? 'md'];
 

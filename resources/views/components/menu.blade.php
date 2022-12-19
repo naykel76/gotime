@@ -16,7 +16,7 @@
         ?>
 
         @if(!isset($link))
-            {{ dd($item->title .' --- Is missing a route or url in nav.json---') }}
+            {{ dd( "The '$item->title' item ,from the `$menuname` object, in '$filename.json' is missing a route or url. \nFix it and your day will get better!.") }}
         @endif
 
         <x-gotime::menu-item href="{{ $link }}" :active=$active :children=$children class="{{ $itemClass }}">
@@ -31,7 +31,7 @@
                 @endisset
             @endif
 
-            <span>{{ $item->title }}</span>
+            <span>{{ $item->title ?? $item->name}}</span>
 
         </x-gotime::menu-item>
 

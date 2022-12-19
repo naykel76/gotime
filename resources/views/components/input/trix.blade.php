@@ -21,11 +21,11 @@
 >
 
     @isset($label)
-        <label @error($for) class="txt-red fw9 " @enderror for="{{ $for }}">
+        <label @error($for) class="txt-red fw-9 " @enderror for="{{ $for }}">
             {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
     @endisset
 
-    <div  {{ $attributes->class(['fullwidth'])->whereDoesntStartWith('wire:model') }}>
+    <div  {{ $attributes->class(['w-full'])->whereDoesntStartWith('wire:model') }}>
 
         @isset($helpText)
             <div class="help my-05 txt-muted"> <small>{{ $helpText }}</small> </div>

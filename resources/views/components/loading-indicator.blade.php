@@ -1,5 +1,5 @@
     {{-- add full page or inside element --}}
-    {{-- <div {{ $attributes->merge(['class'=> 'flex mxy-0 fixed fullwidth vh100']) }}  style=" justify-content: center; align-items: center; background-color: black; top: 0px; left: 0px; z-index: 9999;  opacity: .75;"> --}}
+    {{-- <div {{ $attributes->merge(['class'=> 'flex mxy-0 fixed w-full vh100']) }}  style=" justify-content: center; align-items: center; background-color: black; top: 0px; left: 0px; z-index: 9999;  opacity: .75;"> --}}
     <div class="overlay flex ha-c va-c mxy-0" >
         <div class="la-ball-spin la-2x">
             <div></div>

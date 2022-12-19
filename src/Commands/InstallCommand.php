@@ -1,6 +1,6 @@
 <?php
 
-namespace Naykel\Gotime;
+namespace Naykel\Gotime\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -42,8 +42,8 @@ class InstallCommand extends Command
         (new Filesystem)->ensureDirectoryExists(public_path('images'));
         (new Filesystem)->ensureDirectoryExists(public_path('svg'));
 
-        (new Filesystem)->copyDirectory(__DIR__ . '/../stubs/public/images', public_path('images'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../stubs/public/svg', public_path('svg'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/images', public_path('images'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/svg', public_path('svg'));
 
         // Resources...
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));
@@ -51,17 +51,17 @@ class InstallCommand extends Command
         (new Filesystem)->ensureDirectoryExists(resource_path('scss'));
         (new Filesystem)->ensureDirectoryExists(resource_path('views'));
 
-        (new Filesystem)->copyDirectory(__DIR__ . '/../stubs/resources/js', resource_path('js'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../stubs/resources/navs', resource_path('navs'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../stubs/resources/scss', resource_path('scss'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../stubs/resources/views', resource_path('views'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/js', resource_path('js'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/navs', resource_path('navs'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/scss', resource_path('scss'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/views', resource_path('views'));
 
         // Config...
-        copy(__DIR__ . '/../stubs/.env.example', base_path('.env.example'));
-        copy(__DIR__ . '/../stubs/vite.config.js', base_path('vite.config.js'));
+        copy(__DIR__ . '/../../stubs/.env.example', base_path('.env.example'));
+        copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
 
         // Routes...
-        copy(__DIR__ . '/../stubs/routes.php', base_path('routes/web.php'));
+        copy(__DIR__ . '/../../stubs/routes.php', base_path('routes/web.php'));
 
         $this->info('Gotime scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
