@@ -8,7 +8,7 @@
     <button type="button" {{ $attributes->merge(['class' => 'btn']) }}>
 
         @if($icon)
-            <x-dynamic-component :component="'iconit-' .$icon" class="icon {{ $iconClass }}" />
+            <x-dynamic-component :component="'gt-icon-' .$icon" class="icon {{ $iconClass }}" />
         @endif
 
         @unless($iconOnly)

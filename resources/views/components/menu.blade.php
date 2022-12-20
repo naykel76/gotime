@@ -22,7 +22,7 @@
         <x-gotime::menu-item href="{{ $link }}" :active=$active :children=$children class="{{ $itemClass }}">
 
             @if($useIconit)
-                <x-dynamic-component :component="'iconit-'.$item->iconit" class="icon" />
+                <x-dynamic-component :component="'gt-icon-'.$item->iconit" class="icon" />
             @endif
 
             @if($useIcons)

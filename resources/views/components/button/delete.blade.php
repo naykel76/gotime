@@ -8,7 +8,7 @@
         @php
             $icon = is_string($icon) ? $icon : 'trash';
         @endphp
-        <x-dynamic-component :component="'iconit-' .$icon" class="icon {{ $iconClass }}" />
+        <x-dynamic-component :component="'gt-icon-' .$icon" class="icon {{ $iconClass }}" />
     @endif
 
     @unless($iconOnly)

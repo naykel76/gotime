@@ -6,14 +6,11 @@
 
     <x-gotime-layouts.base class="nk-admin relative">
 
-        <div class="ml-auto pxy-1">
+        {{-- <div class="ml-auto pxy-1">
             @auth
                 <x-authit-account-dropdown />
-            @else
-                <a class="hover:txt-secondary mr" href="{{ route('login') }}">Sign In</a>
-                <a class="hover:txt-secondary " href="{{ route('register') }}">{{ __('Register') }}</a>
             @endauth
-        </div>
+        </div> --}}
 
         <div class="navbar">
 
