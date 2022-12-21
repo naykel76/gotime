@@ -76,12 +76,12 @@ if (!function_exists('addToEnd')) {
     }
 }
 
-if (!function_exists('dotLastItem')) {
+if (!function_exists('dotLastSegment')) {
     /**
      * explode dot notation and return the last item
      * ----------------------------------------------------------------------------
      */
-    function dotLastItem($item)
+    function dotLastSegment($item)
     {
         $arr = explode(".", $item);
         return end($arr);

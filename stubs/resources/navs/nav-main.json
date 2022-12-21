@@ -4,7 +4,6 @@
       {
         "title": "Home",
         "route_name": "home",
-        "icon": "home",
         "exclude_route": true
       }
     ]
@@ -14,7 +13,6 @@
       {
         "title": "Home",
         "route_name": "home",
-        "icon": "home",
         "exclude_route": true
       }
     ]

@@ -97,7 +97,10 @@ trait WithCrud
         $this->resetErrorBag();
     }
 
-    public function setConfirmAction($id)
+    /**
+     * Set the id of the item to be actioned
+     */
+    public function setConfirmAction($id): void
     {
         $this->confirmingActionId = $id;
     }
@@ -157,6 +160,15 @@ trait WithCrud
         if ($this->editing->sort_order === '' || $this->editing->sort_order === null) {
             $this->editing->sort_order = addToEnd($collection);
         }
+    }
+
+    /**
+     * Set the title based on the route prefix
+     */
+    public function setTitle(): string
+    {
+        return (isset($this->editing->id) ? 'Edit ' : 'Create ') .
+            Str::singular(Str::title(dotLastSegment($this->routePrefix)));
     }
 
     /**

@@ -34,7 +34,7 @@
             });"
     >
 
-        <textarea name="{{ $for }}" id="ckeditor" x-text="value">  </textarea>
+        <textarea name="{{ $for }}" id="ckeditor" x-text="value"> </textarea>
 
     </div>
 
@@ -42,18 +42,6 @@
 
 @once('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
-    {{-- <script>
-        ClassicEditor
-            .create(document.querySelector('#message'))
-            .then(editor => {
-                editor.model.document.on('change:data', () => {
-                @this.set('message', editor.getData());
-                })
-           })
-            .catch(error => {
-                console.error(error);
-            });
-    </script> --}}
 @endonce
 
 @push('styles')

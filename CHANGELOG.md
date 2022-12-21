@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+- Add setTitle function to withCrud trait
+- Add actions toolbar
+
 ## 0.3.0
 - add icon components
 - housekeeping to remove unused files
