@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2
+- fix info icon
+
 ## 0.3.1
 - Add setTitle function to withCrud trait
 - Add actions toolbar
