@@ -4,6 +4,7 @@ namespace Naykel\Gotime\Traits;
 
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait WithCrud
 {

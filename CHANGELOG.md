@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.3
+- include Str support withCrud
+
 ## 0.3.2
 - fix info icon
 
