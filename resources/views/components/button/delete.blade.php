@@ -1,5 +1,3 @@
-@props(['withIcon' => false])
-
 @props([ 'text' => 'Delete', 'icon' => false, 'iconClass' => '', 'iconOnly' => false ])
 
 <button type="button" {{ $attributes->merge(['class' => 'btn danger']) }}>

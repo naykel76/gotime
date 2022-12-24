@@ -2,7 +2,7 @@
   "main": {
     "links": [
       {
-        "title": "Home",
+        "name": "Home",
         "route_name": "home",
         "exclude_route": true
       }
@@ -11,7 +11,7 @@
   "footer": {
     "links": [
       {
-        "title": "Home",
+        "name": "Home",
         "route_name": "home",
         "exclude_route": true
       }

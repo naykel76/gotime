@@ -2,7 +2,7 @@
 	"main": {
 		"links": [
 			{
-				"title": "Admin",
+				"name": "Admin",
 				"route_name": "admin",
 				"icon": "dashboard",
 				"exclude_route": true
