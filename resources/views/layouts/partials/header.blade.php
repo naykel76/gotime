@@ -29,13 +29,13 @@
 
     <div class="container">
 
-        <x-gotime-menu menuname="main" class="">
+        <x-gt-menu menuname="main" class="">
 
             @can('access admin')
                 <a href="{{ route('admin') }}" class="btn info mr">Admin</a>
             @endcan
 
-        </x-gotime-menu>
+        </x-gt-menu>
 
     </div>
 

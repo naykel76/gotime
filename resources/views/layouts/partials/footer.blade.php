@@ -4,7 +4,7 @@
 <footer id="nk-footer">
 
     <div class="pxy">
-        {{-- <x-gotime-menu menuname="footer" class="ha-c c-pxy tac nav" /> --}}
+        {{-- <x-gt-menu menuname="footer" class="ha-c c-pxy tac nav" /> --}}
     </div>
 
     <div class="copyright">

@@ -1,37 +1,18 @@
 <nav {{ $attributes }}>
 
-    @foreach($menu->$menuname->links as $item)
+    @foreach($menu->links as $link)
 
-        <?php
-            // check if named route exists and not null
-            if (isset($item->route_name) && Route::has($item->route_name) ?? isset($item->url)) {
-                $link = route($item->route_name);
-                $active = request()->routeIs("$item->route_name*");
-            } elseif(isset($item->url)){
-                $link = url($item->url);
-                $active = request()->is($item->url);
-            }
+        @php
+            $children = ($link->children ?? null);
+        @endphp
 
-            $children = ($item->children ?? null);
-        ?>
+        <x-gotime::menu-item href="{{ $getUrl($link) }}" :active=$isActive($link) :$children class="{{ $itemClass }}">
 
-        @if(!isset($link))
-            {{ dd( "The '$item->name' item ,from the `$menuname` object, in '$filename.json' is missing a route or url. \nFix it and your day will get better!.") }}
-        @endif
-
-        <x-gotime::menu-item href="{{ $link }}" :active=$active :children=$children class="{{ $itemClass }}">
-
-            @if($useIconit)
-                <x-dynamic-component :component="'gt-icon-'.$item->iconit" class="icon" />
+            @if($withIcons && isset($link->icon))
+                <x-dynamic-component :component="'gt-icon-'.$link->icon" class="icon" />
             @endif
 
-            @if($useIcons)
-                @isset($item->icon)
-                    <x-gotime-icon icon="{{ $item->icon }}" />
-                @endisset
-            @endif
-
-            <span>{{ $item->name ?? $item->name}}</span>
+            <span>{{ $link->name ?? $link->name }}</span>
 
         </x-gotime::menu-item>
 

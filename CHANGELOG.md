@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+- add title-bar component
+- update menu component for better functionality
+- update admin layout
+- change nav jason 'title' to 'name'
+
 ## 0.3.3
 - include Str support withCrud
 

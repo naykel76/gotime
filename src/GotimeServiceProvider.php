@@ -49,8 +49,11 @@ class GotimeServiceProvider extends ServiceProvider
          */
         $this->loadViewComponentsAs('gotime', [
             AppLayout::class,
-            Menu::class,
             Parsedown::class,
+        ]);
+
+        $this->loadViewComponentsAs('gt', [
+            Menu::class,
         ]);
 
         /** Assets
@@ -102,9 +105,6 @@ class GotimeServiceProvider extends ServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
 
-
-
-
             $this->registerComponent('icon');
             $this->registerComponent('errors');
 
@@ -116,8 +116,6 @@ class GotimeServiceProvider extends ServiceProvider
             // buttons
             $this->registerComponentX('button.button', 'button');
             $this->registerComponentX('button.edit', 'button-edit');
-
-            // check
             $this->registerComponentX('button.quick-add');
             $this->registerComponentX('button.add', 'button-add');
             $this->registerComponentX('button.save', 'button-save');
@@ -125,12 +123,16 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('button.secondary', 'button-secondary');
             $this->registerComponentX('button.delete', 'button-delete');
 
+            // layouts
+            $this->registerComponentX('layouts.admin-form', 'admin-form');
+
             // table components
             $this->registerComponentX('table.th', 'table.th');
 
             // toolbars
             $this->registerComponentX('toolbar.search-sort-toolbar', 'search-sort-toolbar');
             $this->registerComponentX('toolbar.actions-toolbar', 'actions-toolbar');
+            $this->registerComponentX('toolbar.title-bar', 'title-bar');
 
             // modals and alerts
             $this->registerComponentX('modal');

@@ -18,7 +18,7 @@
             <div class="dd-content">
                 <div class="menu light">
                     @foreach($children as $child)
-                        <a href="{{ url($child->url) }}" class="{{ (request()->is("$child->url*")) ? 'active' : '' }}">{{ $child->name }}</a>
+                        <a href="{{ url($child->url) }}" class="{{ (request()->is("$child->url*")) ? 'active success' : '' }}">{{ $child->name }}</a>
                     @endforeach
                 </div>
             </div>

@@ -2,42 +2,34 @@
     <meta name="robots" content="noindex,follow">
 @endpush
 
-@props(['hasContainer' => true])
+<x-gotime-layouts.base :$title class="nk-admin relative">
 
-    <x-gotime-layouts.base class="nk-admin relative">
+    <div class="navbar">
 
-        {{-- <div class="ml-auto pxy-1">
-            @auth
-                <x-authit-account-dropdown />
-            @endauth
-        </div> --}}
-
-        <div class="navbar">
-
-            <div class="logo">
-                <a href="{{ url('/admin') }}"><img src="/images/nk/logo-alt.svg" alt="{{ config('app.name') }}" height=40></a>
-            </div>
-
-            <nav> <a href="/" class="btn pink" target="blank">Home Page</a> </nav>
-
-            <div class="hide-from-tablet">
-                <svg class="icon txt-white wh-40" @click="showSidebar = !showSidebar"></svg>
-            </div>
-
+        <div class="logo">
+            <a href="{{ url('/admin') }}"><img src="/images/nk/logo-alt.svg" alt="{{ config('app.name') }}" width=125></a>
         </div>
 
-        <main id="nk-main" {{ $attributes->class(['grid cols-20:80 gg-0']) }}>
+        <nav> <a href="/" class="btn pink" target="blank">Home Page</a> </nav>
 
-            <aside class="bdr-r py light">
-                <x-gotime-menu menuname="main" filename="nav-admin" useIcons=true class="menu" />
-            </aside>
+        <div class="hide-from-tablet">
+            <svg class="icon txt-white wh-40" @click="showSidebar = !showSidebar"></svg>
+        </div>
 
-            <div class="pxy-2 {{ $hasContainer ? 'container' : '' }}">
-                {{ $slot }}
-            </div>
+    </div>
 
-        </main>
+    <main id="nk-main" {{ $attributes->class(['grid cols-20:80 gg-0']) }}>
 
-        <x-gotime-notification-toaster />
+        <aside class="bdr-r py light">
 
-    </x-gotime-layouts.base>
+            @includeFirst(['layouts.partials.admin-nav', 'gotime::layouts.partials.admin-nav'])
+
+        </aside>
+
+        <div class="pxy-2 {{ $hasContainer ? 'container' : '' }}">
+            {{ $slot }}
+        </div>
+
+    </main>
+
+</x-gotime-layouts.base>

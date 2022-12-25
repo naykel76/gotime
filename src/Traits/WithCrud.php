@@ -23,6 +23,11 @@ trait WithCrud
     public bool|int $confirmingActionId = false;
 
     /**
+     *
+     */
+    public bool $isPublished;
+
+    /**
      * Livewire temporary file upload
      * @var mixed
      */
@@ -65,7 +70,6 @@ trait WithCrud
         $this->beforePersistHook();
         $this->editing->save();
         $this->afterPersistHook();
-
 
         // this fires a little quick
         $this->dispatchBrowserEvent('notify', ($this->message ?? 'Saved!'));
@@ -128,7 +132,7 @@ trait WithCrud
     /**
      *
      */
-    public function handleUpload($file, string $disk, string $dbField, $hashFilename = false): void
+    public function handleUpload($file, string $disk = 'public', string $dbField = 'image', $hashFilename = false): void
     {
         tap($this->editing->$dbField, function ($previous) use ($file, $disk, $dbField, $hashFilename) {
 
@@ -170,6 +174,15 @@ trait WithCrud
     {
         return (isset($this->editing->id) ? 'Edit ' : 'Create ') .
             Str::singular(Str::title(dotLastSegment($this->routePrefix)));
+    }
+
+    protected function handlePublishedStatus(): void
+    {
+        if ($this->isPublished && !$this->editing->isPublished()) {
+            $this->editing->published_at = now();
+        } elseif (!$this->isPublished) {
+            $this->editing->published_at = null;
+        }
     }
 
     /**
