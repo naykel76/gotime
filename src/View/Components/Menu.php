@@ -60,17 +60,19 @@ class Menu extends Component
             throw new Exception("There is no route name or url defined for the '$item->name' menu item");
         }
 
-        if (isset($item->route_name)) {
+        // if (empty($item->exclude_route)) {
+            if (isset($item->route_name)) {
 
-            return route($item->route_name); // http://naykel.site/naykel/docs
+                return route($item->route_name); // http://naykel.site/naykel/docs
 
-        } elseif (isset($item->url)) {
+            } elseif (isset($item->url)) {
 
-            return url($item->url);     // http://naykel.site/about
+                return url($item->url);     // http://naykel.site/about
 
-        } else {
+            } else {
 
-            throw new Exception($item->name . " menu item has a problem. It's likely missing the route in wep.php!");
-        }
+                throw new Exception($item->name . " menu item has a problem. It's likely missing the route in wep.php!");
+            }
+        // }
     }
 }

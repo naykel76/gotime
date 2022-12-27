@@ -18,15 +18,13 @@
 
     </div>
 
-    <main id="nk-main" {{ $attributes->class(['grid cols-20:80 gg-0']) }}>
+    <main id="nk-main" class='grid cols-20:80 gg-0'>
 
         <aside class="bdr-r py light">
-
             @includeFirst(['layouts.partials.admin-nav', 'gotime::layouts.partials.admin-nav'])
-
         </aside>
 
-        <div class="pxy-2 {{ $hasContainer ? 'container' : '' }}">
+        <div {{ $attributes->class([$hasContainer ? 'container' : 'pxy-2']) }}>
             {{ $slot }}
         </div>
 

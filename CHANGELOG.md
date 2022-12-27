@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.1
+- update admin layout
+
 ## 0.4.0
 - add title-bar component
 - update menu component for better functionality
