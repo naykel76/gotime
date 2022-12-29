@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.0
+- change button 'icon' to 'withIcon'
+
 ## 0.4.1
 - update admin layout
 

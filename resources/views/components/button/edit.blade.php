@@ -1,12 +1,12 @@
-@props([ 'text' => 'Edit', 'icon' => false, 'iconClass' => '', 'iconOnly' => false ])
+@props([ 'text' => 'Edit', 'withIcon' => false, 'iconClass' => '', 'iconOnly' => false ])
 
 <button type="button" {{ $attributes->merge(['class' => 'btn blue']) }}>
 
-    @if($icon || $iconOnly)
+    @if($withIcon || $iconOnly)
         @php
-            $icon = is_string($icon) ? $icon : 'edit-o';
+            $withIcon = is_string($withIcon) ? $withIcon : 'edit-o';
         @endphp
-        <x-dynamic-component :component="'gt-icon-' .$icon" class="icon {{ $iconClass }}" />
+        <x-dynamic-component :component="'gt-icon-' .$withIcon" class="icon {{ $iconClass }}" />
     @endif
 
     @unless($iconOnly)
