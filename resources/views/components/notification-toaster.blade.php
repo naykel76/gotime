@@ -3,11 +3,11 @@
 
     <div class="fixed pos-b pos-r mxy flex va-c space-between bx minw300">
 
-        <x-gotime::icon icon="tick-round" class="fs0 txt-green" />
+        <x-gt-icon-tick-round class="fs0 txt-green" />
 
         <div x-text="message" class="mx"></div>
 
-        <x-gotime::icon icon="close" class="fs0 close" @click="show = false" />
+        <x-gt-icon-cross class="fs0 close" @click="show = false" />
 
     </div>
 

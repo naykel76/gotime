@@ -1,4 +1,4 @@
-<x-gotime-layouts.base>
+<x-gotime-layouts.base :$title>
 
     @if(class_exists(\Naykel\Authit\Http\Controllers\UserController::class))
         <x-gotime::top-toolbar />

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1
+- add icons
+- add delete button component
+- change 'add' button to 'create'
+- update witCrud delete method and template files
+- minor tweaks
+
 ## 0.5.0
 - change button 'icon' to 'withIcon'
 

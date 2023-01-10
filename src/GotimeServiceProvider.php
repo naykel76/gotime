@@ -2,14 +2,14 @@
 
 namespace Naykel\Gotime;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use Naykel\Gotime\Commands\InstallCommand;
-use Naykel\Gotime\View\Components\Menu;
 use Naykel\Gotime\View\Components\Parsedown;
+use Naykel\Gotime\Commands\InstallCommand;
+use Illuminate\Database\Eloquent\Builder;
 use Naykel\Gotime\View\Layouts\AppLayout;
+use Illuminate\Support\ServiceProvider;
+use Naykel\Gotime\View\Components\Menu;
+use Illuminate\Support\Facades\Blade;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -105,26 +105,29 @@ class GotimeServiceProvider extends ServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
 
-            $this->registerComponent('icon');
-            $this->registerComponent('errors');
-
             // Notifications, Flash and Messages
-
-            $this->registerComponent('notification-toaster');
+            $this->registerComponent('errors');
             $this->registerComponent('message');
+            $this->registerComponent('notification-toaster');
+
+            // other
+            $this->registerComponentX('accordion');
+            $this->registerComponentX('alert');
+            $this->registerComponentX('loading-indicator');
 
             // buttons
             $this->registerComponentX('button.button', 'button');
-            $this->registerComponentX('button.edit', 'button-edit');
-            $this->registerComponentX('button.quick-add');
-            $this->registerComponentX('button.add', 'button-add');
-            $this->registerComponentX('button.save', 'button-save');
-            $this->registerComponentX('button.primary', 'button-primary');
-            $this->registerComponentX('button.secondary', 'button-secondary');
+            $this->registerComponentX('button.create', 'button-create');
             $this->registerComponentX('button.delete', 'button-delete');
+            $this->registerComponentX('button.edit', 'button-edit');
+            $this->registerComponentX('button.primary', 'button-primary');
+            $this->registerComponentX('button.quick-add');
+            $this->registerComponentX('button.save', 'button-save');
+            $this->registerComponentX('button.secondary', 'button-secondary');
 
             // layouts
             $this->registerComponentX('layouts.admin-form', 'admin-form');
+            Blade::component('gotime::layouts.base', 'gotime-layouts.base');
 
             // table components
             $this->registerComponentX('table.th', 'table.th');
@@ -138,13 +141,8 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('modal');
             $this->registerComponentX('modal.dialog');
             $this->registerComponentX('modal.save');
+            $this->registerComponentX('modal.delete');
             $this->registerComponentX('modal.confirmation');
-
-            $this->registerComponentX('alert');
-
-            $this->registerComponentX('loading-indicator');
-
-            Blade::component('gotime::layouts.base', 'gotime-layouts.base');
         });
     }
 

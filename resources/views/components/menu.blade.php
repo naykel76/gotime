@@ -9,7 +9,7 @@
         <x-gotime::menu-item href="{{ $getUrl($link) }}" :active=$isActive($link) :$children class="{{ $itemClass }}">
 
             @if($withIcons && isset($link->icon))
-                <x-dynamic-component :component="'gt-icon-'.$link->icon" class="icon" />
+                <x-dynamic-component :component="'gt-icon-'.$link->icon" class="icon h-2 {{ $iconClass }}" />
             @endif
 
             <span>{{ $link->name ?? $link->name }}</span>

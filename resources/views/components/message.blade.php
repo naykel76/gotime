@@ -6,14 +6,14 @@
 
         <div class="flex fg1">
 
-            <x-gotime::icon icon="tick-round-o" class="txt-green " />
+            <x-gt-icon-tick-round-o class="txt-green" />
 
             <p x-text="message" class="ml-1.5 txt-sm"></p>
 
         </div>
 
         <div>
-            <x-gotime::icon icon="close" class="close" @click="show = false" />
+            <x-gt-icon-cross class="close" @click="show = false" />
         </div>
     </div>
 

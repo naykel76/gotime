@@ -19,6 +19,7 @@ class Menu extends Component
         public bool $withIcons = false,         // gotime icon name
         public bool $withHeaders = false,       // display menu header
         public string $itemClass = '',
+        public string $iconClass = '',
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));
     }

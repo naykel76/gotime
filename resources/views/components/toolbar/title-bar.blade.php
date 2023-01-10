@@ -12,9 +12,10 @@
 
     <{{ $h ?? 'h1' }} class="my-2">{{ $title }}</{{ $h ?? 'h1' }}>
 
-    <a class="btn primary" href="{{ route("$routePrefix.create") }}">
-        <x-gt-icon-plus-round class="icon" /> <span>{{ $buttonText ?? 'Add ' . ucfirst(Str::singular($resource))}}</span>
-    </a>
-
+    <div>
+        <a class="btn primary" href="{{ route("$routePrefix.create") }}">
+            <x-gt-icon-plus-round class="icon" /> <span>{{ $buttonText ?? 'Add ' . ucfirst(Str::singular($resource)) }}</span>
+        </a>
+        {{ $slot }}
+    </div>
 </div>
-

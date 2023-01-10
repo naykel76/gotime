@@ -12,15 +12,13 @@ trait WithCrud
 
     /**
      * Flag to show or hide modal
-     * @var bool
      */
-    public bool $showModal;
+    public bool $showModal = false;
 
     /**
-     * Id of the item to be deleted
-     * @var bool|int
+     * Id of the item to be actioned
      */
-    public bool|int $confirmingActionId = false;
+    public bool|int $actionItemId = false;
 
     /**
      *
@@ -86,10 +84,10 @@ trait WithCrud
     public function delete($id, $redirectAction = null): void
     {
         self::$model::find($id)->delete();
-        $this->confirmingActionId = false;
+        $this->reset('actionItemId');
         $this->emit('refreshComponent');
 
-        $this->handleRedirect($redirectAction);
+        $redirectAction ? $this->handleRedirect($redirectAction) : null;
     }
 
     /**
@@ -105,9 +103,9 @@ trait WithCrud
     /**
      * Set the id of the item to be actioned
      */
-    public function setConfirmAction($id): void
+    public function setActionItemId($id): void
     {
-        $this->confirmingActionId = $id;
+        $this->actionItemId = $id;
     }
 
     public function handleRedirect($action)

@@ -7,7 +7,7 @@
             <img src="{{ config('naykel.logo.sidebar_path') }}" height="{{ config('naykel.logo.sidebar_height') }}" alt="{{ config('app.name') }}">
 
             <a @click="open = false">
-                <x-gotime-icon icon="close" class="close" />
+                <x-gt-icon-cross class="close" />
             </a>
 
         </div>

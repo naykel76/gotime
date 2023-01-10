@@ -12,7 +12,8 @@
         <div style="width: min({{ $maxWidth }}, 90%)">
 
             <div class="tar mb">
-                <x-gotime-icon x-on:click="show = false" icon="close" class="light round close" />
+                <x-gt-icon-cross x-on:click="show = false" class="light round close" />
+
             </div>
 
             {{ $slot }}
