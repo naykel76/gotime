@@ -32,6 +32,16 @@ trait WithCrud
     public $tmpUpload;
 
     /**
+     * Nested items for current resource to be created on save
+     */
+    public array $nestedItems = [];
+
+    /**
+     * Nested items to be deleted from database on save
+     */
+    public array $removeItems = [];
+
+    /**
      * Create model instance of the current resource and set default values.
      */
     public function makeBlankModel()
@@ -40,16 +50,16 @@ trait WithCrud
     }
 
     /**
-     * Edit the selected model (non-route method)
+     * Edit the selected model (ajax method)
      */
     public function edit($id): void
     {
-        $this->editing = self::$model::find($id);
+        $this->editing = self::$model::findOrFail($id);
         $this->showModal = true;
     }
 
     /**
-     * Create blank model with default values (non-route method)
+     * Create blank model with default values (ajax method)
      */
     public function create(): void
     {
@@ -63,8 +73,8 @@ trait WithCrud
      */
     public function save(string $redirectAction = null)
     {
-
         $this->validate();
+
         $this->beforePersistHook();
         $this->editing->save();
         $this->afterPersistHook();
@@ -130,7 +140,7 @@ trait WithCrud
     /**
      *
      */
-    public function handleUpload($file, string $disk = 'public', string $dbField = 'image', $hashFilename = false): void
+    protected function handleUpload($file, string $disk = 'public', string $dbField = 'image', $hashFilename = false): void
     {
         tap($this->editing->$dbField, function ($previous) use ($file, $disk, $dbField, $hashFilename) {
 
@@ -168,7 +178,7 @@ trait WithCrud
     /**
      * Set the title based on the route prefix
      */
-    public function setTitle(): string
+    protected function setTitle(): string
     {
         return (isset($this->editing->id) ? 'Edit ' : 'Create ') .
             Str::singular(Str::title(dotLastSegment($this->routePrefix)));
@@ -185,7 +195,6 @@ trait WithCrud
 
     /**
      * Perform additional tasks before persisting the database
-     * @return void
      */
     protected function beforePersistHook(): void
     {
@@ -193,9 +202,44 @@ trait WithCrud
 
     /**
      * Perform additional tasks after persisting the database
-     * @return void
      */
     protected function afterPersistHook(): void
     {
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NESTED ITEM METHODS
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    */
+
+    /**
+     * Add empty row to items array for nested resource items
+     */
+    public function addEmptyRow(): void
+    {
+        $this->nestedItems[] = '';
+    }
+
+    /**
+     * Remove from $items array and delete from database on save
+     */
+    public function removeItem($index)
+    {
+        // When id exists (not index), then the item comes from the database.
+        // Items are not removed from the database until we click the save
+        // button, so store them in an array until it's go time!
+        isset($this->nestedItems[$index]['id'])
+            ? array_push($this->removeItems, $this->nestedItems[$index]['id'])
+            : null;
+
+        unset($this->nestedItems[$index]);
+
+        // reindex and reset items to keep editors happy when removing items
+        $this->nestedItems = array_values($this->nestedItems);
     }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.3
+- add icons
+- add nested items array to withCrud trait
+- update save modal to more flexible
+- change delete modal message
+- remove initial-value property from trix component (entangle only)
+
+## 0.5.2
+- add nested item method to withCrud trait
+
 ## 0.5.1
 - add icons
 - add delete button component

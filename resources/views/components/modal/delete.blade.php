@@ -2,9 +2,9 @@
 
 <x-gt-modal :$id :$maxWidth {{ $attributes }}>
 
-    <div class="bx-title">Confirm Delete Item</div>
+    <div class="bx-title">Confirm Delete</div>
 
-    <p>Are you sure you want to delete this item? <br> Deleting this item will delete all related data and cannot be undone.</p>
+    <p>Are you sure you want to delete this item? <br> This action is final and can not be undone.</p>
 
     <div class="bx-footer tar">
         <button wire:click.prevent="$set('actionItemId', false)"

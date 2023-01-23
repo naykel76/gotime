@@ -12,12 +12,10 @@
     <div id="actions-toolbar" class="pxy-05 light my flex space-between">
 
         <div>
-
             <x-gt-button-save wire:click.prevent="save('save_stay');" withIcon text="SAVE" />
-            <x-gt-button-save wire:click.prevent="save('save_new');" withIcon text="NEW" class="purple" />
-            <x-gt-button-save wire:click.prevent="save('save_close');" withIcon text="CLOSE" class="purple" />
+            <x-gt-button-save wire:click.prevent="save('save_new');" withIcon text="NEW" />
+            <x-gt-button-save wire:click.prevent="save('save_close');" withIcon text="CLOSE" />
             <x-gt-button-delete wire:click.prevent="setActionItemId({{ $editing->id }})" withIcon iconOnly />
-
         </div>
 
         <div>

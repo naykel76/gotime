@@ -1,0 +1,1 @@
+<svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g transform="translate(-2 -2)"><path d="M2,3A1,1,0,0,0,3,4H21a1,1,0,0,0,0-2H3A1,1,0,0,0,2,3Z"/><path d="M3,10H21a1,1,0,0,0,0-2H3a1,1,0,0,0,0,2Z"/><path d="M3,16H21a1,1,0,0,0,0-2H3a1,1,0,0,0,0,2Z"/><path d="M3,22H21a1,1,0,0,0,0-2H3a1,1,0,0,0,0,2Z"/></g></svg>
