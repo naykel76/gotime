@@ -11,13 +11,12 @@
 
     {{ $slot }}
 
+    <x-gt-notification-toaster />
+
     <livewire:scripts />
 
     @stack('scripts')
 
-    <x-gotime-message />
-
 </body>
 
 </html>
-

@@ -1,55 +1,46 @@
-@props([ 'for' => null, 'label' => null, 'helpText' => null, 'rowClass' => null, 'inline' => false, 'req' => false, 'initialValue' => null, ])
+@props([ 'for' => null, 'rowClass' => null, 'label' => null, 'req' => false, 'inline' => false, ])
 
-{{-- @php
-    // replace dot to make sure query selector id is correct
-    $for = str_replace('.', '-', $for);
-@endphp --}}
+    <div class='frm-row {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
+        @isset($label)
+            <label for="{{ $for }}">
+                {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
+        @endisset
 
-<div class='frm-row {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
+        <div {{ $attributes->class(['w-full', 'bdr bdr-red' => $errors->has( $for )])->whereDoesntStartWith('wire:model') }}
+            x-data="{ value: @entangle($attributes->wire('model')).defer }" x-cloak
+            x-init="
+                ClassicEditor.create(document.querySelector('#{{ $editorId }}'))
+                    .then(editor => {
+                        if(value){
+                            editor.setData(value);
+                        }
+                        editor.model.document.on('change:data', () => {
+                            value = editor.getData();
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        ">
 
-    @isset($label)
-        <label @error($for) class="txt-red fw-9 " @enderror for="{{ $for }}">
-            {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
-    @endisset
+            @isset($helpText)
+                <div class="help mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            @endisset
 
-    {{-- NK::?? the prevents the error class working when in line?? --}}
-    @unless ($inline)
-        @error($for)
-            <small class="txt-red" role="alert"> {{ $message }} </small>
-        @enderror
-    @endunless
+            <textarea name="{{ $for }}" id="{{ $editorId }}" x-model="value" x-on:input.debounce.500ms></textarea>
 
-    <div wire:ignore x-cloak {{ $attributes->class(['w-full', 'bdr-3 bdr-red' => $errors->has( $for )]) }}
-        x-data="{ value: @entangle($attributes->wire('model')) }"
-        x-init="
-        ClassicEditor.create(document.querySelector('#ckeditor'))
-            .then(editor => {
-                editor.model.document.on('change:data', () => {
-                    @this.set('{{ $for }}', editor.getData());
-                })
-            })
-            .catch(error => {
-                console.error(error);
-            });"
-    >
-
-        <textarea name="{{ $for }}" id="ckeditor" x-text="value"> </textarea>
-
+        </div>
     </div>
 
-</div>
+    @pushOnce('scripts')
+        <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    @endPushOnce
 
-@once('scripts')
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
-@endonce
-
-@push('styles')
-
-    <style>
-        .ck .ck-content{
-            min-height: 250px
-        }
-    </style>
-
-@endpush
+    @pushOnce('styles')
+        <style>
+            .ck .ck-content {
+                min-height: 150px
+            }
+        </style>
+    @endPushOnce

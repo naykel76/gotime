@@ -7,7 +7,7 @@
 @endphp
 
 
-    <x-gotime-layouts.base>
+    <x-gotime-layouts.base :$title>
 
         @includeFirst(['layouts.partials.navbar', 'gotime::layouts.partials.navbar'])
 

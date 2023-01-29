@@ -44,7 +44,7 @@ trait WithCrud
     /**
      * Create model instance of the current resource and set default values.
      */
-    public function makeBlankModel()
+    protected function makeBlankModel()
     {
         return self::$model::make($this->initialData);
     }
@@ -88,7 +88,7 @@ trait WithCrud
         $this->handleRedirect($redirectAction);
 
         $this->showModal = false;
-        $this->emit('refreshComponent');
+        // $this->emit('refreshComponent');
     }
 
     public function delete($id, $redirectAction = null): void
@@ -228,7 +228,7 @@ trait WithCrud
     /**
      * Remove from $items array and delete from database on save
      */
-    public function removeItem($index)
+    public function removeItem(int $index): void
     {
         // When id exists (not index), then the item comes from the database.
         // Items are not removed from the database until we click the save

@@ -107,13 +107,14 @@ class GotimeServiceProvider extends ServiceProvider
 
             // Notifications, Flash and Messages
             $this->registerComponent('errors');
-            $this->registerComponent('message');
-            $this->registerComponent('notification-toaster');
 
             // other
+            $this->registerComponentX('icon');
             $this->registerComponentX('accordion');
             $this->registerComponentX('alert');
             $this->registerComponentX('loading-indicator');
+            $this->registerComponentX('notification-toaster');
+
 
             // buttons
             $this->registerComponentX('button.button', 'button');
@@ -155,6 +156,7 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerFormComponents(): void
     {
+        $this->registerComponentX('form');
         // to be reviewed
         $this->registerComponentX('input-group.choices', 'choices');
         $this->registerComponentX('input.submit', 'submit');

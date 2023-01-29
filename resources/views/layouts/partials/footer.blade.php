@@ -1,6 +1,3 @@
-{{-- toaster style notifications --}}
-<x-gotime-notification-toaster />
-
 <footer id="nk-footer">
 
     <div class="pxy">

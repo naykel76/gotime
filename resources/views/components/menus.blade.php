@@ -1,4 +1,6 @@
-<h1>Add menus!</h1>
+<h1>Add menus! This component is WIP</h1>
+
+To work around this add partials/admin.nav.blade.php and include the menus
 
 {{-- <nav {{ $attributes }}>
 

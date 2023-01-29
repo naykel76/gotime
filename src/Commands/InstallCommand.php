@@ -41,6 +41,8 @@ class InstallCommand extends Command
         // Public...
         (new Filesystem)->ensureDirectoryExists(public_path('images'));
         (new Filesystem)->ensureDirectoryExists(public_path('svg'));
+        copy(__DIR__ . '/../../stubs/public/images/nk/logo.svg', public_path('images/logo.svg'));
+        copy(__DIR__ . '/../../stubs/public/images/nk/favicon.ico', public_path('favicon.ico'));
 
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/images', public_path('images'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/svg', public_path('svg'));
@@ -68,8 +70,6 @@ class InstallCommand extends Command
 
         return Command::SUCCESS;
     }
-
-
 
     /**
      * Update the "package.json" file.
