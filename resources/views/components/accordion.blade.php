@@ -5,14 +5,19 @@
 {{-- to collapse first item add ...  active: 0,  --}}
 
 
-<div x-data="{ items: {{ $data }} }" class="my  space-y-05">
+<div x-data="{ items: {{ $data }} }" class="my space-y-05">
 
     <template x-for="(item, index) in items" :key="index">
 
         <div x-data="{
-            get expanded() { return this.active === this.index },
-            set expanded(value) { this.active = value ? this.index : null },
-        }" role="region" class="bx pxy-1">
+            get expanded() {
+                return this.active === this.index
+            },
+            set expanded(value) {
+                this.active = value ? this.index : null
+            },
+        }"
+        role="region" class="bx pxy-1">
 
             <h3 {{ $attributes->class(['txt-lg'])->whereDoesntStartWith('wire:model') }}>
                 <button x-on:click="expanded = !expanded" :aria-expanded="expanded" class="flex space-between w-full tal">

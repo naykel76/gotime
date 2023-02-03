@@ -140,9 +140,9 @@ trait WithCrud
     /**
      *
      */
-    protected function handleUpload($file, string $disk = 'public', string $dbField = 'image', $hashFilename = false): void
+    protected function handleUpload($file, string $disk = 'public', string $dbField = 'image', $withOriginalName = false): void
     {
-        tap($this->editing->$dbField, function ($previous) use ($file, $disk, $dbField, $hashFilename) {
+        tap($this->editing->$dbField, function ($previous) use ($file, $disk, $dbField, $withOriginalName) {
 
             if ($previous) {
                 Storage::disk($disk)->delete($previous);
@@ -152,9 +152,9 @@ trait WithCrud
 
             $this->editing->forceFill([
 
-                $dbField => $hashFilename ?
-                    $file->storeAs('/', $filename, $disk) :
-                    $file->store('/', $disk)
+                $dbField => $withOriginalName
+                    ? $file->storeAs('/', $filename, $disk)
+                    : $file->store('/', $disk)
 
             ])->save();
         });

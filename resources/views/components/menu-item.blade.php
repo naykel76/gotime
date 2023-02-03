@@ -10,9 +10,7 @@
 
             <a {{ $attributes->except('href')->merge(['class' => "$classes"]) }}>
                 {{ $slot }}
-                <svg class="icon sm">
-                    <use href="/svg/naykel-ui-SVG-sprite.svg#down-caret"></use>
-                </svg>
+                <x-gt-icon-down-caret class="icon sm ml-025"/>
             </a>
 
             <div class="dd-content">

@@ -32,7 +32,7 @@ https://github.com/livewire/livewire/discussions/3133#discussioncomment-2741258
 
     if (! $this->isPreviewable()) {
         // show a missing image icon (?) for files that cannot be previewed
-        return 'data:image/png;base64...gg==';
+        return 'data:image/png;base64...gg-1.5==';
     }
 
 

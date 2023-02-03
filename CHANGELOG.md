@@ -2,10 +2,13 @@
 
 ## 0.5.3
 - add icons
+- add icon component
 - add nested items array to withCrud trait
 - update save modal to more flexible
+- update ckeditor for better useability and multiple editors
 - change delete modal message
 - remove initial-value property from trix component (entangle only)
+- move notify component to base layout to make available everywhere
 
 ## 0.5.2
 - add nested item method to withCrud trait

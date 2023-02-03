@@ -5,10 +5,6 @@
         x-on:click="show = false"
         x-on:keydown.escape.window="show = false" class="overlay va-c">
 
-        {{-- <svg class="icon txt-white wh-2">
-            <use href="/svg/naykel-ui-SVG-sprite.svg#left-caret"></use>
-        </svg> --}}
-
         <div style="width: min({{ $maxWidth }}, 90%)">
 
             <div class="tar mb">
