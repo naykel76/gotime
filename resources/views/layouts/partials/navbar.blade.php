@@ -13,7 +13,7 @@ the container then publish the layout locally and override. --}}
 
         <div class="flex va-c hide-up-to-tablet">
 
-            <x-gt-menu menuname="main" class="gg-3" itemClass="txt-white hover:txt-secondary" />
+            <x-gt-menu menuname="main" class="gg-3" itemClass="txt-white hover:txt-secondary py-075" />
 
             @if(Route::has('checkout'))
                 <livewire:cart-button />

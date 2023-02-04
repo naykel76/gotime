@@ -6,11 +6,12 @@
 
     @if($children)
 
-        <div class="dd">
+        {{-- make sure parent is the same as the child --}}
+        <div {{ $attributes->merge(['class' => "dd"]) }}>
 
             <a {{ $attributes->except('href')->merge(['class' => "$classes"]) }}>
                 {{ $slot }}
-                <x-gt-icon-down-caret class="icon pxy-05"/>
+                <x-gt-icon-down-caret class="icon pxy-05" />
             </a>
 
             <div class="dd-content">
