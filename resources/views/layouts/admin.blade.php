@@ -12,7 +12,7 @@
 
         <nav> <a href="/" class="btn pink" target="blank">Home Page</a> </nav>
 
-        <div class="hide-from-tablet">
+        <div class="hide-from-md">
             <svg class="icon txt-white wh-40" @click="showSidebar = !showSidebar"></svg>
         </div>
 

@@ -9,7 +9,7 @@
             </a>
         </div>
 
-        <div class="flex hide-up-to-tablet va-t">
+        <div class="flex hide-to-md va-t">
 
             @if(Route::has('login'))
                 @include('gotime::layouts.partials.login-register')
@@ -25,7 +25,7 @@
 
 </div>
 
-<div class="navbar hide-up-to-tablet">
+<div class="navbar hide-to-md">
 
     <div class="container">
 

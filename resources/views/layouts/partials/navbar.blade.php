@@ -11,7 +11,7 @@ the container then publish the layout locally and override. --}}
                     height="{{ config('naykel.logo.height') }}" width="{{ config('naykel.logo.width') }}"></a>
         </div>
 
-        <div class="flex va-c hide-up-to-tablet">
+        <div class="flex va-c hide-to-md">
 
             <x-gt-menu menuname="main" class="gg-3" itemClass="txt-white hover:txt-secondary py-075" />
 
@@ -21,7 +21,7 @@ the container then publish the layout locally and override. --}}
 
         </div>
 
-        <div class="hide-from-tablet mxy-0">
+        <div class="hide-from-md mxy-0">
             <x-gotime::button.burger-menu class="secondary" />
         </div>
     </div>
