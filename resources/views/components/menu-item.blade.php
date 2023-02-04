@@ -10,7 +10,7 @@
 
             <a {{ $attributes->except('href')->merge(['class' => "$classes"]) }}>
                 {{ $slot }}
-                <x-gt-icon-down-caret class="icon sm ml-025"/>
+                <x-gt-icon-down-caret class="icon pxy-05"/>
             </a>
 
             <div class="dd-content">
