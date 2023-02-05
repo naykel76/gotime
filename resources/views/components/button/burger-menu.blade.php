@@ -1,3 +1,3 @@
 <button x-data="{}" @click="$dispatch('open-sidebar')" {{ $attributes->merge(['class' => 'pxy-05 outline']) }}>
-    <x-gt-icon-menu />
+    <x-gt-icon-menu class="icon" />
 </button>
