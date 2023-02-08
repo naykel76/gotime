@@ -21,6 +21,7 @@ class GotimeServiceProvider extends ServiceProvider
             __DIR__ . '/../stubs/config/services.php',
             'services',
         );
+
         // Merge Naykel configuration...
         $this->mergeConfigFrom(
             __DIR__ . '/../stubs/config/naykel.php',
@@ -73,12 +74,10 @@ class GotimeServiceProvider extends ServiceProvider
          * inside the package will be automatically added so there is no need
          * to re-publish.
          */
-        $this->publishes(
-            [
-                __DIR__ . '/../stubs/config/naykel.php', 'naykel'
-            ],
-            'gotime-config'
-        );
+
+        $this->publishes([
+            __DIR__ . '/../stubs/config/naykel.php' => config_path('naykel.php'),
+        ], 'gotime-config');
 
         /** Publish Layout Views
          * ==================================================================
@@ -109,11 +108,12 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponent('errors');
 
             // other
-            $this->registerComponentX('icon');
             $this->registerComponentX('accordion');
             $this->registerComponentX('alert');
+            $this->registerComponentX('icon');
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('notification-toaster');
+            $this->registerComponentX('sidebar');
 
 
             // buttons

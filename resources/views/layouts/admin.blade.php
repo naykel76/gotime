@@ -10,10 +10,20 @@
             <a href="{{ url('/admin') }}"><img src="/images/nk/logo-alt.svg" alt="{{ config('app.name') }}" width=125></a>
         </div>
 
-        <nav> <a href="/" class="btn pink" target="blank">Home Page</a> </nav>
+        <div class="flex">
 
-        <div class="hide-from-md">
-            <svg class="icon txt-white wh-40" @click="showSidebar = !showSidebar"></svg>
+            <nav> <a href="/" class="btn pink mr" target="blank">Home Page</a> </nav>
+
+            <x-authit-account-dropdown class="pos-r" btn-class="txt-white">
+
+                <x-gt-menu menuname="user" filename="nav-admin" class="menu">
+
+                    <x-authit::logout-link />
+
+                </x-gt-menu>
+
+            </x-authit-account-dropdown>
+
         </div>
 
     </div>

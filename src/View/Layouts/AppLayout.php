@@ -20,6 +20,10 @@ class AppLayout extends Component
             $this->layout = config('naykel.template');
         }
 
+        if (view()->exists("layouts.$this->layout")) {
+            return view("layouts.$this->layout");
+        }
+
         return view("gotime::layouts.$this->layout");
     }
 }
