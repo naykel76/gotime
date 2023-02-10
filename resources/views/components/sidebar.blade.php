@@ -4,7 +4,7 @@
 
     {{ $toggle }}
 
-    <div x-show="open" class="overlay"></div>
+    <div x-show="open" x-on:click="open = !open" class="overlay"></div>
 
     <div class="sidebar transition w-20 light"
         :class="{'-translate-x-full opacity-0':open === false, 'translate-x-0 opacity-100': open === true}">

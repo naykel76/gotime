@@ -8,7 +8,7 @@
 - add user dropdown to admin layout
 - update sidebar component and views to be class based
 - layout template updates
-- new menu wip
+- updated menu component with
 
 ## 0.5.3
 - add icons
