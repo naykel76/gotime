@@ -8,5 +8,15 @@
 				"exclude_route": true
 			}
 		]
-	}
+	},
+	"user": {
+		"links": [
+			{
+				"name": "Admin",
+				"route_name": "admin",
+				"icon": "dashboard",
+				"exclude_route": true
+			}
+		]
+	},
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+
+
+## 0.6.0
+- move top toolbar to layout/partials and use @includeif
+- set app layout component to check for local view existence
+- add user dropdown to admin layout
+- update sidebar component and views to be class based
+- layout template updates
+- new menu wip
+
 ## 0.5.3
 - add icons
 - add icon component

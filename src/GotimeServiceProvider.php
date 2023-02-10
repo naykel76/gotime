@@ -2,14 +2,15 @@
 
 namespace Naykel\Gotime;
 
-use Illuminate\View\Compilers\BladeCompiler;
-use Naykel\Gotime\View\Components\Parsedown;
-use Naykel\Gotime\Commands\InstallCommand;
 use Illuminate\Database\Eloquent\Builder;
-use Naykel\Gotime\View\Layouts\AppLayout;
 use Illuminate\Support\ServiceProvider;
-use Naykel\Gotime\View\Components\Menu;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\View\Compilers\BladeCompiler;
+use Naykel\Gotime\Commands\InstallCommand;
+use Naykel\Gotime\View\Components\Parsedown;
+use Naykel\Gotime\View\Components\Sidebar;
+use Naykel\Gotime\View\Components\Menu;
+use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,8 @@ class GotimeServiceProvider extends ServiceProvider
          * ==================================================================
          *
          */
+
+        //  depreciated
         $this->loadViewComponentsAs('gotime', [
             AppLayout::class,
             Parsedown::class,
@@ -55,6 +58,7 @@ class GotimeServiceProvider extends ServiceProvider
 
         $this->loadViewComponentsAs('gt', [
             Menu::class,
+            Sidebar::class,
         ]);
 
         /** Assets
@@ -113,8 +117,6 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('icon');
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('notification-toaster');
-            $this->registerComponentX('sidebar');
-
 
             // buttons
             $this->registerComponentX('button.button', 'button');

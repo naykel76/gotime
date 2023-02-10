@@ -15,23 +15,12 @@ the container then publish the layout locally and override. --}}
 
             <x-gt-menu menuname="main" class="gg-3" itemClass="txt-white hover:txt-secondary py-075" />
 
-            @if(Route::has('checkout'))
-                <livewire:cart-button />
-            @endif
-
         </div>
 
-        <div class="hide-from-md mxy-0">
-            <x-gotime::button.burger-menu class="secondary" />
-        </div>
+    </div>
+
+    <div class="hide-from-md mxy-0">
+        <x-gt-sidebar layout="burger-button-main" />
     </div>
 
 </div>
-
-{{-- the sidebar needs to stay outside the navbar or things gets wild! --}}
-
-<x:gotime::sidebar.main>
-
-    {{-- can add addition content here --}}
-
-</x:gotime::sidebar.main>
