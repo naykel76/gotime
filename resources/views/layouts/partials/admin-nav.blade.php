@@ -1,2 +1,1 @@
-{{-- Septerate admin-nav to allow easy override --}}
-<x-gt-menu filename="nav-admin" class="menu" withIcons />
+<x-gt-menu menuname="main" filename="nav-admin" withIcons class="menu" />
