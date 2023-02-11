@@ -1,4 +1,4 @@
-<main id="nk-main" {{ $attributes }}>
+<main {{ $attributes }}>
 
     @if($hasContainer) <div class="container"> @endif
 

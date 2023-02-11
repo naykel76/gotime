@@ -1,6 +1,8 @@
 # Changelog
 
-
+## 0.6.1
+- remove nk- id's from main layout
+- update naykel.php to enable registrations
 
 ## 0.6.0
 - move top toolbar to layout/partials and use @includeif

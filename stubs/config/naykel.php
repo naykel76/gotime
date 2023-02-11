@@ -4,16 +4,16 @@ return [
 
     /**
      * ----------------------------------------------------------------------
-     * Account Features
+     * Registration Routes
      * ----------------------------------------------------------------------
-     *
-     * Fortify routes are created based on the Fortify features array. This
-     * account array is used to show or hide elements throughout the site.
+     * Here you may specify if the Authit front-end registration routes and
+     * user pages should be disabled as you may not need them when building
+     * your own application. Admin routes and views are still available.
      *
      */
-    'account' => [
-        'register' => env('NK_ALLOW_REGISTER', true),
-    ],
+
+    'registrations' => env('NK_ALLOW_REGISTER', true),
+
 
     /**
      * ----------------------------------------------------------------------
