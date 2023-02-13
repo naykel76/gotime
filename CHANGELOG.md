@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.4
+- add url() to menu to prevent routing issues
+
 ## 0.6.3
 - remove sidebar js
 - remove icon base component

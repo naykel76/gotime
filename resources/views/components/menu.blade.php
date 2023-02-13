@@ -6,7 +6,7 @@
             $children = ($link->children ?? null);
         @endphp
 
-        <x-gotime::menu-item href="{{ $getUrl($link) }}" :active=$isActive($link) :$children class="{{ $itemClass }}">
+        <x-gotime::menu-item href="{{ url($getUrl($link)) }}" :active=$isActive($link) :$children class="{{ $itemClass }}">
 
             @if($withIcons && isset($link->icon))
                 <x-dynamic-component :component="'gt-icon-'.$link->icon" class="icon {{ $iconClass }}" />
