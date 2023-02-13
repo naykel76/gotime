@@ -114,7 +114,7 @@ class GotimeServiceProvider extends ServiceProvider
             // other
             $this->registerComponentX('accordion');
             $this->registerComponentX('alert');
-            $this->registerComponentX('icon');
+            // $this->registerComponentX('icon');
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('notification-toaster');
 
@@ -152,8 +152,8 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerIconComponents()
     {
         $this->createComponentsFromDirectory('icon'); // base directory
-        // $this->createComponentsFromDirectory('payment');
-        // $this->createComponentsFromDirectory('logos');
+        $this->createComponentsFromDirectory('icon/payment');
+        $this->createComponentsFromDirectory('icon/logos');
     }
 
     protected function registerFormComponents(): void

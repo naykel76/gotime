@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.3
+- remove sidebar js
+- remove icon base component
+
 ## 0.6.2
 - add auth-layout
 - change registration to allow_registrations
