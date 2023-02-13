@@ -12,7 +12,7 @@ return [
      *
      */
 
-    'registrations' => env('NK_ALLOW_REGISTER', true),
+    'allow_registrations' => env('NK_ALLOW_REGISTER', true),
 
 
     /**

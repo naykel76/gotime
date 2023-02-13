@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2
+- add auth-layout
+- change registration to allow_registrations
+
 ## 0.6.1
 - remove nk- id's from main layout
 - update naykel.php to enable registrations
