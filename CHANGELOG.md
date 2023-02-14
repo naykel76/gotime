@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.0
+- update for laravel 10
+
 ## 0.6.4
 - add url() to menu to prevent routing issues
 
