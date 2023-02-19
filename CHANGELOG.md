@@ -1,7 +1,12 @@
 # Changelog
 
 ## 0.7.0
-- update for laravel 10
+- update to php 8.1
+- update jtb classes
+- change allow_register key
+- move js to public folder
+- remove depreciated sanitizeUrl()
+- add icons
 
 ## 0.6.4
 - add url() to menu to prevent routing issues

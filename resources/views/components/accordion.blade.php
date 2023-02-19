@@ -22,8 +22,8 @@
             <h3 {{ $attributes->class(['txt-lg'])->whereDoesntStartWith('wire:model') }}>
                 <button x-on:click="expanded = !expanded" :aria-expanded="expanded" class="flex space-between w-full tal">
                     <span x-text="item.title"></span>
-                    <span x-show="expanded" aria-hidden="true" class="fw-9"><span class="txt-muted txt-xl">&minus;</span></span>
-                    <span x-show="!expanded" aria-hidden="true" class="fw-9"><span class="txt-muted txt-xl">&plus;</span></span>
+                    <span x-show="expanded" aria-hidden="true" class="fw9"><span class="txt-muted txt-xl">&minus;</span></span>
+                    <span x-show="!expanded" aria-hidden="true" class="fw9"><span class="txt-muted txt-xl">&plus;</span></span>
                 </button>
             </h3>
 

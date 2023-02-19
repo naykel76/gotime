@@ -3,7 +3,7 @@
     @if(class_exists(\Naykel\Devit\DevitServiceProvider::class))
         @includeIf('devit::components.dev-toolbar')
     @else
-        @if(config('authit.registrations'))
+        @if(config('naykel.allow_register') && Route::has('login'))
             @includeFirst(['layouts.partials.top-toolbar', 'gotime::layouts.partials.top-toolbar'])
         @endif
     @endif

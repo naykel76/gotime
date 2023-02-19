@@ -46,6 +46,7 @@ class InstallCommand extends Command
 
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/images', public_path('images'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/svg', public_path('svg'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/js', public_path('js'));
 
         // Resources...
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));

@@ -4,7 +4,7 @@
 			{
 				"name": "Admin",
 				"route_name": "admin",
-				"icon": "dashboard",
+				"icon": "dashboard-o",
 				"exclude_route": true
 			}
 		]
@@ -14,7 +14,7 @@
 			{
 				"name": "Admin",
 				"route_name": "admin",
-				"icon": "dashboard",
+				"icon": "dashboard-o",
 				"exclude_route": true
 			}
 		]

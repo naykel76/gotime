@@ -16,22 +16,28 @@
             <x-gt-button-save wire:click.prevent="save('save_new');" withIcon text="NEW" />
             <x-gt-button-save wire:click.prevent="save('save_close');" withIcon text="CLOSE" />
             <x-gt-button-delete wire:click.prevent="setActionItemId({{ $editing->id }})" withIcon iconOnly />
-        </div>
 
-        <div>
+            {{-- NK::TD !! this will only work with pages and need to be more flexible --}}
+            <a href="{{ route("pages.show", $editing->slug) }}" class="btn warning" target="_blank">
+                <x-gt-icon-eyes-1 class="icon" />
+            </a>
 
-            @if(Route::has("$routePrefix.index"))
+    </div>
 
-                <a href="{{ route("$routePrefix.index") }}" class="btn txt-upper dark">
-                    <x-gt-icon-exit class="icon" /> <span>{{ $resource }} Table</span>
-                </a>
+    <div>
 
-            @else
+        @if(Route::has("$routePrefix.index"))
 
-                <button class="btn dark" disabled>Not Available</button>
+            <a href="{{ route("$routePrefix.index") }}" class="btn txt-upper dark">
+                <x-gt-icon-exit class="icon" /> <span>{{ $resource }} Table</span>
+            </a>
 
-            @endif
+        @else
 
-        </div>
+            <button class="btn dark" disabled>Not Available</button>
+
+        @endif
+
+    </div>
 
     </div>

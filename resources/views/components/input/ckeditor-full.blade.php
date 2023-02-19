@@ -57,7 +57,7 @@
 
     @pushOnce('scripts')
 
-        <script src="{{ asset('ckeditor.js') }}"></script>
+        <script src="{{ asset('js/ckeditor.js') }}"></script>
     @endPushOnce
 
 

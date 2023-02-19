@@ -222,16 +222,3 @@ if (!function_exists('centsToDollars')) {
         return number_format(($value / 100), 2);
     }
 }
-
-
-
-// DEPRECIATE
-/**
- * Convert dot notation and remove leading forward slash
- * @param string $input
- * @return string
- */
-function sanitizeUrlPath(string $input): string
-{
-    return str_replace('.', '/', ltrim($input, '/'));
-}

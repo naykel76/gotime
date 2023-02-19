@@ -14,7 +14,7 @@
     wire:ignore>
 
     @isset($label)
-        <label @error($for) class="txt-red fw-9 " @enderror for="{{ $for }}">
+        <label @error($for) class="txt-red fw9 " @enderror for="{{ $for }}">
             {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
     @endisset
 

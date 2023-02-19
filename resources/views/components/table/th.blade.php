@@ -4,15 +4,15 @@
     'multiColumn' => null,
     ])
 
-    <th {{ $attributes->merge(['class' => 'fw-7']) }} style="letter-spacing: .05em;">
+    <th {{ $attributes->merge(['class' => 'fw7']) }} style="letter-spacing: .05em;">
 
         @unless($sortable)
 
-            <span class="fw-4">{{ $slot }}</span>
+            <span class="fw4">{{ $slot }}</span>
 
         @else
 
-            <button class="flex px-0 bdr-0 fw-7 cursor-pointer">
+            <button class="flex px-0 bdr-0 fw7 cursor-pointer">
 
                 <span>{{ $slot }}</span>
 

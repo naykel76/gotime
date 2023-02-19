@@ -12,7 +12,7 @@ return [
      *
      */
 
-    'allow_registrations' => env('NK_ALLOW_REGISTER', true),
+    'allow_register' => env('NK_ALLOW_REGISTER', true),
 
 
     /**
@@ -33,19 +33,6 @@ return [
     'icon' => env('NK_ICON', '/favicon.ico'),
     'copyright' => env('NK_COPYRIGHT', 'NAYKEL'), // footer copyright company
 
-    'date_format' => env('NK_DATE_FORMAT', 'm/d/Y'),
-    'date_format_js' => env('NK_DATE_FORMAT_JS', 'MM/DD/YYYY'),
-
-    /**
-     * ----------------------------------------------------------------------
-     * Contact Page (contactit package)
-     * ----------------------------------------------------------------------
-     * if false, prevents 'contact' route creation. Used on applications where
-     * there is no contact landing page.
-     * For example a spa with contact component on the front page.
-     */
-
-    'has_contact_page' => env('NK_HAS_CONTACT_PAGE', true), // used to enable/disable contact page routes
 
     /**
      * ----------------------------------------------------------------------
@@ -55,5 +42,16 @@ return [
      * app.blade, bare-bones.php
      */
     'template' => env('NK_DEFAULT_TEMPLATE', 'app'),
+
+    /**
+     * ----------------------------------------------------------------------
+     * Contact Page (contactit package)
+     * ----------------------------------------------------------------------
+     * if false, prevents 'contact' route creation. Used on applications where
+     * there is no contact landing page. For example a spa with contact
+     * component on the front page.
+     */
+
+    'has_contact_page' => env('NK_HAS_CONTACT_PAGE', true), // used to enable/disable contact page routes
 
 ];
