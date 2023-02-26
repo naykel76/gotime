@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.1
+- add icons to menu
+
 ## 0.7.0
 - add routeCreator
 - add new menu component

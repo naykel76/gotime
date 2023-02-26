@@ -1,6 +1,4 @@
-{{-- At first, I wasn't so sure and thought the menu-link component might be
-more trouble than it's worth. However, I'm think it might be useful, when we
-include options like icons and parent parameters. --}}
+@props(['withIcons' => false, 'iconClass' => '', 'itemClass' => ''])
 
 <nav {{ $attributes }}>
 

@@ -1,6 +1,4 @@
-{{-- At first, I wasn't so sure and thought the menu-link component might be
-more trouble than it's worth. However, I'm think it might be useful, when we
-include options like icons and parent parameters. --}}
+@props(['withIcons' => false, 'iconClass' => '', 'itemClass' => ''])
 
 <nav {{ $attributes }}>
 
@@ -13,7 +11,17 @@ include options like icons and parent parameters. --}}
         @endphp
 
         @unless($children)
-            <x-gt-menu-link :$url :$active :$itemClass> {{ $item->name }} </x-gt-menu-link>
+
+            <a href="{{ url($url) }}" @class(['active'=> $active, $itemClass ])>
+
+                @if($withIcons && isset($item->icon))
+                    <x-dynamic-component :component="'gt-icon-'.$item->icon" class="icon {{ $iconClass }}" />
+                @endif
+
+                <span> {{ $item->name }} </span>
+
+            </a>
+
         @endunless
 
         @if($children)
@@ -21,14 +29,20 @@ include options like icons and parent parameters. --}}
             <div x-data="{ open: false }">
 
                 <div x-on:click="open = !open">
+
                     <a href="#" class="space-between">
-                        {{ $item->name }}
+                        <span>
+                            @if($withIcons && isset($item->icon))
+                                <x-dynamic-component :component="'gt-icon-'.$item->icon" class="icon {{ $iconClass }}" />
+                            @endif
+                            {{ $item->name }}
+                        </span>
                         <x-gt-icon-down-caret x-cloak x-show="!open" />
                         <x-gt-icon-up-caret x-cloak x-show="open" />
                     </a>
                 </div>
 
-                <div x-show="open" class="pl" x-transition>
+                <div x-show="open" class="pl" x-transition x-cloak>
 
                     @foreach($children as $child)
 
