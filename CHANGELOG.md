@@ -1,9 +1,9 @@
 # Changelog
 
-## 0.7.1
+## 0.8.1
 - add icons to menu
 
-## 0.7.0
+## 0.8.0
 - add routeCreator
 - add new menu component
 - update helpers
