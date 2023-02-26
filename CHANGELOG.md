@@ -1,6 +1,12 @@
 # Changelog
 
 ## 0.7.0
+- add routeCreator
+- add new menu component
+- update helpers
+- views and component updates
+
+## 0.7.0
 - update to php 8.1
 - update jtb classes
 - change allow_register key

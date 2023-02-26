@@ -27,7 +27,8 @@
             "src/helpers.php"
         ],
         "psr-4": {
-            "Naykel\\Gotime\\": "src/"
+            "Naykel\\Gotime\\": "src/",
+            "RouteCreator\\": "Naykel\\Gotime\\RouteCreator"
         }
     },
     "extra": {
@@ -36,7 +37,6 @@
                 "Naykel\\Gotime\\GotimeServiceProvider"
             ],
             "aliases": {
-                "Filesys": "Naykel\\Gotime\\Facades\\Filesys",
                 "Routebuilder": "Naykel\\Gotime\\Facades\\Routebuilder"
             }
         }

@@ -16,11 +16,11 @@
 
             <x-authit-account-dropdown class="pos-r" btn-class="txt-white">
 
-                <x-gt-menu menuname="user" filename="nav-admin" class="menu">
+                <x-gt-menu-new menuname="user" filename="nav-admin" class="menu">
 
                     <x-authit::logout-link />
 
-                </x-gt-menu>
+                </x-gt-menu-new>
 
             </x-authit-account-dropdown>
 

@@ -10,6 +10,7 @@ use Naykel\Gotime\Commands\InstallCommand;
 use Naykel\Gotime\View\Components\Parsedown;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Components\Menu;
+use Naykel\Gotime\View\Components\MenuNew;
 use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
@@ -58,6 +59,7 @@ class GotimeServiceProvider extends ServiceProvider
 
         $this->loadViewComponentsAs('gt', [
             Menu::class,
+            MenuNew::class,
             Sidebar::class,
         ]);
 
@@ -108,13 +110,16 @@ class GotimeServiceProvider extends ServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
 
+            //
+            $this->registerComponentX('menu-link');
+
             // Notifications, Flash and Messages
             $this->registerComponent('errors');
 
             // other
             $this->registerComponentX('accordion');
             $this->registerComponentX('alert');
-            // $this->registerComponentX('icon');
+            $this->registerComponentX('icon'); // this is not the same as registerIconComponents
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('notification-toaster');
 

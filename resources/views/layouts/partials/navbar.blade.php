@@ -13,7 +13,7 @@ the container then publish the layout locally and override. --}}
 
         <div class="flex va-c hide-to-md">
 
-            <x-gt-menu menuname="main" class="gg-3" itemClass="txt-white hover:txt-secondary py-075" />
+            <x-gt-menu-new layout="hover" class="gg-1" itemClass="nav-item rounded-05" />
 
         </div>
 
@@ -24,3 +24,5 @@ the container then publish the layout locally and override. --}}
     </div>
 
 </div>
+
+

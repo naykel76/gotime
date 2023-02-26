@@ -121,10 +121,6 @@ trait WithCrud
     public function handleRedirect($action)
     {
         switch ($action) {
-            case 'save_stay':
-                // this feels a bit hacky, but if there is not slug field or it is null it should work fine
-                return redirect(route("$this->routePrefix.edit", ($this->editing->slug ?? $this->editing->id)));
-                break;
             case 'save_close':
                 return redirect(route("$this->routePrefix.index"));
                 break;

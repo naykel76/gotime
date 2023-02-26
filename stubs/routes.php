@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Naykel\Gotime\Facades\RouteBuilder;
+use Naykel\Gotime\RouteCreator;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
-RouteBuilder::create('nav-main');
+(new RouteCreator('nav-main'))->create();
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +23,8 @@ RouteBuilder::create('nav-main');
 |
 */
 
-// RouteBuilder::create('nav-admin');
+// (new RouteCreator('nav-admin'))->create();
 
 // Route::middleware(['role:super|admin', 'auth'])->prefix('admin')->name('admin')->group(function () {
-//     Route::view('/', '/admin.dashboard')->name('');
+//     Route::view('/', 'gotime::admin.dashboard'); // admin dashboard
 // });

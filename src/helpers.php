@@ -3,7 +3,7 @@
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 // ------------------------------------------------------------------
-// -- CONVERSION HELPERS --
+// -- URL PATH CONVERSION HELPERS --
 // ------------------------------------------------------------------
 
 if (!function_exists('toUrl')) {
@@ -36,6 +36,17 @@ if (!function_exists('toDot')) {
     }
 }
 
+if (!function_exists('numSegments')) {
+    /**
+     * Count the number of segments in a path
+     */
+    function numSegments(string $path, bool $trim = true): int
+    {
+        $path = $trim ? trim($path, '/') : $path;
+        return count(explode('/', $path));
+    }
+}
+
 // ------------------------------------------------------------------
 // -- FILES AND FILESYSTEM --
 // ------------------------------------------------------------------
@@ -51,7 +62,6 @@ if (!function_exists('getJsonFile')) {
         if (file_exists($path)) {
             return json_decode(file_get_contents($path), $returnAsArray);
         }
-
 
         throw new FileNotFoundException("File does not exist at path {$path}.");
     }

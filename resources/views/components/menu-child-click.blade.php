@@ -1,3 +1,7 @@
+{{-- At first, I wasn't so sure and thought the menu-link component might be
+more trouble than it's worth. However, I'm think it might be useful, when we
+include options like icons and parent parameters. --}}
+
 <nav {{ $attributes }}>
 
     @foreach($menu->links as $item)
@@ -5,14 +9,13 @@
         @php
             $children = ($item->children ?? null);
             $url = $getUrl($item);
-            $active = 'bg-grey-2';
+            $active = $isActive($url);
         @endphp
 
         @unless($children)
-            <a href="{{ url($url) }}" class="{{ request()->is($url) ? $active : '' }}"> {{ $item->name }} </a>
+            <x-gt-menu-link :$url :$active :$itemClass> {{ $item->name }} </x-gt-menu-link>
         @endunless
 
-        {{-- children only support url, not named route --}}
         @if($children)
 
             <div x-data="{ open: false }">

@@ -6,7 +6,7 @@
         </button>
     </x-slot>
 
-    <x-gt-menu menuname="main" filename="nav-main" class="menu" :isNewMenuComponent=true />
+    <x-gt-menu-new layout="click" class="menu" />
 
     {{ $slot }}
 

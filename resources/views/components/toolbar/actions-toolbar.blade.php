@@ -5,39 +5,36 @@
 
 @aware(['routePrefix', 'editing'])
 
-    @php
-        $resource = dotLastSegment($routePrefix)
-    @endphp
 
     <div id="actions-toolbar" class="pxy-05 light my flex space-between">
 
         <div>
-            <x-gt-button-save wire:click.prevent="save('save_stay');" withIcon text="SAVE" />
+            <x-gt-button-save wire:click.prevent="save" withIcon text="SAVE" />
             <x-gt-button-save wire:click.prevent="save('save_new');" withIcon text="NEW" />
             <x-gt-button-save wire:click.prevent="save('save_close');" withIcon text="CLOSE" />
-            <x-gt-button-delete wire:click.prevent="setActionItemId({{ $editing->id }})" withIcon iconOnly />
 
-            {{-- NK::TD !! this will only work with pages and need to be more flexible --}}
-            <a href="{{ route("pages.show", $editing->slug) }}" class="btn warning" target="_blank">
-                <x-gt-icon-eyes-1 class="icon" />
-            </a>
 
-    </div>
+            @isset($editing->id )
+                {{-- For more flexibility do not add the delete modal here.
+                NOTE: if the delete is not working as expected, make sure you
+                have included 'withRedirect' attribute on the modal --}}
+                <x-gt-button-delete wire:click.prevent="setActionItemId({{ $editing->id }})" withIcon iconOnly />
 
-    <div>
+                {{-- NK::TD !! this will only work with pages and need to be more flexible --}}
+                <a href="{{ route("pages.show", $editing->id) }}" class="btn warning" target="_blank">
+                    <x-gt-icon-eyes-1 class="icon" />
+                </a>
+            @endisset
 
-        @if(Route::has("$routePrefix.index"))
 
-            <a href="{{ route("$routePrefix.index") }}" class="btn txt-upper dark">
-                <x-gt-icon-exit class="icon" /> <span>{{ $resource }} Table</span>
-            </a>
+        </div>
 
-        @else
-
-            <button class="btn dark" disabled>Not Available</button>
-
-        @endif
-
-    </div>
+        <div>
+            @if(Route::has("$routePrefix.index"))
+                <a href="{{ route("$routePrefix.index") }}" class="btn txt-upper dark">
+                    <x-gt-icon-exit class="icon" /> <span>{{ dotLastSegment($routePrefix) }} Table</span>
+                </a>
+            @endif
+        </div>
 
     </div>
