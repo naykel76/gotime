@@ -3,8 +3,7 @@
 | -- this form has access to the livewire $editing property
 ------------------------------------------------------------------------ --}}
 
-@aware(['routePrefix', 'editing'])
-
+@aware(['routePrefix', 'editing', 'previewRoute'])
 
     <div id="actions-toolbar" class="pxy-05 light my flex space-between">
 
@@ -13,19 +12,18 @@
             <x-gt-button-save wire:click.prevent="save('save_new');" withIcon text="NEW" />
             <x-gt-button-save wire:click.prevent="save('save_close');" withIcon text="CLOSE" />
 
-
             @isset($editing->id )
                 {{-- For more flexibility do not add the delete modal here.
                 NOTE: if the delete is not working as expected, make sure you
                 have included 'withRedirect' attribute on the modal --}}
                 <x-gt-button-delete wire:click.prevent="setActionItemId({{ $editing->id }})" withIcon iconOnly />
 
-                {{-- NK::TD !! this will only work with pages and need to be more flexible --}}
-                <a href="{{ route("pages.show", $editing->id) }}" class="btn warning" target="_blank">
-                    <x-gt-icon-eyes-1 class="icon" />
-                </a>
+                @isset($previewRoute)
+                    <a href="{{ route($previewRoute, $editing->slug) }}" class="btn warning" target="_blank">
+                        <x-gt-icon-eyes-1 class="icon" />
+                    </a>
+                @endisset
             @endisset
-
 
         </div>
 

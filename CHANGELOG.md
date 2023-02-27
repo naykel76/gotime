@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.4
+- add preview route to actions toolbar
+
+## 0.8.3
+- add icons
+
 ## 0.8.2
 - add icons
 
