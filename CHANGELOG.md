@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.2
+- add icons
+
 ## 0.8.1
 - add icons to menu
 
