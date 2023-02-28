@@ -1,7 +1,4 @@
-@props([ 'controlOnly' => false, 'for' => null, 'placeholder' => null ])
-
-{{-- NK::TD this needs to be set up to work with laravel values --}}
-{{-- @if(old($for) || $value) value="{{ old($for) ? old($for) : ($value) }}" @endif --}}
+@props([ 'controlOnly' => false, 'for' => null ])
 
 @if($controlOnly)
     <textarea {{ $for ? "name=$for id=$for" : null }}
