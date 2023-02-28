@@ -1,7 +1,9 @@
 # Changelog
 
-## 0.8.4
+## 0.8.4 (current)
 - add preview route to actions toolbar
+- add disabled to select
+- fix textarea to allow placeholder attribute
 
 ## 0.8.3
 - add icons
