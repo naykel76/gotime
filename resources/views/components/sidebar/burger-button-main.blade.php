@@ -6,7 +6,7 @@
         </button>
     </x-slot>
 
-    <x-gt-menu-new layout="click" class="menu" />
+    <x-gt-menu layout="click" class="menu" />
 
     {{ $slot }}
 

@@ -10,7 +10,6 @@ use Naykel\Gotime\Commands\InstallCommand;
 use Naykel\Gotime\View\Components\Parsedown;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Components\Menu;
-use Naykel\Gotime\View\Components\MenuNew;
 use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
@@ -59,7 +58,6 @@ class GotimeServiceProvider extends ServiceProvider
 
         $this->loadViewComponentsAs('gt', [
             Menu::class,
-            MenuNew::class,
             Sidebar::class,
         ]);
 
@@ -150,6 +148,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('modal.dialog');
             $this->registerComponentX('modal.save');
             $this->registerComponentX('modal.delete');
+            $this->registerComponentX('modal.image');
             $this->registerComponentX('modal.confirmation');
         });
     }

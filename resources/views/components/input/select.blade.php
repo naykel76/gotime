@@ -1,7 +1,5 @@
 @props(['controlOnly' => false, 'for' => null, 'placeholder' => null ])
 
-    {{-- NK::TD refactor to remove duplicate code --}}
-
     @if($controlOnly)
         <select {{ $for ? "name=$for id=$for" : null }} {{ $attributes->class(['bdr-red' => $errors->has( $for )]) }}>
             @if($placeholder)

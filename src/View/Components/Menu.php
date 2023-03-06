@@ -16,22 +16,14 @@ class Menu extends Component
     public function __construct(
         public string $filename = "nav-main",   // name of json file in navs directory
         public string $menuname = 'main',       // specific menu from json file
-        public string $itemClass = '',
-        public string $layout = 'click',        // click|hover
-
-        // public bool $withIcons = false,         // gotime icon name
-        // public bool $withHeaders = false,       // display menu header
-        // public string $iconClass = '',
-        // public bool $isNewMenuComponent = false,       // tmp variable
+        public string $layout = 'click',        // click|hover|none
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));
     }
 
     public function render()
     {
-        // returns single menu
         return view("gotime::components.menu-child-$this->layout")->with(['menu' => $this->getMenu($this->menuname)]);
-        // return view('gotime::components.menu-hover')->with(['menu' => $this->getMenu($this->menuname)]);
     }
 
     /**
@@ -41,7 +33,7 @@ class Menu extends Component
     {
 
         if (empty($this->file->$menuname)) {
-            throw new Exception("There is no menu named '$menuname' found in the nav json file.");
+            throw new Exception("There is no menu object named '$menuname' found in the `$this->filename` json file.");
         }
 
         return $this->file->$menuname;

@@ -3,7 +3,11 @@
 ## 0.8.4 (current)
 - add preview route to actions toolbar
 - add disabled to select
+- add icons
 - fix textarea to allow placeholder attribute
+- update ckeditor
+- remove image modal
+- replace 'menu' with 'new menu'
 
 ## 0.8.3
 - add icons

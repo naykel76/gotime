@@ -31,6 +31,9 @@
                                     styles: true
                                 }
                             ]
+                        },
+                        link: {
+                            addTargetToExternalLinks: true,
                         }
                     })
                     .then(editor => {
@@ -59,9 +62,6 @@
 
         <script src="{{ asset('js/ckeditor.js') }}"></script>
     @endPushOnce
-
-
-
 
     @pushOnce('styles')
         <style>
