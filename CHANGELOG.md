@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.4 (current)
+## 0.8.4
 - add preview route to actions toolbar
 - add disabled to select
 - add icons
