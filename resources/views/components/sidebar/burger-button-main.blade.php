@@ -6,6 +6,10 @@
         </button>
     </x-slot>
 
+    @isset($top)
+        {{ $top }}
+    @endisset
+
     <x-gt-menu layout="click" class="menu" />
 
     {{ $slot }}

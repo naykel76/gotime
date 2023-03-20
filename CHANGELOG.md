@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.5
+- add top slot to burger-sidebar
+- remove old burger-button layout
+
 ## 0.8.4
 - add preview route to actions toolbar
 - add disabled to select
