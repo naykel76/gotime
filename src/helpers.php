@@ -67,7 +67,18 @@ if (!function_exists('getJsonFile')) {
     }
 }
 
+if (!function_exists('getFile')) {
 
+    function getFile(string $path): string|false
+    {
+
+        if (file_exists($path)) {
+            return file_get_contents($path);
+        }
+
+        throw new FileNotFoundException("File does not exist at path {$path}.");
+    }
+}
 
 // ------------------------------------------------------------------
 // -- GENERAL HELPERS --

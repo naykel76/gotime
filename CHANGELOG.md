@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0
+- add getFile to helpers
+- simplify markdown component and update service provider
+
 ## 0.8.5
 - add top slot to burger-sidebar
 - remove old burger-button layout

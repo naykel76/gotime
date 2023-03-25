@@ -53,11 +53,12 @@ class GotimeServiceProvider extends ServiceProvider
         //  depreciated
         $this->loadViewComponentsAs('gotime', [
             AppLayout::class,
-            Parsedown::class,
+
         ]);
 
         $this->loadViewComponentsAs('gt', [
             Menu::class,
+            Parsedown::class,
             Sidebar::class,
         ]);
 
