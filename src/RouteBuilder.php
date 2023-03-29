@@ -14,38 +14,45 @@ class RouteBuilder
     /**
      * object of menus from json file
      */
-    protected object $menus;
+    protected array|object $menus;
 
     /**
-     *
+     * when set to true nav.json files will be cached
      */
     protected bool $cache = false;
 
-    public function create(string $filename, string $layout = null): void
-    {
-        $this->menus = $this->setMenusFromJson($filename);
-        $this->layout = $layout;
-
-        $this->data['navJsonFile'] = $filename;
+    public function __construct(
+        protected string $filename,
+        protected ?string $layout = null
+    ) {
+        $this->menus = $this->getMenusFromJson($filename);
+        $this->data['navFileName'] = $filename;
         $this->data['menus'] =  $this->getMenuKeys($this->menus);
+    }
 
+    public function create(): void
+    {
         foreach ($this->menus as $menu => $menuLinks) {
 
             foreach ($menuLinks->links as $item) {
 
-                property_exists($item, 'children')
-                    ? $this->createChildren($item->children)
-                    : null;
+                // check if child routes should be created. This is
+                // particularly useful when you are building menus
+                if (!empty($item->create_child_routes)) {
+                    property_exists($item, 'children')
+                        ? $this->createChildLinks($item->children)
+                        : null;
+                }
 
                 $this->make($item);
             }
         }
     }
 
-    protected function createChildren(array|object $items): void
+    protected function createChildLinks(array|object $child): void
     {
-        if (empty($item->exclude_route)) {
-            foreach ($items as $item) {
+        if (empty($child->exclude_route)) {
+            foreach ($child as $item) {
                 $this->make($item);
             }
         }
@@ -59,38 +66,32 @@ class RouteBuilder
             // if item `url` is null, generate one from the `route_name` structure
             $url = toUrl($item->route_name ?? $item->url);
 
-            // unless the `view` attribute has been defined, the path to the blade
-            // view will follow to the url or route structure, else use the `view`
-            $view = empty($item->view) ?  $url : $item->view;
+            // unless the `view` attribute has been defined, the creator will
+            // attempt to resolve the view following the url structure
+            $viewPath = empty($item->view) ?  $url : $item->view;
 
-            // The file type to inject into a layout
+            // The file type to inject into a layout. This is only relevant
+            // when the layout is set.
             $this->data['type'] = ($item->type ?? null); // blade|md|null
 
-            // $view in the context of a layout is the
-            // path to the file to be injected NOT the
-            // blade view itself.
+            // Manage single markdown page. NK?? What happens if layout is set?
+            if (isset($item->type) && $item->type == 'md') {
+                $this->data['path'] = $viewPath;
+                $viewPath = 'layouts.markdown';
+            }
+
+            // $view in the context of a layout is the path to template
             if ($this->layout) {
-                $this->data['path'] = $view;
-                $view = $this->layout;
+                $this->data['path'] = $viewPath;
+                $viewPath = $this->layout;
             }
 
-            // this could be a problem if mixed types ??
-            if (isset($item->type)) {
-                if ($item->type == 'md') {
-                    $this->data['path'] = $view;
-                    $view = 'layouts.markdown';
-                }
-            }
-
-            $this->buildRoute($url, $view, ($item->route_name ?? ''));
+            $this->createRoute($url, $viewPath, ($item->route_name ?? ''));
         };
     }
 
-
-    private function buildRoute($url, $view, $name = null)
+    private function createRoute($url, $view, $name = null): void
     {
-        // NK::WTF for some reason you can not access $this->data['path']
-        // inside the route function but this seems to make it go!
         $data = $this->data;
 
         Route::get($url, function () use ($data, $view) {
@@ -99,29 +100,27 @@ class RouteBuilder
     }
 
     /**
-     * Get the menu items for a json file
+     * Get the menu items from the json file
      */
-    protected function setMenusFromJson(string $filename): object
+    protected function getMenusFromJson(string $filename): object
     {
-        return $this->cache
-            ? cache()->remember($filename, 3600, fn () => getJsonFile(resource_path("navs/$filename.json")))
-            : getJsonFile(resource_path("navs/$filename.json"));
+        $file = getJsonFile(resource_path("navs/$filename.json"));
+
+        return $this->cache ? cache()->remember($filename, 3600, fn () => $file) : $file;
     }
+
     /**
      * Get menu names (keys)
-     *
-     * @param object $obj
-     * @return array
      */
     private function getMenuKeys(object $obj): array
     {
 
-        $menus = [];
+        $menuKeys = [];
 
         foreach ($obj as $menu => $menuLinks) {
-            array_push($menus, $menu);
+            array_push($menuKeys, $menu);
         }
 
-        return $menus;
+        return $menuKeys;
     }
 }

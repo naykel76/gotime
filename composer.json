@@ -28,17 +28,14 @@
         ],
         "psr-4": {
             "Naykel\\Gotime\\": "src/",
-            "RouteCreator\\": "Naykel\\Gotime\\RouteCreator"
+            "Routebuilder\\": "Naykel\\Gotime\\Routebuilder"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Naykel\\Gotime\\GotimeServiceProvider"
-            ],
-            "aliases": {
-                "Routebuilder": "Naykel\\Gotime\\Facades\\Routebuilder"
-            }
+            ]
         }
     }
 }

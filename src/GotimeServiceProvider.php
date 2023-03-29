@@ -28,10 +28,6 @@ class GotimeServiceProvider extends ServiceProvider
             __DIR__ . '/../stubs/config/naykel.php',
             'naykel'
         );
-
-        $this->app->bind('routebuilder', function ($app) {
-            return new RouteBuilder();
-        });
     }
 
     public function boot()

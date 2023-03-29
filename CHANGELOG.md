@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.10.0 (current)
+- Update RouteBuilder and remove RouteCreater
+
 ## 0.9.0
 - add getFile to helpers
 - simplify markdown component and update service provider
