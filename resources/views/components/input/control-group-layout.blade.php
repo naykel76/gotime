@@ -3,15 +3,16 @@
     'label' => null,
     'helpText' => null,
     'rowClass' => null,
+    'labelClass' => null,
     'inline' => false,
     'req' => false,
     'ignoreErrors' => false ,])
 
-
+{{-- use flex basis to change label width??? --}}
     <div class='frm-row  {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
         @isset($label)
-            <label for="{{ $for }}">{{ Str::title($label) }}
+            <label for="{{ $for }}" @if ($labelClass) class="{{ $labelClass }}" @endif >{{ Str::title($label) }}
                 @if ($req) <span class='txt-red'>*</span> @endif </label>
         @endisset
 
