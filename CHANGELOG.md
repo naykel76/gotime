@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.10.0 (current)
+## 0.10.0
 - Update RouteBuilder and remove RouteCreater
 
 ## 0.9.0

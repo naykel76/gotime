@@ -1,7 +1,7 @@
 <div x-data="{ show: false, message: '' }" x-show="show"
     x-on:notify.window="show = true; message = $event.detail; setTimeout(() => { show = false }, 6000)">
 
-    <div class="fixed pos-b pos-r mxy flex va-c space-between bx minw300">
+    <div class="fixed pos-b pos-r mxy flex va-c space-between bx minw300 z-top">
 
         <x-gt-icon-tick-round class="fs0 txt-green" />
 

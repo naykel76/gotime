@@ -60,8 +60,10 @@ class RouteBuilder
 
     protected function make(array|object $item): void
     {
-
-        if (empty($item->exclude_route)) {
+        // this only excludes parent items, if needed child routes can be
+        // ignored by setting create_child_routes = false or by adding
+        // exclude_route to individual children
+        if (!isset($item->exclude_route) || $item->exclude_route === false) {
 
             // if item `url` is null, generate one from the `route_name` structure
             $url = toUrl($item->route_name ?? $item->url);
