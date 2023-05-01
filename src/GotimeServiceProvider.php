@@ -117,6 +117,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('icon'); // this is not the same as registerIconComponents
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('notification-toaster');
+            $this->registerComponentX('tooltip');
 
             // buttons
             $this->registerComponentX('button.button', 'button');
@@ -160,6 +161,9 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerFormComponents(): void
     {
         $this->registerComponentX('form');
+
+        $this->registerComponentX('input.label', 'label');
+
         // to be reviewed
         $this->registerComponentX('input-group.choices', 'choices');
         $this->registerComponentX('input.submit', 'submit');

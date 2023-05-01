@@ -44,9 +44,9 @@ trait WithCrud
     /**
      * Create model instance of the current resource and set default values.
      */
-    protected function makeBlankModel()
+    protected function makeBlankModel(array $data = null)
     {
-        return self::$model::make($this->initialData);
+        return self::$model::make($data ?? $this->initialData);
     }
 
     /**

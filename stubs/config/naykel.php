@@ -30,7 +30,7 @@ return [
         'sidebar_height' => env('NK_LOGO_HEIGHT', '40'),
     ],
 
-    'icon' => env('NK_ICON', '/favicon.ico'),
+    'favicon' => env('NK_FAVICON', '/favicon.ico'),
     'copyright' => env('NK_COPYRIGHT', 'NAYKEL'), // footer copyright company
 
 

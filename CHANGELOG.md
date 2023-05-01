@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1
+- fix devit incorrect template position
+- add label class to control group layout
+- add favicon to naykel config and update head
+- component updates
+
 ## 0.10.0
 - Update RouteBuilder and remove RouteCreater
 

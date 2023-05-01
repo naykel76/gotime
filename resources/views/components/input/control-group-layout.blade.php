@@ -1,5 +1,6 @@
 @aware([ 'for' => null,
     'value' => null,
+    'tooltip' => false,
     'label' => null,
     'helpText' => null,
     'rowClass' => null,
@@ -8,12 +9,25 @@
     'req' => false,
     'ignoreErrors' => false ,])
 
-{{-- use flex basis to change label width??? --}}
     <div class='frm-row  {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
         @isset($label)
-            <label for="{{ $for }}" @if ($labelClass) class="{{ $labelClass }}" @endif >{{ Str::title($label) }}
-                @if ($req) <span class='txt-red'>*</span> @endif </label>
+
+            @if($tooltip)
+
+                <div class="flex va-c space-between">
+
+                    <x-gt-label></x-gt-label>
+                    <x-gt-tooltip class="danger"> {{ $tooltip }} </x-gt-tooltip>
+
+                </div>
+
+            @else
+
+                <x-gt-label></x-gt-label>
+
+            @endif
+
         @endisset
 
         <div class="flex-col w-full">
