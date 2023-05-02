@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.10.2
+- update icons
+
 ## 0.10.1
 - fix devit incorrect template position
 - add label class to control group layout
