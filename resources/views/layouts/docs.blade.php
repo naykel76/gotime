@@ -1,6 +1,6 @@
 @props(['mainClasses','hasAside' => true,])
 
-<x-gotime-layouts.base :$title>
+<x-gotime-layouts.base :$pageTitle>
 
     @php
         if(!isset($navigation)){

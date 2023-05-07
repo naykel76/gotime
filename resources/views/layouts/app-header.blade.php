@@ -1,4 +1,4 @@
-<x-gotime-layouts.base :title="$title">
+<x-gotime-layouts.base :$pageTitle>
 
     @includeFirst(['layouts.partials.header', 'gotime::layouts.partials.header'])
 

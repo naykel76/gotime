@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+- Changed: layout `$title` to `$pageTitle` to prevent conflicts
+- Change: th icon color
+
 ## 0.10.2
 - update icons
 
@@ -105,7 +109,7 @@
 - add title-bar component
 - update menu component for better functionality
 - update admin layout
-- change nav jason 'title' to 'name'
+- change nav json 'title' to 'name'
 
 ## 0.3.3
 - include Str support withCrud

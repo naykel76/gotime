@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 class AppLayout extends Component
 {
     public function __construct(
-        public $title = null,
+        public $pageTitle = null,
         public $layout = null,
         public bool $hasContainer = false // specify if main element has container
     ) {

@@ -1,4 +1,4 @@
-<x-gotime-layouts.base :$title>
+<x-gotime-layouts.base :$pageTitle>
 
     @if(class_exists(\Naykel\Devit\DevitServiceProvider::class))
         @includeIf('devit::components.dev-toolbar')

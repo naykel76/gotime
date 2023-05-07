@@ -2,7 +2,7 @@
     <meta name="robots" content="noindex,follow">
 @endpush
 
-<x-gotime-layouts.base :$title class="nk-admin relative">
+<x-gotime-layouts.base :$pageTitle class="nk-admin relative">
 
     <div class="navbar">
 

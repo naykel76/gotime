@@ -1,22 +1,25 @@
+@props(['pageTitle' => null])
+
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-    @includeFirst(['layouts.partials.head', 'gotime::layouts.partials.head'])
+    <head>
 
-</head>
+        @includeFirst(['layouts.partials.head', 'gotime::layouts.partials.head'])
 
-<body {{ $attributes }}>
+    </head>
 
-    {{ $slot }}
+    <body {{ $attributes }}>
 
-    <x-gt-notification-toaster />
+        {{ $slot }}
 
-    <livewire:scripts />
+        <x-gt-notification-toaster />
 
-    @stack('scripts')
+        <livewire:scripts />
 
-</body>
+        @stack('scripts')
+
+    </body>
 
 </html>
