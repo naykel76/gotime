@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.13.0
+- Increase version number because packagist is being a dick!
+
 ## 0.11.0
 - Changed: layout `$title` to `$pageTitle` to prevent conflicts
 - Change: th icon color
