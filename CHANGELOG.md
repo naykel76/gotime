@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.0
+- Update: JTB classes
+
 ## 0.13.0
 - Increase version number because packagist is being a dick!
 

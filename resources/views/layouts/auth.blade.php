@@ -2,7 +2,7 @@
 
     <div class="flex gg-5-3-2 pxy">
 
-        <div class="bx w-20 hide-to-md">
+        <div class="bx w-20 to-md:hide">
 
             <div class="tac mb-2">
                 <img class="wh-200px round" src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">

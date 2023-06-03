@@ -1,0 +1,1 @@
+<svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg" width="48" height="20" viewBox="0 0 48 20"><g transform="translate(0 -15)"><path d="M0,15H48V32H24v3H13V32H0Z" fill="#d50000"/><path d="M3,29H8V21h3v8h2V18H3ZM16,18V32h5V29h5V18Zm8,8H21V21h3Zm5-8V29h5V21h3v8h3V21h3v8h2V18Z" fill="#fff"/></g></svg>

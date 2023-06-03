@@ -8,7 +8,7 @@
             </a>
         </div>
 
-        <div class="hide-from-md mxy-0">
+        <div class="md:hide mxy-0">
             <x-gt-sidebar layout="burger-button-main" />
         </div>
 
@@ -16,7 +16,7 @@
 
 </div>
 
-<div class="navbar hide-to-md">
+<div class="navbar to-md:hide">
 
     <div class="container">
 
