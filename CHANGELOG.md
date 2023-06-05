@@ -1,7 +1,10 @@
 # Changelog
 
+## 0.12.1
+- Updated: JTB classes and layouts
+
 ## 0.12.0
-- Update: JTB classes
+- Updated: JTB classes
 
 ## 0.11.0
 - Changed: layout `$title` to `$pageTitle` to prevent conflicts

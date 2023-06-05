@@ -24,7 +24,7 @@
 
     @if($hasContainer) <div class="container"> @endif
 
-        <main id="nk-main" {{ $attributes->class(['py-5-3-2', $hasAside ? 'grid cols-30:70 gg-5' : '']) }}>
+        <main id="nk-main" {{ $attributes->class(['py-5-3-2-2', $hasAside ? 'grid cols-30:70 gg-5' : '']) }}>
 
             @isset($navigation)
                 <aside>
