@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.12.2
+- Update: logo icons
+
 ## 0.12.1
 - Updated: JTB classes and layouts
 
