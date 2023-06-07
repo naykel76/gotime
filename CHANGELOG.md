@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.12.3
+- Updated: datepicker and control layout
+
 ## 0.12.2
 - Update: logo icons
 

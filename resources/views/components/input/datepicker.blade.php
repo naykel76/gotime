@@ -1,35 +1,23 @@
-@aware([
-    'controlOnly' => false,
+@props([
     'for' => null,
-    'value' => null,
-    'label' => null,
-    'helpText' => null,
-    'rowClass' => null,
-    'inline' => false,
-    'req' => false,
+    // 'controlOnly' => false,
+    // 'value' => null,
+    // 'label' => null,
+    // 'helpText' => null,
+    // 'rowClass' => null,
+    // 'inline' => false,
+    // 'req' => false,
     ])
 
-    @if($controlOnly)
-        <input x-data x-ref="datepicker" x-on:change="$dispatch('input', $el.value)"
-            x-init="new Pikaday({ field: $refs.datepicker, format: 'DD-MM-YYYY' })"
-            {{ $for ? "name=$for id=$for" : null }}
-            {{ $attributes->class(['bdr-red' => $errors->has( $for )]) }} />
-    @else
+    @props(['controlOnly' => false])
 
-        <x-gotime::input.control-group-layout>
-            <input x-data x-ref="datepicker" x-on:change="$dispatch('input', $el.value)"
-                x-init="new Pikaday({ field: $refs.datepicker, format: 'DD-MM-YYYY' })"
-                {{ $for ? "name=$for id=$for" : null }}
-                {{ $attributes->class(['bdr-red' => $errors->has( $for )]) }} />
-        </x-gotime::input.control-group-layout>
+        @if($controlOnly)
 
-    @endif
-
-    @pushOnce('head')
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-    @endPushOnce
-
-    @pushOnce('scripts')
-        <script src="https://unpkg.com/moment"></script>
-        <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-    @endPushOnce
+            {{-- the control gets injected into the control layout, where addons are managed --}}
+            {{-- control only can still include icons, (no errors) --}}
+            <x-gotime::input.control-datepicker {{ $attributes }} />
+        @else
+            <x-gotime::input.control-group-layout>
+                <x-gotime::input.control-datepicker {{ $attributes }} />
+            </x-gotime::input.control-group-layout>
+        @endif
