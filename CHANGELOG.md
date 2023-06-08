@@ -1,10 +1,13 @@
 # Changelog
 
+## 0.12.4
+- Updated: logo icons
+
 ## 0.12.3
 - Updated: datepicker and control layout
 
 ## 0.12.2
-- Update: logo icons
+- Updated: logo icons
 
 ## 0.12.1
 - Updated: JTB classes and layouts
