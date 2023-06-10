@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.5
+- Added: google analytics to base and include key in services
+- Added: markdown component
+- Update: parsedown highlighter version
+
 ## 0.12.4
 - Updated: logo icons
 

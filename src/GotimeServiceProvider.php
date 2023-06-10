@@ -107,6 +107,7 @@ class GotimeServiceProvider extends ServiceProvider
 
             //
             $this->registerComponentX('menu-link');
+            $this->registerComponentX('markdown');
 
             // Notifications, Flash and Messages
             $this->registerComponent('errors');
