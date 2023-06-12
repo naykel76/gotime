@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.12.6
+- Updated: icons and nk resources
+
 ## 0.12.5
 - Added: google analytics to base and include key in services
 - Added: markdown component
