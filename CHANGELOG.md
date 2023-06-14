@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.12.7
+- Updated: icons
+
 ## 0.12.6
 - Updated: icons and nk resources
 

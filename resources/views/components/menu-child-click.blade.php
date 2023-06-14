@@ -37,8 +37,8 @@
                             @endif
                             {{ $item->name }}
                         </span>
-                        <x-gt-icon-down-caret x-cloak x-show="!open" />
-                        <x-gt-icon-up-caret x-cloak x-show="open" />
+                        <x-gt-icon-caret-down x-cloak x-show="!open" />
+                        <x-gt-icon-caret-up x-cloak x-show="open" />
                     </a>
                 </div>
 
