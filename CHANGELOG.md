@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.0 (current)
+- Updated: jtb classes
+- Updated: menu-structure
+
 ## 0.12.7
 - Updated: icons
 

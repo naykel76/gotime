@@ -1,51 +1,52 @@
 @props(['withIcons' => false, 'iconClass' => '', 'itemClass' => ''])
 
-<nav {{ $attributes }}>
+    <nav {{ $attributes }}>
 
-    @foreach($menu->links as $item)
+        <ul>
+            @foreach($menu->links as $item)
 
-        @php
-            $url = $getUrl($item);
-            $active = $isActive($url);
-        @endphp
+                @php
+                    $url = $getUrl($item);
+                    $active = $isActive($url);
+                @endphp
 
+                @if(!$isParent($item))
+                    <x-gt-menu-link :$url :$active :$itemClass> {{ $item->name }} </x-gt-menu-link>
+                @else
 
-        @if(!$isParent($item))
-            <x-gt-menu-link :$url :$active :$itemClass> {{ $item->name }} </x-gt-menu-link>
-        @else
+                    <li class="relative" x-data="{showChildren:false}" x-on:mouseenter="showChildren=true" x-on:mouseleave="showChildren=false">
 
-            <div class="relative" x-data="{showChildren:false}" x-on:mouseenter="showChildren=true" x-on:mouseleave="showChildren=false">
+                        {{-- this creates a hash when there is no clickable link and it really should be updated to a button! --}}
+                        <x-gt-menu-link :$url :$active :$itemClass :isParent=$isParent($item)> {{ $item->name }} </x-gt-menu-link>
 
-                {{-- this creates a hash when there is no clickable link and it really should be updated to a button! --}}
-                <x-gt-menu-link :$url :$active :$itemClass :isParent=$isParent($item)> {{ $item->name }} </x-gt-menu-link>
-
-                <!-- wrapper for child menu -->
-                <div class="absolute mt-05 flex w-16 z-100" x-show="showChildren" x-transition.duration style="display: none;">
-
-                    <!-- child menu -->
-                    <div class="menu bx pxy-0 w-full">
-
-                        @foreach($item->children as $child)
-
-                            @php
-                                $childUrl = $getUrl($child);
-                            @endphp
+                        <!-- wrapper for child menu -->
+                        <div class="absolute mt-05 flex w-16 z-100" x-show="showChildren" x-transition.duration style="display: none;">
 
                             <!-- child menu -->
-                            <a href="{{ url($childUrl) }}">
-                                {{ $child->name }}
-                            </a>
+                            <div class="menu bx dark pxy-0 w-full">
 
-                        @endforeach
+                                @foreach($item->children as $child)
 
-                    </div>
+                                    @php
+                                        $childUrl = $getUrl($child);
+                                    @endphp
 
-                </div>
+                                    <!-- child menu -->
+                                    <a href="{{ url($childUrl) }}">
+                                        {{ $child->name }}
+                                    </a>
 
-            </div>
+                                @endforeach
 
-        @endif
+                            </div>
 
-    @endforeach
+                        </div>
 
-</nav>
+                    </li>
+
+                @endif
+
+            @endforeach
+        </ul>
+
+    </nav>
