@@ -14,7 +14,6 @@ return [
 
     'allow_register' => env('NK_ALLOW_REGISTER', true),
 
-
     /**
      * ----------------------------------------------------------------------
      * Basic Settings
@@ -23,16 +22,15 @@ return [
      */
 
     'logo' => [
-        'path' => env('NK_LOGO_PATH', '/images/logo.svg'),
+        'path' => env('NK_LOGO_PATH', '/logo.svg'),
         'height' => env('NK_LOGO_HEIGHT', ''),  // don't set default
         'width' => env('NK_LOGO_WIDTH', ''),    // don't set default
-        'sidebar_path' => env('NK_LOGO_SIDEBAR_PATH', '/images/logo.svg'),
+        'sidebar_path' => env('NK_LOGO_SIDEBAR_PATH', '/logo.svg'),
         'sidebar_height' => env('NK_LOGO_HEIGHT', '40'),
     ],
 
-    'favicon' => env('NK_FAVICON', '/images/favicon.svg'),
+    'favicon' => env('NK_FAVICON', '/favicon.svg'),
     'copyright' => env('NK_COPYRIGHT', 'NAYKEL'), // footer copyright company
-
 
     /**
      * ----------------------------------------------------------------------

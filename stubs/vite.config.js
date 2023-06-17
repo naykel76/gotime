@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import purge from '@erbelion/vite-plugin-laravel-purgecss'
 
 export default defineConfig({
     plugins: [
-        laravel({
+        laravel.default({
             input: [
                 'resources/scss/app.scss',
                 'resources/js/app.js',
@@ -20,6 +21,14 @@ export default defineConfig({
                     });
                 }
             },
-        }
+        },
+        purge({
+            paths: [
+                'resources/views/*.blade.php',
+                'vendor/naykel/**/resources/views/**/*.blade.php'
+            ],
+            // always keep
+            safelist: ['nice-button', 'h1']
+        })
     ],
 });

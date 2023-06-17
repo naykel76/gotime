@@ -32,14 +32,25 @@ class InstallCommand extends Command
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
+                "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
                 "@fullhuman/postcss-purgecss" => "^5.0.0",
                 "alpinejs" => "^3.10.2",
-                "nk_jtb" => "file:../nk_jtb",
+                "nk_jtb" => "file:~/sites/nk_jtb",
                 "sass" => "1.60.0",
                 'autoprefixer' => '^10.4.7',
                 'postcss' => '^8.4.14',
             ] + $packages;
         });
+
+        // Update node modules...
+        if (!$this->stringInFile('./package.json', "\"type\": \"module\"")) {
+            $this->replaceInFile(
+                "\"private\": true,",
+                "\"private\": true,
+    \"type\": \"module\", ",
+                './package.json'
+            );
+        }
 
         // Public...
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/', public_path());
@@ -57,6 +68,7 @@ class InstallCommand extends Command
 
         // Config...
         copy(__DIR__ . '/../../stubs/.env.example', base_path('.env.example'));
+        copy(__DIR__ . '/../../stubs/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
 
         // Routes...
@@ -64,6 +76,15 @@ class InstallCommand extends Command
 
         $this->info('Gotime scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
+
+        // Update app name...
+        if (!$this->stringInFile('./.env', "APP_NAME=Naykel")) {
+            $this->replaceInFile(
+                "APP_NAME=Laravel",
+                "APP_NAME=Naykel",
+                './.env'
+            );
+        }
 
         return Command::SUCCESS;
     }
@@ -93,5 +114,30 @@ class InstallCommand extends Command
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
         );
+    }
+
+    /**
+     * Replace a given string within a given file.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $path
+     * @return void
+     */
+    protected function replaceInFile($search, $replace, $path)
+    {
+        file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
+    }
+
+    /**
+     * A given string exists within a given file.
+     *
+     * @param string $path
+     * @param string $search
+     * @return bool
+     */
+    protected function stringInFile($path, $search)
+    {
+        return str_contains(file_get_contents($path), $search);
     }
 }

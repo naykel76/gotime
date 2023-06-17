@@ -1,12 +1,11 @@
 # Changelog
 
-## 0.13.1
-- Updated: dependencies in the installer
-
 ## 0.13.0
+- Added: optional $title to menu
+- Added: postcss and purgecss
+- Updated: dependencies in the installer
 - Updated: jtb classes
 - Updated: to more semantic menu-structure
-- Added: optional $title to menu
 
 ## 0.12.7
 - Updated: icons
