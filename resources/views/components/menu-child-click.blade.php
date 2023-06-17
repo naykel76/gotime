@@ -3,6 +3,11 @@
     <nav {{ $attributes }}>
 
         <ul>
+
+            @if($title)
+                <div class="menu-title">{{ $title }}</div>
+            @endif
+
             @foreach($menu->links as $item)
 
                 @php

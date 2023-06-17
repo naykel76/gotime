@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.13.0 (current)
+## 0.13.0
 - Updated: jtb classes
-- Updated: menu-structure
+- Updated: to more semantic menu-structure
+- Added: optional $title to menu
 
 ## 0.12.7
 - Updated: icons
