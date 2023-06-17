@@ -32,21 +32,17 @@ class InstallCommand extends Command
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
+                "@fullhuman/postcss-purgecss" => "^5.0.0",
                 "alpinejs" => "^3.10.2",
                 "nk_jtb" => "file:../nk_jtb",
-                "sass" => "1.53.0",
+                "sass" => "1.60.0",
+                'autoprefixer' => '^10.4.7',
+                'postcss' => '^8.4.14',
             ] + $packages;
         });
 
         // Public...
-        (new Filesystem)->ensureDirectoryExists(public_path('images'));
-        (new Filesystem)->ensureDirectoryExists(public_path('svg'));
-        copy(__DIR__ . '/../../stubs/public/images/nk/logo.svg', public_path('images/logo.svg'));
-        copy(__DIR__ . '/../../stubs/public/images/nk/favicon.ico', public_path('favicon.ico'));
-
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/images', public_path('images'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/svg', public_path('svg'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/js', public_path('js'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/', public_path());
 
         // Resources...
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));

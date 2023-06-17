@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.13.1
+- Updated: dependencies in the installer
+
 ## 0.13.0
 - Updated: jtb classes
 - Updated: to more semantic menu-structure
