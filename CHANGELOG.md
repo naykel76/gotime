@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.13.1
+- Updated: vite to allow escaped characters
+
 ## 0.13.0
 - Added: optional $title to menu
 - Added: postcss and purgecss

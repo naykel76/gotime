@@ -32,7 +32,8 @@ class InstallCommand extends Command
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
+                // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
+                "@erbelion/vite-plugin-laravel-purgecss" => "github:naykel76/vite-plugin-laravel-purgecss",
                 "@fullhuman/postcss-purgecss" => "^5.0.0",
                 "alpinejs" => "^3.10.2",
                 "nk_jtb" => "file:~/sites/nk_jtb",

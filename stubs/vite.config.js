@@ -4,7 +4,8 @@ import purge from '@erbelion/vite-plugin-laravel-purgecss'
 
 export default defineConfig({
     plugins: [
-        laravel.default({
+        // if there are issues, try with laravel.default
+        laravel({
             input: [
                 'resources/scss/app.scss',
                 'resources/js/app.js',
@@ -24,11 +25,19 @@ export default defineConfig({
         },
         purge({
             paths: [
-                'resources/views/*.blade.php',
+                'resources/views/**/*.blade.php',
                 'vendor/naykel/**/resources/views/**/*.blade.php'
             ],
-            // always keep
-            safelist: ['nice-button', 'h1']
+            // safelist: ['nice-button'],
+            // blocklist: ['usedClass', /^nav-/],
+            extractors: [
+                {
+                    extractor: (content) => {
+                        return content.match(/[A-Za-z0-9-_:\/]+/g) || []
+                    },
+                    extensions: ['css', 'html', 'vue', 'php'],
+                },
+            ],
         })
     ],
 });
