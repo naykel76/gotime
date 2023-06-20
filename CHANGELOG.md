@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.13.3
+- Updated: markdown for local css
+
 ## 0.13.2
 - Added: optional classes and title to `partials.main`
 - Updated: AppLayout with new classes and title parameters
