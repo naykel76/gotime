@@ -9,7 +9,10 @@ class AppLayout extends Component
     public function __construct(
         public $pageTitle = null,
         public $layout = null,
-        public bool $hasContainer = false // specify if main element has container
+
+        public bool $hasContainer = false,  // specify if main element has container
+        public bool $hasTitle = false,      // specify if main element has h1 title
+        public string $mainClasses = '',    // classes for <main>
     ) {
     }
 

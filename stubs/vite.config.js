@@ -28,8 +28,10 @@ export default defineConfig({
                 'resources/views/**/*.blade.php',
                 'vendor/naykel/**/resources/views/**/*.blade.php'
             ],
-            // safelist: ['nice-button'],
             // blocklist: ['usedClass', /^nav-/],
+            safelist: {
+                standard: [/^\:has$/, /^\:is$/, /^\:not$/, /^\:where$/]
+            },
             extractors: [
                 {
                     extractor: (content) => {

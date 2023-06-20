@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.2
+- Added: optional classes and title to `partials.main`
+- Updated: AppLayout with new classes and title parameters
+
 ## 0.13.1
 - Updated: vite to allow escaped characters
 
