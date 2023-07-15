@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.4
+- Updated: icons and jtb classes
+- Updated: highlight.js
+- Updated: form components
+
 ## 0.13.3
 - Updated: markdown for local css
 

@@ -28,7 +28,7 @@
                         <div class="absolute mt-05 flex w-16 z-100" x-show="showChildren" x-transition.duration style="display: none;">
 
                             <!-- child menu -->
-                            <div class="menu bx dark pxy-0 w-full">
+                            <div class="menu bx pxy-0 w-full">
 
                                 @foreach($item->children as $child)
 

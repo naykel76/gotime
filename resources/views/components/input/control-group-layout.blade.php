@@ -44,6 +44,12 @@
                 @enderror
             @endunless
 
+
+            {{-- <div class="frm-row">
+                <label for="error" class="txt-red">Your name</label>
+                <input type="text" id="error" class="danger-light" placeholder="Error input">
+                <p class="txt-red txt-sm">Bugger! Some error message.</p>
+            </div> --}}
         </div>
 
     </div>
