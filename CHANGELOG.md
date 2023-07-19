@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.2
+- Fixed: merge problem
+
 ## 0.14.1
 - Added: menu parameters to class
 
