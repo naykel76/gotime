@@ -1,15 +1,15 @@
 @aware(['title'])
 
-    <nav>
+<nav>
 
-        <ul {{ $attributes }}>
+    <ul {{ $attributes }}>
 
-            @isset($title)
-                <li class="menu-title">{{ $title }}</li>
-            @endisset
+        @if($title)
+            <li class="menu-title">{{ $title }}</li>
+        @endif
 
-            {{ $slot }}
+        {{ $slot }}
 
-        </ul>
+    </ul>
 
-    </nav>
+</nav>

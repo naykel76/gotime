@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.14
+## 0.14.1
+- Added: menu parameters to class
+
+## 0.14.0
 - Added: menu component layout
 - Updated: menu component markup structures
 - Updated: route builder

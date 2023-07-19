@@ -16,8 +16,10 @@ class Menu extends Component
         public string $filename = "nav-main",   // name of json file in navs directory
         public string $menuname = 'main',       // specific menu from json file
         public string $layout = 'click',        // click|hover|none
-        public string $title = '',              // menu title from name attribute
+        public string $title = '',              // menu title (free type)
+        public string $itemClass = '',
         public bool $withIcons = false,
+        public string $iconClass = '',
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));
     }
