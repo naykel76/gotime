@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.14
+- Added: menu component layout
+- Updated: menu component markup structures
+- Updated: route builder
+
 ## 0.13.4
 - Updated: icons and jtb classes
 - Updated: highlight.js

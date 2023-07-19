@@ -7,7 +7,6 @@ use Illuminate\View\Component;
 
 class Menu extends Component
 {
-
     /**
      * nav.json file
      */
@@ -17,14 +16,20 @@ class Menu extends Component
         public string $filename = "nav-main",   // name of json file in navs directory
         public string $menuname = 'main',       // specific menu from json file
         public string $layout = 'click',        // click|hover|none
-        public string $title = '',
+        public string $title = '',              // menu title from name attribute
+        public bool $withIcons = false,
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));
     }
 
     public function render()
     {
-        return view("gotime::components.menu-child-$this->layout")->with(['menu' => $this->getMenu($this->menuname)]);
+        $viewPath = view()->exists("layouts.components.menu-$this->layout")
+            ? "layouts.components.menu-$this->layout"
+            : "gotime::components.menu-$this->layout";
+
+        return view($viewPath)
+            ->with(['menu' => $this->getMenu($this->menuname)]);
     }
 
     /**
@@ -32,7 +37,6 @@ class Menu extends Component
      */
     public function getMenu($menuname): object
     {
-
         if (empty($this->file->$menuname)) {
             throw new Exception("There is no menu object named '$menuname' found in the `$this->filename` json file.");
         }
@@ -45,7 +49,6 @@ class Menu extends Component
      */
     public function getUrl(object $item): string|null
     {
-
         // if the menu item has children, AND there is no `route_name` or
         // `url` you are safe to assume this is a parent item with a hover or
         // clickable so do not attempt to create a link, just exit.
