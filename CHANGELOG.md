@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.3 current
+- Updated: vite safe list
+- Added: icons
+- Added: attributes to doc navigation slot
+
+
 ## 0.14.2
 - Fixed: merge problem
 

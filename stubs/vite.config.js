@@ -28,9 +28,9 @@ export default defineConfig({
                 'resources/views/**/*.blade.php',
                 'vendor/naykel/**/resources/views/**/*.blade.php'
             ],
-            // blocklist: ['usedClass', /^nav-/],
             safelist: {
-                standard: [/^\:has$/, /^\:is$/, /^\:not$/, /^\:where$/]
+                standard: [/^\:has$/, /^\:is$/, /^\:not$/, /^\:where$/, /^\:disabled$/],
+                greedy: [/code$/, /hljs-/]
             },
             extractors: [
                 {
