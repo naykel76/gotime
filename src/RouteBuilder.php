@@ -26,8 +26,9 @@ class RouteBuilder
         protected ?string $layout = null
     ) {
         $this->menus = $this->getMenusFromJson($filename);
-        $this->data['navFileName'] = $filename;
+        $this->data['filename'] = $filename;
         $this->data['menus'] =  $this->getMenuKeys($this->menus);
+
     }
 
     /**
