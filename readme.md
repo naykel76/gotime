@@ -98,11 +98,13 @@ You can batch update the file extensions by running the following command in the
 ```bash
 for i in *.svg; do mv -- "$i" "${i%.svg}.blade.php"; done
 
-# all directories
-find . -type f -name '*.svg' -exec bash -c '
-for i; do
-    mv -- "$i" "${i%.svg}.blade.php"
-done' bash {} +
+find ./resources/views/components/icon -type f -name "*.svg" -exec bash -c 'mv -- "$1" "${1%.svg}.blade.php"' _ {} \;
+
+# this is pretty wild, and updates regardless
+find ./resources/views/components/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g' {} +
+
+# this should only update if there is a change
+find ./resources/views/components/icon -type f -name "*.blade.php" -exec grep -q '<svg xmlns="http://www.w3.org/2000/svg"' {} \; -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www.w3.org\/2000\/svg"/g' {} +
 ```
 
 ##### Step 3. Remove fill color
