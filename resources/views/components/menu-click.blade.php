@@ -2,6 +2,7 @@
 
     @foreach($menu->links as $item)
 
+
         @php
             $children = ($item->children ?? null);
             $url = $getUrl($item);
@@ -10,7 +11,9 @@
 
         @unless($children)
 
-            <a href="{{ url($url) }}" @class(['active'=> $active, $itemClass ])>
+            <a href="{{ url($url) }}" @class(['active'=> $active, $itemClass ])
+                @if($newWindow) target="_blank" @endif
+            >
 
                 @if($withIcons && isset($item->icon))
                     <x-dynamic-component :component="'gt-icon-'.$item->icon" class="icon {{ $iconClass }}" />

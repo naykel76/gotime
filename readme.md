@@ -97,6 +97,12 @@ You can batch update the file extensions by running the following command in the
 
 ```bash
 for i in *.svg; do mv -- "$i" "${i%.svg}.blade.php"; done
+
+# all directories
+find . -type f -name '*.svg' -exec bash -c '
+for i; do
+    mv -- "$i" "${i%.svg}.blade.php"
+done' bash {} +
 ```
 
 ##### Step 3. Remove fill color

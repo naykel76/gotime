@@ -19,6 +19,7 @@ class Menu extends Component
         public string $title = '',              // menu title (free type)
         public string $itemClass = '',
         public bool $withIcons = false,
+        public bool $newWindow = false,
         public string $iconClass = '',
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));

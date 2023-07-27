@@ -9,13 +9,13 @@
 
         @if(!$isParent($item))
             <li>
-                <x-gt-menu-link :$url :$active :$itemClass> {{ $item->name }} </x-gt-menu-link>
+                <x-gt-menu-link :$url :$active :$itemClass :$newWindow> {{ $item->name }} </x-gt-menu-link>
             </li>
         @else
 
             <li class="relative" x-data="{showChildren:false}" x-on:mouseenter="showChildren=true" x-on:mouseleave="showChildren=false">
 
-                <x-gt-menu-link :$url :$active :$itemClass :isParent=$isParent($item)> {{ $item->name }} </x-gt-menu-link>
+                <x-gt-menu-link :$url :$active :$itemClass :$newWindow :isParent=$isParent($item)> {{ $item->name }} </x-gt-menu-link>
 
                 <!-- wrapper for child menu -->
                 <div class="absolute mt-05 flex w-16 z-100" x-show="showChildren" x-transition.duration style="display: none;">

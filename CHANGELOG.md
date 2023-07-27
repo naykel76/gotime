@@ -4,6 +4,7 @@
 - Updated: vite safe list
 - Added: icons
 - Added: attributes to doc navigation slot
+- Added: new window to menu component
 
 
 ## 0.14.2

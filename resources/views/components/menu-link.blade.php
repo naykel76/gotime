@@ -1,6 +1,9 @@
-@props(['active', 'url', 'itemClass', 'isParent' => false])
+@props(['active', 'url', 'itemClass', 'newWindow', 'isParent' => false])
 
-<a href="{{ url($url) }}" @class(['active'=> $active, $itemClass ])>
+<a href="{{ url($url) }}"
+    @class(['active'=> $active, $itemClass ])
+    @if($newWindow) target="_blank" @endif
+>
 
     {{ $slot }}
 
