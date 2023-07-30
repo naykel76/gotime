@@ -2,7 +2,6 @@
 
     @foreach($menu->links as $item)
 
-
         @php
             $children = ($item->children ?? null);
             $url = $getUrl($item);
@@ -12,15 +11,9 @@
         @unless($children)
 
             <a href="{{ url($url) }}" @class(['active'=> $active, $itemClass ])
-                @if($newWindow) target="_blank" @endif
-            >
-
-                @if($withIcons && isset($item->icon))
-                    <x-dynamic-component :component="'gt-icon-'.$item->icon" class="icon {{ $iconClass }}" />
-                @endif
-
-                <span> {{ $item->name }} </span>
-
+                @if($newWindow) target="_blank" @endif >
+                    <x-gotime::menu-icon-selector :$withIcons :$item :$iconClass />
+                    <span> {{ $item->name }} </span>
             </a>
 
         @endunless
@@ -33,9 +26,7 @@
 
                     <a href="#" class="space-between">
                         <span>
-                            @if($withIcons && isset($item->icon))
-                                <x-dynamic-component :component="'gt-icon-'.$item->icon" class="icon {{ $iconClass }}" />
-                            @endif
+                            <x-gotime::menu-icon-selector :$withIcons :$item :$iconClass />
                             {{ $item->name }}
                         </span>
                         <x-gt-icon-caret-down x-cloak x-show="!open" />

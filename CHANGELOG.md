@@ -4,7 +4,8 @@
 - Updated: vite safe list
 - Added: icons
 - Added: attributes to doc navigation slot
-- Added: new window to menu component
+- Added: open in new window to menu component
+- Added: naykel-logos and logic to manage
 
 
 ## 0.14.2
