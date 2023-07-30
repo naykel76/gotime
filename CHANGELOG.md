@@ -1,12 +1,11 @@
 # Changelog
 
-## 0.14.3 current
+## 0.14.3
 - Updated: vite safe list
 - Added: icons
 - Added: attributes to doc navigation slot
 - Added: open in new window to menu component
 - Added: naykel-logos and logic to manage
-
 
 ## 0.14.2
 - Fixed: merge problem
