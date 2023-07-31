@@ -28,7 +28,6 @@ class RouteBuilder
         $this->menus = $this->getMenusFromJson($filename);
         $this->data['filename'] = $filename;
         $this->data['menus'] =  $this->getMenuKeys($this->menus);
-
     }
 
     /**
@@ -37,9 +36,9 @@ class RouteBuilder
      */
     public function create(): void
     {
-        foreach ($this->menus as $menu => $menuLinks) {
+        foreach ($this->menus as $menu => $menuData) {
 
-            foreach ($menuLinks->links as $item) {
+            foreach ($menuData->links as $item) {
                 // check if child routes should be created.
                 if (!empty($item->create_child_routes)) {
                     property_exists($item, 'children')
