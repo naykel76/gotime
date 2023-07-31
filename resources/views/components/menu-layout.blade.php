@@ -5,7 +5,7 @@
     <ul {{ $attributes }}>
 
         @if($title)
-            <li class="menu-title">{{ $title }}</li>
+            <li class="menu-title">{{ Str::upper($title) }}</li>
         @endif
 
         {{ $slot }}

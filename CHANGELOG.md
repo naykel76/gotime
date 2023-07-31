@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.4 (current)
+- added: convert menu title to upper
+
 ## 0.14.3
 - Updated: vite safe list
 - Added: icons
