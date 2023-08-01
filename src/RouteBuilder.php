@@ -27,7 +27,6 @@ class RouteBuilder
     ) {
         $this->menus = $this->getMenusFromJson($filename);
         $this->data['filename'] = $filename;
-        $this->data['menus'] =  $this->getMenuKeys($this->menus);
     }
 
     /**
@@ -36,7 +35,23 @@ class RouteBuilder
      */
     public function create(): void
     {
+
         foreach ($this->menus as $menu => $menuData) {
+
+            // if standalone menu, only pass the relevant menu
+            if (!empty($menuData->standalone_menu)) {
+                $this->data['menus'] = [$menu];
+
+                // always pass the main menu. this is experimental and may be
+                // more hassle that its worth
+                if (!empty($menuData->include_menus)) {
+                    foreach ($menuData->include_menus as $menu) {
+                        array_push($this->data['menus'], $menu);
+                    }
+                }
+            } else {
+                $this->data['menus'] =  $this->getMenuKeys($this->menus);
+            }
 
             foreach ($menuData->links as $item) {
                 // check if child routes should be created.
