@@ -71,6 +71,7 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../stubs/.env.example', base_path('.env.example'));
         copy(__DIR__ . '/../../stubs/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
+        copy(__DIR__ . '/../../stubs/readme.md', base_path('readme.md'));
 
         // Routes...
         copy(__DIR__ . '/../../stubs/routes.php', base_path('routes/web.php'));

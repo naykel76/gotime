@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.5
+- Updated: JTB class
+- Added: copy readme to install script
+
 ## 0.14.4
 - Added: convert menu title to upper
 - Updated: RouteBuilder to manage single menus
