@@ -1,6 +1,6 @@
 <?php
 
-namespace Naykel\Gotime\Http\Livewire;
+namespace Naykel\Gotime\Livewire;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

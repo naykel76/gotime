@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0
+- Updated: to livewire 3 following the upgrade guide
+- Update: JTB classes
+- Changed: `Naykel\Gotime\Http\Livewire` to `Naykel\Gotime\Livewire`
+- Changed: layouts location to components
+
 ## 0.14.5
 - Updated: JTB class
 - Added: copy readme to install script

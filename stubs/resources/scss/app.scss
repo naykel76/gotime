@@ -1,3 +1,7 @@
-// @use "node_modules/nk_jtb/src/scss/base/vars_components" as * with ($navbar-bg: $primary,);
+@use "node_modules/nk_jtb/src/variables" as *;
+
+// $primary: #000000,
+// $secondary: #13ad3a
+
 @use "node_modules/nk_jtb/src/mixins/media" as *;
 @use "node_modules/nk_jtb/src/jtb";

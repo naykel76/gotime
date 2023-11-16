@@ -32,10 +32,8 @@ https://github.com/livewire/livewire/discussions/3133#discussioncomment-2741258
 
     if (! $this->isPreviewable()) {
         // show a missing image icon (?) for files that cannot be previewed
-        return 'data:image/png;base64...gg-1.5==';
+        return 'data:image/png;base64...gap-1.5==';
     }
-
-
 
 ### Mount the resources or create a blank model
 
@@ -46,7 +44,6 @@ Depending on the route, the Livewire component will either mount a resource and 
 
 The `$tmpImage` variable is set in the trait as there will be no need to manually use it. ??
 
-The image paramt
 
 2. Set the `$disk` or leave blank for `public`  ????
 

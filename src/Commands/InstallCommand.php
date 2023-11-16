@@ -35,7 +35,6 @@ class InstallCommand extends Command
                 // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
                 "@erbelion/vite-plugin-laravel-purgecss" => "github:naykel76/vite-plugin-laravel-purgecss",
                 "@fullhuman/postcss-purgecss" => "^5.0.0",
-                "alpinejs" => "^3.10.2",
                 "nk_jtb" => "file:~/sites/nk_jtb",
                 "sass" => "1.60.0",
                 'autoprefixer' => '^10.4.7',
@@ -57,7 +56,7 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/', public_path());
 
         // Resources...
-        (new Filesystem)->ensureDirectoryExists(resource_path('js'));
+        // (new Filesystem)->ensureDirectoryExists(resource_path('js'));
         (new Filesystem)->ensureDirectoryExists(resource_path('navs'));
         (new Filesystem)->ensureDirectoryExists(resource_path('scss'));
         (new Filesystem)->ensureDirectoryExists(resource_path('views'));

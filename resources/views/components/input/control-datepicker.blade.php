@@ -7,8 +7,8 @@
             {{ $for ? "name=$for id=$for" : null }}
             {{ $attributes->class(
                 [ 'bdr-red' => $errors->has( $for ),
-                 'bdrr-l-0 bdr-l-0' => $leadingAddon,
-                 'bdrr-r-0 bdr-r-0' => $trailingAddon, ]
+                 'rounded-l-0 bdr-l-0' => $leadingAddon,
+                 'rounded-r-0 bdr-r-0' => $trailingAddon, ]
                 )}} />
     </x-gotime::input.control-layout>
 

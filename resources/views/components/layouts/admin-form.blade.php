@@ -1,12 +1,12 @@
 <form wire:submit.prevent="save">
 
-    <div class="grid cols-75:25 container">
+    <div class="flex gap-2">
 
-        <div class="bx">
+        <div class="bx fg1">
             {{ $main }}
         </div>
 
-        <div>
+        <div class="w-18">
             {{ $aside }}
         </div>
 

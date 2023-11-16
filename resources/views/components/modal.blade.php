@@ -4,10 +4,9 @@
         $id = $id ?? md5($attributes->wire('model'));
 
         $maxWidth = [
-        'xs' => 'maxw300',
-        'sm' => 'maxw-400',
-        'md' => 'maxw-600',
-        'lg' => 'maxw-800',
+        'sm' => 'maxw-400px',
+        'md' => 'maxw-600px',
+        'lg' => 'maxw-md',
         'xl' => 'container',
         ][$maxWidth ?? 'md'];
 
