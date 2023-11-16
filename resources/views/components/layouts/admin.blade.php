@@ -28,10 +28,10 @@
 
     </div>
 
-    <main id="nk-main" class='grid cols-20:80 gg-0'>
+    <main id="nk-main" class=''>
 
         <aside class="bdr-r py light">
-            @includeFirst(['layouts.partials.admin-nav', 'gotime::layouts.partials.admin-nav'])
+            @includeFirst(['components.layouts.partials.admin-nav', 'gotime::components.layouts.partials.admin-nav'])
         </aside>
 
         <div {{ $attributes->class([$hasContainer ? 'container' : 'pxy-2']) }}>

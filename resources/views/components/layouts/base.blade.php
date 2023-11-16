@@ -6,7 +6,7 @@
 
     <head>
 
-        @includeFirst(['layouts.partials.head', 'gotime::layouts.partials.head'])
+        @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
 
     </head>
 
