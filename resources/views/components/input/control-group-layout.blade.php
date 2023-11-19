@@ -1,42 +1,38 @@
 @aware([ 'for' => null,
     'value' => null,
-    'tooltip' => false,
     'label' => null,
+    'tooltip' => false,
+    'ignoreErrors' => false,
     'helpText' => null,
+    'helpTextTop' => false,
     'rowClass' => null,
     'labelClass' => null,
-    'inline' => false,
-    'req' => false,
-    'ignoreErrors' => false ,])
+    'inline' => false ])
 
     <div class='frm-row  {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
         @isset($label)
-
             @if($tooltip)
-
                 <div class="flex va-c space-between">
-
                     <x-gt-label></x-gt-label>
                     <x-gt-tooltip class="danger"> {{ $tooltip }} </x-gt-tooltip>
-
                 </div>
-
             @else
-
                 <x-gt-label></x-gt-label>
-
             @endif
-
         @endisset
 
         <div class="flex-col w-full">
 
+            @if(isset($helpText) && $helpTextTop)
+                <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            @endif
+
             {{ $slot }}
 
-            @isset($helpText)
-                <div class="help mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
-            @endisset
+            @if(isset($helpText) && ! $helpTextTop)
+                <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            @endif
 
             @unless($ignoreErrors)
                 @error($for)
@@ -44,12 +40,6 @@
                 @enderror
             @endunless
 
-
-            {{-- <div class="frm-row">
-                <label for="error" class="txt-red">Your name</label>
-                <input type="text" id="error" class="danger-light" placeholder="Error input">
-                <p class="txt-red txt-sm">Bugger! Some error message.</p>
-            </div> --}}
         </div>
 
     </div>

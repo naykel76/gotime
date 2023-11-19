@@ -1,6 +1,6 @@
 <x-gotime-app-layout layout="{{ config('naykel.template') }}" hasContainer class="py-5-3-2-2">
 
-    <div class="flex gg-5-3-2 pxy">
+    <div class="flex gap-5-3-2 pxy">
 
         <div class="bx w-20 to-md:hide">
 

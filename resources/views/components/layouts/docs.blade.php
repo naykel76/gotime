@@ -24,15 +24,15 @@
 
     @if($hasContainer) <div class="container"> @endif
 
-        <main id="nk-main" {{ $attributes->class(['py-5-3-2-2', $hasAside ? 'grid cols-30:70 gg-5' : '']) }}>
+        <main id="nk-main" {{ $attributes->class(['py-2 md:py-5', $hasAside ? 'flex gap-5' : '']) }}>
 
             @isset($navigation)
-                <aside {{ $navigation->attributes }}>
+                <aside class="w-18 fs0" {{ $navigation->attributes }}>
                     {{ $navigation }}
                 </aside>
             @endisset
 
-            <div>
+            <div class="fg1">
                 {{ $slot }}
             </div>
 

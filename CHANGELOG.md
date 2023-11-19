@@ -2,9 +2,10 @@
 
 ## 0.15.0
 - Updated: to livewire 3 following the upgrade guide
-- Update: JTB classes
+- Updated: JTB classes
+- Updated: Input layout to place help text top or bottom of the control
 - Changed: `Naykel\Gotime\Http\Livewire` to `Naykel\Gotime\Livewire`
-- Changed: layouts location to components
+- Moved: layouts to components directory
 
 ## 0.14.5
 - Updated: JTB class
