@@ -121,6 +121,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('tooltip');
 
             // buttons
+            $this->registerComponentX('button-v2.submit', 'submit');
             $this->registerComponentX('button.button', 'button');
             $this->registerComponentX('button.create', 'button-create');
             $this->registerComponentX('button.delete', 'button-delete');
@@ -166,7 +167,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.label', 'label');
 
         // to be reviewed
-        $this->registerComponentX('input.submit', 'submit');
         $this->registerComponentX('input.textarea', 'textarea');
 
         // Combined Controls

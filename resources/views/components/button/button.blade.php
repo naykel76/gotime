@@ -6,6 +6,8 @@
     'noOpinion' => false
     ])
 
+
+{{-- THIS WILL BE DEPRECATED IN PLACE OF V2 --}}
 <button type="button" {{ $noOpinion ? $attributes : $attributes->merge(['class' => 'btn']) }}>
 
     @if($withIcon)
