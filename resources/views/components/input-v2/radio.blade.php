@@ -1,4 +1,4 @@
-@props(['controlOnly' => false, 'for' => null, 'options' => [] ])
+@props([ 'for' => null, 'controlOnly' => false, 'options' => [] ])
 
     @if($controlOnly)
         <x-gotime::input-v2.control-radio {{ $attributes }} />

@@ -171,13 +171,13 @@ class GotimeServiceProvider extends ServiceProvider
 
         // Combined Controls
         $this->registerComponentX('input-v2.radio', 'radio');
+        $this->registerComponentX('input-v2.select', 'select');
         $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.file');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.number');
         $this->registerComponentX('input.password');
-        $this->registerComponentX('input.select', 'select');
 
         // Other
         $this->registerComponentX('input.choices', 'choices');
