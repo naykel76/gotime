@@ -12,6 +12,6 @@
 @endif
 
 {{-- do not use control layout here, just style manually when the component is used --}}
-<x-gotime::button-v2.control-button {{ $attributes->merge(['type' => 'submit']) }} text="{{ $text ?? 'submit' }}">
+<x-gotime::button-v2.control-button {{ $attributes->merge(['type' => 'button']) }} text="{{ $text ?? 'Button' }}">
     {{ $slot }}
 </x-gotime::button-v2.control-button>

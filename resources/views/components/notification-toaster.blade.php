@@ -1,14 +1,14 @@
 <div x-data="{ show: false, message: '' }" x-show="show"
-    x-on:notify.window="show = true; message = $event.detail; setTimeout(() => { show = false }, 6000)">
+    x-on:notify.window="
+        show = true; message = $event.detail;
+        setTimeout(() => { show = false }, 3000)
+    "
+    x-transition x-transition:leave.duration.700ms>
 
-    <div class="success fixed pos-b pos-r mxy flex va-c space-between bx minw-300 z-top">
-
-        <x-gt-icon-tick-round class="fs0 txt-green" />
-
-        <div x-text="message" class="mx"></div>
-
-        <x-gt-icon-cross class="fs0 close" @click="show = false" />
-
+    <div class="bx pxy-1 fixed pos-b pos-r mxy flex va-c minw-16 z-top">
+        <x-gt-icon-tick-round class="txt-green" />
+        <div x-text="message" class="mx-1"></div>
+        <x-gt-icon-cross class="fs0 close icon ml-auto" @click="show = false" />
     </div>
 
 </div>

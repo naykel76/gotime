@@ -122,7 +122,7 @@ class GotimeServiceProvider extends ServiceProvider
 
             // buttons
             $this->registerComponentX('button-v2.submit', 'submit');
-            $this->registerComponentX('button.button', 'button');
+            $this->registerComponentX('button-v2.button', 'button');
             $this->registerComponentX('button.create', 'button-create');
             $this->registerComponentX('button.delete', 'button-delete');
             $this->registerComponentX('button.edit', 'button-edit');

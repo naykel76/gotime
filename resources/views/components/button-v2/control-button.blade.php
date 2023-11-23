@@ -12,8 +12,10 @@
         <x-dynamic-component :component="'gt-icon-' .$withIcon" class="icon {{ $iconClass }}" />
     @endif
 
-    @if($text != '')
-        <span>{{ $text }}</span>
+    {{-- check is there is slot content or text --}}
+    @if($text != '' || $slot->isNotEmpty())
+        {{-- if there is a slot, then use it instead of the text  --}}
+        <span>{{ $slot->isNotEmpty() ? $slot : ($text != '' ? $text : '') }}</span>
     @endif
 
 </button>
