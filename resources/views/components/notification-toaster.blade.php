@@ -3,7 +3,7 @@
         show = true; message = $event.detail;
         setTimeout(() => { show = false }, 3000)
     "
-    x-transition x-transition:leave.duration.700ms>
+    x-transition.out.opacity.duration.1000ms>
 
     <div class="bx pxy-1 fixed pos-b pos-r mxy flex va-c minw-16 z-top">
         <x-gt-icon-tick-round class="txt-green" />

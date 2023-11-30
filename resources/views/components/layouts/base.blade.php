@@ -24,7 +24,7 @@
 
         <x-gt-notification-toaster />
 
-        <livewire:scripts />
+        @livewireScripts
 
         @stack('scripts')
 

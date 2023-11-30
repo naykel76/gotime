@@ -32,7 +32,9 @@
                 </aside>
             @endisset
 
-            <div class="fg1">
+            {{-- style="min-width: 0; is to prevent the code blocks
+            overflowing because flexbox is being a dick! --}}
+            <div class="fg1" style="min-width: 0;">
                 {{ $slot }}
             </div>
 
