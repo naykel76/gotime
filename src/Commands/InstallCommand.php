@@ -35,7 +35,6 @@ class InstallCommand extends Command
                 // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
                 "@erbelion/vite-plugin-laravel-purgecss" => "github:naykel76/vite-plugin-laravel-purgecss",
                 "@fullhuman/postcss-purgecss" => "^5.0.0",
-                "alpinejs" => "^3.10.2",
                 "nk_jtb" => "file:~/sites/nk_jtb",
                 "sass" => "1.60.0",
                 'autoprefixer' => '^10.4.7',
@@ -57,12 +56,10 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/public/', public_path());
 
         // Resources...
-        (new Filesystem)->ensureDirectoryExists(resource_path('js'));
         (new Filesystem)->ensureDirectoryExists(resource_path('navs'));
         (new Filesystem)->ensureDirectoryExists(resource_path('scss'));
         (new Filesystem)->ensureDirectoryExists(resource_path('views'));
 
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/js', resource_path('js'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/navs', resource_path('navs'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/scss', resource_path('scss'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/resources/views', resource_path('views'));
@@ -71,7 +68,7 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../stubs/.env.example', base_path('.env.example'));
         copy(__DIR__ . '/../../stubs/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__ . '/../../stubs/vite.config.js', base_path('vite.config.js'));
-        copy(__DIR__ . '/../../stubs/readme.md', base_path('readme.md'));
+        copy(__DIR__ . '/../../stubs/readme.md', base_path('readme.md')); // updates the laravel readme.md
 
         // Routes...
         copy(__DIR__ . '/../../stubs/routes.php', base_path('routes/web.php'));

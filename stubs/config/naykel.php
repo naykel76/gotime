@@ -4,18 +4,6 @@ return [
 
     /**
      * ----------------------------------------------------------------------
-     * Registration Routes
-     * ----------------------------------------------------------------------
-     * Here you may specify if the Authit front-end registration routes and
-     * user pages should be disabled as you may not need them when building
-     * your own application. Admin routes and views are still available.
-     *
-     */
-
-    'allow_register' => env('NK_ALLOW_REGISTER', true),
-
-    /**
-     * ----------------------------------------------------------------------
      * Basic Settings
      * ----------------------------------------------------------------------
      *
