@@ -132,7 +132,7 @@ class GotimeServiceProvider extends ServiceProvider
 
             // layouts
             $this->registerComponentX('layouts.admin-form', 'admin-form');
-            Blade::component('gotime::layouts.base', 'gotime-layouts.base');
+            Blade::component('gotime::components.layouts.base', 'gotime-layouts.base');
 
             // table components
             $this->registerComponentX('table.th', 'table.th');

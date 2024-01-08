@@ -5,11 +5,10 @@
     <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
-
-        @includeFirst(['layouts.partials.head', 'gotime::layouts.partials.head'])
-
+        @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
     </head>
 
+    {{-- NK::TD make analytics optional in the config --}}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics_id') }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -24,10 +23,9 @@
 
         <x-gt-notification-toaster />
 
-        <livewire:scripts />
-
+        @livewireScripts
         @stack('scripts')
 
     </body>
 
-    </html>
+</html>

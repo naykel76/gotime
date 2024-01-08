@@ -11,30 +11,28 @@
         </div>
 
         <div class="flex">
-
             <nav> <a href="/" class="btn pink mr" target="blank">Home Page</a> </nav>
-
             <x-authit-account-dropdown class="pos-r" btn-class="txt-white">
-
                 <x-gt-menu menuname="user" filename="nav-admin" class="menu">
-
                     <x-authit::logout-link />
-
                 </x-gt-menu>
-
             </x-authit-account-dropdown>
-
         </div>
 
     </div>
 
-    <main id="nk-main" class='grid cols-20:80 gg-0'>
+    {{-- NK::TD make this layout responsive --}}
+    <main id="nk-main" class="flex">
 
         <aside class="bdr-r py light">
-            @includeFirst(['layouts.partials.admin-nav', 'gotime::layouts.partials.admin-nav'])
+            @includeFirst(['components.layouts.partials.admin-nav', 'gotime::components.layouts.partials.admin-nav'])
         </aside>
 
-        <div {{ $attributes->class([$hasContainer ? 'container' : 'pxy-2']) }}>
+        {{-- NK::REVIEW all admin views will have a container rather than a
+        flag to set. This is to make it easier when setting a Livewire layout
+        for a full page component. It is possible this can be changed when
+        moving to livewire 3! --}}
+        <div {{ $attributes->class(['container py-2']) }}>
             {{ $slot }}
         </div>
 
