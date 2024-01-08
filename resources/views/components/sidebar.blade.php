@@ -7,7 +7,7 @@
     <div x-show="open" x-on:click="open = !open" class="overlay"></div>
 
     <div class="sidebar transition w-20 light"
-        :class="{'-translate-x-full opacity-0':open === false, 'translate-x-0 opacity-100': open === true}">
+        :class="{'-translate-x-full opacity-0':open === false, 'translate-x-0 opacity-1': open === true}">
 
         @if(!isset($header))
             <div class="flex space-between px-075 py-05 va-c bdr-b">

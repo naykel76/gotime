@@ -117,8 +117,8 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('alert');
             $this->registerComponentX('icon'); // this is not the same as registerIconComponents
             $this->registerComponentX('loading-indicator');
-            $this->registerComponentX('notification-toaster');
             $this->registerComponentX('tooltip');
+            $this->registerComponentX('v2.toast', 'toast');
 
             // buttons
             $this->registerComponentX('v2.button.button', 'button');
@@ -129,13 +129,8 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('button.create', 'button-create');
             $this->registerComponentX('button.delete', 'button-delete');
             $this->registerComponentX('button.edit', 'button-edit');
+            $this->registerComponentX('button.save', 'button-save');
 
-            // $this->registerComponentX('v2.button.variants.create', 'button-create');
-            // $this->registerComponentX('v2.button.variants.delete', 'button-delete');
-            // $this->registerComponentX('v2.button.variants.edit', 'button-edit');
-            $this->registerComponentX('v2.button.variants.save', 'button-save');
-
-            $this->registerComponentX('button.quick-add');
             // layouts
             $this->registerComponentX('layouts.admin-form', 'admin-form');
             Blade::component('gotime::components.layouts.base', 'gotime-layouts.base');
