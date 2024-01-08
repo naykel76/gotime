@@ -121,15 +121,21 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('tooltip');
 
             // buttons
-            $this->registerComponentX('button.button', 'button');
+            $this->registerComponentX('v2.button.button', 'button');
+            $this->registerComponentX('v2.button.submit', 'submit');
+            $this->registerComponentX('v2.button.variants.primary', 'button-primary');
+            $this->registerComponentX('v2.button.variants.secondary', 'button-secondary');
+
             $this->registerComponentX('button.create', 'button-create');
             $this->registerComponentX('button.delete', 'button-delete');
             $this->registerComponentX('button.edit', 'button-edit');
-            $this->registerComponentX('button.primary', 'button-primary');
-            $this->registerComponentX('button.quick-add');
-            $this->registerComponentX('button.save', 'button-save');
-            $this->registerComponentX('button.secondary', 'button-secondary');
 
+            // $this->registerComponentX('v2.button.variants.create', 'button-create');
+            // $this->registerComponentX('v2.button.variants.delete', 'button-delete');
+            // $this->registerComponentX('v2.button.variants.edit', 'button-edit');
+            $this->registerComponentX('v2.button.variants.save', 'button-save');
+
+            $this->registerComponentX('button.quick-add');
             // layouts
             $this->registerComponentX('layouts.admin-form', 'admin-form');
             Blade::component('gotime::components.layouts.base', 'gotime-layouts.base');
@@ -166,7 +172,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.label', 'label');
 
         // to be reviewed
-        $this->registerComponentX('input.submit', 'submit');
         $this->registerComponentX('input.textarea', 'textarea');
 
         // Combined Controls
