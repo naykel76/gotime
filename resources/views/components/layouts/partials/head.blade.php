@@ -6,6 +6,9 @@
 <link rel="icon" type="image/x-icon" href="{{ config('naykel.favicon') }}">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
+{{-- NK::TD remove this when upgrading to livewire 3 --}}
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 
 <livewire:styles />
