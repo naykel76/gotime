@@ -1,19 +1,12 @@
 # Changelog
 
-- Updated: JTB classes
-- Livewire 3 upgrade
-    - Remove alpine from `package.json`
-    - Moved: layouts to components directory
-    - Updated: Livewire namespace
-- Updated: Input layout to place help text top or bottom of the control
-- Changed: `Naykel\Gotime\Http\Livewire` to `Naykel\Gotime\Livewire`
-
 ## 0.15.0
 - Moved: layouts to components directory
 - Removed unnecessary files from stubs
 - Removed: `allow_register` from config (moved to `authit` package)
 - Removed: `auth` layout (move to `authit` package)
 - Updated: installer command
+- Updated: components
 
 ## 0.14.5
 - Updated: JTB class
