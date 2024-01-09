@@ -80,7 +80,7 @@ trait WithCrud
         $this->afterPersistHook();
 
         // this fires a little quick
-        $this->dispatchBrowserEvent('notify', ($this->message ?? 'Saved!'));
+        $this->dispatch('notify', ($this->message ?? 'Saved!'));
 
         // the action is only required on the first save to redirect to the
         // edit form if need be. I am not sure how this will go with livewire
@@ -88,14 +88,14 @@ trait WithCrud
         $this->handleRedirect($redirectAction);
 
         $this->showModal = false;
-        // $this->emit('refreshComponent');
+        // $this->dispatch('refreshComponent');
     }
 
     public function delete($id, $redirectAction = null): void
     {
         self::$model::find($id)->delete();
         $this->reset('actionItemId');
-        $this->emit('refreshComponent');
+        $this->dispatch('refreshComponent');
 
         $redirectAction ? $this->handleRedirect($redirectAction) : null;
     }
@@ -156,7 +156,7 @@ trait WithCrud
         });
 
         // i am not sure this a good place to reset but it seems to work \o/
-        $this->dispatchBrowserEvent('pondReset');
+        $this->dispatch('pondReset');
         $this->reset(['tmpUpload']);
     }
 

@@ -119,6 +119,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('tooltip');
             $this->registerComponentX('v2.toast', 'toast');
+            $this->registerComponentX('v2.spinner', 'spinner');
 
             // buttons
             $this->registerComponentX('v2.button.button', 'button');

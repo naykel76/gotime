@@ -1,5 +1,18 @@
 # Changelog
 
+- Updated: Input layout to place help text top or bottom of the control
+- Changed: `Naykel\Gotime\Http\Livewire` to `Naykel\Gotime\Livewire`
+
+## 0.16.0
+- Upgraded: Livewire 3
+    - `wire:model` to `wire:model.live`
+    - `wire:model.defer` to `wire:model`
+    - `wire:model.lazy` to `wire:model.blur`
+    - `@entangle(...).defer` to `@entangle(...)`
+    - `@entangle(...)` to `@entangle(...).live`
+    - `emit()`, and `dispatchBrowserEvent()` to `dispatch()`
+- Updated: pagination layout
+
 ## 0.15.0
 - Moved: layouts to components directory
 - Removed unnecessary files from stubs

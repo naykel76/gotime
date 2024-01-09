@@ -8,7 +8,7 @@
         @endisset
 
         <div {{ $attributes->class(['w-full', 'bdr bdr-red' => $errors->has( $for )])->whereDoesntStartWith('wire:model') }}
-            x-data="{ value: @entangle($attributes->wire('model')).defer }" x-cloak
+            x-data="{ value: @entangle($attributes->wire('model')) }" x-cloak
             x-init="
                 ClassicEditor.create(document.querySelector('#{{ $editorId }}'))
                     .then(editor => {

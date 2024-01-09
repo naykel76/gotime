@@ -4,33 +4,33 @@
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
-</head>
+    <head>
+        @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
+    </head>
 
-{{-- NK::TD make analytics optional in the config --}}
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics_id') }}"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
+    {{-- NK::TD make analytics optional in the config --}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics_id') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', '{{ config('services.analytics_id') }}', {
-        cookie_flags: 'SameSite=None;Secure'
-    });
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', '{{ config('services.analytics_id') }}', {
+            cookie_flags: 'SameSite=None;Secure'
+        });
+    </script>
 
-<body {{ $attributes }}>
+    <body {{ $attributes }}>
 
-    {{ $slot }}
+        {{ $slot }}
 
-    <x-gt-toast />
+        <x-gt-toast />
 
-    @livewireScripts
+        @livewireScripts
         @stack('scripts')
 
-</body>
+    </body>
 
 </html>

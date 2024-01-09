@@ -61,7 +61,7 @@ Do not define a variable data type that is a file as a `string`. Why? It's a fil
 ## CkEditor
 
     <div wire:ignore class="frm-row">
-        <textarea wire:model.lazy="editing.description" name="editing.description" id="ckeditor"></textarea>
+        <textarea wire:model.blur="editing.description" name="editing.description" id="ckeditor"></textarea>
     </div>
 
     @push('scripts')
