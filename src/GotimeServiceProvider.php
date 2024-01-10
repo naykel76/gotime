@@ -115,7 +115,6 @@ class GotimeServiceProvider extends ServiceProvider
             // other
             $this->registerComponentX('accordion');
             $this->registerComponentX('alert');
-            $this->registerComponentX('icon'); // this is not the same as registerIconComponents
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('tooltip');
             $this->registerComponentX('v2.toast', 'toast');
@@ -137,7 +136,7 @@ class GotimeServiceProvider extends ServiceProvider
             Blade::component('gotime::components.layouts.base', 'gotime-layouts.base');
 
             // table components
-            $this->registerComponentX('table.th', 'table.th');
+            $this->registerComponentX('v2.table.th', 'table.th');
 
             // toolbars
             $this->registerComponentX('toolbar.search-sort-toolbar', 'search-sort-toolbar');
@@ -156,9 +155,13 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerIconComponents()
     {
-        $this->createComponentsFromDirectory('icon'); // base directory
-        $this->createComponentsFromDirectory('icon/payment');
-        $this->createComponentsFromDirectory('icon/logos');
+        $this->createIconComponents('icon'); // base directory
+        $this->createIconComponents('icon/payment');
+        $this->createIconComponents('icon/logos');
+
+        $this->createIconComponents('v2/icon/solid');
+
+        $this->registerComponentX('icon'); // this is not the same as registerIconComponents
     }
 
     protected function registerFormComponents(): void
@@ -193,7 +196,7 @@ class GotimeServiceProvider extends ServiceProvider
     /**
      * Loop through directory to create icon components
      */
-    protected function createComponentsFromDirectory(string $dir = ''): void
+    protected function createIconComponents(string $dir = ''): void
     {
 
         $filesInFolder = \File::files(__dir__ . "/../resources/views/components/$dir");

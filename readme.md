@@ -93,15 +93,15 @@ Do not define a variable data type that is a file as a `string`. Why? It's a fil
 
 ##### Step 2. change extension from `svg` to `blade.php`
 
-You can batch update the file extensions by running the following command in the `resources/views/components` directory.
+You can batch update the file extensions by running the following commands.
 
 ```bash
-for i in *.svg; do mv -- "$i" "${i%.svg}.blade.php"; done
+# updates all files in the directory from `svg` to `blade.php`
+find . -name "*.svg" -type f -exec bash -c 'mv -- "$0" "${0%.svg}.blade.php"' {} \;
 
-find ./resources/views/components/icon -type f -name "*.svg" -exec bash -c 'mv -- "$1" "${1%.svg}.blade.php"' _ {} \;
-
+# resources/views/components/v2/icon
 # this is pretty wild, and updates regardless
-find ./resources/views/components/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g' {} +
+find ./resources/views/components/v2/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g' {} +
 
 # this should only update if there is a change
 find ./resources/views/components/icon -type f -name "*.blade.php" -exec grep -q '<svg xmlns="http://www.w3.org/2000/svg"' {} \; -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www.w3.org\/2000\/svg"/g' {} +
