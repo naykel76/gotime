@@ -1,5 +1,5 @@
 {{-- Icons are not set up for this component so there is no need to use
-    the `control-layout` --}}
+    the `layout-control-only` --}}
 
 @aware(['for' => null, 'placeholder' => null])
 

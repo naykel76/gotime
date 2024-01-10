@@ -1,9 +1,9 @@
 @props(['controlOnly' => false])
 
 @if($controlOnly)
-    <x-gotime::input.control-input {{ $attributes->merge(['type' => 'email']) }} />
+    <x-gotime::input.layout-control-only {{ $attributes->merge(['type' => 'email']) }} />
 @else
-    <x-gotime::input.control-group-layout>
-        <x-gotime::input.control-input {{ $attributes->merge(['type' => 'email']) }} />
-    </x-gotime::input.control-group-layout>
+    <x-gotime::v2.input.layout-control-group>
+        <x-gotime::input.layout-control-only {{ $attributes->merge(['type' => 'email']) }} />
+    </x-gotime::v2.input.layout-control-group>
 @endif

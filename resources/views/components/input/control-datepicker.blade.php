@@ -1,7 +1,7 @@
 @aware(['leadingAddon', 'trailingAddon', 'for' => null])
 
     {{-- the control layout manages the addons --}}
-    <x-gotime::input.control-layout>
+    <x-gotime::input.layout-control-only>
         <input x-data x-ref="datepicker" x-on:change="$dispatch('input', $el.value)"
             x-init="new Pikaday({ field: $refs.datepicker, format: 'DD-MM-YYYY' })"
             {{ $for ? "name=$for id=$for" : null }}
@@ -10,7 +10,7 @@
                  'bdrr-l-0 bdr-l-0' => $leadingAddon,
                  'bdrr-r-0 bdr-r-0' => $trailingAddon, ]
                 )}} />
-    </x-gotime::input.control-layout>
+    </x-gotime::input.layout-control-only>
 
     {{-- @if(old($for) || $value) value="{{ old($for) ? old($for) : ($value) }}" @endif --}}
 

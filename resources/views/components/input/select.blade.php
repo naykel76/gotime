@@ -8,12 +8,12 @@
             {{ $slot }}
         </select>
     @else
-        <x-gotime::input.control-group-layout>
+        <x-gotime::v2.input.layout-control-group>
             <select {{ $for ? "name=$for id=$for" : null }} {{ $attributes->class(['bdr-red' => $errors->has( $for )]) }}>
                 @if($placeholder)
                     <option disabled selected value="">{{ $placeholder }}</option>
                 @endif
                 {{ $slot }}
             </select>
-        </x-gotime::input.control-group-layout>
+        </x-gotime::v2.input.layout-control-group>
     @endif

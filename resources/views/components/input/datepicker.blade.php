@@ -17,7 +17,7 @@
             {{-- control only can still include icons, (no errors) --}}
             <x-gotime::input.control-datepicker {{ $attributes }} />
         @else
-            <x-gotime::input.control-group-layout>
+            <x-gotime::v2.input.layout-control-group>
                 <x-gotime::input.control-datepicker {{ $attributes }} />
-            </x-gotime::input.control-group-layout>
+            </x-gotime::v2.input.layout-control-group>
         @endif
