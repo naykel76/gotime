@@ -12,6 +12,7 @@
     - `@entangle(...)` to `@entangle(...).live`
     - `emit()`, and `dispatchBrowserEvent()` to `dispatch()`
 - Updated: pagination layout
+- Updated: return value to float for `MoneyCast`
 
 ## 0.15.0
 - Moved: layouts to components directory

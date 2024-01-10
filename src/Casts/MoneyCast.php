@@ -3,21 +3,22 @@
 namespace Naykel\Gotime\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Database\Eloquent\Model;
 
 class MoneyCast implements CastsAttributes
 {
     /**
-     * Cast the given value from cents to dollars
+     * Cast the given integer value (cents) to a float (dollars)
      */
-    public function get($model, $key, $value, $attributes)
+    public function get(Model $model, string $key, mixed $value, array $attributes): float
     {
-        return number_format($value / 100, 2, '.', '');
+        return round($value / 100, 2);
     }
 
     /**
-     * Converts dollars to cents of storage.
+     * Prepare the given float value (dollars) for storage as an integer (cents)
      */
-    public function set($model, $key, $value, $attributes)
+    public function set(Model $model, string $key, mixed $value, array $attributes): int
     {
         return $value * 100;
     }

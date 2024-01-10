@@ -28,6 +28,7 @@
         ],
         "psr-4": {
             "Naykel\\Gotime\\": "src/",
+            "Naykel\\Gotime\\Enums\\": "src/Enums",
             "Routebuilder\\": "Naykel\\Gotime\\Routebuilder"
         }
     },
