@@ -4,6 +4,7 @@
 - Changed: `Naykel\Gotime\Http\Livewire` to `Naykel\Gotime\Livewire`
 
 ## 0.16.0
+- Added: `Sortable` and `Searchable` traits
 - Upgraded: Livewire 3
     - `wire:model` to `wire:model.live`
     - `wire:model.defer` to `wire:model`
