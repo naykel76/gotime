@@ -4,16 +4,17 @@
         $id = $id ?? md5($attributes->wire('model'));
 
         $maxWidth = [
-        'sm' => 'maxw-400px',
-        'md' => 'maxw-600px',
-        'lg' => 'maxw-md',
+        'xs' => 'container-xs',
+        'sm' => 'container-sm',
+        'md' => 'container-md',
+        'lg' => 'container-lg',
         'xl' => 'container',
-        ][$maxWidth ?? 'md'];
+        ][$maxWidth ?? 'xs'];
 
     @endphp
 
     <div
-        x-data="{ show: @entangle($attributes->wire('model')) }"
+        x-data="{ show: @entangle($attributes->wire('model')).live }"
         x-on:close.stop="show = false"
         x-on:keydown.escape.window="show = false"
         x-show="show"

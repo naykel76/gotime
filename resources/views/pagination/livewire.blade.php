@@ -44,4 +44,9 @@
             </span>
         </nav>
     </div>
+
+@else
+    <div class="fw6 txt-sm">
+        Results: {{ \Illuminate\Support\Number::format($paginator->total()) }}
+    </div>
 @endif

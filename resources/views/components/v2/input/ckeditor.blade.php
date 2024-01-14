@@ -2,13 +2,16 @@
 
     <div class='frm-row {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
+
+
+        {{-- {{ dd($wire) }} --}}
         @isset($label)
             <label for="{{ $for }}">
                 {{ Str::title($label) }} @if ($req) <span class='txt-red'>*</span> @endif </label>
         @endisset
 
         <div {{ $attributes->class(['w-full', 'bdr bdr-red' => $errors->has( $for )])->whereDoesntStartWith('wire:model') }}
-            x-data="{ value: @entangle($attributes->wire('model')) }" x-cloak
+            x-data="{ value: @entangle($attributes->wire('model')).defer }" x-cloak
             x-init="
                 ClassicEditor.create(document.querySelector('#{{ $editorId }}'))
                     .then(editor => {

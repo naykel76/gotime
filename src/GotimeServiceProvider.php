@@ -173,22 +173,23 @@ class GotimeServiceProvider extends ServiceProvider
         // to be reviewed
         $this->registerComponentX('input.textarea', 'textarea');
 
-        // Control groups
+        // Form components
         $this->registerComponentX('input.checkbox', 'checkbox');
+        $this->registerComponentX('input.choices', 'choices');
+        $this->registerComponentX('input.datepicker', 'datepicker');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.file');
+        $this->registerComponentX('input.filepond', 'filepond');
         $this->registerComponentX('input.number');
         $this->registerComponentX('input.password');
-        $this->registerComponentX('input.select', 'select');
+        $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
+        $this->registerComponentX('v2.input.ckeditor-full', 'ckeditor-full');
         $this->registerComponentX('v2.input.input', 'input');
+        $this->registerComponentX('v2.input.select', 'select');
+        $this->registerComponentX('v2.input.trix', 'trix');
 
-        // Other
-        $this->registerComponentX('input.choices', 'choices');
-        $this->registerComponentX('input.ckeditor', 'ckeditor');
-        $this->registerComponentX('input.ckeditor-full', 'ckeditor-full');
-        $this->registerComponentX('input.datepicker', 'datepicker');
-        $this->registerComponentX('input.filepond', 'filepond');
-        $this->registerComponentX('input.trix', 'trix');
+        // Livewire special components
+        $this->registerComponentX('v2.livewire-search-input', 'search-input', 'gtl');
     }
 
 
@@ -228,10 +229,15 @@ class GotimeServiceProvider extends ServiceProvider
     /**
      * @param string $component (path and name)
      * @param string $alias use when component name and path are !=
+     * @param string $prefix (gtl for special livewire components)
      */
-    protected function registerComponentX(string $component, string $alias = null): void
+    protected function registerComponentX(string $component, string $alias = null, string $prefix = 'gt'): void
     {
-        Blade::component('gotime::components.' . $component, 'gt-' . ($alias ?? $component));
+        // if($prefix == 'gtl'){
+        //     dd('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
+        // }
+        // Blade::component('gotime::components.' . $component, 'gt-' . ($alias ?? $component));
+        Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
 
     /**
