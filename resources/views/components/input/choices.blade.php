@@ -4,7 +4,7 @@
     @if($controlOnly)
         <x-gotime::input.control-choices {{ $attributes }}>{{ $slot }}</x-gotime::input.control-choices>
     @else
-        <x-gotime::v2.input.layout-control-group>
+        <x-gt-control-group>
             <x-gotime::input.control-choices {{ $attributes }}>{{ $slot }}</x-gotime::input.control-choices>
-        </x-gotime::v2.input.layout-control-group>
+        </x-gt-control-group>
     @endif

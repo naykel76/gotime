@@ -3,7 +3,7 @@
 @if($controlOnly)
     <x-gotime::input.layout-control-only {{ $attributes->merge(['type' => 'email']) }} />
 @else
-    <x-gotime::v2.input.layout-control-group>
+    <x-gt-control-group>
         <x-gotime::input.layout-control-only {{ $attributes->merge(['type' => 'email']) }} />
-    </x-gotime::v2.input.layout-control-group>
+    </x-gt-control-group>
 @endif

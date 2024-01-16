@@ -5,9 +5,9 @@
         {{ $attributes->class(['bdr-red' => $errors->has( $for )]) }}>
     </textarea>
 @else
-    <x-gotime::v2.input.layout-control-group>
+    <x-gt-control-group>
         <textarea {{ $for ? "name=$for id=$for" : null }}
             {{ $attributes->class(['bdr-red' => $errors->has( $for )]) }}>
     </textarea>
-    </x-gotime::v2.input.layout-control-group>
+    </x-gt-control-group>
 @endif

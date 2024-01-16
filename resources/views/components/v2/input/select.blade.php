@@ -5,7 +5,7 @@
         {{ $slot }}
     </x-gotime::v2.input.control-select>
 @else
-    <x-gotime::v2.input.layout-control-group>
+    <x-gt-control-group>
         <x-gotime::v2.input.control-select {{ $attributes }}>
 
         @foreach($options as $key => $value)
@@ -14,5 +14,5 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </x-gotime::v2.input.control-select>
-    </x-gotime::v2.input.layout-control-group>
+    </x-gt-control-group>
 @endif
