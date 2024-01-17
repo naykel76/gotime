@@ -1,8 +1,5 @@
 # Changelog
 
-- Updated: Input layout to place help text top or bottom of the control
-- Changed: `Naykel\Gotime\Http\Livewire` to `Naykel\Gotime\Livewire`
-
 ## 0.16.0
 - Added: `Sortable` and `Searchable` traits
 - Upgraded: Livewire 3

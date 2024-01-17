@@ -35,7 +35,7 @@ class InstallCommand extends Command
                 // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
                 "@erbelion/vite-plugin-laravel-purgecss" => "github:naykel76/vite-plugin-laravel-purgecss",
                 "@fullhuman/postcss-purgecss" => "^5.0.0",
-                "nk_jtb" => "file:~/sites/nk_jtb",
+                "nk_jtb" => "^0.9.1",
                 "sass" => "1.60.0",
                 'autoprefixer' => '^10.4.7',
                 'postcss' => '^8.4.14',
