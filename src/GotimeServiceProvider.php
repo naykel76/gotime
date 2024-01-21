@@ -7,9 +7,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
 use Naykel\Gotime\Commands\InstallCommand;
+
+use Naykel\Gotime\View\Components\Menu;
+use Naykel\Gotime\View\Components\Icon;
 use Naykel\Gotime\View\Components\Parsedown;
 use Naykel\Gotime\View\Components\Sidebar;
-use Naykel\Gotime\View\Components\Menu;
 use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
@@ -53,6 +55,7 @@ class GotimeServiceProvider extends ServiceProvider
         ]);
 
         $this->loadViewComponentsAs('gt', [
+            Icon::class,
             Menu::class,
             Parsedown::class,
             Sidebar::class,
@@ -153,13 +156,12 @@ class GotimeServiceProvider extends ServiceProvider
         });
     }
 
+    // DEPRECIATED
     protected function registerIconComponents()
     {
-        $this->createIconComponents('icon'); // base directory
-        $this->createIconComponents('icon/payment');
-        $this->createIconComponents('icon/logos');
-
-        $this->createIconComponents('v2/icon/solid');
+        $this->registerIconComponentsFromDirectory('icon'); // base directory
+        $this->registerIconComponentsFromDirectory('icon/payment');
+        $this->registerIconComponentsFromDirectory('icon/logos');
 
         $this->registerComponentX('icon'); // this is not the same as registerIconComponents
     }
@@ -193,37 +195,26 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.livewire-search-input', 'search-input', 'gtl');
     }
 
-
-
     /**
-     * Loop through directory to create icon components
+     * Loop through the directory and register all the components
      */
-    protected function createIconComponents(string $dir = ''): void
+    protected function registerIconComponentsFromDirectory(string $dir): void
     {
-
         $filesInFolder = \File::files(__dir__ . "/../resources/views/components/$dir");
 
         foreach ($filesInFolder as $path) {
-            $fileInfo = pathinfo($path);
-
-            // for reasons I do not understand you can not strip the period
-            // from the components root directory so it needs to be removed
-            // separately
-            $component = rtrim($fileInfo['filename'], 'blade');
-            $component = rtrim($component, '.');
-
+            // Remove the '.blade.php' extension from the filename
+            $component = basename($path, '.blade.php');
             $this->registerIconComponent($component, $dir);
         }
     }
 
-
-    protected function registerIconComponent(string $component, string $dir = '', string $prefix = 'gt-icon-'): void
+    protected function registerIconComponent(string $component, string $dir, string $prefix = 'gt-icon-'): void
     {
         if (!empty($dir)) {
             $dir = ".$dir";
         }
-
-        Blade::component("gotime::components" . "$dir.$component", $prefix . $component);
+        Blade::component("gotime::components{$dir}.{$component}", "{$prefix}{$component}");
     }
 
 
@@ -234,10 +225,6 @@ class GotimeServiceProvider extends ServiceProvider
      */
     protected function registerComponentX(string $component, string $alias = null, string $prefix = 'gt'): void
     {
-        // if($prefix == 'gtl'){
-        //     dd('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
-        // }
-        // Blade::component('gotime::components.' . $component, 'gt-' . ($alias ?? $component));
         Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
 

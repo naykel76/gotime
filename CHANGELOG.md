@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.17.0
+- Added: component based icons
+- Added: v2 icons (heroicons)
+- Update: gotime layout and component icons
+
 ## 0.16.0
 - Added: `Sortable` and `Searchable` traits
 - Upgraded: Livewire 3

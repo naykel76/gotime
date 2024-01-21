@@ -5,7 +5,7 @@
         @isset($title)
             <div {{ $title->attributes->class(['bx-title flex va-c space-between']) }}>
                 {{ $title }}
-                <x-gt-icon-cross wire:click="$toggle('showModal')" class="close sm" />
+                <x-gt-icon name="x-mark" wire:click="$toggle('showModal')" class="close sm" />
             </div>
         @endisset
 

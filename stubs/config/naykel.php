@@ -31,6 +31,18 @@ return [
 
     /**
      * ----------------------------------------------------------------------
+     * Component Settings
+     * ----------------------------------------------------------------------
+     * These values are the default settings for the components.
+     */
+    'component' => [
+        'icon' => [
+            'style' => env('NK_ICON_STYLE', 'outline')
+        ],
+    ],
+
+    /**
+     * ----------------------------------------------------------------------
      * Contact Page (contactit package)
      * ----------------------------------------------------------------------
      * if false, prevents 'contact' route creation. Used on applications where

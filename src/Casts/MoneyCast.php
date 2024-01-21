@@ -20,6 +20,6 @@ class MoneyCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): int
     {
-        return $value * 100;
+        return empty($value) ? 0 : $value * 100;
     }
 }

@@ -1,1 +1,1 @@
-<svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M0,0V20H20V0ZM16.9,16.207H3.1V14.828H16.9Zm0-5.517H3.1V9.31H16.9Zm0-5.517H3.1V3.793H16.9Z"/></svg>
+<svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20"><path d="M0,0V20H20V0ZM16.9,16.207H3.1V14.828H16.9Zm0-5.517H3.1V9.31H16.9Zm0-5.517H3.1V3.793H16.9Z"/></svg>

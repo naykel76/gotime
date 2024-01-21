@@ -2,7 +2,7 @@
 
     <x-slot name="toggle">
         <button {{ $attributes->merge(['class' => 'btn pxy-05']) }} x-on:click="open = true">
-            <x-gt-icon-menu class="icon" />
+            <x-gt-icon name="bars-3" />
         </button>
     </x-slot>
 

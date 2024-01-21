@@ -29,8 +29,8 @@
                             <x-gotime::menu-icon-selector :$withIcons :$item :$iconClass />
                             {{ $item->name }}
                         </span>
-                        <x-gt-icon-caret-down x-cloak x-show="!open" />
-                        <x-gt-icon-caret-up x-cloak x-show="open" />
+                        <x-gt-icon name="chevron-down" class="wh-1" x-cloak x-show="!open" />
+                        <x-gt-icon name="chevron-up" class="wh-1" x-cloak x-show="open" />
                     </a>
                 </div>
 

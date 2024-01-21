@@ -84,27 +84,16 @@ Do not define a variable data type that is a file as a `string`. Why? It's a fil
 
 ## Adding New Icons
 
-**For consistency:**
 
-- icons should be saved 20 high
-- icons should not have any fill color
-
-##### Step 1. Save SVG files in `resources/views/components/icon`.
-
-##### Step 2. change extension from `svg` to `blade.php`
-
-You can batch update the file extensions by running the following commands.
-
+1. update extension `svg` to `blade.php`
 ```bash
-# updates all files in the directory from `svg` to `blade.php`
-find . -name "*.svg" -type f -exec bash -c 'mv -- "$0" "${0%.svg}.blade.php"' {} \;
+find ./resources/views/components/v2/icon -name "*.svg" -type f -exec bash -c 'mv -- "$0" "${0%.svg}.blade.php"' {} \;
+```
 
-# resources/views/components/v2/icon
-# this is pretty wild, and updates regardless
-find ./resources/views/components/v2/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g' {} +
+1. add `$attributes`, `width` and `height`
+```bash
+find ./resources/views/components/v2/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="24" height="24"/g' {} +
 
-# this should only update if there is a change
-find ./resources/views/components/icon -type f -name "*.blade.php" -exec grep -q '<svg xmlns="http://www.w3.org/2000/svg"' {} \; -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www.w3.org\/2000\/svg"/g' {} +
 ```
 
 ##### Step 3. Remove fill color

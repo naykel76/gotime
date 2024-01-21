@@ -17,7 +17,7 @@ inputs. This may not work for all use cases but it ticks the box for now!
     x-on:mouseenter="open=true" x-on:mouseleave="open=false">
 
     <div class="flex {{ $position }}">
-        <x-gt-icon-help class="txt-muted" />
+        <x-gt-icon name="question-mark-circle" class="txt-muted" />
     </div>
 
     <div class="absolute pos-r minw-18 z-100 bx pxy-075 mt-05 txt-sm fw4 bg-stone-50" x-show="open"

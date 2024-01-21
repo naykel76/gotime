@@ -8,7 +8,7 @@
     {{ $slot }}
 
     @if($isParent)
-        <x-gt-icon-caret-down class="ml-025" />
+        <x-gt-icon name="chevron-down" class="wh-1 ml-025" />
     @endif
 
 </a>
