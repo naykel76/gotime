@@ -7,10 +7,7 @@
 @else
     <x-gt-control-group>
         <x-gotime::v2.input.control-select {{ $attributes }}>
-
-        @foreach($options as $key => $value)
-        {{-- {{ dd($key) }} --}}
-
+            @foreach($options as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </x-gotime::v2.input.control-select>
