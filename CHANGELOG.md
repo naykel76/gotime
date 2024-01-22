@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.17.0
+- Added: Crudable trait
 - Added: component based icons
 - Added: v2 icons (heroicons)
 - Update: gotime layout and component icons

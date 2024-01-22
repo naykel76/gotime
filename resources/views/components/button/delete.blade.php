@@ -3,10 +3,8 @@
 <button type="button" {{ $attributes->merge(['class' => 'btn danger']) }}>
 
     @if($withIcon || $iconOnly)
-        @php
-            $withIcon = is_string($withIcon) ? $withIcon : 'trash-o';
-        @endphp
-        <x-dynamic-component :component="'gt-icon-' .$withIcon" class="icon {{ $iconClass }}" />
+        <?php $withIcon = is_string($withIcon) ? $withIcon : 'trash'; ?>
+        <x-gt-icon name="{{ $withIcon }}" class="icon {{ $iconClass }}" />
     @endif
 
     @unless($iconOnly)

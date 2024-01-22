@@ -30,7 +30,7 @@
         <div>
             @if(Route::has("$routePrefix.index"))
                 <a href="{{ route("$routePrefix.index") }}" class="btn txt-upper dark">
-                    <x-gt-icon-exit class="icon" /> <span>{{ dotLastSegment($routePrefix) }} Table</span>
+                    <x-gt-icon name="exit" class="icon" /> <span>{{ dotLastSegment($routePrefix) }} Table</span>
                 </a>
             @endif
         </div>

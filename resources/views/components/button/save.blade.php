@@ -3,10 +3,8 @@
 <button type="button" {{ $attributes->merge(['class' => 'btn primary']) }}>
 
     @if($withIcon || $iconOnly)
-        @php
-            $withIcon = is_string($withIcon) ? $withIcon : 'save-o';
-        @endphp
-        <x-dynamic-component :component="'gt-icon-' .$withIcon" class="icon {{ $iconClass }}" />
+        <?php $withIcon = is_string($withIcon) ? $withIcon : 'arrow-path';?>
+        <x-gt-icon name="{{ $withIcon }}" class="icon {{ $iconClass }}" />
     @endif
 
     @unless($iconOnly)

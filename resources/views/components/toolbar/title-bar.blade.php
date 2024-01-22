@@ -14,7 +14,7 @@
 
     <div>
         <a class="btn primary" href="{{ route("$routePrefix.create") }}">
-            <x-gt-icon-plus-round class="icon" /> <span>{{ $buttonText ?? 'Add ' . ucfirst(Str::singular($resource)) }}</span>
+            <x-gt-icon name="plus-circle" class="icon" /> <span>{{ $buttonText ?? 'Add ' . ucfirst(Str::singular($resource)) }}</span>
         </a>
         {{ $slot }}
     </div>

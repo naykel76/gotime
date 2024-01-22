@@ -10,7 +10,11 @@ class Icon extends Component
 
     public array $icons = [
         'arrow-down-tray' => ['download'],
+        'arrow-path' => ['refresh'],
+        'arrow-right-end-on-rectangle' => ['enter'],
+        'arrow-right-start-on-rectangle' => ['exit'],
         'arrow-up-tray' => ['upload'],
+        'magnifying-glass' => ['search'],
         'x-mark' => ['close', 'cross']
     ];
 
