@@ -175,7 +175,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.input.partials.control-group', 'control-group');
 
         // Form Controls and Inputs
-        $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.choices', 'choices');
         $this->registerComponentX('input.datepicker', 'datepicker');
         $this->registerComponentX('input.email');
@@ -184,10 +183,12 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.number');
         $this->registerComponentX('input.password');
         $this->registerComponentX('input.textarea', 'textarea');
+        $this->registerComponentX('v2.input.checkbox', 'checkbox');
         $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
         $this->registerComponentX('v2.input.ckeditor-basic', 'ckeditor-basic');
         $this->registerComponentX('v2.input.ckeditor-inline', 'ckeditor-inline');
         $this->registerComponentX('v2.input.input', 'input');
+        $this->registerComponentX('v2.input.radio', 'radio');
         $this->registerComponentX('v2.input.select', 'select');
         $this->registerComponentX('v2.input.trix', 'trix');
 
