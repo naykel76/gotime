@@ -178,7 +178,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.choices', 'choices');
         $this->registerComponentX('input.datepicker', 'datepicker');
         $this->registerComponentX('input.email');
-        $this->registerComponentX('input.file');
         $this->registerComponentX('input.filepond', 'filepond');
         $this->registerComponentX('input.number');
         $this->registerComponentX('input.password');
@@ -187,6 +186,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
         $this->registerComponentX('v2.input.ckeditor-basic', 'ckeditor-basic');
         $this->registerComponentX('v2.input.ckeditor-inline', 'ckeditor-inline');
+        $this->registerComponentX('v2.input.file-input', 'file-input');
         $this->registerComponentX('v2.input.input', 'input');
         $this->registerComponentX('v2.input.radio', 'radio');
         $this->registerComponentX('v2.input.select', 'select');
