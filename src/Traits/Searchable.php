@@ -15,12 +15,23 @@ trait Searchable
         $this->gotoPage(1);
     }
 
+    /**
+     * Apply the search query to the query.
+     */
     protected function applySearch($query)
     {
-        return $this->search === ''
-            ? $query
-            : $query
-            ->where('number', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%');
+        if (!isset($this->searchableFields)) {
+            throw new \Exception('You must define a `$searchableFields` array in the ' . get_class($this) . ' component');
+        }
+
+        if ($this->search === '') {
+            return $query;
+        }
+
+        foreach ($this->searchableFields as $option) {
+            $query = $query->orWhere($option, 'like', '%' . $this->search . '%');
+        }
+
+        return $query;
     }
 }

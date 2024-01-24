@@ -1,11 +1,37 @@
-@props([ 'for' => null, 'controlOnly' => false, 'options' => [] ])
+@props([ 'for' => null, 'controlOnly' => false, 'options' => [],
+    'value' => null, 'label' => null, 'rowClass' => null,
+    'tooltip' => false,
+    'helpText' => null,
+    'helpTextTop' => false,
+    ])
 
-@if($controlOnly)
-    <x-gotime::v2.input.control-radio {{ $attributes }} />
-@else
-    <x-gotime::v2.input.partials.control-group>
-        @foreach($options as $key => $option)
-            <x-gotime::v2.input.control-radio {{ $attributes->merge(['value' => $key]) }} :$option />
-        @endforeach
-    </x-gotime::v2.input.partials.control-group>
-@endif
+    {{-- @aware([ 'inline' => false ]) --}}
+
+    @if($controlOnly)
+        <x-gotime::v2.input.control-radio {{ $attributes }} />
+    @else
+        <div class='frm-row {{ $rowClass }}'>
+
+            @if(isset($helpText) && $helpTextTop)
+                <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            @endif
+
+            <x-gt-label :tooltip="$tooltip ?? null" />
+
+            <div class="flex space-x w-full">
+                @foreach($options as $key => $option)
+                    <x-gotime::v2.input.control-radio {{ $attributes->merge(['value' => $key]) }} :$option />
+                @endforeach
+            </div>
+
+            @if(isset($helpText) && ! $helpTextTop)
+                <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            @endif
+
+            @error($for)
+                <small class="txt-red mt-025" role="alert"> {{ $message }} </small>
+            @enderror
+
+        </div>
+
+    @endif

@@ -1,4 +1,10 @@
-@aware([ 'for' => null, 'value' => null])
+@aware(['for', 'value' => null])
+
+@unless(isset($for))
+    @php
+        throw new Exception('The `$for` variable is not set on the form control.');
+    @endphp
+@endunless
 
 <x-gotime::v2.input.layout-control-only>
     <input {{ $for ? "name=$for id=$for" : null }}

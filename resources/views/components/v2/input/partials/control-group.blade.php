@@ -9,7 +9,7 @@
     'labelClass' => null,
     'inline' => false ])
 
-    <div class='frm-row  {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
+    <div class='frm-row {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
 
         <x-gt-label :tooltip="$tooltip ?? null" />
 
