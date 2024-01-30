@@ -30,6 +30,11 @@ class GotimeServiceProvider extends ServiceProvider
             __DIR__ . '/../stubs/config/naykel.php',
             'naykel'
         );
+
+        $this->app->singleton('filemanagement', function ($app) {
+            return new \Naykel\Gotime\Services\FileManagementService();
+        });
+
     }
 
     public function boot()
@@ -113,7 +118,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('markdown');
 
             // Notifications, Flash and Messages
-            $this->registerComponent('errors');
+            $this->registerComponentX('errors');
 
             // other
             $this->registerComponentX('accordion');
@@ -178,7 +183,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.choices', 'choices');
         $this->registerComponentX('input.datepicker', 'datepicker');
         $this->registerComponentX('input.email');
-        $this->registerComponentX('input.filepond', 'filepond');
         $this->registerComponentX('input.number');
         $this->registerComponentX('input.password');
         $this->registerComponentX('input.textarea', 'textarea');
@@ -187,6 +191,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.input.ckeditor-basic', 'ckeditor-basic');
         $this->registerComponentX('v2.input.ckeditor-inline', 'ckeditor-inline');
         $this->registerComponentX('v2.input.file-input', 'file-input');
+        $this->registerComponentX('v2.input.filepond', 'filepond');
         $this->registerComponentX('v2.input.input', 'input');
         $this->registerComponentX('v2.input.radio', 'radio');
         $this->registerComponentX('v2.input.select', 'select');

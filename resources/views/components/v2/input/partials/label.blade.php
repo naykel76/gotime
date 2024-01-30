@@ -7,10 +7,10 @@
     ])
 
     @if($tooltip)
-        <div class="flex va-c space-between mb-05">
+        <div class="flex va-c space-between mb-025">
     @endif
 
-    <label for="{{ $for }}" {{ $attributes }}>
+    <label for="{{ $for }}"  {{ $attributes->except('tooltip') }}>
         {{ Str::title($label) }}
         @if($req) <span class='txt-red'>*</span> @endif
     </label>

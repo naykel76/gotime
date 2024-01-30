@@ -11,7 +11,9 @@
 
     <div class='frm-row  {{ $rowClass }}'>
 
-        <x-gt-label :tooltip="$tooltip ?? null" />
+        @isset($label)
+            <x-gt-label :tooltip="$tooltip ?? null" />
+        @endisset
 
         <div class="flex-col w-full">
 

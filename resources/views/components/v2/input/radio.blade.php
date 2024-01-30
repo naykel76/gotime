@@ -16,7 +16,9 @@
                 <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
             @endif
 
-            <x-gt-label :tooltip="$tooltip ?? null" />
+            @isset($label)
+                <x-gt-label :tooltip="$tooltip ?? null" />
+            @endisset
 
             <div class="flex space-x w-full">
                 @foreach($options as $key => $option)

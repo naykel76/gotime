@@ -9,11 +9,13 @@
     'labelClass' => null,
     'inline' => false ])
 
-    <div class='frm-row {{ $inline ? 'inline' : '' }} {{ $rowClass }}'>
+    <div class='frm-row{{ $inline ? ' inline' : '' }} {{ $rowClass }}'>
 
-        <x-gt-label :tooltip="$tooltip ?? null" />
+        @isset($label)
+            <x-gt-label :tooltip="$tooltip ?? null" />
+        @endisset
 
-        <div class="flex-col w-full">
+        <div class="flex-col w-full my-0">
 
             @if(isset($helpText) && $helpTextTop)
                 <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>

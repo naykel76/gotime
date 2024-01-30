@@ -1,4 +1,4 @@
-<div x-data="{ show: false, message: '' }" x-show="show"
+<div x-data="{ show: false, message: '' }" x-show="show" x-cloak
     x-on:notify.window="
         show = true; message = $event.detail;
         setTimeout(() => { show = false }, 3000)

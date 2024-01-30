@@ -4,6 +4,7 @@
 - Added: Crudable trait
 - Added: component based icons
 - Added: v2 icons (heroicons)
+- Added: `FileManagement` service and facade
 - Update: gotime layout and component icons
 
 ## 0.16.0
