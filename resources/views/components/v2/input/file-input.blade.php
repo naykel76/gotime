@@ -1,9 +1,22 @@
-@props(['for', 'text', 'withIcon' => true, 'default' => false])
+@props(['for', 'text', 'withIcon' => true, 'default' => false,
+    // 'value' => null,
+    'label' => null,
+    'tooltip' => false,
+    // 'ignoreErrors' => false,
+    // 'helpText' => null,
+    // 'helpTextTop' => false,
+    // 'rowClass' => null,
+    // 'labelClass' => null,
+])
 
 {{-- make sure the `withIcon` value is a boolean --}}
 <?php $withIcon = filter_var($withIcon, FILTER_VALIDATE_BOOLEAN); ?>
 
 <div class="frm-row">
+    @isset($label)
+        <x-gt-label :tooltip="$tooltip ?? null" />
+    @endisset
+
     @if(!$default)
         {{-- adding the `for` attribute to the label makes for a bad day, so don't do it! --}}
         <label {{ $attributes->class('file') }}>
@@ -17,9 +30,24 @@
             <span> {{ $text ?? 'Select file...' }} </span>
         </label>
     @else
-        @isset($label)
-            <x-gt-label :tooltip="$tooltip ?? null" />
-        @endisset
-        <input {{ $attributes }} wire:model="image" type="file">
+        <input {{ $attributes }} name="{{ $for }}" type="file">
     @endif
+
+    @error($for)
+        <small class="txt-red" role="alert"> {{ $message }} </small>
+    @enderror
+
 </div>
+
+{{--
+
+        @if(isset($helpText) && $helpTextTop)
+            <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+        @endif
+
+
+        @if(isset($helpText) && ! $helpTextTop)
+            <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+        @endif
+ --}}
+

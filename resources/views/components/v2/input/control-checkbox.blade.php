@@ -1,4 +1,4 @@
-@aware([ 'for' => null, 'label'])
+@aware(['for' => null, 'label'])
 
 <label>
     <input {{ $attributes }} name="{{ $for }}" type="checkbox" />

@@ -1,8 +1,8 @@
-@props([ 'for' => null, 'controlOnly' => false, 'rowClass' => null, 'inline' => false ])
+@props(['for' => null, 'controlOnly' => false, 'rowClass' => null, 'inline' => false])
 
 {{-- do not use the control-group-layout for this component because it is not a good fit --}}
 
-@if($controlOnly)
+@if ($controlOnly)
     <x-gotime::v2.input.control-checkbox {{ $attributes }} />
 @else
     <div class='frm-row {{ $rowClass }}'>
@@ -16,14 +16,3 @@
 
     </div>
 @endif
-
-
-{{-- @if($controlOnly)
-    <x-gotime::input-v2.control-radio {{ $attributes }} />
-@else
-    <x-gotime::input.control-group-layout>
-        @foreach($options as $key => $option)
-            <x-gotime::input-v2.control-radio {{ $attributes->merge(['value' => $key]) }} :$option />
-        @endforeach
-    </x-gotime::input.control-group-layout>
-@endif --}}

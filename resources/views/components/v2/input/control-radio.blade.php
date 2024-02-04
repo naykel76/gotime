@@ -1,4 +1,4 @@
-@aware([ 'for' => null, 'option'])
+@aware(['for' => null, 'option'])
 
 {{--
 Livewire will select the radio button whose value matches that of the

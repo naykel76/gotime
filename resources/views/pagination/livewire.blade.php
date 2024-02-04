@@ -9,16 +9,16 @@
                 {{-- Previous Page Link --}}
                 @if($paginator->onFirstPage())
                     <button type="button" class="btn rounded-05 xs" disabled>
-                        Prev
+                        Previous
                     </button>
                 @else
                     @if(method_exists($paginator,'getCursorName'))
                         <button type="button" dusk="previousPage" wire:key="cursor-{{ $paginator->getCursorName() }}-{{ $paginator->previousCursor()->encode() }}" wire:click="setPage('{{ $paginator->previousCursor()->encode() }}','{{ $paginator->getCursorName() }}')" wire:loading.attr="disabled" class="btn rounded-05 xs">
-                            Prev
+                            Previous
                         </button>
                     @else
                         <button type="button" wire:click="previousPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" dusk="previousPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}" class="btn rounded-05 xs">
-                            Prev
+                            Previous
                         </button>
                     @endif
                 @endif

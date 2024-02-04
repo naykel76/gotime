@@ -1,6 +1,6 @@
 @props(['controlOnly' => false])
 
-@if($controlOnly)
+@if ($controlOnly)
     <x-gotime::v2.input.control-input {{ $attributes }} />
 @else
     <x-gt-control-group>
