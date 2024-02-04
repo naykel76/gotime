@@ -6,6 +6,7 @@
     @endphp
 @endunless
 
+{{-- the z-index is to get the input to is --}}
 <x-gotime::v2.input.partials.control-only>
     <input {{ $for ? "name=$for id=$for" : null }}
         {{ $attributes->class(['bdr-red z-100' => $errors->has($for)]) }}
