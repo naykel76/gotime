@@ -34,7 +34,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->app->singleton('filemanagement', function ($app) {
             return new \Naykel\Gotime\Services\FileManagementService();
         });
-
     }
 
     public function boot()
@@ -182,19 +181,18 @@ class GotimeServiceProvider extends ServiceProvider
         // Form Controls and Inputs
         $this->registerComponentX('input.choices', 'choices');
         $this->registerComponentX('input.datepicker', 'datepicker');
-        $this->registerComponentX('input.email');
-        $this->registerComponentX('input.number');
-        $this->registerComponentX('input.password');
-        $this->registerComponentX('input.textarea', 'textarea');
         $this->registerComponentX('v2.input.checkbox', 'checkbox');
         $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
         $this->registerComponentX('v2.input.ckeditor-basic', 'ckeditor-basic');
         $this->registerComponentX('v2.input.ckeditor-inline', 'ckeditor-inline');
+        $this->registerComponentX('v2.input.email', 'input.email');
         $this->registerComponentX('v2.input.file-input', 'file-input');
         $this->registerComponentX('v2.input.filepond', 'filepond');
         $this->registerComponentX('v2.input.input', 'input');
+        $this->registerComponentX('v2.input.password', 'input.password');
         $this->registerComponentX('v2.input.radio', 'radio');
         $this->registerComponentX('v2.input.select', 'select');
+        $this->registerComponentX('v2.input.textarea', 'textarea');
         $this->registerComponentX('v2.input.trix', 'trix');
 
         // Livewire special components

@@ -3,18 +3,21 @@
 namespace Naykel\Gotime\Services;
 
 use Illuminate\Http\UploadedFile;
+use Naykel\Gotime\DTO\FileInfo;
 
 class FileManagementService
 {
     /**
      * Save the file with a unique filename.
+     *
+     * * @return \Naykel\Gotime\DTO\FileInfo
      */
-    public function saveWithUnique(UploadedFile $file, string $path, string $disk = 'public'): string
+    public function saveWithUnique(UploadedFile $file, string $directory, string $disk = 'public'): \Naykel\Gotime\DTO\FileInfo
     {
-        $name = $this->getUniqueFilename($file);
-        $path = $file->storeAs($path, $name, $disk);
+        $filename = $this->getUniqueFilename($file);
+        $file->storeAs($directory, $filename, $disk);
 
-        return $path;
+        return new FileInfo($directory, $filename, $disk);
     }
 
     /**
