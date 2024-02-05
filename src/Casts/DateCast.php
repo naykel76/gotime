@@ -13,12 +13,12 @@ class DateCast implements CastsAttributes
      * Cast the dates to human readable dates
      * IMPORTANT must be a 'datetime' or 'timestamp'
      */
-    public function get(Model $model, string $key, mixed $value, array $attributes): string
+    public function get(Model $model, string $key, mixed $value, array $attributes): ?string
     {
         // 16-02-2022
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d-m-y') : null;
+        // return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d-m-y') : null;
         // Feb 16, 2022
-        // return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('M d, Y') : null;
+        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('M d, Y') : null;
     }
 
     /**
@@ -29,6 +29,3 @@ class DateCast implements CastsAttributes
         return $value ? Carbon::parse($value) : null;
     }
 }
-
-
-

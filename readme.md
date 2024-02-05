@@ -94,18 +94,3 @@ find ./resources/views/components/v2/icon -name "*.svg" -type f -exec bash -c 'm
 ```bash
 find ./resources/views/components/v2/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="24" height="24"/g' {} +
 ```
-
-##### Step 3. Remove fill color
-
-Using the editor find and replace, remove the fill colour to allow default styles to work.
-
-
-##### Step 4. Add $attributes
-
-Search for
-
-    <svg xmlns="http://www.w3.org/2000/svg"
-
-Replace with
-
-    <svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg"

@@ -4,12 +4,11 @@
         $id = $id ?? md5($attributes->wire('model'));
 
         $maxWidth = [
-        'xs' => 'container-xs',
         'sm' => 'container-sm',
         'md' => 'container-md',
         'lg' => 'container-lg',
         'xl' => 'container',
-        ][$maxWidth ?? 'xs'];
+        ][$maxWidth ?? 'sm'];
 
     @endphp
 
@@ -18,7 +17,7 @@
         x-on:close.stop="show = false"
         x-on:keydown.escape.window="show = false"
         x-show="show"
-        id="{{ $id }}" class="overlay"
+        id="{{ $id }}" class="overlay danger"
         style="display: none;">
 
         <div x-show="show" class="bx {{ $maxWidth }} mx-auto my">
