@@ -18,14 +18,14 @@ class Icon extends Component
         'x-mark' => ['close', 'cross']
     ];
 
-    public function __construct(public string $name, public ?string $style = null)
+    public function __construct(public string $name, public ?string $type = null)
     {
-        $this->style = $style ?? config('naykel.component.icon.style');
+        $this->type = $type ?? config('naykel.component.icon.type');
     }
 
     /**
      * Determine if the icon name is an alias, and if it is, return the
-     * corresponding key name (file name) for the icon.
+     * corresponding key name (filename) for the icon.
      */
     function getIconKeyFromAlias($iconName): string
     {
@@ -43,7 +43,7 @@ class Icon extends Component
 
         $name = $this->getIconKeyFromAlias($this->name);
 
-        $viewPath = "gotime::components.v2.icon.{$this->style}.{$name}";
+        $viewPath = "gotime::components.v2.icon.{$this->type}.{$name}";
 
         if (!View::exists($viewPath)) {
             throw new \InvalidArgumentException("Icon '$name' view does not exist at path: {$viewPath}");

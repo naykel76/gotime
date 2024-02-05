@@ -34,10 +34,11 @@ return [
      * Component Settings
      * ----------------------------------------------------------------------
      * These values are the default settings for the components.
+     *
      */
     'component' => [
         'icon' => [
-            'style' => env('NK_ICON_STYLE', 'outline')
+            'type' => env('NK_ICON_STYLE', 'outline')
         ],
     ],
 

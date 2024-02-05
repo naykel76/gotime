@@ -164,7 +164,6 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerIconComponents()
     {
         $this->registerIconComponentsFromDirectory('icon'); // base directory
-        $this->registerIconComponentsFromDirectory('icon/payment');
         $this->registerIconComponentsFromDirectory('icon/logos');
 
         $this->registerComponentX('icon'); // this is not the same as registerIconComponents
