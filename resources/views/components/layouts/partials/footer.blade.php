@@ -1,4 +1,4 @@
-<footer id="nk-footer">
+<footer class="nk-footer">
 
     <div class="pxy">
         {{-- <x-gt-menu menuname="footer" class="ha-c c-pxy tac nav" /> --}}

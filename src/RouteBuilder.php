@@ -7,20 +7,26 @@ use Illuminate\Support\Facades\Route;
 class RouteBuilder
 {
     /**
-     * Data for view
+     * @var array Data for view
      */
     protected array $data = [];
 
     /**
-     * object of menus from json file
+     * @var array|object Object of menus from json file
      */
     protected array|object $menus;
 
     /**
-     * when set to true nav.json files will be cached
+     * @var bool When set to true nav.json files will be cached
      */
     protected bool $cache = false;
 
+
+    /**
+     * RouteBuilder constructor.
+     * @param string $filename The name of the JSON file to read the menu from.
+     * @param string|null $layout The layout to use for the views.
+     */
     public function __construct(
         protected string $filename,
         protected ?string $layout = null
@@ -35,32 +41,36 @@ class RouteBuilder
      */
     public function create(): void
     {
+        // Iterate over each menu item (link).
+        foreach ($this->menus as $menu => $menuItem) {
 
-        foreach ($this->menus as $menu => $menuData) {
-
-            // if standalone menu, only pass the relevant menu
-            if (!empty($menuData->standalone_menu)) {
+            // Check if the menu item is standalone.
+            if (!empty($menuItem->standalone_menu)) {
                 $this->data['menus'] = [$menu];
 
-                // always pass the main menu. this is experimental and may be
-                // more hassle that its worth
-                if (!empty($menuData->include_menus)) {
-                    foreach ($menuData->include_menus as $menu) {
+                // Include additional menus if specified. This allows you to
+                // display other unrelated menus.
+                if (!empty($menuItem->include_menus)) {
+                    foreach ($menuItem->include_menus as $menu) {
                         array_push($this->data['menus'], $menu);
                     }
                 }
             } else {
+                // Get all menu keys if the menu item is not standalone.
                 $this->data['menus'] =  $this->getMenuKeys($this->menus);
             }
 
-            foreach ($menuData->links as $item) {
-                // check if child routes should be created.
+            // Process each link in the menu item.
+            foreach ($menuItem->links as $item) {
+
+                // Create child routes if specified.
                 if (!empty($item->create_child_routes)) {
                     property_exists($item, 'children')
                         ? $this->createChildLinks($item->children)
                         : null;
                 }
 
+                // Create a route for the menu item.
                 $this->make($item);
             }
         }
@@ -69,6 +79,7 @@ class RouteBuilder
     /**
      * Create routes and views for child items. This method processes child
      * items of a menu item and generates corresponding routes and views.
+     * @param array|object $child The child items to process.
      */
     protected function createChildLinks(array|object $child): void
     {
@@ -81,18 +92,14 @@ class RouteBuilder
 
     /**
      * Process a single menu item and create a route (if applicable).
+     * @param array|object $item The menu item to process.
      */
     protected function make(array|object $item): void
     {
-        // Check if the menu item should be excluded from creating a route. If
-        // 'exclude_route' is not set or is explicitly set to false, proceed.
         if (!isset($item->exclude_route) || $item->exclude_route === false) {
 
-            // build url from `route_name` or use item `url` if null
             $url = toUrl($item->route_name ?? $item->url);
 
-            // unless the `view` attribute has been defined, the builder will
-            // attempt to resolve the view following the url structure
             $viewPath = empty($item->view) ?  $url : toUrl($item->view);
 
             // Determine the file type to inject into a layout. This is only
@@ -114,10 +121,9 @@ class RouteBuilder
             // of the actual markdown file to be injected into the layout.
             if (isset($item->type) && $item->type == 'md') {
                 $this->data['path'] = $viewPath;
-                $viewPath = 'layouts.markdown';
+                $viewPath = 'components.layouts.markdown';
             }
 
-            // In the context of a layout, the 'view' is the path to the template.
             if ($this->layout) {
                 $this->data['path'] = $viewPath;
                 $viewPath = $this->layout;
@@ -129,6 +135,9 @@ class RouteBuilder
 
     /**
      * Create a Laravel route for the given URL and view path.
+     * @param string $url The URL for the route.
+     * @param string $view The view path for the route.
+     * @param string|null $name The name of the route.
      */
     private function createRoute(string $url, string $view, string|null $name): void
     {
@@ -141,6 +150,8 @@ class RouteBuilder
 
     /**
      * Get the menu items from the json file
+     * @param string $filename The name of the JSON file to read the menu from.
+     * @return object The menu items from the JSON file.
      */
     protected function getMenusFromJson(string $filename): object
     {
@@ -151,6 +162,8 @@ class RouteBuilder
 
     /**
      * Get menu names (keys)
+     * @param object $obj The object to get the keys from.
+     * @return array The keys of the object.
      */
     private function getMenuKeys(object $obj): array
     {

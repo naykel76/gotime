@@ -24,7 +24,7 @@
 
     @if($hasContainer) <div class="container"> @endif
 
-        <main id="nk-main" {{ $attributes->class(['py-2 md:py-5', $hasAside ? 'flex gap-5' : '']) }}>
+        <main {{ $attributes->class(['nk-main py-2 md:py-5', $hasAside ? 'flex gap-5' : '']) }}>
 
             @isset($navigation)
                 <aside class="w-18 fs0" {{ $navigation->attributes }}>

@@ -1,4 +1,4 @@
-@props(['for' => null, 'controlOnly' => false, 'rowClass' => null, 'inline' => false])
+@props(['for' => null, 'controlOnly' => false, 'rowClass' => null, 'ignoreErrors' => false])
 
 {{-- do not use the control-group-layout for this component because it is not a good fit --}}
 
@@ -10,9 +10,11 @@
             {{ $slot }}
         </x-gotime::v2.input.control-checkbox>
 
-        @error($for)
-            <small class="txt-red" role="alert"> {{ $message }} </small>
-        @enderror
+        @unless ($ignoreErrors)
+            @error($for)
+                <small class="txt-red" role="alert"> {{ $message }} </small>
+            @enderror
+        @endunless
 
     </div>
 @endif
