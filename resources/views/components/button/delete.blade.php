@@ -4,7 +4,7 @@
 
     @if($withIcon || $iconOnly)
         <?php $withIcon = is_string($withIcon) ? $withIcon : 'trash'; ?>
-        <x-gt-icon name="{{ $withIcon }}" class="icon {{ $iconClass }}" />
+        <x-gt-icon name="{{ $withIcon }}" class="wh-1 {{ $iconClass }}" />
     @endif
 
     @unless($iconOnly)

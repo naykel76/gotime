@@ -116,15 +116,15 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('menu-link');
             $this->registerComponentX('markdown');
 
-            // Notifications, Flash and Messages
+            // Alerts, Notifications, and Messages
             $this->registerComponentX('errors');
+            $this->registerComponentX('v2.toast', 'toast');
+            $this->registerComponentX('v2.alert', 'alert');
 
             // other
             $this->registerComponentX('accordion');
-            $this->registerComponentX('alert');
             $this->registerComponentX('loading-indicator');
             $this->registerComponentX('tooltip');
-            $this->registerComponentX('v2.toast', 'toast');
             $this->registerComponentX('v2.spinner', 'spinner');
 
             // buttons
@@ -150,7 +150,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('toolbar.actions-toolbar', 'actions-toolbar');
             $this->registerComponentX('toolbar.title-bar', 'title-bar');
 
-            // modals and alerts
+            // modals
             $this->registerComponentX('modal');
             $this->registerComponentX('modal.dialog');
             $this->registerComponentX('modal.save');
