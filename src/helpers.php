@@ -86,13 +86,14 @@ if (!function_exists('getFile')) {
 
 if (!function_exists('addToEnd')) {
     /**
-     * get the highest value of a field in a $collection and increment the value
-     * ----------------------------------------------------------------------------
-     * @param mixed $collection
-     * @param mixed $value
-     * @param string $field
-     * @param int $increment
-     * @return mixed
+     * This function finds the maximum value in a collection, increments it
+     * by a specified amount, and returns the result.
+     *
+     * @param Collection $collection The collection to search.
+     * @param string $field The field to find the maximum value of. Default is * 'sort_order'.
+     * @param int $increment The amount to increment the maximum * value by. Default is 5.
+     *
+     * @return int The incremented maximum value.
      */
     function addToEnd($collection, $field = 'sort_order', $increment = 5)
     {

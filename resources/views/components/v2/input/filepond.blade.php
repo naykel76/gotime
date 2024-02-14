@@ -63,6 +63,10 @@
             addEventListener('pondReset', e => {
                 pond.removeFiles();
             });
+            // Listen for the 'removefile' event
+            pond.on('removefile', function(file) {
+                @this.set('tmpUpload', null);
+            });
         }
     </script>
 @endpush

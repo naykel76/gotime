@@ -1,26 +1,26 @@
 @props(['id', 'maxWidth'])
 
-    @php
-        $id = $id ?? md5($attributes->wire('model'));
+@php
+    $id = $id ?? md5($attributes->wire('model'));
 
-        $maxWidth = [
+    $maxWidth = [
         'sm' => 'container-sm',
         'md' => 'container-md',
         'lg' => 'container-lg',
         'xl' => 'container',
-        ][$maxWidth ?? 'sm'];
+    ][$maxWidth ?? 'sm'];
 
-    @endphp
+@endphp
 
-    <div
-        x-data="{ show: @entangle($attributes->wire('model')).live }"
-        x-on:close.stop="show = false"
-        x-on:keydown.escape.window="show = false"
-        x-show="show"
-        id="{{ $id }}" class="overlay danger"
-        style="display: none;">
+<div
+    x-data="{ show: @entangle($attributes->wire('model')).live }"
+    x-on:close.stop="show = false"
+    x-on:keydown.escape.window="show = false"
+    x-show="show"
+    id="{{ $id }}" class="overlay"
+    style="display: none;">
 
-        <div x-show="show" class="bx {{ $maxWidth }} mx-auto my">
-            {{ $slot }}
-        </div>
+    <div x-show="show" class="bx {{ $maxWidth }} mx-auto my">
+        {{ $slot }}
     </div>
+</div>

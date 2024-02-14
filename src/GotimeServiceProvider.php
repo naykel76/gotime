@@ -160,15 +160,6 @@ class GotimeServiceProvider extends ServiceProvider
         });
     }
 
-    // DEPRECIATED
-    protected function registerIconComponents()
-    {
-        $this->registerIconComponentsFromDirectory('icon'); // base directory
-        $this->registerIconComponentsFromDirectory('icon/logos');
-
-        $this->registerComponentX('icon'); // this is not the same as registerIconComponents
-    }
-
     protected function registerFormComponents(): void
     {
         $this->registerComponentX('form');
@@ -197,6 +188,21 @@ class GotimeServiceProvider extends ServiceProvider
         // Livewire special components
         $this->registerComponentX('v2.livewire-search-input', 'search-input', 'gtl');
     }
+
+    // gt-icon name="" is getting the icon from the icon directory
+
+
+    // DEPRECIATED
+    protected function registerIconComponents()
+    {
+        $this->registerIconComponentsFromDirectory('icon'); // base directory
+        $this->registerIconComponentsFromDirectory('icon/logos');
+
+        $this->registerComponentX('icon'); // this is not the same as registerIconComponents
+
+        $this->registerComponentX('v2.icon', 'apple'); // make class based?
+    }
+
 
     /**
      * Loop through the directory and register all the components

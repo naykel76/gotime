@@ -1,11 +1,13 @@
 # Changelog
 
 ## 0.17.0
-- Added: Crudable trait
+- Added: `Crudable` trait
+- Added: `Formable` trait
 - Added: component based icons
 - Added: v2 icons (heroicons)
 - Added: `FileManagement` service and facade
-- Update: gotime layout and component icons
+- Updated: gotime layout and component icons
+- Updated: Modal component
 
 ## 0.16.0
 - Added: `Sortable` and `Searchable` traits

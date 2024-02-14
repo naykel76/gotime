@@ -15,7 +15,7 @@
             {{ $form }}
         </form>
 
-        {{-- default save and cancel buttons will be created unless overriden by the $footer slot --}}
+        {{-- default save and cancel buttons will be created unless overridden by the $footer slot --}}
         @if(isset($footer))
             {{ $footer }}
         @else
