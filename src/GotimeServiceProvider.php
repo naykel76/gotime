@@ -189,9 +189,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.livewire-search-input', 'search-input', 'gtl');
     }
 
-    // gt-icon name="" is getting the icon from the icon directory
-
-
     // DEPRECIATED
     protected function registerIconComponents()
     {
@@ -199,8 +196,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerIconComponentsFromDirectory('icon/logos');
 
         $this->registerComponentX('icon'); // this is not the same as registerIconComponents
-
-        $this->registerComponentX('v2.icon', 'apple'); // make class based?
     }
 
 

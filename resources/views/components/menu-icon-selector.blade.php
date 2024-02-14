@@ -1,10 +1,9 @@
 {{-- this component is used to handle menu icons --}}
 
-@if($withIcons && isset($item->icon_logo))
+@if ($withIcons && isset($item->icon_logo))
     <svg class="icon {{ $iconClass }}">
         <use href="/svg/naykel-logos.svg#{{ $item->icon_logo }}"></use>
     </svg>
 @elseif($withIcons && isset($item->icon))
-    <x-dynamic-component :component="'gt-icon-'.$item->icon" class="icon {{ $iconClass }}" />
+    <x-gt-icon name="{{ $item->icon }}" type="outline" class="mr-075 icon" />
 @endif
-
