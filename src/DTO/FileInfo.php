@@ -17,6 +17,10 @@ class FileInfo
      */
     public function path(): string
     {
+        if ($this->directory === '') {
+            return $this->name;
+        }
+
         return $this->directory . '/' . $this->name;
     }
 

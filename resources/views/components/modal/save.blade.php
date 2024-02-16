@@ -11,7 +11,7 @@
             </div>
         @endisset
 
-        <form wire:submit.prevent="save">
+        <form wire:submit="save">
             {{ $form }}
         </form>
 

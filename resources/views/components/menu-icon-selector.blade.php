@@ -1,7 +1,7 @@
 {{-- this component is used to handle menu icons --}}
 
 @if ($withIcons && isset($item->icon_logo))
-    <svg class="icon {{ $iconClass }}">
+    <svg class="{{ $iconClass }}">
         <use href="/svg/naykel-logos.svg#{{ $item->icon_logo }}"></use>
     </svg>
 @elseif($withIcons && isset($item->icon))

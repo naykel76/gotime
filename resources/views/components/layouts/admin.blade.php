@@ -24,7 +24,7 @@
     {{-- NK::TD make this layout responsive --}}
     <main class="nk-main flex">
 
-        <aside class="bdr-r py light">
+        <aside class="bdr-r py bg-gray-50 minw-20">
             @includeFirst(['components.layouts.partials.admin-nav', 'gotime::components.layouts.partials.admin-nav'])
         </aside>
 
