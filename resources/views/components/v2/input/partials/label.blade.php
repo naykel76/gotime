@@ -7,7 +7,7 @@
 ])
 
 @if ($tooltip)
-    <div class="flex va-c space-between mb-025">
+    <div class="flex va-c space-between">
 @endif
 
 <label for="{{ $for }}" {{ $attributes->except('tooltip') }}>
