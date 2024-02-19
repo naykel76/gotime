@@ -16,7 +16,7 @@
                 {{-- For more flexibility do not add the delete modal here.
                 NOTE: if the delete is not working as expected, make sure you
                 have included 'withRedirect' attribute on the modal --}}
-                <x-gt-button-delete wire:click.prevent="setActionItemId({{ $editing->id }})" withIcon iconOnly />
+                <x-gt-button-delete wire:click.prevent="setActionId({{ $editing->id }})" withIcon iconOnly />
 
                 @isset($previewRoute)
                     <a href="{{ route($previewRoute, $editing->slug) }}" class="btn warning" target="_blank">

@@ -14,7 +14,7 @@
             <nav> <a href="/" class="btn pink mr" target="blank">Home Page</a> </nav>
             <x-authit-account-dropdown class="pos-r" btn-class="txt-white">
                 <x-gt-menu menuname="user" filename="nav-admin" class="menu">
-                    <x-authit::logout-link />
+                    {{-- <x-authit::logout-link /> --}}
                 </x-gt-menu>
             </x-authit-account-dropdown>
         </div>
