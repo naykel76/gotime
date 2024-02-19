@@ -1,3 +1,12 @@
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+{{-- THIS IS A DUPLICATE AND CAN BE REMOVED WHEN ALL THE MODALS HAVE BEEN REVISED --}}
+
+
 @props(['id', 'maxWidth'])
 
 @php
@@ -13,7 +22,7 @@
 @endphp
 
 <div
-    x-data="{ show: @entangle($attributes->wire('model')).live }"
+    x-data="{ show: @entangle($attributes->wire('model')) }"
     x-on:close.stop="show = false"
     x-on:keydown.escape.window="show = false"
     x-show="show"

@@ -154,12 +154,16 @@ class GotimeServiceProvider extends ServiceProvider
             $this->registerComponentX('toolbar.title-bar', 'title-bar');
 
             // modals
-            $this->registerComponentX('modal');
+            $this->registerComponentX('v2.modal.base', 'modal.base');
+            $this->registerComponentX('v2.modal.delete', 'modal.delete');
+
             $this->registerComponentX('modal.dialog');
             $this->registerComponentX('modal.save');
-            $this->registerComponentX('modal.delete');
             $this->registerComponentX('modal.image');
             $this->registerComponentX('modal.confirmation');
+
+            // DEPRECIATED use `modal.base`
+            $this->registerComponentX('modal');
         });
     }
 
