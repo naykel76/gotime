@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Compilers\BladeCompiler;
 use Naykel\Gotime\Commands\InstallCommand;
 
-use Naykel\Gotime\View\Components\Menu;
+use Naykel\Gotime\View\Components\FilePond;
 use Naykel\Gotime\View\Components\Icon;
+use Naykel\Gotime\View\Components\Menu;
 use Naykel\Gotime\View\Components\Parsedown;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Layouts\AppLayout;
@@ -59,6 +60,7 @@ class GotimeServiceProvider extends ServiceProvider
         ]);
 
         $this->loadViewComponentsAs('gt', [
+            FilePond::class,
             Icon::class,
             Menu::class,
             Parsedown::class,
@@ -176,7 +178,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.input.ckeditor-inline', 'ckeditor-inline');
         $this->registerComponentX('v2.input.email', 'input.email');
         $this->registerComponentX('v2.input.file-input', 'file-input');
-        $this->registerComponentX('v2.input.filepond', 'filepond');
+        // $this->registerComponentX('v2.input.filepond', 'filepond'); // now class based
         $this->registerComponentX('v2.input.input', 'input');
         $this->registerComponentX('v2.input.password', 'input.password');
         $this->registerComponentX('v2.input.pikaday', 'pikaday');

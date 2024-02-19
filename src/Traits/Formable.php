@@ -9,7 +9,7 @@ trait Formable
     /**
      * @var Model The form object model currently being edited.
      */
-    public Model $model;
+    public Model $editing;
 
 
     /**
@@ -36,12 +36,12 @@ trait Formable
     }
 
     /**
-     * Retrieves the model currently being edited.
+     * Get the model instance that is currently being edited.
      *
-     * @return Model The model that is currently being edited.
+     * @return Model The model instance being edited.
      */
-    public function getModel(): Model
+    public function getEditingModel(): Model
     {
-        return $this->model;
+        return $this->editing;
     }
 }

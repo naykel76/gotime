@@ -1,5 +1,12 @@
 # Changelog
 
+
+
+## 0.18.0
+- Added: icons
+- Added: `handleRedirect` to helpers
+- Changed: `filepond` to class based component
+
 ## 0.17.0
 - Added: `Crudable` trait
 - Added: `Formable` trait

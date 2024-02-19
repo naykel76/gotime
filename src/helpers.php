@@ -84,6 +84,32 @@ if (!function_exists('getFile')) {
 // -- GENERAL HELPERS --
 // ------------------------------------------------------------------
 
+
+if (!function_exists('handleRedirect')) {
+    /**
+     * Handles redirection based on the provided action.
+     *
+     * @param string $routePrefix The prefix of the route to redirect to.
+     * @param string $action The action to perform.
+     * @param mixed $id The ID of the resource (optional).
+     *
+     * @return \Illuminate\Http\RedirectResponse A redirect response.
+     */
+    function handleRedirect(string $routePrefix, string $action, $id = null)
+    {
+        return match ($action) {
+            'save_close', 'delete_close' => redirect(route($routePrefix . '.index')),
+            'save_new' => redirect(route($routePrefix . '.create')),
+            'save_stay' => redirect(route("$routePrefix.edit", $id)),
+            default => throw new Exception("Invalid action: $action"),
+        };
+    }
+}
+
+// ------------------------------------------------------------------
+// -- GENERAL HELPERS --
+// ------------------------------------------------------------------
+
 if (!function_exists('addToEnd')) {
     /**
      * This function finds the maximum value in a collection, increments it

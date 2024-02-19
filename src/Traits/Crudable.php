@@ -2,28 +2,47 @@
 
 namespace Naykel\Gotime\Traits;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 use Naykel\Gotime\Facades\FileManagement;
 
 trait Crudable
 {
     use WithFileUploads;
+    use Hookable;
 
     public string $pageTitle = '';
 
     /**
-     * The validated array of the form instance.
-     *
-     * Gives more control over the validated data before it gets saved.
-     *
-     * @var array
+     * @var array Array of validated form data.
      */
-    public array $validated = [];
+    public array $validatedData = [];
+
+    /**
+     * A boolean property to control the visibility of a modal.
+     *
+     * Note: Not all classes using this trait will require a modal. It's
+     * important to understand that even though this property is set, it may not
+     * always result in a modal being displayed, as that depends on if the modal
+     * has been included in the view.
+     *
+     * @var bool
+     */
+    public bool $showModal = false;
+
+    /**
+     * The ID of the item to be actioned. This is a placeholder used as an
+     * identifier for various actions. If no item is selected for action, the
+     * default value is false.
+     *
+     * @var bool|int
+     */
+    public $actionId = false;
 
     /**
      * Finds the model instance with the given id and set it to the `form`
@@ -38,51 +57,75 @@ trait Crudable
     {
         $this->resetErrorBag(); // clear any previous error messages
         $this->form->setModel($this->model::findOrFail($id));
+        $this->showModal = true;
     }
 
     /**
      * Create a new record in the database.
      *
      * @param Model $model The model instance
-     * @param array $validated The validated data to be stored
+     * @param array $validatedData The validatedData data to be stored
      * @return void
      */
-    public function store(Model $model, array $validated): void
+    public function store(Model $model, array $validatedData): void
     {
-        $model::create($validated);
+        $model::create($validatedData);
     }
 
     /**
      * Update an existing record in the database.
      *
      * @param Model $model The model instance
-     * @param array $validated The validated data to be updated
+     * @param array $validatedData The validatedData data to be updated
      * @return void
      */
-    public function update(Model $model, array $validated): void
+    public function update(Model $model, array $validatedData): void
     {
-        $model->update($validated);
+        $model->update($validatedData);
     }
-
 
     public function save(): void
     {
-        $this->validated = $this->form->validate();
-
-        $model = $this->form->getModel();
-
+        $this->beforeValidateHook();
+        $this->validatedData = $this->form->validate();
         $this->beforePersistHook();
 
-        $this->handleFile($this->form->tmpUpload, $this->validated, 'tmpUpload');
+        $model = $this->form->getEditingModel();
 
         $model->exists
-            ? $this->update($model, $this->validated)
-            : $this->store($model, $this->validated);
+            ? $this->update($model, $this->validatedData)
+            : $this->store($model, $this->validatedData);
 
         $this->afterPersistHook();
 
+        $this->reset('validatedData');
+
+        $this->showModal = false;
+
         $this->dispatch('notify', ('Saved!'));
-        $this->dispatch('saved');
+        $this->dispatch('refresh-items');
+
+        // handleRedirect($redirectAction);
+    }
+
+
+    /**
+     * Delete a model instance from the database and and optionally handle redirection.
+     *
+     * This delete method is tightly coupled to the FormObjects model instance.
+     *
+     * @param string|null $redirectAction The action to redirect to after deletion. If null, no redirection is performed.
+     * @return void
+     */
+    public function delete(string $redirectAction = null): void
+    {
+        $this->form->getEditingModel()->delete();
+
+        $this->reset('actionId');
+
+        if ($redirectAction) {
+            handleRedirect($this->routePrefix, $redirectAction);
+        }
     }
 
     /*
@@ -92,61 +135,74 @@ trait Crudable
     |
     */
 
-    private function handleFile(?UploadedFile $file, array &$validated, string $dbColumnName)
-    {
-        // Purge null values from the validated array. This is to avoid overwriting
-        // existing data with null values during the model update process.
 
-        // Since the validated array is passed by reference, it's crucial to verify
-        // the existence of a key in the array before accessing it. This prevents
-        // potential "undefined array key" errors.
-        if (array_key_exists('tmpUpload', $validated) && $validated['tmpUpload'] === null) {
-            unset($validated['tmpUpload']);
+    protected function handleUpload($file, string $disk = 'public', string $dbField = 'image', $withOriginalName = false): void
+    {
+        tap($this->editing->$dbField, function ($previous) use ($file, $disk, $dbField, $withOriginalName) {
+
+            if ($previous) {
+                Storage::disk($disk)->delete($previous);
+            }
+
+            $filename = $file->getClientOriginalName();
+
+            $this->editing->forceFill([
+
+                $dbField => $withOriginalName
+                    ? $file->storeAs('/', $filename, $disk)
+                    : $file->store('/', $disk)
+
+            ])->save();
+        });
+    }
+
+    private function handleFile(?UploadedFile $file, array &$validatedData, string $dbColumn): void
+    {
+        // Use the tap method to delete the previous file if it exists
+        tap($this->form->editing->$dbColumn, function ($previous) {
+            if ($previous) {
+                Storage::disk($this->storage['disk'])->delete($previous);
+            }
+        });
+
+        // Purge null values from the validatedData array. This is to avoid overwriting
+        // existing data with null values during the model update process.
+        if (array_key_exists('tmpUpload', $validatedData) && $validatedData['tmpUpload'] === null) {
+            unset($validatedData['tmpUpload']);
             return;
         }
 
         if ($file) {
             /** @var \Naykel\Gotime\DTO\FileInfo $fileInfo */
             $fileInfo = FileManagement::saveWithUnique($file, $this->storage['path'], $this->storage['disk']);
-            $validated[$dbColumnName] = $fileInfo->path();
-            unset($validated['tmpUpload']);
+            $validatedData[$dbColumn] = $fileInfo->path();
+            unset($validatedData['tmpUpload']);
+            $this->dispatch('pondReset');
         }
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | HOOKS
-    |--------------------------------------------------------------------------
-    |
-    */
-
-
     /**
-     * This method is a hook that gets called after validation and before
-     * persisting data. It can be used to manipulate the validated data before
-     * it gets saved. For example, you might want to add, remove or change
-     * some data.
-     *
-     * Note: The $validated data is passed by reference, so any changes here
-     * will affect the original data.
-     *
-     * @param array $validated Data passed by reference
+     * Cancel actions for modals and full page components
      * @return void
      */
-    protected function beforePersistHook(array &$validated): void
+    public function cancel(): void
     {
-        // This is where you can perform additional tasks and manipulate the
-        // $validated data. Since the data is passed by reference
-        // (&$validated), any changes here will affect the original data.
+        $this->showModal = false;
+        $this->resetErrorBag();
     }
 
-
-
     /**
-     * Perform additional tasks after persisting the database
+     * Renders the view for the current component.
+     *
+     * @return \Illuminate\View\View The view instance.
      */
-    protected function afterPersistHook(): void
+    public function render()
     {
+        return view("livewire.$this->view")
+            ->layout(\Naykel\Gotime\View\Layouts\AppLayout::class, [
+                'pageTitle' => $this->pageTitle,
+                'layout' => 'admin'
+            ]);
     }
 
     /*
@@ -157,28 +213,53 @@ trait Crudable
     |
     */
 
+    public function setActionId($id): void
+    {
+        $this->actionId = $id;
+    }
+
+    /**
+     * Sets the sort order of the form.
+     *
+     * If the sort order is not set or is an empty string, it assigns the last
+     * position in the collection to the sort order.
+     *
+     * @param Collection $collection The collection to get the last position
+     * from.
+     * @return void
+     */
+    protected function setSortOrder(Collection $collection): void
+    {
+        if (!isset($this->form->sort_order) || $this->form->sort_order === '') {
+            $this->form->sort_order = addToEnd($collection);
+        }
+    }
+
     /**
      * Checks if the model exists. If it does, the form will be in 'edit'
      * mode. Otherwise, it will be in 'create' mode.
      */
-    private function modelExists(): bool
+    private function editingModelExists(): bool
     {
-        return $this->form->getModel()->exists;
+        return $this->form->getEditingModel()->exists;
     }
 
     /**
-     * Sets the page title based on the route prefix.
+     * Sets the page title based on the current route.
      *
-     * If a model exists, the title will be 'Edit {ModelName}', otherwise it
-     * will be 'Create {ModelName}'. The model name is derived from the last
-     * segment of the route prefix, converted to title case and singular form.
-     *
-     * @param string $routePrefix The route prefix to derive the model name from.
+     * @param string $routePrefix The prefix of the current route.
      * @return string The page title.
      */
     private function setPageTitle(string $routePrefix): string
     {
-        $action = $this->modelExists() ? 'Edit ' : 'Create ';
-        return $action . Str::singular(Str::title(dotLastSegment($routePrefix)));
+        $action = $this->editingModelExists() ? 'Edit ' : 'Create ';
+        $lastSegment = dotLastSegment($routePrefix);
+        $exclude = ['media']; // prevent singular conversion (media->medium)
+
+        if (in_array($lastSegment, $exclude)) {
+            return $action . Str::title($lastSegment);
+        }
+
+        return $action . Str::singular(Str::title($lastSegment));
     }
 }
