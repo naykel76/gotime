@@ -1,4 +1,4 @@
-@aware(['leadingAddon', 'trailingAddon', 'for' => null])
+@aware(['leadingAddon', 'trailingAddon'])
 
 @if ($leadingAddon || $trailingAddon)
     <div class="withAddons">

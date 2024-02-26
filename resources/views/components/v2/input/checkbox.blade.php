@@ -3,10 +3,10 @@
 {{-- do not use the control-group-layout for this component because it is not a good fit --}}
 
 @if ($controlOnly)
-    <x-gotime::v2.input.control-checkbox {{ $attributes->except(['label', 'help-text']) }} />
+    <x-gotime::v2.input.control-checkbox {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
 @else
     <div class='frm-row {{ $rowClass }}'>
-        <x-gotime::v2.input.control-checkbox {{ $attributes->except(['label', 'help-text']) }}>
+        <x-gotime::v2.input.control-checkbox {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
             {{ $slot }}
         </x-gotime::v2.input.control-checkbox>
 

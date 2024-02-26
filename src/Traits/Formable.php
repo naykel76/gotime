@@ -9,7 +9,7 @@ trait Formable
     /**
      * @var Model The form object model currently being edited.
      */
-    public Model $editing;
+    public ?Model $editing;
 
 
     /**
@@ -40,8 +40,8 @@ trait Formable
      *
      * @return Model The model instance being edited.
      */
-    public function getEditingModel(): Model
+    public function getEditingModel(): bool|Model
     {
-        return $this->editing;
+        return $this->editing ?? false;
     }
 }

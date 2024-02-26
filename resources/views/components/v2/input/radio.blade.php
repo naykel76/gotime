@@ -3,7 +3,7 @@
 {{-- @aware([ 'inline' => false ]) --}}
 
 @if ($controlOnly)
-    <x-gotime::v2.input.control-radio {{ $attributes->except(['label', 'help-text']) }} />
+    <x-gotime::v2.input.control-radio {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
 @else
     <div class='frm-row {{ $rowClass }}'>
 

@@ -2,9 +2,9 @@
 
 namespace Naykel\Gotime\Traits;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
@@ -16,49 +16,249 @@ trait Crudable
     use WithFileUploads;
     use Hookable;
 
-    public string $pageTitle = '';
-
     /**
-     * @var array Array of validated form data.
+     * @var array Holds the validated form data.
      */
     public array $validatedData = [];
 
     /**
-     * A boolean property to control the visibility of a modal.
-     *
-     * Note: Not all classes using this trait will require a modal. It's
-     * important to understand that even though this property is set, it may not
-     * always result in a modal being displayed, as that depends on if the modal
-     * has been included in the view.
-     *
-     * @var bool
-     */
-    public bool $showModal = false;
-
-    /**
-     * The ID of the item to be actioned. This is a placeholder used as an
-     * identifier for various actions. If no item is selected for action, the
-     * default value is false.
-     *
-     * @var bool|int
+     * @var bool|int Represents the ID of the item to be actioned.
      */
     public $actionId = false;
 
     /**
+     * @var bool A flag used to toggle various CRUD operation or elements.
+     */
+    public bool $isCreateMode = false;
+
+    /**
+     * Used as a flag for component visibility. Eg, show/hide modals, forms etc.
+     *
+     * @var bool|int ID of the item to edit, or false if none is selected.
+     */
+    public $editingId = false;
+
+    /**
+     * The title of the page.
+     *
+     * @var string
+     */
+    public string $pageTitle = '';
+
+    /**
      * Finds the model instance with the given id and set it to the `form`
-     * property. The method listens for the 'edit-model' event generally
-     * dispatched from the `Table` class.
+     * property.
+     *
+     * The method listens for the 'set-editing-item' event generally
+     * dispatched from a parent class.
      *
      * @param int $id The id of the model instance to find
      * @return void
      */
-    #[On('edit-model')]
-    public function edit(int $id): void
+    #[On('set-editing-item')]
+    public function edit(int|string $id): void
     {
-        $this->resetErrorBag(); // clear any previous error messages
+        $this->setEditMode($id);
+        if (!isset($this->model)) {
+            throw new \Exception('Property $model is not set in ' . __CLASS__ . ". ---- Eg. protected \$model = User::class;");
+        }
         $this->form->setModel($this->model::findOrFail($id));
-        $this->showModal = true;
     }
+
+    /**
+     * This method sets the form to create mode, creates a new model instance,
+     * and sets the form's model to the new instance.
+     *
+     * @return void
+     */
+    public function create(): void
+    {
+        $this->setCreateMode();
+        $newModel = $this->createNewModelInstance();
+        $this->form->setModel($newModel);
+    }
+
+    /**
+     * Validates the form data and either creates a new record or updates an * existing one.
+     *
+     * If an ID is provided, this method updates the corresponding record with
+     * the validated form data. If no ID is provided, it creates a new record
+     * with the validated form data.
+     *
+     * @param int|null $id The ID of the record to be updated, or null to create a new record.
+     * @return void
+     */
+    public function saveOrNew($id = null): void
+    {
+        $editingId = $id ?? $this->form->getEditingModel()->id;
+        $this->beforeValidateHook();
+        $this->validatedData = $this->validate();
+        $this->beforePersistHook();
+        $this->model::updateOrCreate(['id' => $editingId], $this->validatedData);
+        $this->afterPersistHook();
+        $this->dispatchEvents();
+        $this->resetAndReload();
+    }
+
+    public function save(): void
+    {
+
+        // if sort_order and new record the add to end of collection
+        $this->beforeValidateHook();
+        $this->validatedData = $this->form->validate();
+        $this->beforePersistHook();
+
+        $model = $this->form->getEditingModel();
+
+        $model->exists
+            ? $this->update($model, $this->validatedData)
+            : $this->store($model, $this->validatedData);
+
+        $this->afterPersistHook();
+
+        $this->reset('validatedData', 'selected');
+        $this->resetFlags();
+
+        $this->dispatch('notify', ('Saved!'));
+        $this->dispatch('item-saved');
+    }
+
+    /**
+     * Create a new instance of the model.
+     *
+     * @param array $data The data to be used to create the model instance.
+     * @return Model The newly created model instance.
+     */
+    protected function createNewModelInstance(array $data = []): Model
+    {
+        $data =  $this->initialData ?? $data ?? [];
+        $model = $this->model::make($data);
+        $this->setSortOrder($model);
+        return $model;
+    }
+
+    /**
+     * Set the sort order of the model if it has a 'sort_order' field.
+     *
+     * @param Model $model The model whose sort order is to be set.
+     * @return void
+     */
+    protected function setSortOrder(Model $model): void
+    {
+        // This will add the highest sort order in the table, not the collection
+        // I really don't see the problem with this because as long as the item is
+        // added to the end of the collection it will be in the correct order.
+        if (Schema::hasColumn($model->getTable(), 'sort_order')) {
+            $model->sort_order = $this->model::max('sort_order') + 1;
+        }
+    }
+
+    /**
+     * Resets previous form errors and sets the form to create mode.
+     *
+     * @return void
+     */
+    protected function setCreateMode(): void
+    {
+        $this->resetErrorBag();
+        $this->isCreateMode = true;
+        $this->editingId = false;
+    }
+
+    /**
+     * Resets previous form errors, sets the form to edit mode, and sets the
+     * 'editingId' to the ID of the model to be edited.
+     *
+     * @param int $id The ID of the model to be edited.
+     * @return void
+     */
+    protected function setEditMode($id): void
+    {
+        $this->resetErrorBag();
+        $this->isCreateMode = false;
+        $this->editingId = $id;
+    }
+
+    /**
+     * Resets the form, component and reloads the items.
+     *
+     * @return void
+     */
+    protected function resetAndReload()
+    {
+        if (method_exists($this, 'loadItems')) {
+            $this->loadItems();
+        }
+        $this->resetAll();
+    }
+
+    /**
+     * Resets the form and related state.
+     *
+     * @return void
+     */
+    protected function resetAll(): void
+    {
+        $this->reset('isCreateMode');
+        $this->form->editing = null;
+    }
+
+    /**
+     * Resets the form and related state.
+     *
+     * This method, acting as an alias for `resetAll`, provides a more intuitive
+     * name in certain contexts.
+     *
+     * @return void
+     */
+    public function cancel(): void
+    {
+        $this->resetAll();
+    }
+
+    protected function dispatchEvents()
+    {
+        $this->dispatch('item-saved');
+        $this->dispatch('notify', 'Updated successfully!');
+    }
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+
+    /**
+     * @var string The name of the view file to render.
+     */
+    public $selected = '';
+
+    public function setSelected(string $name)
+    {
+        $this->selected = $name;
+    }
+
+
+
+    /**
+     * @var bool Controls the visibility of a modal.
+     */
+    public bool $showModal = false;
+
+
+
+
+
+
 
     /**
      * Create a new record in the database.
@@ -84,29 +284,6 @@ trait Crudable
         $model->update($validatedData);
     }
 
-    public function save(): void
-    {
-        $this->beforeValidateHook();
-        $this->validatedData = $this->form->validate();
-        $this->beforePersistHook();
-
-        $model = $this->form->getEditingModel();
-
-        $model->exists
-            ? $this->update($model, $this->validatedData)
-            : $this->store($model, $this->validatedData);
-
-        $this->afterPersistHook();
-
-        $this->reset('validatedData');
-
-        $this->showModal = false;
-
-        $this->dispatch('notify', ('Saved!'));
-        $this->dispatch('refresh-items');
-
-        // handleRedirect($redirectAction);
-    }
 
 
     /**
@@ -117,15 +294,21 @@ trait Crudable
      * @param string|null $redirectAction The action to redirect to after deletion. If null, no redirection is performed.
      * @return void
      */
-    public function delete(string $redirectAction = null): void
+    public function delete(string $id = null): void
     {
-        $this->form->getEditingModel()->delete();
+        // make sure that some form of model exists
+        if (!$this->editingModelExists() && !isset($this->model)) {
+            throw new \Exception('The is no `model` defined or `editing` model set');
+        }
+
+        if ($this->editingModelExists()) {
+            $this->form->getEditingModel()->delete();
+        } else {
+            $this->model::find($this->actionId)->delete();
+        }
 
         $this->reset('actionId');
-
-        if ($redirectAction) {
-            handleRedirect($this->routePrefix, $redirectAction);
-        }
+        $this->dispatch('deleted');
     }
 
     /*
@@ -134,7 +317,6 @@ trait Crudable
     |--------------------------------------------------------------------------
     |
     */
-
 
     protected function handleUpload($file, string $disk = 'public', string $dbField = 'image', $withOriginalName = false): void
     {
@@ -181,15 +363,7 @@ trait Crudable
         }
     }
 
-    /**
-     * Cancel actions for modals and full page components
-     * @return void
-     */
-    public function cancel(): void
-    {
-        $this->showModal = false;
-        $this->resetErrorBag();
-    }
+
 
     /**
      * Renders the view for the current component.
@@ -213,26 +387,14 @@ trait Crudable
     |
     */
 
+    public function resetFlags()
+    {
+        $this->reset('isCreateMode', 'showModal', 'editingId', 'actionId');
+    }
+
     public function setActionId($id): void
     {
         $this->actionId = $id;
-    }
-
-    /**
-     * Sets the sort order of the form.
-     *
-     * If the sort order is not set or is an empty string, it assigns the last
-     * position in the collection to the sort order.
-     *
-     * @param Collection $collection The collection to get the last position
-     * from.
-     * @return void
-     */
-    protected function setSortOrder(Collection $collection): void
-    {
-        if (!isset($this->form->sort_order) || $this->form->sort_order === '') {
-            $this->form->sort_order = addToEnd($collection);
-        }
     }
 
     /**
@@ -241,7 +403,8 @@ trait Crudable
      */
     private function editingModelExists(): bool
     {
-        return $this->form->getEditingModel()->exists;
+        $editingModel = $this->form->getEditingModel();
+        return $editingModel ? $editingModel->exists : false;
     }
 
     /**
