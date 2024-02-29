@@ -1,11 +1,13 @@
 # Changelog
 
-
-
-## 0.18.0
-- Added: icons
+## 0.18.0 (WIP)
 - Added: `handleRedirect` to helpers
+- Added: icons
 - Changed: `filepond` to class based component
+- Updated: modal base component
+- added: `WithLivewireHelpers` trait
+- removed: `Crudable` trait
+- updated: `Formable` trait
 
 ## 0.17.0
 - Added: `Crudable` trait
