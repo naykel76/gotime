@@ -100,7 +100,7 @@ if (!function_exists('handleRedirect')) {
         return match ($action) {
             'save_close', 'delete_close' => redirect(route($routePrefix . '.index')),
             'save_new' => redirect(route($routePrefix . '.create')),
-            'save_stay' => redirect(route("$routePrefix.edit", $id)),
+            'save_edit', 'save_stay' => redirect(route("$routePrefix.edit", $id)),
             default => throw new Exception("Invalid action: $action"),
         };
     }

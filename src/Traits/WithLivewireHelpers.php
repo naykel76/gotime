@@ -38,9 +38,36 @@ trait WithLivewireHelpers
         $this->form->edit($id);
     }
 
-    public function save(): void
+    /**
+     * Delete a model instance from the database and and optionally handle redirection.
+     *
+     * This delete method is tightly coupled to the FormObjects model instance.
+     *
+     * @return void
+     */
+    // NK?? I am conflicted about this method. I think is makes more sense to
+    // include it in the `formable` trait, however there will be situations
+    // where the form is not used and the delete method is required.
+    public function delete(string $id = null): void
     {
-        $this->form->save();
+        if (!isset($this->model)) {
+            throw new \Exception('Property $model is not set in ' . __CLASS__ . ". ---- Eg. protected \$model = User::class;");
+        }
+
+        $this->model::find($this->actionId)->delete();
+
+        $this->reset('actionId');
+        $this->dispatch('item-deleted');
+    }
+
+    public function save(string $action = null): void
+    {
+        $model = $this->form->save();
+
+        if ($action == 'save_edit') {
+            handleRedirect($this->routePrefix, $action, $model->id);
+        }
+
         $this->dispatch('notify', 'Saved successfully!');
         $this->dispatch('pondReset');
     }
@@ -103,7 +130,7 @@ trait WithLivewireHelpers
     private function editingModelExists(): bool
     {
         if (isset($this->form)) {
-            $editingModel = $this->form->getEditingModel();
+            $editingModel = $this->form->getModel();
             return $editingModel ? $editingModel->exists : false;
         }
         return false;
@@ -122,6 +149,7 @@ trait WithLivewireHelpers
 
         if (in_array($lastSegment, $exclude)) {
             $this->title = $action . Str::title($lastSegment);
+            return;
         }
 
         $this->title = $action . Str::singular(Str::title($lastSegment));

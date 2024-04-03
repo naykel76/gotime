@@ -45,22 +45,22 @@ trait Formable
      * If the model already exists, it is updated with the validated data.
      * If the model does not exist, a new model is created with the validated data.
      *
-     * If a 'beforePersist' method exists, it is called before persisting the model.
-     *
-     * @return void
+     * @return Model The model that was updated or created. This is the same model as $this->editing.
      */
-    public function save(): void
+
+    public function save(): Model
     {
         $validatedData = $this->validate();
 
-        // This might be redundant as a blank model is always created in the 'create' method.
-        $model = $this->editing;
-
         method_exists($this, 'beforePersist') ? $this->beforePersist($validatedData) : null;
 
-        $model->exists
-            ? $model->update($validatedData)
-            : $model->create($validatedData);
+        if ($this->editing->exists) {
+            $this->editing->update($validatedData);
+        } else {
+            $this->editing = $this->editing->create($validatedData);
+        }
+
+        return $this->editing;
     }
 
 
@@ -79,30 +79,6 @@ trait Formable
         $this->validatedData = $this->validate();
         $this->model::updateOrCreate(['id' => $this->editing->id], $this->validatedData);
         $this->reset('isCreateMode', 'editing');
-        // $this->editing = null;
-    }
-
-    /**
-     * Set form properties from a given model.
-     *
-     * @param Model $model The model to get properties from.
-     * @return void
-     */
-    protected function setFormProperties(Model $model): void
-    {
-        /**
-         * This loop iterates over each attribute of the model. For each
-         * attribute, it checks if a property with the same name exists in the
-         * current object. If such a property exists, it assigns the value of
-         * the attribute to the property. If the attribute's value is null, it
-         * assigns an empty string to the property.
-         */
-
-        foreach ($model->getAttributes() as $property => $value) {
-            if (property_exists($this, $property)) {
-                $this->$property = $value ?? '';
-            }
-        }
     }
 
     /**
@@ -111,11 +87,18 @@ trait Formable
      *
      * @return void
      */
-    public function create(): void
+    public function create(array $data = []): Model
     {
         $this->setCreateMode();
-        $newModel = $this->createNewModelInstance();
+
+        $newModel = $data
+            ? $this->createModelInstance($data)
+            : $this->createModelInstance();
+
+        // NK::?? is it a good idea to set the model here? should i just return the model?
         $this->setModel($newModel);
+
+        return $newModel;
     }
 
     /**
@@ -124,7 +107,7 @@ trait Formable
      * @param array $data The data to be used to create the model instance.
      * @return Model The newly created model instance.
      */
-    protected function createNewModelInstance(array $data = []): Model
+    public function createModelInstance(array $data = []): Model
     {
         $data =  $this->initialData ?? $data ?? [];
         $model = $this->model::make($data);
@@ -138,28 +121,6 @@ trait Formable
         }
 
         return $model;
-    }
-
-    /**
-     * Resets the form and related state.
-     *
-     * @return void
-     */
-    public function resetForm(): void
-    {
-        $this->editing = null;
-        $this->isCreateMode = false;
-    }
-
-    /**
-     * Get the model instance that is currently being edited.
-     *
-     * @return Model The model instance being edited.
-     */
-    // NK?? What is using this??
-    public function getEditingModel(): bool|Model
-    {
-        return $this->editing ?? false;
     }
 
     /*
@@ -206,6 +167,40 @@ trait Formable
     */
 
     /**
+     * Set form properties from a given model.
+     *
+     * @param Model $model The model to get properties from.
+     * @return void
+     */
+    protected function setFormProperties(Model $model): void
+    {
+        /**
+         * This loop iterates over each attribute of the model. For each
+         * attribute, it checks if a property with the same name exists in the
+         * current object. If such a property exists, it assigns the value of
+         * the attribute to the property. If the attribute's value is null, it
+         * assigns an empty string to the property.
+         */
+
+        foreach ($model->getAttributes() as $property => $value) {
+            if (property_exists($this, $property)) {
+                $this->$property = $value ?? '';
+            }
+        }
+    }
+
+    /**
+     * Get the model instance that is currently being edited.
+     *
+     * @return Model The model instance being edited.
+     */
+    public function getModel(): bool|Model
+    {
+        return $this->editing ?? false;
+    }
+
+
+    /**
      * Resets previous form errors and sets the form to create mode.
      *
      * @return void
@@ -229,5 +224,16 @@ trait Formable
         $this->resetErrorBag();
         $this->isCreateMode = false;
         $this->editingId = $id;
+    }
+
+    /**
+     * Resets the form and related state.
+     *
+     * @return void
+     */
+    public function resetForm(): void
+    {
+        $this->editing = null;
+        $this->isCreateMode = false;
     }
 }
