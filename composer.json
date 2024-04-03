@@ -1,6 +1,12 @@
 {
     "name": "naykel/gotime",
     "description": "Starter package for NayKel Laravel applications",
+    "keywords": [
+        "Laravel",
+        "Naykel",
+        "starter"
+    ],
+    "homepage": "https://naykel.com.au",
     "license": "MIT",
     "authors": [
         {
@@ -9,29 +15,45 @@
             "homepage": "https://naykel.com.au"
         }
     ],
-    "homepage": "https://naykel.com.au",
-    "keywords": [
-        "Laravel",
-        "Naykel",
-        "starter"
-    ],
     "require": {
         "php": "^8.2",
-        "livewire/livewire": "^3.3"
+        "illuminate/contracts": "^10.0||^11.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10"
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "orchestra/testbench": "^9.0.0||^8.22.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-laravel": "^2.3"
     },
     "autoload": {
         "psr-4": {
             "Naykel\\Gotime\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Naykel\\Gotime\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Naykel\\Gotime\\GotimeServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Gotime": "Naykel\\Gotime\\Facades\\Gotime"
+            }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
