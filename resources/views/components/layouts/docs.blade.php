@@ -1,6 +1,6 @@
 @props(['mainClasses','hasAside' => true,])
 
-<x-gotime-layouts.base :$pageTitle>
+<x-gt-app-layout layout="base" :$pageTitle>
 
     @php
         if(!isset($navigation)){
@@ -48,6 +48,6 @@
 
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
-</x-gotime-layouts.base>
+<x-gt-app-layout>
 
 

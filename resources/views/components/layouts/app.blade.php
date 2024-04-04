@@ -1,4 +1,4 @@
-<x-gotime-layouts.base :$pageTitle>
+<x-gt-app-layout layout="base" :$pageTitle>
 
     @if(class_exists(\Naykel\Devit\DevitServiceProvider::class))
         @includeIf('devit::components.dev-toolbar')
@@ -18,4 +18,5 @@
 
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
-</x-gotime-layouts.base>
+</x-gt-app-layout>
+

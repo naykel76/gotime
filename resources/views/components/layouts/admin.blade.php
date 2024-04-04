@@ -2,7 +2,7 @@
     <meta name="robots" content="noindex,follow">
 @endpush
 
-<x-gotime-layouts.base :$pageTitle class="nk-admin relative">
+<x-gt-app-layout layout="base" :$pageTitle class="nk-admin relative">
 
     <div class="navbar">
 
@@ -38,4 +38,4 @@
 
     </main>
 
-</x-gotime-layouts.base>
+<x-gt-app-layout>
