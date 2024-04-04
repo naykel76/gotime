@@ -23,15 +23,10 @@
     </script>
 
     <body {{ $attributes }}>
-
         {{ $slot }}
-
-        {{-- NK::TD --}}
-        {{-- <x-gt-toast /> --}}
-
+        <x-gt-toast />
         @livewireScripts
         @stack('scripts')
-
     </body>
 
 </html>

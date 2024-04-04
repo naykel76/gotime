@@ -15,12 +15,14 @@ class GotimeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/naykel.php', 'naykel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/services.php', 'services');
     }
 
     public function boot()
     {
         $this->commands([InstallCommand::class]);
-        $this->configureComponents();
+        $this->registerComponents();
+        $this->registerFormComponents();
 
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
@@ -46,9 +48,33 @@ class GotimeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureComponents()
+    protected function registerComponents()
     {
+        $this->registerComponentX('loading-indicator');
+        $this->registerComponentX('spinner');
+        $this->registerComponentX('tooltip');
+
+        // Alerts, Notifications, and Messages
+        $this->registerComponentX('toast');
+
         // layouts
-        Blade::component('gotime::components.layouts.base', 'gotime-layouts.base');
+        $this->registerComponentX('layouts.base', 'gotime-layouts.base');
+    }
+
+    protected function registerFormComponents(): void
+    {
+        // controls
+        $this->registerComponentX('input.input', 'input');
+        $this->registerComponentX('input.textarea', 'textarea');
+    }
+
+    /**
+     * @param string $component (path and name)
+     * @param string $alias use when component name and path are !=
+     * @param string $prefix (gtl for special livewire components)
+     */
+    protected function registerComponentX(string $component, string $alias = null, string $prefix = 'gt'): void
+    {
+        Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
 }

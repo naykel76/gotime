@@ -10,7 +10,6 @@
         {{ $top }}
     @endisset
 
-    {{-- NK::FIX --}}
     <x-gt-menu layout="click" class="menu" />
 
     {{ $slot }}
