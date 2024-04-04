@@ -26,7 +26,8 @@
 
         {{ $slot }}
 
-        <x-gt-toast />
+        {{-- NK::TD --}}
+        {{-- <x-gt-toast /> --}}
 
         @livewireScripts
         @stack('scripts')

@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "livewire/livewire": "^3.4",
         "illuminate/contracts": "^10.0||^11.0"
     },
     "require-dev": {
@@ -28,6 +29,9 @@
         "pestphp/pest-plugin-laravel": "^2.3"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Naykel\\Gotime\\": "src/"
         }

@@ -45,7 +45,7 @@ class Icon extends Component
 
         $name = $this->getIconKeyFromAlias($this->name);
 
-        $viewPath = "gotime::components.v2.icon.{$this->type}.{$name}";
+        $viewPath = "gotime::components.icon.{$this->type}.{$name}";
 
         if (!View::exists($viewPath)) {
             throw new \InvalidArgumentException("Icon '$name' view does not exist at path: {$viewPath}");
