@@ -32,7 +32,7 @@ class GotimeServiceProvider extends ServiceProvider
         ], 'gotime-config');
 
         $this->publishes([
-            __DIR__ . '/../resources/views/layouts' => resource_path('views/layouts'),
+            __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
         ], 'gotime-views');
 
         $this->loadViewComponentsAs('gt', [
