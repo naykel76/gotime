@@ -57,6 +57,9 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/scss', resource_path('scss'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/views', resource_path('views'));
 
+        // NK::TD change this to a prompt so it is not installed each time
+        copy(__DIR__ . '/../../config/markdown.php', base_path('config/markdown.php'));
+
         // Assets...
         copy(__DIR__ . '/../../resources/publishable/.env.example', base_path('.env.example'));
         copy(__DIR__ . '/../../resources/publishable/postcss.config.js', base_path('postcss.config.js'));

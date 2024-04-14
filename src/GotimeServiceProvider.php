@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Naykel\Gotime\Commands\InstallCommand;
 use Naykel\Gotime\View\Components\Icon;
+use Naykel\Gotime\View\Components\Markdown;
 use Naykel\Gotime\View\Components\Menu;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Layouts\AppLayout;
@@ -40,6 +41,8 @@ class GotimeServiceProvider extends ServiceProvider
             Icon::class,
             Menu::class,
             Sidebar::class,
+            Markdown::class
+
         ]);
     }
 
