@@ -65,6 +65,7 @@ class GotimeServiceProvider extends ServiceProvider
     {
         // controls
         $this->registerComponentX('input.input', 'input');
+        $this->registerComponentX('input.email', 'input.email');
         $this->registerComponentX('input.textarea', 'textarea');
     }
 
