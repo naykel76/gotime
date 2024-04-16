@@ -15,7 +15,7 @@ export default defineConfig({
         {
             name: 'blade',
             handleHotUpdate({ file, server }) {
-                if (file.endsWith('.blade.php')) {
+                if (file.endsWith('.blade.php') || file.endsWith('.js') || (file.endsWith('.php') && file.includes('/app/Livewire/'))) {
                     server.ws.send({
                         type: 'full-reload',
                         path: '*',

@@ -17,6 +17,7 @@ class GotimeServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/naykel.php', 'naykel');
         $this->mergeConfigFrom(__DIR__ . '/../config/services.php', 'services');
+        $this->mergeConfigFrom(__DIR__ . '/../config/markdown.php', 'markdown');
     }
 
     public function boot()
