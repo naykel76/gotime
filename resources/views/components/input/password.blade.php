@@ -8,9 +8,9 @@
 @endphp
 
 @if ($controlOnly)
-    <x-gotime::input.control-input {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
+    <x-gotime::input.control-input {{ $attributes->merge(['type' => 'password'])->except(['label', 'help-text', 'rowClass']) }} />
 @else
-    <x-gotime::input.partials.control-group :$for>
-        <x-gotime::input.control-input {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
+    <x-gotime::input.partials.control-group>
+        <x-gotime::input.control-input {{ $attributes->merge(['type' => 'password'])->except(['label', 'help-text', 'rowClass']) }} />
     </x-gotime::input.partials.control-group>
 @endif

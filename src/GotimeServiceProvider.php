@@ -42,7 +42,6 @@ class GotimeServiceProvider extends ServiceProvider
             Menu::class,
             Sidebar::class,
             Markdown::class
-
         ]);
     }
 
@@ -59,6 +58,10 @@ class GotimeServiceProvider extends ServiceProvider
 
         // Alerts, Notifications, and Messages
         $this->registerComponentX('toast');
+        
+        // Buttons
+        $this->registerComponentX('button.submit', 'submit');
+
 
         // layouts
         $this->registerComponentX('layouts.base', 'gotime-layouts.base');
@@ -67,8 +70,10 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerFormComponents(): void
     {
         // controls
+        $this->registerComponentX('input.checkbox', 'checkbox');
+        $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
-        $this->registerComponentX('input.email', 'input.email');
+        $this->registerComponentX('input.password');
         $this->registerComponentX('input.textarea', 'textarea');
     }
 
