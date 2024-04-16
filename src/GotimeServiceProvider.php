@@ -59,8 +59,9 @@ class GotimeServiceProvider extends ServiceProvider
 
         // Alerts, Notifications, and Messages
         $this->registerComponentX('toast');
-        
+
         // Buttons
+        $this->registerComponentX('button.button', 'button');
         $this->registerComponentX('button.submit', 'submit');
 
 

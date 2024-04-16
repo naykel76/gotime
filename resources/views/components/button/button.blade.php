@@ -10,6 +10,6 @@ this allow us to omit the text value for icon only buttons --}}
 @endif
 
 {{-- do not use control layout here, just style manually when the component is used --}}
-<x-gotime::button.control-button {{ $attributes->merge(['type' => 'submit']) }} text="{{ $text ?? 'Submit' }}">
+<x-gotime::button.control-button {{ $attributes->merge(['type' => 'button']) }} text="{{ $text ?? 'Click' }}">
     {{ $slot }}
 </x-gotime::button.control-button>
