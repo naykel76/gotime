@@ -16,6 +16,7 @@ Route::get('/', function () {
 
 (new RouteBuilder('nav-main'))->create();
 
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -24,7 +25,3 @@ Route::get('/', function () {
 */
 
 // (new RouteBuilder('nav-admin'))->create();
-
-// Route::middleware(['role:super|admin', 'auth'])->prefix('admin')->name('admin')->group(function () {
-//     Route::view('/', 'gotime::admin.dashboard'); // admin dashboard
-// });
