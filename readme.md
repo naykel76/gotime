@@ -87,7 +87,7 @@ Do not define a variable data type that is a file as a `string`. Why? It's a fil
 
 1. update extension `svg` to `blade.php`
 ```bash
-find ./resources/views/components/v2/icon -name "*.svg" -type f -exec bash -c 'mv -- "$0" "${0%.svg}.blade.php"' {} \;
+find ./resources/views/components/icon -name "*.svg" -type f -exec bash -c 'mv -- "$0" "${0%.svg}.blade.php"' {} \;
 ```
 
 1. add `$attributes`, `width` and `height`
@@ -95,5 +95,5 @@ find ./resources/views/components/v2/icon -name "*.svg" -type f -exec bash -c 'm
 # DON'T RUN THIS WITH EXPORTED FIGMA ICONS, IT WILL ADD THE ATTRIBUTES TWICE
 find ./resources/views/components/v2/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="24" height="24"/g' {} +
 # FOR FIGMA ICONS
-find ./resources/views/components/v2/icon -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g' {} +
+find ./resources/views/components/icon/other -type f -name "*.blade.php" -exec sed -i 's/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/<svg {{ $attributes }} xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g' {} +
 ```
