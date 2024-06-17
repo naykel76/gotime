@@ -55,7 +55,8 @@
                 "Naykel\\Gotime\\GotimeServiceProvider"
             ],
             "aliases": {
-                "Gotime": "Naykel\\Gotime\\Facades\\Gotime"
+                "Gotime": "Naykel\\Gotime\\Facades\\Gotime",
+                "FileManagement": "Naykel\\Gotime\\Facades\\FileManagement"
             }
         }
     },

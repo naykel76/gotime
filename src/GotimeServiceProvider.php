@@ -18,6 +18,10 @@ class GotimeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/naykel.php', 'naykel');
         $this->mergeConfigFrom(__DIR__ . '/../config/services.php', 'services');
         $this->mergeConfigFrom(__DIR__ . '/../config/markdown.php', 'markdown');
+        
+        $this->app->singleton('filemanagement', function ($app) {
+            return new \Naykel\Gotime\Services\FileManagementService();
+        });
     }
 
     public function boot()
@@ -71,7 +75,7 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerFormComponents(): void
     {
-        // controls
+        // form controls
         $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
