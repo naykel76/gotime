@@ -18,7 +18,6 @@ if (!function_exists('getJsonFile')) {
 }
 
 if (!function_exists('getFile')) {
-
     function getFile(string $path): string|false
     {
         if (file_exists($path)) {
@@ -33,21 +32,20 @@ if (!function_exists('getFile')) {
 // -- URL PATH CONVERSION HELPERS --
 // ------------------------------------------------------------------
 
-if (!function_exists('toUrl')) {
+if (!function_exists('toPath')) {
     /**
-     * Convert dot notation to relative url or path. Same as fromDot()
+     * Convert a dot notation string to a path, or sanitize an existing path.
+     * 
+     * If the input string is in dot notation (e.g., 'folder.subfolder.item'), 
+     * this function will convert it to a path (e.g., 'folder/subfolder/item').
+     * 
+     * If the input string is already a path, this function will sanitize it 
+     * by removing any leading slash.
+     * 
+     * @param string $input The input string in dot notation or path format.
+     * @return string The sanitized path.
      */
-    function toUrl(string $input): string
-    {
-        return str_replace('.', '/', ltrim($input, '/'));
-    }
-}
-
-if (!function_exists('fromDot')) {
-    /**
-     * Convert dot notation to relative url or path
-     */
-    function fromDot(string $input): string
+    function toPath(string $input): string
     {
         return str_replace('.', '/', ltrim($input, '/'));
     }

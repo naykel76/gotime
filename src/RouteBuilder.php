@@ -3,6 +3,7 @@
 namespace Naykel\Gotime;
 
 use Illuminate\Support\Facades\Route;
+use Naykel\Gotime\DTO\RouteDTO;
 
 class RouteBuilder
 {
@@ -21,11 +22,10 @@ class RouteBuilder
      */
     protected bool $cache = false;
 
-
     /**
      * RouteBuilder constructor.
      * @param string $filename The name of the JSON file to read the menu from.
-     * @param string|null $layout The layout to use for the views.
+     * @param string|null $layout default for all views in the menu
      */
     public function __construct(
         protected string $filename,
@@ -41,51 +41,29 @@ class RouteBuilder
      */
     public function create(): void
     {
-        // Iterate over each menu item (link).
-        foreach ($this->menus as $menu => $menuItem) {
-
-            // Check if the menu item is standalone.
-            if (!empty($menuItem->standalone_menu)) {
-                $this->data['menus'] = [$menu];
-
-                // Include additional menus if specified. This allows you to
-                // display other unrelated menus.
-                if (!empty($menuItem->include_menus)) {
-                    foreach ($menuItem->include_menus as $menu) {
-                        array_push($this->data['menus'], $menu);
-                    }
-                }
-            } else {
-                // Get all menu keys if the menu item is not standalone.
-                $this->data['menus'] =  $this->getMenuKeys($this->menus);
-            }
-
-            // Process each link in the menu item.
-            foreach ($menuItem->links as $item) {
-
-                // Create child routes if specified.
-                if (!empty($item->create_child_routes)) {
-                    property_exists($item, 'children')
-                        ? $this->createChildLinks($item->children)
-                        : null;
-                }
-
-                // Create a route for the menu item.
-                $this->make($item);
-            }
+        foreach ($this->menus as $menuName => $menu) {
+            $this->data['menus'] = $this->getMenuKeys($this->menus);
+            $this->processLinks($menu->links);
         }
     }
 
     /**
-     * Create routes and views for child items. This method processes child
-     * items of a menu item and generates corresponding routes and views.
-     * @param array|object $child The child items to process.
+     * Processes the links of a menu. If a link is a parent and has child routes,
+     * it recursively calls itself to process the child links.
+     * 
+     * @param array $links The links of the menu to process.
+     * @param string $menuName The name of the menu.
+     * @return void
      */
-    protected function createChildLinks(array|object $child): void
+    protected function processLinks(array $links): void
     {
-        if (empty($child->exclude_route)) {
-            foreach ($child as $item) {
-                $this->make($item);
+        foreach ($links as $routeItem) {
+            $item = new RouteDTO($routeItem);
+
+            $this->make($item);
+
+            if ($item->isParent && empty($routeItem->exclude_child_routes)) {
+                $this->processLinks($routeItem->children);
             }
         }
     }
@@ -94,25 +72,21 @@ class RouteBuilder
      * Process a single menu item and create a route (if applicable).
      * @param array|object $item The menu item to process.
      */
-    protected function make(array|object $item): void
+    protected function make(RouteDTO $item): void
     {
-        if (!isset($item->exclude_route) || $item->exclude_route === false) {
+        if ($item->excludeRoute === false) {
+            $url = $item->url;
+            $routeName = $item->routeName;
+            $viewPath = $item->view;
 
-            $url = toUrl($item->route_name ?? $item->url);
-
-            $viewPath = empty($item->view) ?  $url : toUrl($item->view);
-
-            // Determine the file type to inject into a layout. This is only
-            // relevant for markdown files or when a layout is set, as
-            // defining the type for a normal blade view is redundant.
             $this->data['type'] = ($item->type ?? null); // blade|md|null
 
             // ----------------------------------------------------------------
-            // Note: The following conditional block is not a complete
-            // solution because it limits you to a single markdown layout that
-            // may or may not be suitable for all cases. In the future,
-            // consider adding another parameter in the JSON file where you
-            // could define a specific layout for markdown files.
+            // Note: The following conditional block is not a complete solution
+            // because it limits you to a single markdown layout that may or may
+            // not be suitable for all cases. In the future, consider adding
+            // another parameter in the JSON file where you could define a
+            // specific layout for markdown files.
             // ----------------------------------------------------------------
 
             // If the 'type' is set to 'md' (markdown), update the viewPath to
@@ -125,12 +99,14 @@ class RouteBuilder
             }
 
             if ($this->layout) {
+                // set the path to the file to be injected into the layout
                 $this->data['path'] = $viewPath;
+                // set the view to the default layout (template) for the view
                 $viewPath = $this->layout;
             }
 
-            $this->createRoute($url, $viewPath, ($item->route_name ?? null));
-        };
+            $this->createRoute($url, $viewPath, $routeName);
+        }
     }
 
     /**
@@ -162,17 +138,12 @@ class RouteBuilder
 
     /**
      * Get menu names (keys)
+     * 
      * @param object $obj The object to get the keys from.
      * @return array The keys of the object.
      */
     private function getMenuKeys(object $obj): array
     {
-        $menuKeys = [];
-
-        foreach ($obj as $menu => $menuLinks) {
-            array_push($menuKeys, $menu);
-        }
-
-        return $menuKeys;
+        return array_keys(get_object_vars($obj));
     }
 }
