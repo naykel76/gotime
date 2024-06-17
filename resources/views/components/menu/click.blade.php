@@ -1,29 +1,23 @@
 <x-gotime::menu.base {{ $attributes }}>
 
-    @foreach($menu->links as $item)
-
+    @foreach ($menuItems as $item)
         @php
-            $children = ($item->children ?? null);
-            $url = $getUrl($item);
+            $children = $item->children ?? null;
+            $url = $item->url;
             $active = $isActive($url);
         @endphp
 
-        @unless($children)
-
-            <a href="{{ url($url) }}" @class(['active'=> $active, $itemClass ])
-                @if($newWindow) target="_blank" @endif >
-                    <x-gotime::menu.icon-selector :$withIcons :$item :$iconClass />
-                    <span> {{ $item->name }} </span>
-            </a>
-
+        @unless ($children)
+            <li>
+                <x-gotime::menu.menu-link :$url :$active :$itemClass :$newWindow>
+                    {{ $item->name }}
+                </x-gotime::menu.menu-link>
+            </li>
         @endunless
 
-        @if($children)
-
+        @if ($children)
             <div x-data="{ open: false }">
-
                 <div x-on:click="open = !open">
-
                     <a href="#" class="space-between">
                         <span>
                             <x-gotime::menu.icon-selector :$withIcons :$item :$iconClass />
@@ -33,28 +27,11 @@
                         <x-gt-icon name="chevron-up" class="wh-1" x-cloak x-show="open" />
                     </a>
                 </div>
-
                 <div x-show="open" class="pl" x-transition x-cloak>
-
-                    @foreach($children as $child)
-
-                        @php
-                            $children = ($item->children ?? null);
-                            $childUrl = ltrim($child->url, '/');
-                        @endphp
-
-                        <a href="{{ url($childUrl) }}" class="{{ request()->is($childUrl) ? $active : '' }}">
-                            {{ $child->name }}
-                        </a>
-
-                    @endforeach
-
+                    <x-gotime::menu.menu-children :children="$item->children" />
                 </div>
-
             </div>
-
         @endif
-
     @endforeach
 
     {{ $slot }}

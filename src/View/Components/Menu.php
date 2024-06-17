@@ -2,13 +2,14 @@
 
 namespace Naykel\Gotime\View\Components;
 
-use Exception;
 use Illuminate\View\Component;
+use Naykel\Gotime\DTO\MenuDTO;
 
 class Menu extends Component
 {
     /**
-     * nav.json file
+     * The JSON file containing the menu data.
+     * @var object
      */
     public object $file;
 
@@ -26,66 +27,31 @@ class Menu extends Component
     }
 
     /**
-     * Get the specified menu from the nav object
-     */
-    public function getMenu($menuname): object
-    {
-        if (empty($this->file->$menuname)) {
-            throw new Exception("There is no menu object named '$menuname' found in the `$this->filename` json file.");
-        }
-
-        return $this->file->$menuname;
-    }
-
-    /**
-     * Generates relative url from menu objects route_name or url
-     */
-    public function getUrl(object $item): string|null
-    {
-        // if the menu item has children, AND there is no `route_name` or
-        // `url` you are safe to assume this is a parent item with a hover or
-        // clickable so do not attempt to create a link, just exit.
-        if ($this->isParent($item) && !isset($item->route_name) && !isset($item->url)) return '#';
-
-        if (!isset($item->route_name) && !isset($item->url)) {
-            throw new Exception("There is no route name or url defined for the '$item->name' menu item");
-        }
-
-        if (isset($item->route_name)) {
-            return route($item->route_name, absolute: false);
-        } else {
-            return ltrim($item->url, '/'); // strip '/' to prevent errors
-        }
-
-        throw new Exception($item->name . " menu item has a problem. It's likely missing the route in wep.php!");
-    }
-
-    /**
-     * Check if the menu item has any children
-     */
-    public function isParent($item): bool
-    {
-        return property_exists($item, 'children');
-    }
-
-    /**
-     * Check if the current url is active.
+     * Retrieves a menu from the nav.json file by its name and returns it as a MenuDTO.
      *
-     * The link will always come through as the url because it is run through
-     * the getUrl method before it gets here.
+     * @param string $menuName The name of the menu to retrieve.
+     * @return MenuDTO The requested menu, wrapped in a MenuDTO.
+     * @throws InvalidArgumentException If the requested menu does not exist in the file.
+     */
+    public function getMenu(string $menuName): MenuDTO
+    {
+        if (!isset($this->file->$menuName)) {
+            throw new \InvalidArgumentException("There is no menu object named '$menuName' found in the `$this->filename` json file.");
+        }
+
+        return new MenuDTO(collect($this->file->$menuName), $menuName);
+    }
+
+    /**
+     * Check if the current URL matches the given URL.
+     *
+     * Note: Sanitizing the URL is not necessary as it is handled in the RouteDTO.
+     *
+     * @param string $url The URL to compare with the current request URL.
+     * @return bool True if the URLs match, false otherwise.
      */
     public function isActive(string $url): bool
     {
-        // strip the leading forward slash from the $url parameter because
-        // request()->is() expects the URL path without the leading slash.
-        // This creates a problem for the home page but we can handle it by
-        // checking if the URL is empty or a single forward slash.
-        $url = ltrim($url, '/');
-
-        if ($url === '' || $url === '/') {
-            return request()->path() === '' || request()->path() === '/';
-        }
-
         return request()->is($url);
     }
 
@@ -96,6 +62,8 @@ class Menu extends Component
             : "gotime::components.menu.$this->layout";
 
         return view($viewPath)
-            ->with(['menu' => $this->getMenu($this->menuname)]);
+            ->with([
+                'menuItems' => $this->getMenu($this->menuname)->menuItems
+            ]);
     }
 }
