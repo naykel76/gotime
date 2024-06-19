@@ -60,8 +60,14 @@ class RouteBuilder
         foreach ($links as $routeItem) {
             $item = new RouteDTO($routeItem);
 
-            $this->make($item);
+            if ($item->excludeRoute === false) {
+                $this->make($item);
+            }
 
+            // NK::TD find a way to override the exclude_child_routes and create
+            // for a specific child route. Currently it is not possible and the
+            // solution is not use exclude_child_routes in the parent route and
+            // set the exclude_route to true in the child route.
             if ($item->isParent && empty($routeItem->exclude_child_routes)) {
                 $this->processLinks($routeItem->children);
             }
@@ -74,39 +80,37 @@ class RouteBuilder
      */
     protected function make(RouteDTO $item): void
     {
-        if ($item->excludeRoute === false) {
-            $url = $item->url;
-            $routeName = $item->routeName;
-            $viewPath = $item->view;
+        $url = $item->url;
+        $routeName = $item->routeName;
+        $viewPath = $item->view;
 
-            $this->data['type'] = ($item->type ?? null); // blade|md|null
+        $this->data['type'] = ($item->type ?? null); // blade|md|null
 
-            // ----------------------------------------------------------------
-            // Note: The following conditional block is not a complete solution
-            // because it limits you to a single markdown layout that may or may
-            // not be suitable for all cases. In the future, consider adding
-            // another parameter in the JSON file where you could define a
-            // specific layout for markdown files.
-            // ----------------------------------------------------------------
+        // ----------------------------------------------------------------
+        // Note: The following conditional block is not a complete solution
+        // because it limits you to a single markdown layout that may or may
+        // not be suitable for all cases. In the future, consider adding
+        // another parameter in the JSON file where you could define a
+        // specific layout for markdown files.
+        // ----------------------------------------------------------------
 
-            // If the 'type' is set to 'md' (markdown), update the viewPath to
-            // the location of the "markdown layout" which is
-            // 'layouts.markdown'. Also, set the data['path'] to the location
-            // of the actual markdown file to be injected into the layout.
-            if (isset($item->type) && $item->type == 'md') {
-                $this->data['path'] = $viewPath;
-                $viewPath = 'components.layouts.markdown';
-            }
-
-            if ($this->layout) {
-                // set the path to the file to be injected into the layout
-                $this->data['path'] = $viewPath;
-                // set the view to the default layout (template) for the view
-                $viewPath = $this->layout;
-            }
-
-            $this->createRoute($url, $viewPath, $routeName);
+        // If the 'type' is set to 'md' (markdown), update the viewPath to
+        // the location of the "markdown layout" which is
+        // 'layouts.markdown'. Also, set the data['path'] to the location
+        // of the actual markdown file to be injected into the layout.
+        if (isset($item->type) && $item->type == 'md') {
+            $this->data['path'] = $viewPath;
+            $viewPath = 'components.layouts.markdown';
         }
+
+        if ($this->layout) {
+            // set the path to the file to be injected into the layout
+            $this->data['path'] = $viewPath;
+            // set the view to the default layout (template) for the view
+            $viewPath = $this->layout;
+        }
+
+        $this->createRoute($url, $viewPath, $routeName);
     }
 
     /**

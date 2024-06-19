@@ -28,6 +28,17 @@ if (!function_exists('getFile')) {
     }
 }
 
+if (!function_exists('fileExists')) {
+    function fileExists(string $path): string|false
+    {
+        if (!file_exists($path)) {
+            throw new FileNotFoundException("File does not exist at path {$path}.");
+        }
+
+        return true;
+    }
+}
+
 // ------------------------------------------------------------------
 // -- URL PATH CONVERSION HELPERS --
 // ------------------------------------------------------------------

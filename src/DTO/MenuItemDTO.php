@@ -42,7 +42,7 @@ class MenuItemDTO
      *
      * @param object $item The menu item.
      */
-    public function __construct(object $item, private readonly string $menuName = 'apples')
+    public function __construct(object $item, private readonly string $menuName = '')
     {
         if (!isset($item->name)) {
             throw new \InvalidArgumentException("There is an item in the '$menuName' menu with no name defined.");
@@ -76,7 +76,36 @@ class MenuItemDTO
             throw new \Exception("There is no route name or url defined for the '$item->name' menu item in the '$this->menuName' menu");
         }
 
-        return toPath($item->route_name ?? $item->url);
+        return $this->generateUrl($item);
+    }
+
+    /**
+     * Generates the URL for the menu item.
+     *
+     * @param object $item The menu item.
+     * @return string The generated URL.
+     */
+    protected function generateUrl(object $item): string
+    {
+        if (isset($item->route_name)) {
+            $this->validateRoute($item->route_name);
+            return route($item->route_name, absolute: false);
+        }
+
+        return toPath($item->url);
+    }
+
+    /**
+     * Validates that the route exists.
+     *
+     * @param string $route_name The name of the route to validate.
+     * @throws \Exception If the route does not exist.
+     */
+    protected function validateRoute(string $route_name): void
+    {
+        if (!Route::has($route_name)) {
+            throw new \Exception('Route ' . $route_name . ' does not exist.');
+        }
     }
 
     /**

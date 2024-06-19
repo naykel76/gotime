@@ -4,6 +4,7 @@ namespace Naykel\Gotime\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Naykel\Gotime\Facades\FileManagement as FMS;
 
 class InstallCommand extends Command
 {
@@ -43,8 +44,8 @@ class InstallCommand extends Command
         });
 
         // Update node modules...
-        if (!$this->stringInFile('./package.json', "\"type\": \"module\"")) {
-            $this->replaceInFile(
+        if (!FMS::stringInFile('./package.json', "\"type\": \"module\"")) {
+            FMS::replaceInFile(
                 "\"private\": true,",
                 "\"private\": true,
         \"type\": \"module\", ",
@@ -103,30 +104,5 @@ class InstallCommand extends Command
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
         );
-    }
-
-    /**
-     * Replace a given string within a given file.
-     *
-     * @param  string  $search
-     * @param  string  $replace
-     * @param  string  $path
-     * @return void
-     */
-    protected function replaceInFile($search, $replace, $path)
-    {
-        file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
-    }
-
-    /**
-     * A given string exists within a given file.
-     *
-     * @param string $path
-     * @param string $search
-     * @return bool
-     */
-    protected function stringInFile($path, $search)
-    {
-        return str_contains(file_get_contents($path), $search);
     }
 }
