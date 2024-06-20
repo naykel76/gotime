@@ -8,16 +8,16 @@
             <span>
                 {{-- Previous Page Link --}}
                 @if($paginator->onFirstPage())
-                    <button type="button" class="btn rounded-05 xs" disabled>
+                    <button type="button" class="btn rounded-025 xs" disabled>
                         Previous
                     </button>
                 @else
                     @if(method_exists($paginator,'getCursorName'))
-                        <button type="button" dusk="previousPage" wire:key="cursor-{{ $paginator->getCursorName() }}-{{ $paginator->previousCursor()->encode() }}" wire:click="setPage('{{ $paginator->previousCursor()->encode() }}','{{ $paginator->getCursorName() }}')" wire:loading.attr="disabled" class="btn rounded-05 xs">
+                        <button type="button" dusk="previousPage" wire:key="cursor-{{ $paginator->getCursorName() }}-{{ $paginator->previousCursor()->encode() }}" wire:click="setPage('{{ $paginator->previousCursor()->encode() }}','{{ $paginator->getCursorName() }}')" wire:loading.attr="disabled" class="btn rounded-025 xs">
                             Previous
                         </button>
                     @else
-                        <button type="button" wire:click="previousPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" dusk="previousPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}" class="btn rounded-05 xs">
+                        <button type="button" wire:click="previousPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" dusk="previousPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}" class="btn rounded-025 xs">
                             Previous
                         </button>
                     @endif
@@ -28,16 +28,16 @@
                 {{-- Next Page Link --}}
                 @if($paginator->hasMorePages())
                     @if(method_exists($paginator,'getCursorName'))
-                        <button type="button" dusk="nextPage" wire:key="cursor-{{ $paginator->getCursorName() }}-{{ $paginator->nextCursor()->encode() }}" wire:click="setPage('{{ $paginator->nextCursor()->encode() }}','{{ $paginator->getCursorName() }}')" wire:loading.attr="disabled" class="btn rounded-05 xs">
+                        <button type="button" dusk="nextPage" wire:key="cursor-{{ $paginator->getCursorName() }}-{{ $paginator->nextCursor()->encode() }}" wire:click="setPage('{{ $paginator->nextCursor()->encode() }}','{{ $paginator->getCursorName() }}')" wire:loading.attr="disabled" class="btn rounded-025 xs">
                             Next
                         </button>
                     @else
-                        <button type="button" wire:click="nextPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" dusk="nextPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}" class="btn rounded-05 xs">
+                        <button type="button" wire:click="nextPage('{{ $paginator->getPageName() }}')" wire:loading.attr="disabled" dusk="nextPage{{ $paginator->getPageName() == 'page' ? '' : '.' . $paginator->getPageName() }}" class="btn rounded-025 xs">
                             Next
                         </button>
                     @endif
                 @else
-                    <button type="button" class="btn rounded-05 xs" disabled>
+                    <button type="button" class="btn rounded-025 xs" disabled>
                         Next
                     </button>
                 @endif

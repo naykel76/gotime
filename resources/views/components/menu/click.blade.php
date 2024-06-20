@@ -5,11 +5,13 @@
             $children = $item->children ?? null;
             $url = $item->url;
             $active = $isActive($url);
+            $icon = $item->icon;
         @endphp
 
         @unless ($children)
             <li>
                 <x-gotime::menu.menu-link :$url :$active :$itemClass :$newWindow>
+                    <x-gotime::menu.icon-selector :$withIcons :$icon :$iconClass />
                     {{ $item->name }}
                 </x-gotime::menu.menu-link>
             </li>
@@ -20,7 +22,7 @@
                 <div x-on:click="open = !open">
                     <a href="#" class="space-between">
                         <span>
-                            <x-gotime::menu.icon-selector :$withIcons :$item :$iconClass />
+                            <x-gotime::menu.icon-selector :$withIcons :$icon :$iconClass />
                             {{ $item->name }}
                         </span>
                         <x-gt-icon name="chevron-down" class="wh-1" x-cloak x-show="!open" />
@@ -28,7 +30,7 @@
                     </a>
                 </div>
                 <div x-show="open" class="pl" x-transition x-cloak>
-                    <x-gotime::menu.menu-children :children="$item->children" />
+                    <x-gotime::menu.menu-children :$children />
                 </div>
             </div>
         @endif

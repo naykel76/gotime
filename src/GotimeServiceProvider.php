@@ -18,7 +18,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/naykel.php', 'naykel');
         $this->mergeConfigFrom(__DIR__ . '/../config/services.php', 'services');
         $this->mergeConfigFrom(__DIR__ . '/../config/markdown.php', 'markdown');
-        
+
         $this->app->singleton('filemanagement', function ($app) {
             return new \Naykel\Gotime\Services\FileManagementService();
         });
@@ -68,9 +68,18 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('button.button', 'button');
         $this->registerComponentX('button.submit', 'submit');
 
-
         // layouts
         $this->registerComponentX('layouts.base', 'gotime-layouts.base');
+
+        // modals
+        $this->registerComponentX('modal.base', 'modal.base');
+        $this->registerComponentX('modal.dialog', 'modal.dialog');
+
+        // Livewire special components
+        $this->registerComponentX('livewire-search-input', 'search-input', 'gtl');
+
+        // table components
+        $this->registerComponentX('table.th', 'table.th');
     }
 
     protected function registerFormComponents(): void

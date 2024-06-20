@@ -6,17 +6,17 @@
         <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}">
             <div class="flex space-between w-full gap">
                 @if($paginator->onFirstPage())
-                    <span class="btn rounded-05 xs disabled"> Previous </span>
+                    <span class="btn rounded-025 xs disabled"> Previous </span>
                 @else
-                    <a href="{{ $paginator->previousPageUrl() }}" class="btn rounded-05 xs">
+                    <a href="{{ $paginator->previousPageUrl() }}" class="btn rounded-025 xs">
                         Previous
                     </a>
                 @endif
 
                 @if($paginator->hasMorePages())
-                    <a href="{{ $paginator->nextPageUrl() }}" class="btn rounded-05 xs"> Next </a>
+                    <a href="{{ $paginator->nextPageUrl() }}" class="btn rounded-025 xs"> Next </a>
                 @else
-                    <span class="btn rounded-05 xs disabled"> Next </span>
+                    <span class="btn rounded-025 xs disabled"> Next </span>
                 @endif
             </div>
         </nav>

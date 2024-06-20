@@ -38,6 +38,13 @@ class MenuItemDTO
     public bool $isParent;
 
     /**
+     * The icon name to be used for the menu item when withIcons is set to true.
+     *
+     * @var string
+     */
+    public string $icon;
+
+    /**
      * MenuItemDTO constructor.
      *
      * @param object $item The menu item.
@@ -49,6 +56,7 @@ class MenuItemDTO
         }
 
         $this->name = $item->name;
+        $this->icon = $item->icon ?? '';
         $this->isParent = property_exists($item, 'children');
         $this->url = $this->handleUrl($item);
         $this->isParent ? $this->handleChildren($item->children) : $this->children = null;
