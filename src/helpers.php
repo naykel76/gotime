@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Routing\Redirector;
+use Illuminate\Http\RedirectResponse;
 
 // ------------------------------------------------------------------
 // -- FILES AND FILESYSTEM --
@@ -80,5 +83,17 @@ if (!function_exists('numSegments')) {
     {
         $path = $trim ? trim($path, '/') : $path;
         return count(explode('/', $path));
+    }
+}
+
+
+if (!function_exists('dotLastSegment')) {
+    /**
+     * Explode dot notation and return the last segment
+     */
+    function dotLastSegment(string $item): string
+    {
+        $arr = explode(".", $item);
+        return end($arr);
     }
 }
