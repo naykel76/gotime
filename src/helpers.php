@@ -82,3 +82,14 @@ if (!function_exists('numSegments')) {
         return count(explode('/', $path));
     }
 }
+
+if (!function_exists('dotLastSegment')) {
+    /**
+     * Explode dot notation and return the last segment
+     */
+    function dotLastSegment(string $item): string
+    {
+        $arr = explode(".", $item);
+        return end($arr);
+    }
+}

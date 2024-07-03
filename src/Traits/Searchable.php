@@ -7,8 +7,10 @@ trait Searchable
     public string $search = '';
 
     /**
-     * This function is called when the search is updated. It resets the
-     * pagination to first page.
+     * Resets pagination to the first page upon updating the search query.
+     *
+     * This method is triggered automatically when the search query is modified,
+     * ensuring that search results are displayed starting from the first page.
      */
     public function updatingSearch(): void
     {
