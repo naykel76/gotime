@@ -56,7 +56,8 @@ return [
     // CodeRendererExtension::$allowBladeForNextDocument = true
 
     'heading_permalink' => [
-        'id_prefix' => '', // NK: removes 'content-' prefix from the id
+        'id_prefix' => '', // NK: removes 'content-' prefix from the toc link
+        'fragment_prefix' => '', // NK: removes 'content-' prefix from the fragment (link)
         'symbol' => '# ',
     ],
 

@@ -7,31 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 trait Formable
 {
     /**
-     * The persisted model that is being edited.
+     * Represents the model being edited or a new instance being created.
+     * 
+     * This property only reflects the model's state when initially set or after
+     * saving the form. It does not update to reflect changes made during form
+     * editing.
      * 
      * https://naykel.com.au/gotime/traits/formable#content-editing
      * 
      * @var Model|null
      */
     public ?Model $editing;
-
-    /**
-     * The editing model is the persisted model that is being edited. It will
-     * only reflect the model state when it is first set, or after the form has
-     * been saved.
-     * 
-     * It will not reflect the model state after the form has been edited.
-     * 
-     * So what is the point of this method? Without model binding, the editing
-     * attribute is not that useful. However, it is good for checking existence
-     * and using it to set the form properties.
-     * 
-     * @return Model|null 
-     */
-    protected function getEditingModel(): ?Model
-    {
-        return $this->editing;
-    }
 
     /**
      * Set form properties for a given model. 

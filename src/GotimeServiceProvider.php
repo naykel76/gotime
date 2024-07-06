@@ -93,12 +93,24 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerFormComponents(): void
     {
-        // form controls
         $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
+        $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');
+        
+        // $this->registerComponentX('input.choices', 'choices');
+        // $this->registerComponentX('input.checkbox', 'checkbox');
+        // $this->registerComponentX('input.ckeditor', 'ckeditor');
+        // $this->registerComponentX('input.ckeditor-basic', 'ckeditor-basic');
+        // $this->registerComponentX('input.ckeditor-inline', 'ckeditor-inline');
+        // $this->registerComponentX('input.file-input', 'file-input');
+        // // $this->registerComponentX('input.filepond', 'filepond'); // now class based
+        // $this->registerComponentX('input.password', 'input.password');
+        // $this->registerComponentX('input.pikaday', 'pikaday');
+        // $this->registerComponentX('input.radio', 'radio');
+        // $this->registerComponentX('input.trix', 'trix');
     }
 
     /**
@@ -112,106 +124,10 @@ class GotimeServiceProvider extends ServiceProvider
     }
 }
 
-
-
-// use Illuminate\Database\Eloquent\Builder;
-// use Naykel\Gotime\View\Components\FilePond;
-
-
-
-// class GotimeServiceProvider extends ServiceProvider
-// {
-
-//     public function register()
-//     {
-//         $this->app->singleton('filemanagement', function ($app) {
-//             return new \Naykel\Gotime\Services\FileManagementService();
-//         });
-//     }
-
-//     public function boot()
-//     {
-//         $this->registerFormComponents();
-//         $this->registerIconComponents();
-
-
-//         /** Load Package Components
-//          * ==================================================================
-//          *
-//          */
-
-//         $this->loadViewComponentsAs('gt', [
-//             FilePond::class,
-//         ]);
-
-//         /** Assets
-//          * ==================================================================
-//          */
-//         $this->publishes(
-//             [
-//                 __DIR__ . '/../stubs/resources/js' => resource_path('js'),
-//             ],
-//             'gotime-assets'
-//         );
-
-//         /**
-//          * Search macro for data tables
-//          */
-//         Builder::macro('search', function ($field, $string) {
-//             return $string ? $this->where($field, 'like', '%' . $string . '%') : $this;
-//         });
-//     }
-
-//     /**
-//      * Configure the Gotime Blade components.
-//      *
-//      * @return void
-//      */
-//     protected function configureComponents()
-//     {
-//         $this->callAfterResolving(BladeCompiler::class, function () {
-
-
-
-
-//             // other
-//             $this->registerComponentX('accordion');
-
-//             // buttons
-//             $this->registerComponentX('button.base', 'button.base');
-//             $this->registerComponentX('button.variants.primary', 'button-primary');
-//             $this->registerComponentX('button.variants.secondary', 'button-secondary');
-
-//             $this->registerComponentX('button.create', 'button-create');
-//             $this->registerComponentX('button.delete', 'button-delete');
-//             $this->registerComponentX('button.edit', 'button-edit');
-
-
-
-//             // toolbars
-//             $this->registerComponentX('toolbar.search-sort-toolbar', 'search-sort-toolbar');
-//             $this->registerComponentX('toolbar.actions-toolbar', 'actions-toolbar');
-
-
-//             // DEPRECIATED use `modal.base`
-//             $this->registerComponentX('modal');
-//         });
-//     }
-
-//     protected function registerFormComponents(): void
-//     {
-//         $this->registerComponentX('form');
-
-//         // Form Controls and Inputs
-//         $this->registerComponentX('input.choices', 'choices');
-//         $this->registerComponentX('input.checkbox', 'checkbox');
-//         $this->registerComponentX('input.ckeditor', 'ckeditor');
-//         $this->registerComponentX('input.ckeditor-basic', 'ckeditor-basic');
-//         $this->registerComponentX('input.ckeditor-inline', 'ckeditor-inline');
-//         $this->registerComponentX('input.file-input', 'file-input');
-//         // $this->registerComponentX('input.filepond', 'filepond'); // now class based
-//         $this->registerComponentX('input.password', 'input.password');
-//         $this->registerComponentX('input.pikaday', 'pikaday');
-//         $this->registerComponentX('input.radio', 'radio');
-//         $this->registerComponentX('input.select', 'select');
-//         $this->registerComponentX('input.trix', 'trix');
+// /**
+//  * Search macro for data tables
+//  */
+// Builder::macro('search', function ($field, $string) {
+//     return $string ? $this->where($field, 'like', '%' . $string . '%') : $this;
+// });
+// }
