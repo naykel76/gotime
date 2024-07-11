@@ -19,7 +19,7 @@ trait Crudable
     {
         $validatedData = $this->validate();
 
-        method_exists($this, 'beforePersist') ? $this->beforePersist($validatedData) : null;
+        method_exists($this, 'beforePersistHook') && $this->beforePersistHook($validatedData);
 
         $this->editing = $this->editing::updateOrCreate(['id' => $this->editing->id], $validatedData);
 

@@ -57,8 +57,8 @@ class Menu extends Component
 
     public function render()
     {
-        $viewPath = view()->exists("layouts.components.menu.$this->layout")
-            ? "layouts.components.menu.$this->layout"
+        $viewPath = view()->exists("components.layouts.menu.$this->layout")
+            ? "components.layouts.menu.$this->layout"
             : "gotime::components.menu.$this->layout";
 
         return view($viewPath)

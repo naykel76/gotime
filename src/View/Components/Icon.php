@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\View;
 
 class Icon extends Component
 {
-
     public array $icons = [
         'arrow-down-tray' => ['download'],
         'arrow-left-circle' => ['previous', 'back'],
@@ -42,7 +41,6 @@ class Icon extends Component
 
     public function render()
     {
-
         $name = $this->getIconKeyFromAlias($this->name);
 
         $viewPath = "gotime::components.icon.{$this->type}.{$name}";

@@ -63,6 +63,7 @@ class GotimeServiceProvider extends ServiceProvider
 
         // Alerts, Notifications, and Messages
         $this->registerComponentX('alert');
+        $this->registerComponentX('errors');
         $this->registerComponentX('toast');
 
         // Buttons
@@ -100,11 +101,14 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');
         
+        // should I have one and use a variant?
+        $this->registerComponentX('input.ckeditor.ckeditor', 'ckeditor');
+        $this->registerComponentX('input.ckeditor.basic', 'ckeditor.basic');
+        $this->registerComponentX('input.ckeditor.inline', 'ckeditor.inline');
+
         // $this->registerComponentX('input.choices', 'choices');
         // $this->registerComponentX('input.checkbox', 'checkbox');
-        // $this->registerComponentX('input.ckeditor', 'ckeditor');
-        // $this->registerComponentX('input.ckeditor-basic', 'ckeditor-basic');
-        // $this->registerComponentX('input.ckeditor-inline', 'ckeditor-inline');
+
         // $this->registerComponentX('input.file-input', 'file-input');
         // // $this->registerComponentX('input.filepond', 'filepond'); // now class based
         // $this->registerComponentX('input.password', 'input.password');
