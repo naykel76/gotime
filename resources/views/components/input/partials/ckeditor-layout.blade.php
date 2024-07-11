@@ -1,13 +1,11 @@
 @aware(['for', 'value' => null, 'label' => null, 'tooltip' => false, 'ignoreErrors' => false, 'helpText' => null, 'helpTextTop' => false, 'rowClass' => null, 'labelClass' => null])
 
 <div class='frm-row {{ $rowClass }}'>
-
     @isset($label)
         <x-gotime::input.partials.label :tooltip="$tooltip ?? null" />
     @endisset
 
-    <div class="flex-col w-full">
-
+    <div class="flex-col w-full my-0">
         @if (isset($helpText) && $helpTextTop)
             <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
         @endif
@@ -23,15 +21,21 @@
                 <small class="txt-red" role="alert"> {{ $message }} </small>
             @enderror
         @endunless
-
     </div>
-
 </div>
 
 @assets('scripts')
     <script src="{{ asset('js/ckeditor.js') }}"></script>
 
     <style>
+        .ck.ck-editor__editable_inline>:last-child {
+            margin-bottom: 0;
+        }
+
+        .ck.ck-editor__editable_inline>:first-child {
+            margin-top: 0;
+        }
+
         .ck-editor__main .ck.ck-editor__editable_inline {
             padding: .6rem !important;
         }
