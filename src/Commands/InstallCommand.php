@@ -36,7 +36,7 @@ class InstallCommand extends Command
                 // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
                 "@erbelion/vite-plugin-laravel-purgecss" => "github:naykel76/vite-plugin-laravel-purgecss",
                 "@fullhuman/postcss-purgecss" => "^5.0.0",
-                "nk_jtb" => "^0.9.14",
+                "nk_jtb" => "^0.10",
                 "sass" => "1.60.0",
                 'autoprefixer' => '^10.4.7',
                 'postcss' => '^8.4.14',
@@ -66,6 +66,7 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../resources/publishable/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__ . '/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
         copy(__DIR__ . '/../../resources/publishable/readme.md', base_path('readme.md'));
+        copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
         // Public...
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/public/', public_path());
@@ -75,6 +76,11 @@ class InstallCommand extends Command
 
         $this->info('Gotime scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
+
+        // clean up
+        shell_exec('rm -rf ' . resource_path('css'));
+        unlink(public_path('favicon.ico'));
+        unlink(resource_path('views/welcome.blade.php'));
 
         return Command::SUCCESS;
     }
