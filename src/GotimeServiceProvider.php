@@ -5,11 +5,13 @@ namespace Naykel\Gotime;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Naykel\Gotime\Commands\InstallCommand;
+use Naykel\Gotime\View\Components\Filepond;
 use Naykel\Gotime\View\Components\Icon;
 use Naykel\Gotime\View\Components\Markdown;
 use Naykel\Gotime\View\Components\Menu;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Layouts\AppLayout;
+
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -30,7 +32,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponents();
         $this->registerFormComponents();
 
-
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
         $this->publishes([
@@ -39,14 +40,23 @@ class GotimeServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
-        ], 'gotime-views');
+        ], 'gotime-all-layouts');
+
+        // only publish the main app layout and partials
+        $this->publishes([
+            __DIR__ . '/../resources/views/components/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
+            __DIR__ . '/../resources/views/components/layouts/partials' => resource_path('views/components/layouts/partials'),
+        ], 'gotime-app-layouts');
+
+
 
         $this->loadViewComponentsAs('gt', [
             AppLayout::class,
+            Filepond::class,
             Icon::class,
+            Markdown::class,
             Menu::class,
             Sidebar::class,
-            Markdown::class
         ]);
     }
 
@@ -95,22 +105,18 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerFormComponents(): void
     {
         $this->registerComponentX('input.checkbox', 'checkbox');
+        $this->registerComponentX('input.ckeditor.basic', 'ckeditor.basic');
+        $this->registerComponentX('input.ckeditor.ckeditor', 'ckeditor');
+        $this->registerComponentX('input.ckeditor.inline', 'ckeditor.inline');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');
-        
-        // should I have one and use a variant?
-        $this->registerComponentX('input.ckeditor.ckeditor', 'ckeditor');
-        $this->registerComponentX('input.ckeditor.basic', 'ckeditor.basic');
-        $this->registerComponentX('input.ckeditor.inline', 'ckeditor.inline');
 
         // $this->registerComponentX('input.choices', 'choices');
         // $this->registerComponentX('input.checkbox', 'checkbox');
-
         // $this->registerComponentX('input.file-input', 'file-input');
-        // // $this->registerComponentX('input.filepond', 'filepond'); // now class based
         // $this->registerComponentX('input.password', 'input.password');
         // $this->registerComponentX('input.pikaday', 'pikaday');
         // $this->registerComponentX('input.radio', 'radio');
@@ -127,11 +133,3 @@ class GotimeServiceProvider extends ServiceProvider
         Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
 }
-
-// /**
-//  * Search macro for data tables
-//  */
-// Builder::macro('search', function ($field, $string) {
-//     return $string ? $this->where($field, 'like', '%' . $string . '%') : $this;
-// });
-// }

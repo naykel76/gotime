@@ -13,7 +13,7 @@ trait Formable
      * saving the form. It does not update to reflect changes made during form
      * editing.
      * 
-     * https://naykel.com.au/gotime/traits/formable#content-editing
+     * https://naykel.com.au/gotime/traits/formable#editing
      * 
      * @var Model|null
      */

@@ -79,8 +79,8 @@ class InstallCommand extends Command
 
         // clean up
         shell_exec('rm -rf ' . resource_path('css'));
-        unlink(public_path('favicon.ico'));
-        unlink(resource_path('views/welcome.blade.php'));
+        if (file_exists(public_path('favicon.ico'))) unlink(public_path('favicon.ico'));
+        if (file_exists(resource_path('views/welcome.blade.php'))) unlink(resource_path('views/welcome.blade.php'));
 
         return Command::SUCCESS;
     }
