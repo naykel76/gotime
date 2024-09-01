@@ -24,4 +24,24 @@ trait Renderable
                 'layout' => $this->layout ?? 'admin'
             ]);
     }
+
+
+    /**
+     * Sets the page title based on the current route.
+     *
+     * @return string The page title.
+     */
+    private function setPageTitle(): void
+    {
+        // $action = $this->editingModelExists() ? 'Edit ' : 'Create ';
+        // $lastSegment = dotLastSegment($this->routePrefix);
+        // $exclude = ['media']; // prevent singular conversion (media->medium)
+
+        // if (in_array($lastSegment, $exclude)) {
+        //     $this->title = $action . Str::title($lastSegment);
+        //     return;
+        // }
+
+        // $this->title = $action . Str::singular(Str::title($lastSegment));
+    }
 }

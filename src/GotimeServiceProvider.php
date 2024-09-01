@@ -87,6 +87,7 @@ class GotimeServiceProvider extends ServiceProvider
 
         // layouts
         $this->registerComponentX('layouts.base', 'gotime-layouts.base');
+        $this->registerComponentX('layouts.partials.two-column-responsive');
 
         // Livewire special components
         $this->registerComponentX('livewire-search-input', 'search-input', 'gtl');
