@@ -1,14 +1,14 @@
-@props(['type' => 'danger', 'iconClass' => ''])
+@props(['type' => '', 'iconClass' => '', 'icon' => null])
 
 @php
     // be sure to update the icon before the type
-    $icon = match ($type) {
-        'danger' => 'exclamation-triangle',
-        'warning' => 'exclamation-circle',
-        'info' => 'information-circle',
-        'success' => 'check-circle',
-        default => '',
-    };
+    $icon = $icon ??
+        match ($type) {
+            'danger' => 'exclamation-triangle',
+            'warning' => 'exclamation-circle',
+            'info' => 'information-circle',
+            'success' => 'check-circle',
+        };
     $type = match ($type) {
         'danger' => 'danger-light',
         'warning' => 'warning-light',
@@ -19,7 +19,9 @@
 
 @endphp
 
-<div @class(['bx bdr-2 rounded-075 flex va-c ' . $type])>
-    <x-gt-icon name="{{ $icon }}" class="fs0 mr-075 {{ $iconClass }}" />
+<div {{ $attributes->merge(['class' => 'bx bdr-2 rounded-075 flex va-c ' . $type]) }}>
+    @if ($icon)
+        <x-gt-icon name="{{ $icon }}" class="fs0 mr-075 {{ $iconClass }}" />
+    @endif
     {{ $slot }}
 </div>

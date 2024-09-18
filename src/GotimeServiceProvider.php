@@ -112,6 +112,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
+        $this->registerComponentX('input.pikaday', 'pikaday');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');
 
@@ -119,7 +120,6 @@ class GotimeServiceProvider extends ServiceProvider
         // $this->registerComponentX('input.checkbox', 'checkbox');
         // $this->registerComponentX('input.file-input', 'file-input');
         // $this->registerComponentX('input.password', 'input.password');
-        // $this->registerComponentX('input.pikaday', 'pikaday');
         // $this->registerComponentX('input.radio', 'radio');
         // $this->registerComponentX('input.trix', 'trix');
     }
