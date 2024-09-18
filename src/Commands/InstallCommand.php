@@ -66,6 +66,7 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../resources/publishable/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__ . '/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
         copy(__DIR__ . '/../../resources/publishable/readme.md', base_path('readme.md'));
+        copy(__DIR__ . '/../../resources/publishable/pint.json', base_path('pint.json'));
         copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
         // Public...

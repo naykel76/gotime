@@ -10,6 +10,42 @@ trait WithLivewireHelpers
     //      the editing property must be $this->form->editing       //
     //////////////////////////////////////////////////////////////////
 
+    public $showModal = false;
+
+
+    /**
+     * Edit the specified model by its ID.
+     *
+     * This method finds a model by its ID, initializes the form with the model,
+     * and shows the modal dialog.
+     *
+     * @param int $id The ID of the model to edit.
+     * @return void
+     */
+
+    public function edit($id): void
+    {
+        $model = $this->modelClass::findOrFail($id);
+        $this->form->init($model);
+        $this->showModal = true;
+    }
+
+    public function create(): void
+    {
+        $model = $this->modelClass::make();
+        $this->form->init($model);
+        $this->showModal = true;
+    }
+
+
+
+
+
+
+
+
+
+
     public function save(string $action = null): void
     {
         $model = $this->form->save();
@@ -25,6 +61,8 @@ trait WithLivewireHelpers
         }
 
         $this->dispatch('notify', 'Saved successfully!');
+
+        $this->showModal = false;
     }
 
     /**

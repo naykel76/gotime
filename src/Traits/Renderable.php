@@ -17,7 +17,6 @@ trait Renderable
             $data = $this->prepareData();
         }
 
-        // dd($this->pageTitle ?? $this->getPageTitle());
         return view($this->view, $data ?? [])
             ->layout(\Naykel\Gotime\View\Layouts\AppLayout::class, [
                 'pageTitle' => $this->pageTitle ?? $this->getPageTitle(),
