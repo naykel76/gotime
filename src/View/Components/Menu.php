@@ -9,12 +9,11 @@ class Menu extends Component
 {
     /**
      * The JSON file containing the menu data.
-     * @var object
      */
     public object $file;
 
     public function __construct(
-        public string $filename = "nav-main",   // name of json file in navs directory
+        public string $filename = 'nav-main',   // name of json file in navs directory
         public string $menuname = 'main',       // specific menu from json file
         public string $layout = 'click',        // click|hover|none
         public string $title = '',              // menu title (free type)
@@ -29,13 +28,14 @@ class Menu extends Component
     /**
      * Retrieves a menu from the nav.json file by its name and returns it as a MenuDTO.
      *
-     * @param string $menuName The name of the menu to retrieve.
+     * @param  string  $menuName  The name of the menu to retrieve.
      * @return MenuDTO The requested menu, wrapped in a MenuDTO.
+     *
      * @throws InvalidArgumentException If the requested menu does not exist in the file.
      */
     public function getMenu(string $menuName): MenuDTO
     {
-        if (!isset($this->file->$menuName)) {
+        if (! isset($this->file->$menuName)) {
             throw new \InvalidArgumentException("There is no menu object named '$menuName' found in the `$this->filename` json file.");
         }
 
@@ -47,7 +47,7 @@ class Menu extends Component
      *
      * Note: Sanitizing the URL is not necessary as it is handled in the RouteDTO.
      *
-     * @param string $url The URL to compare with the current request URL.
+     * @param  string  $url  The URL to compare with the current request URL.
      * @return bool True if the URLs match, false otherwise.
      */
     public function isActive(string $url): bool
@@ -63,7 +63,7 @@ class Menu extends Component
 
         return view($viewPath)
             ->with([
-                'menuItems' => $this->getMenu($this->menuname)->menuItems
+                'menuItems' => $this->getMenu($this->menuname)->menuItems,
             ]);
     }
 }

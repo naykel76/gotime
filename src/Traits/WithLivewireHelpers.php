@@ -2,7 +2,6 @@
 
 namespace Naykel\Gotime\Traits;
 
-
 trait WithLivewireHelpers
 {
     //////////////////////////////////////////////////////////////////
@@ -12,17 +11,14 @@ trait WithLivewireHelpers
 
     public $showModal = false;
 
-
     /**
      * Edit the specified model by its ID.
      *
      * This method finds a model by its ID, initializes the form with the model,
      * and shows the modal dialog.
      *
-     * @param int $id The ID of the model to edit.
-     * @return void
+     * @param  int  $id  The ID of the model to edit.
      */
-
     public function edit($id): void
     {
         $model = $this->modelClass::findOrFail($id);
@@ -37,22 +33,14 @@ trait WithLivewireHelpers
         $this->showModal = true;
     }
 
-
-
-
-
-
-
-
-
-
-    public function save(string $action = null): void
+    public function save(?string $action = null): void
     {
         $model = $this->form->save();
 
         // no need to redirect, just notify
-        if (!$this->isNewModel() && $action == 'save_edit') {
+        if (! $this->isNewModel() && $action == 'save_edit') {
             $this->dispatch('notify', 'Saved successfully!');
+
             return;
         }
 
@@ -86,12 +74,13 @@ trait WithLivewireHelpers
     /**
      * Handles redirection based on the provided action.
      *
-     * @param string $routePrefix The prefix for the route.
-     * @param string $action The action to be performed 'save_close', 'delete_close' ...
-     * @param int $id The optional ID for routes that require it.
+     * @param  string  $routePrefix  The prefix for the route.
+     * @param  string  $action  The action to be performed 'save_close', 'delete_close' ...
+     * @param  int  $id  The optional ID for routes that require it.
+     *
      * @throws \Exception Throws an exception if an invalid action is provided.
      */
-    private function handleRedirect(string $routePrefix, string $action, int $id = null)
+    private function handleRedirect(string $routePrefix, string $action, ?int $id = null)
     {
         return match ($action) {
             'save_close', 'delete_close' => redirect(route("$this->routePrefix.index")),

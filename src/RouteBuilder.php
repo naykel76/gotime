@@ -24,8 +24,9 @@ class RouteBuilder
 
     /**
      * RouteBuilder constructor.
-     * @param string $filename The name of the JSON file to read the menu from.
-     * @param string|null $layout default for all views in the menu
+     *
+     * @param  string  $filename  The name of the JSON file to read the menu from.
+     * @param  string|null  $layout  default for all views in the menu
      */
     public function __construct(
         protected string $filename,
@@ -50,10 +51,9 @@ class RouteBuilder
     /**
      * Processes the links of a menu. If a link is a parent and has child routes,
      * it recursively calls itself to process the child links.
-     * 
-     * @param array $links The links of the menu to process.
-     * @param string $menuName The name of the menu.
-     * @return void
+     *
+     * @param  array  $links  The links of the menu to process.
+     * @param  string  $menuName  The name of the menu.
      */
     protected function processLinks(array $links): void
     {
@@ -76,7 +76,8 @@ class RouteBuilder
 
     /**
      * Process a single menu item and create a route (if applicable).
-     * @param array|object $item The menu item to process.
+     *
+     * @param  array|object  $item  The menu item to process.
      */
     protected function make(RouteDTO $item): void
     {
@@ -115,11 +116,12 @@ class RouteBuilder
 
     /**
      * Create a Laravel route for the given URL and view path.
-     * @param string $url The URL for the route.
-     * @param string $view The view path for the route.
-     * @param string|null $name The name of the route.
+     *
+     * @param  string  $url  The URL for the route.
+     * @param  string  $view  The view path for the route.
+     * @param  string|null  $name  The name of the route.
      */
-    private function createRoute(string $url, string $view, string|null $name): void
+    private function createRoute(string $url, string $view, ?string $name): void
     {
         $data = $this->data;
 
@@ -130,7 +132,8 @@ class RouteBuilder
 
     /**
      * Get the menu items from the json file
-     * @param string $filename The name of the JSON file to read the menu from.
+     *
+     * @param  string  $filename  The name of the JSON file to read the menu from.
      * @return object The menu items from the JSON file.
      */
     protected function getMenusFromJson(string $filename): object
@@ -142,8 +145,8 @@ class RouteBuilder
 
     /**
      * Get menu names (keys)
-     * 
-     * @param object $obj The object to get the keys from.
+     *
+     * @param  object  $obj  The object to get the keys from.
      * @return array The keys of the object.
      */
     private function getMenuKeys(object $obj): array

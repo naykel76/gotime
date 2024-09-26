@@ -3,7 +3,6 @@
 namespace Naykel\Gotime\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Naykel\Gotime\Facades\FileManagement;
@@ -42,9 +41,7 @@ trait Crudable
     }
 
     /**
-     * 
-     * @param null|UploadedFile $file 
-     * @param array $validatedData @param string $dbColumn @return void 
+     * @param  array  $validatedData  @param string $dbColumn @return void
      */
     private function handleUpload(?UploadedFile $file, array &$validatedData, string $dbColumn): void
     {
@@ -62,13 +59,13 @@ trait Crudable
 
     /**
      * Validates the storage settings.
-     * 
+     *
      * @throws \Exception If disk or path is not set.
      */
     private function validateStorageSettings()
     {
-        if (!isset($this->storage['disk']) || !isset($this->storage['path'])) {
-            throw new \Exception(__CLASS__ . ' - The storage disk and path must be set in the $storage property');
+        if (! isset($this->storage['disk']) || ! isset($this->storage['path'])) {
+            throw new \Exception(__CLASS__.' - The storage disk and path must be set in the $storage property');
         }
     }
 }

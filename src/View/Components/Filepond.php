@@ -9,8 +9,7 @@ class Filepond extends Component
     public function __construct(
         public string $type = '',
         public int $maxFileSize = 2048, // size in KB
-    ) {
-    }
+    ) {}
 
     // public bool $multiple = false,
     // public ?bool $allowDrop = null,

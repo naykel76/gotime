@@ -9,8 +9,6 @@ class FileManagementService
 {
     /**
      * Save the file with a unique filename.
-     *
-     * * @return \Naykel\Gotime\DTO\FileInfo
      */
     public function saveWithUnique(UploadedFile $file, string $directory, string $disk = 'public'): \Naykel\Gotime\DTO\FileInfo
     {
@@ -27,12 +25,12 @@ class FileManagementService
      * of the uploaded file, replacing any spaces in the filename with dashes.
      * This ensures that the filename is unique and filesystem-friendly.
      *
-     * @param UploadedFile $file The file for which to generate a unique filename.
+     * @param  UploadedFile  $file  The file for which to generate a unique filename.
      * @return string The unique filename.
      */
     public function getUniqueFilename(UploadedFile $file): string
     {
-        return now()->timestamp . '-' . str_replace(' ', '-', $file->getClientOriginalName());
+        return now()->timestamp.'-'.str_replace(' ', '-', $file->getClientOriginalName());
     }
 
     /**
@@ -51,8 +49,8 @@ class FileManagementService
     /**
      * A given string exists within a given file.
      *
-     * @param string $path
-     * @param string $search
+     * @param  string  $path
+     * @param  string  $search
      * @return bool
      */
     public function stringInFile($path, $search)

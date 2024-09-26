@@ -1,4 +1,5 @@
 <?php
+
 // https://www.youtube.com/watch?v=dt1ado9wJi8&t=739s&ab_channel=AaronFrancis
 // https://aaronfrancis.com/2023/rendering-blade-components-in-markdown
 
@@ -14,7 +15,6 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 
 class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
-
     // public static $allowBladeForNextDocument = false;
 
     public function register(EnvironmentBuilderInterface $environment): void

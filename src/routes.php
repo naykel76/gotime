@@ -16,7 +16,6 @@ Route::get('/', function () {
 
 (new RouteBuilder('nav-main'))->create();
 
-
 /*
 |--------------------------------------------------------------------------
 | Admin Routes

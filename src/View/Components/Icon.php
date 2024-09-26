@@ -2,8 +2,8 @@
 
 namespace Naykel\Gotime\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Facades\View;
+use Illuminate\View\Component;
 
 class Icon extends Component
 {
@@ -16,7 +16,7 @@ class Icon extends Component
         'arrow-right-start-on-rectangle' => ['exit'],
         'arrow-up-tray' => ['upload'],
         'magnifying-glass' => ['search'],
-        'x-mark' => ['close', 'cross']
+        'x-mark' => ['close', 'cross'],
     ];
 
     public function __construct(public string $name, public ?string $type = null)
@@ -28,7 +28,7 @@ class Icon extends Component
      * Determine if the icon name is an alias, and if it is, return the
      * corresponding key name (filename) for the icon.
      */
-    function getIconKeyFromAlias($iconName): string
+    public function getIconKeyFromAlias($iconName): string
     {
         foreach ($this->icons as $key => $aliases) {
             if (in_array($iconName, $aliases)) {
@@ -45,7 +45,7 @@ class Icon extends Component
 
         $viewPath = "gotime::components.icon.{$this->type}.{$name}";
 
-        if (!View::exists($viewPath)) {
+        if (! View::exists($viewPath)) {
             throw new \InvalidArgumentException("Icon '$name' view does not exist at path: {$viewPath}");
         }
 

@@ -20,10 +20,9 @@ trait Renderable
         return view($this->view, $data ?? [])
             ->layout(\Naykel\Gotime\View\Layouts\AppLayout::class, [
                 'pageTitle' => $this->pageTitle ?? $this->getPageTitle(),
-                'layout' => $this->layout ?? 'admin'
+                'layout' => $this->layout ?? 'admin',
             ]);
     }
-
 
     /**
      * Sets the page title based on the current route.

@@ -6,9 +6,7 @@ return [
      * ----------------------------------------------------------------------
      * Basic Settings
      * ----------------------------------------------------------------------
-     *
      */
-
     'logo' => [
         'path' => env('NK_LOGO_PATH', '/logo.svg'),
         'height' => env('NK_LOGO_HEIGHT', ''),  // don't set default
@@ -34,11 +32,10 @@ return [
      * Component Settings
      * ----------------------------------------------------------------------
      * These values are the default settings for the components.
-     *
      */
     'component' => [
         'icon' => [
-            'type' => env('NK_ICON_STYLE', 'outline')
+            'type' => env('NK_ICON_STYLE', 'outline'),
         ],
     ],
 

@@ -2,13 +2,12 @@
 
 namespace Naykel\Gotime\Casts;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class DateCast implements CastsAttributes
 {
-
     /**
      * Cast the dates to human readable dates
      * IMPORTANT must be a 'datetime' or 'timestamp'

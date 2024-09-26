@@ -12,30 +12,30 @@ enum OrderStatus: string
     public function label()
     {
         return match ($this) {
-            static::Paid => 'Paid',
-            static::Pending => 'Pending',
-            static::Failed => 'Failed',
-            static::Refunded => 'Refunded',
+            self::Paid => 'Paid',
+            self::Pending => 'Pending',
+            self::Failed => 'Failed',
+            self::Refunded => 'Refunded',
         };
     }
 
     public function icon()
     {
         return match ($this) {
-            static::Paid => 'icon.check',
-            static::Pending => 'icon.clock',
-            static::Failed => 'icon.x-mark',
-            static::Refunded => 'icon.arrow-uturn-left',
+            self::Paid => 'icon.check',
+            self::Pending => 'icon.clock',
+            self::Failed => 'icon.x-mark',
+            self::Refunded => 'icon.arrow-uturn-left',
         };
     }
 
     public function color()
     {
         return match ($this) {
-            static::Paid => 'green',
-            static::Pending => 'dark',
-            static::Failed => 'red',
-            static::Refunded => 'purple',
+            self::Paid => 'green',
+            self::Pending => 'dark',
+            self::Failed => 'red',
+            self::Refunded => 'purple',
         };
     }
 }
