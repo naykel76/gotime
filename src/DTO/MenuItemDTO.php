@@ -34,6 +34,14 @@ class MenuItemDTO
     public string $icon;
 
     /**
+     * Optional description for the menu item.
+     *
+     * This is not displayed by default but can be used to describe the page the
+     * menu item links to, provide a short summary of the menu item, etc.
+     */
+    public ?string $description;
+
+    /**
      * MenuItemDTO constructor.
      *
      * @param  object  $item  The menu item.
@@ -46,6 +54,7 @@ class MenuItemDTO
 
         $this->name = $item->name;
         $this->icon = $item->icon ?? '';
+        $this->description = $item->description ?? '';
         $this->isParent = property_exists($item, 'children');
         $this->url = $this->handleUrl($item);
         $this->isParent ? $this->handleChildren($item->children) : $this->children = null;
