@@ -28,7 +28,7 @@ trait WithLivewireHelpers
 
     public function create(): void
     {
-        $model = $this->modelClass::make();
+        $model = $this->form->createNewModel();
         $this->form->init($model);
         $this->showModal = true;
     }
