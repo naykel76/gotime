@@ -39,4 +39,19 @@ return [
         ],
     ],
 
+    /**
+     *--------------------------------------------------------------------------
+     * Livewire Layout
+     *--------------------------------------------------------------------------
+     * Sets the default layout used in full-page Livewire components.
+     *
+     * This is not the same as setting the layout in the Livewire config. It
+     * sets the `layout` property in the Gotime AppLayout component.
+     * 
+     * A typical use case would be to set the layout to 'admin' or 'app'
+     * depending on having more pages in one or the other.
+     */
+
+    'livewire_layout' => env('NK_LIVEWIRE_LAYOUT', 'app'),
+
 ];
