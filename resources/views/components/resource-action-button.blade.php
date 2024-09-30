@@ -6,8 +6,8 @@
 --}}
 
 @php
-    if ($action == 'edit' && !isset($id)) {
-        throw new InvalidArgumentException('You must pass an ID when the action is "edit" on the resource-action-button component.');
+    if (($action == 'edit' || $action == 'delete') && !isset($id)) {
+        throw new InvalidArgumentException("An item ID must be provided for the $action action in the resource-action-button component.");
     }
 
     if ($type === 'link' && !isset($routePrefix)) {
@@ -30,6 +30,7 @@
 
     $clickMethod = match ($action) {
         'create' => 'create',
+        'delete' => "\$set('selectedItemId', $id)",
         'edit' => "edit({$id})",
         'save' => 'save',
         default => '',
