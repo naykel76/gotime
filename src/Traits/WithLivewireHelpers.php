@@ -9,7 +9,15 @@ trait WithLivewireHelpers
     //      the editing property must be $this->form->editing       //
     //////////////////////////////////////////////////////////////////
 
-    public $showModal = false;
+    /**
+     * Flag to show or hide modal
+     */
+    public bool $showModal = false;
+
+    /**
+     * The ID of the selected item and flag to show or hide modal.
+     */
+    public bool|int $selectedItemId = false;
 
     /**
      * Edit the specified model by its ID.
@@ -29,6 +37,7 @@ trait WithLivewireHelpers
     public function create(): void
     {
         $model = $this->form->createNewModel();
+
         $this->form->init($model);
         $this->showModal = true;
     }
@@ -51,6 +60,16 @@ trait WithLivewireHelpers
         $this->dispatch('notify', 'Saved successfully!');
 
         $this->showModal = false;
+    }
+
+    /**
+     * Delete a model instance from the database and and optionally handle redirection.
+     */
+    public function delete(?string $id = null): void
+    {
+        $this->modelClass::find($id)->delete();
+        $this->reset('selectedItemId');
+        // $this->dispatch('item-deleted');
     }
 
     /**
@@ -88,5 +107,14 @@ trait WithLivewireHelpers
             'save_edit', 'save_stay' => redirect(route("$routePrefix.edit", $id)),
             default => throw new \Exception("Invalid action: $action"),
         };
+    }
+
+    /**
+     * Cancel the form action and close the modal dialog.
+     */
+    public function cancel(): void
+    {
+        $this->showModal = false;
+        $this->resetErrorBag();
     }
 }

@@ -28,6 +28,12 @@ trait Formable
      */
     protected function setFormProperties(Model $model): void
     {
+
+        // It is IMPORTANT to note that this method will only set values for
+        // properties that have been set in the model. New models will not have
+        // any properties set. The solution is initialize required properties
+        // when creating a new `Model`.
+
         foreach ($model->getAttributes() as $property => $value) {
             if (property_exists($this, $property)) {
                 $this->$property = $value ?? '';
