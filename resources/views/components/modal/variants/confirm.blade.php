@@ -1,9 +1,11 @@
-@props(['id' => null, 'maxWidth' => null])
+@props(['maxWidth' => null])
 
-{{-- attribute forwarding currently only supports opening and closing the modal --}}
-<x-gt-modal.base :$id :$maxWidth {{ $attributes }}>
+<x-gt-modal.base :$maxWidth {{ $attributes }}>
 
-    @isset($title)
+    
+{{-- can i override wire:click to pass id??? --}}
+
+    {{-- @isset($title)
         <div {{ $title->attributes->class(['bx-title flex va-c space-between']) }}>
             {{ $title }}
             <x-gt-icon name="x-mark" wire:click="$toggle('showModal')" class="close sm" />
@@ -18,6 +20,5 @@
         <div {{ $footer->attributes->class(['bx-footer']) }}>
             {{ $footer }}
         </div>
-    @endisset
-
+    @endisset --}}
 </x-gt-modal.base>

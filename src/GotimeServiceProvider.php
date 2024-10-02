@@ -75,14 +75,10 @@ class GotimeServiceProvider extends ServiceProvider
 
         // Buttons
         $this->registerComponentX('resource-action-button');
-        // these need to be reviewed
         $this->registerComponentX('button.base', 'button.base');
-        $this->registerComponentX('button.default', 'button'); // default button
         $this->registerComponentX('button.submit', 'submit');
+        $this->registerComponentX('button.variants.default', 'button'); // default button
         $this->registerComponentX('button.variants.save', 'button.save');
-        // these are kind of pointless!
-        $this->registerComponentX('button.variants.primary', 'button.primary');
-        $this->registerComponentX('button.variants.secondary', 'button.secondary');
 
         // layouts
         $this->registerComponentX('layouts.base', 'gotime-layouts.base');
@@ -93,7 +89,9 @@ class GotimeServiceProvider extends ServiceProvider
 
         // modals
         $this->registerComponentX('modal.base', 'modal.base');
-        $this->registerComponentX('modal.dialog', 'modal.dialog');
+        $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
+        $this->registerComponentX('modal.variants.delete', 'modal.delete');
+        $this->registerComponentX('modal.variants.confirm', 'modal.confirm');
 
         // table components
         $this->registerComponentX('table.th', 'table.th');
