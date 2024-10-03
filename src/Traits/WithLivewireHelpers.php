@@ -36,7 +36,7 @@ trait WithLivewireHelpers
 
     public function create(): void
     {
-        $model = $this->form->createNewModel();
+        $model = $this->form->createNewModel($this->initialData ?? []);
 
         $this->form->init($model);
         $this->showModal = true;
@@ -44,10 +44,16 @@ trait WithLivewireHelpers
 
     public function save(?string $action = null): void
     {
+
+        // this must happen before the form is saved, otherwise there will be an
+        // `id` and the model will not be new
+        $isNewModel = $this->isNewModel();
+
+        // call the save method from the formable trait and persist the model
         $model = $this->form->save();
 
-        // no need to redirect, just notify
-        if (! $this->isNewModel() && $action == 'save_edit') {
+        // this only needs to redirect on the first save
+        if (! $isNewModel && $action == 'save_edit') {
             $this->dispatch('notify', 'Saved successfully!');
 
             return;
@@ -101,6 +107,7 @@ trait WithLivewireHelpers
      */
     private function handleRedirect(string $routePrefix, string $action, ?int $id = null)
     {
+
         return match ($action) {
             'save_close', 'delete_close' => redirect(route("$this->routePrefix.index")),
             'save_new' => redirect(route("$routePrefix.create")),
