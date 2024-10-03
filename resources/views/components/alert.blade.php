@@ -1,4 +1,4 @@
-@props(['type' => '', 'title' => '', 'iconClass' => '', 'icon' => null])
+@props(['type' => '', 'title' => null, 'iconClass' => '', 'icon' => null])
 
 @php
     // be sure to update the icon before the type
@@ -10,6 +10,7 @@
             'info' => 'information-circle',
             'success' => 'check-circle',
         };
+
     $type = match ($type) {
         'danger' => 'danger-light',
         'warning' => 'warning-light',
@@ -25,9 +26,8 @@
             {{ $title }}
         </div>
     @endisset
-
     @if ($icon)
-        <x-gt-icon name="{{ $icon }}" class="fs0 mr-075 {{ $iconClass }}" />
+        <x-gt-icon name="{{ $icon }}" class="fs0 wh-3 mr-075 {{ $iconClass }}" />
     @endif
     {{ $slot }}
 </div>
