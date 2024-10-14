@@ -1,10 +1,13 @@
-@props(['pageTitle' => null])
+@props(['pageTitle' => null, 'nofollow' => false])
 
 <!doctype html>
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
+        @if ($nofollow)
+            <meta name="robots" content="noindex,follow">
+        @endif
         @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
     </head>
 

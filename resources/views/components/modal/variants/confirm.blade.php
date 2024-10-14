@@ -1,24 +1,20 @@
-@props(['maxWidth' => null])
+@props(['selectedItemId' => null, 'maxWidth' => null])
 
-<x-gt-modal.base :$maxWidth {{ $attributes }}>
-
-    
-{{-- can i override wire:click to pass id??? --}}
-
-    {{-- @isset($title)
-        <div {{ $title->attributes->class(['bx-title flex va-c space-between']) }}>
-            {{ $title }}
-            <x-gt-icon name="x-mark" wire:click="$toggle('showModal')" class="close sm" />
+<x-gt-modal.base id="$selectedItemId" :$maxWidth {{ $attributes }}>
+    <div class="bx-title inline-flex va-c">
+        <div class="pxy-05 bg-yellow-50 rounded-full">
+            <x-gt-icon name="exclamation-triangle" class="txt-yellow" />
         </div>
-    @endisset
+        <span class="ml-1">Confirm Action</span>
+    </div>
 
     <div class="bx-content">
         {{ $slot }}
     </div>
 
-    @isset($footer)
-        <div {{ $footer->attributes->class(['bx-footer']) }}>
-            {{ $footer }}
-        </div>
-    @endisset --}}
+    <div class="bx-footer tar">
+        <x-gt-button wire:click="$set('selectedItemId', false)" wire:loading.attr="disabled" text="Nevermind" />
+        {{-- force the action to be passed through to make the modal more flexible --}}
+        {{ $action }}
+    </div>
 </x-gt-modal.base>

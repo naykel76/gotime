@@ -20,7 +20,7 @@
     };
 @endphp
 
-<div {{ $attributes->merge(['class' => 'bx bdr-2 rounded-075 flex va-c ' . $type]) }}>
+<div {{ $attributes->merge(['class' => 'bx pxy-1 bdr-2 rounded-075 flex va-c ' . $type]) }}>
     @isset($title)
         <div {{ $title->attributes->class(['bx-title']) }}>
             {{ $title }}

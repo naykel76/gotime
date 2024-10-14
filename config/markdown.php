@@ -52,10 +52,14 @@ return [
 
     // CodeRendererExtension::$allowBladeForNextDocument = true
 
+    // https://commonmark.thephpleague.com/2.5/extensions/heading-permalinks/
     'heading_permalink' => [
-        'id_prefix' => '', // NK: removes 'content-' prefix from the toc link
         'fragment_prefix' => '', // NK: removes 'content-' prefix from the fragment (link)
-        'symbol' => '# ',
+        'id_prefix' => '', // NK: removes 'content-' prefix from the toc link
+        'insert' => 'after', // NK: inserts the permalink after the heading
+        'max_heading_level' => 4,
+        'min_heading_level' => 1,
+        'symbol' => ' #', // NK: removes the symbol from the heading link
     ],
 
     /*

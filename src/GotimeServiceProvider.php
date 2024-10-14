@@ -88,10 +88,11 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('livewire-search-input', 'search-input', 'gtl');
 
         // modals
-        $this->registerComponentX('modal.base', 'modal.base');
-        $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
-        $this->registerComponentX('modal.variants.delete', 'modal.delete');
+        $this->registerComponentX('modal.base', 'modal'); // yes, theses are the same
+        $this->registerComponentX('modal.base', 'modal.base'); // yes, theses are the same
         $this->registerComponentX('modal.variants.confirm', 'modal.confirm');
+        $this->registerComponentX('modal.variants.delete', 'modal.delete');
+        $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
 
         // table components
         $this->registerComponentX('table.th', 'table.th');

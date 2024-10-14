@@ -33,7 +33,6 @@
         'delete' => "\$set('selectedItemId', $id)",
         'edit' => "edit({$id})",
         'save' => 'save',
-        default => '',
     };
 @endphp
 
@@ -45,6 +44,9 @@
         @endif
     </a>
 @else
+    {{-- In Blade components, attributes passed directly to the component can override those set
+    within the component itself. This means that if you set the wire:click attribute directly when
+    using the component, it will override the wire:click attribute here. --}}
     <x-gt-button.base wire:click="{{ $clickMethod }}" {{ $attributes->merge(['class' => 'action-button']) }}>
         <x-gt-icon name="{{ $icon }}" class="opacity-05" />
         @if ($text != '' || $slot->isNotEmpty())

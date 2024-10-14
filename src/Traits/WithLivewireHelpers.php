@@ -36,8 +36,10 @@ trait WithLivewireHelpers
 
     public function create(): void
     {
-        $model = $this->form->createNewModel($this->initialData ?? []);
-
+        // this is required to create a new model instance when working on the
+        // same page (modal). If any errors occurs, deal with them, do not
+        // remove from here!
+        $model = $this->form->createNewModel();
         $this->form->init($model);
         $this->showModal = true;
     }
@@ -71,9 +73,9 @@ trait WithLivewireHelpers
     /**
      * Delete a model instance from the database and and optionally handle redirection.
      */
-    public function delete(?string $id = null): void
+    public function delete(?int $id = null): void
     {
-        $this->modelClass::find($id)->delete();
+        $this->modelClass::findOrFail($id)->delete();
         $this->reset('selectedItemId');
         // $this->dispatch('item-deleted');
     }
