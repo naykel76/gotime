@@ -39,7 +39,7 @@ trait WithLivewireHelpers
         // this is required to create a new model instance when working on the
         // same page (modal). If any errors occurs, deal with them, do not
         // remove from here!
-        $model = $this->form->createNewModel();
+        $model = $this->form->createNewModel($this->initialData ?? []);
         $this->form->init($model);
         $this->showModal = true;
     }
