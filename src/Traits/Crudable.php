@@ -55,6 +55,8 @@ trait Crudable
         /** @var \Naykel\Gotime\DTO\FileInfo $fileInfo */
         $fileInfo = FileManagement::saveWithUnique($file, $this->storage['path'], $this->storage['disk']);
         $validatedData[$dbColumn] = $fileInfo->path();
+
+        $this->component->dispatch('pondReset');
     }
 
     /**

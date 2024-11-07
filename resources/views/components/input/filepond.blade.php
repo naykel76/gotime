@@ -1,9 +1,9 @@
 {{-- *** COMPONENT BASED CLASS *** --}}
-<x-gotime::input.partials.control-group>
-    <div x-data="{ initFilePond }" wire:ignore x-init="initFilePond()">
-        <input type="file" x-ref="input" style="display:none">
-    </div>
-</x-gotime::input.partials.control-group>
+
+{{-- do not use the control layout here because it causes problems when displaying errors --}}
+<div x-data="{ initFilePond }" wire:ignore x-init="initFilePond()">
+    <input type="file" x-ref="input" style="display:none">
+</div>
 
 @pushOnce('styles')
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
