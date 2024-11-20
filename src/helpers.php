@@ -95,3 +95,14 @@ if (! function_exists('dotLastSegment')) {
         return end($arr);
     }
 }
+
+// ------------------------------------------------------------------
+// -- MATH HELPERS --
+// ------------------------------------------------------------------
+
+if (! function_exists('calcPercentage')) {
+    function calcPercentage($total, $num): float
+    {
+        return $num / $total * 100;
+    }
+}
