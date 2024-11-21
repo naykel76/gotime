@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (current)
+- Added `calcPercentage` math helper function
+- Add custom debug mode configuration to `naykel.php` config file.
+  
 ## 1.0.1
 - Update filepond component to avoid control layout for error display 
 - Added dispatch pondReset event in Crudable trait

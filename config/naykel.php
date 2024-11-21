@@ -20,6 +20,16 @@ return [
 
     /**
      * ----------------------------------------------------------------------
+     * Enable Debug Mode
+     * ----------------------------------------------------------------------
+     * This is not the same as Laravel's debug mode. This is a custom debug mode
+     * that can be used to display debug information in the application such as
+     * ID's, keys, etc.
+     */
+    'debug' => env('NK_DEBUG', true),
+
+    /**
+     * ----------------------------------------------------------------------
      * Application Template
      * ----------------------------------------------------------------------
      * This value is the name of the default blade template for the application.
