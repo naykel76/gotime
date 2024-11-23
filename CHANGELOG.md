@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.0.2 (current)
+## 1.0.2
 - Added `calcPercentage` math helper function
-- Add custom debug mode configuration to `naykel.php` config file.
+- Add custom debug mode configuration to `naykel.php` config file
+- Add more icons
   
 ## 1.0.1
 - Update filepond component to avoid control layout for error display 
