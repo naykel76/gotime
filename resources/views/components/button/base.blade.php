@@ -15,7 +15,7 @@
 
     @if ($icon)
         <x-gt-icon name="{{ $icon }}"
-            class="icon {{ $iconClass }} {{ !$text ? '' : $margin }} {{ $position }}" />
+            class="wh-1.25 {{ $iconClass }} {{ !$text ? '' : $margin }} {{ $position }}" />
     @endif
 
     @if ($text != '' || $slot->isNotEmpty())

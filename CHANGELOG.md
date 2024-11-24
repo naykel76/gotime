@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.0.3 (current)
+## 1.0.3
 - Fix academic icons
+- Removed `icon` class from button and added `wh-1.5`
   
 ## 1.0.2
 - Added `calcPercentage` math helper function
