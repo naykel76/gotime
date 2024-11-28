@@ -45,7 +45,7 @@ trait Draggable
 
         // Simple check to ensure the sortableFilter scope exists
         if (! method_exists(static::class, 'scopeSortableFilter')) {
-            throw new \Exception('The sortableFilter scope does not exist in the model: '.get_class(new static));
+            throw new \Exception('The sortableFilter scope does not exist in the model: ' . get_class(new static));
         }
     }
 

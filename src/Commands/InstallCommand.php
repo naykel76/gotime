@@ -54,32 +54,32 @@ class InstallCommand extends Command
         }
 
         // Resources...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/publishable/resources/navs', resource_path('navs'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/publishable/resources/scss', resource_path('scss'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/publishable/resources/views', resource_path('views'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/navs', resource_path('navs'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/scss', resource_path('scss'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/views', resource_path('views'));
 
         // NK::TD change this to a prompt so it is not installed each time
-        copy(__DIR__.'/../../config/markdown.php', base_path('config/markdown.php'));
+        copy(__DIR__ . '/../../config/markdown.php', base_path('config/markdown.php'));
 
         // Assets...
-        copy(__DIR__.'/../../resources/publishable/.env.example', base_path('.env.example'));
-        copy(__DIR__.'/../../resources/publishable/postcss.config.js', base_path('postcss.config.js'));
-        copy(__DIR__.'/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
-        copy(__DIR__.'/../../resources/publishable/readme.md', base_path('readme.md'));
-        copy(__DIR__.'/../../pint.json', base_path('pint.json'));
-        copy(__DIR__.'/../../.gitignore', base_path('.gitignore'));
+        copy(__DIR__ . '/../../resources/publishable/.env.example', base_path('.env.example'));
+        copy(__DIR__ . '/../../resources/publishable/postcss.config.js', base_path('postcss.config.js'));
+        copy(__DIR__ . '/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
+        copy(__DIR__ . '/../../resources/publishable/readme.md', base_path('readme.md'));
+        copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
+        copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
         // Public...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources/publishable/public/', public_path());
+        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/public/', public_path());
 
         // Routes...
-        copy(__DIR__.'/../routes.php', base_path('routes/web.php'));
+        copy(__DIR__ . '/../routes.php', base_path('routes/web.php'));
 
         $this->info('Gotime scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
 
         // clean up
-        shell_exec('rm -rf '.resource_path('css'));
+        shell_exec('rm -rf ' . resource_path('css'));
         if (file_exists(public_path('favicon.ico'))) unlink(public_path('favicon.ico'));
         if (file_exists(resource_path('views/welcome.blade.php'))) unlink(resource_path('views/welcome.blade.php'));
 
@@ -109,7 +109,7 @@ class InstallCommand extends Command
 
         file_put_contents(
             base_path('package.json'),
-            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
         );
     }
 }

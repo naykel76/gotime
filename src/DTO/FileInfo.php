@@ -20,7 +20,7 @@ class FileInfo
             return $this->name;
         }
 
-        return $this->directory.'/'.$this->name;
+        return $this->directory . '/' . $this->name;
     }
 
     /**
@@ -33,6 +33,6 @@ class FileInfo
      */
     public function fullPathIncludingDisk(): string
     {
-        return $this->disk.'/'.$this->directory.'/'.$this->name;
+        return $this->disk . '/' . $this->directory . '/' . $this->name;
     }
 }

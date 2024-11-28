@@ -30,7 +30,7 @@ class FileManagementService
      */
     public function getUniqueFilename(UploadedFile $file): string
     {
-        return now()->timestamp.'-'.str_replace(' ', '-', $file->getClientOriginalName());
+        return now()->timestamp . '-' . str_replace(' ', '-', $file->getClientOriginalName());
     }
 
     /**

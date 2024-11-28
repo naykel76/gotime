@@ -8,6 +8,9 @@
                 "trait_import": "none"
             }
         },
+        "concat_space": {
+            "spacing": "one"
+        },
         "control_structure_braces": false
     }
 }

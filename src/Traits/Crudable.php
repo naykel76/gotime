@@ -67,7 +67,7 @@ trait Crudable
     private function validateStorageSettings()
     {
         if (! isset($this->storage['disk']) || ! isset($this->storage['path'])) {
-            throw new \Exception(__CLASS__.' - The storage disk and path must be set in the $storage property');
+            throw new \Exception(__CLASS__ . ' - The storage disk and path must be set in the $storage property');
         }
     }
 }

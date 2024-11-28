@@ -13,7 +13,7 @@ class Sidebar extends Component
     public function render()
     {
         return $this->layout
-            ? view('gotime::components.sidebar.'.$this->layout)
+            ? view('gotime::components.sidebar.' . $this->layout)
             : view('gotime::components.sidebar');
     }
 }

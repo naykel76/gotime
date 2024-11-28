@@ -112,7 +112,7 @@ class MenuItemDTO
     protected function validateRoute(string $route_name): void
     {
         if (! Route::has($route_name)) {
-            throw new \Exception('Route '.$route_name.' does not exist.');
+            throw new \Exception('Route ' . $route_name . ' does not exist.');
         }
     }
 
