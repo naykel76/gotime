@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4
+- Refactor spacing and formatting for consistency
+- Enhance Renderable trait by adding dynamic view resolution and improving render method
+- Format `th` using `Str::headline` for improved readability
+
 ## 1.0.3
 - Fix academic icons
 - Removed `icon` class from button and added `wh-1.5`

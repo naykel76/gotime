@@ -18,7 +18,7 @@ around you can add `whitespace-nowrap` to the `td` that si wrapping --}}
             'w-full ha-r' => $alignRight,
             'w-full ha-c' => $alignCenter,
         ])>
-            <span>{{ $slot }}</span>
+            <span>{{ Str::headline($slot) }}</span>
             @if ($direction === 'asc')
                 <x-gt-icon name="arrow-long-down" class="wh-1 ml-025" />
             @elseif($direction === 'desc')
@@ -28,6 +28,6 @@ around you can add `whitespace-nowrap` to the `td` that si wrapping --}}
             @endif
         </button>
     @else
-        <span>{{ $slot }}</span>
+        <span>{{ Str::headline($slot) }}</span>
     @endif
 </th>

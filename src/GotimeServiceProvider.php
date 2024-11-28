@@ -16,9 +16,9 @@ class GotimeServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/naykel.php', 'naykel');
-        $this->mergeConfigFrom(__DIR__.'/../config/services.php', 'services');
-        $this->mergeConfigFrom(__DIR__.'/../config/markdown.php', 'markdown');
+        $this->mergeConfigFrom(__DIR__ . '/../config/naykel.php', 'naykel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/services.php', 'services');
+        $this->mergeConfigFrom(__DIR__ . '/../config/markdown.php', 'markdown');
 
         $this->app->singleton('filemanagement', function ($app) {
             return new \Naykel\Gotime\Services\FileManagementService;
@@ -31,20 +31,20 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponents();
         $this->registerFormComponents();
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'gotime');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
         $this->publishes([
-            __DIR__.'/../config/naykel.php' => config_path('naykel.php'),
+            __DIR__ . '/../config/naykel.php' => config_path('naykel.php'),
         ], 'gotime-config');
 
         $this->publishes([
-            __DIR__.'/../resources/views/components/layouts' => resource_path('views/components/layouts'),
+            __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
         ], 'gotime-all-layouts');
 
         // only publish the main app layout and partials
         $this->publishes([
-            __DIR__.'/../resources/views/components/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
-            __DIR__.'/../resources/views/components/layouts/partials' => resource_path('views/components/layouts/partials'),
+            __DIR__ . '/../resources/views/components/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
+            __DIR__ . '/../resources/views/components/layouts/partials' => resource_path('views/components/layouts/partials'),
         ], 'gotime-app-layouts');
 
         $this->loadViewComponentsAs('gt', [
@@ -129,6 +129,6 @@ class GotimeServiceProvider extends ServiceProvider
      */
     protected function registerComponentX(string $component, ?string $alias = null, string $prefix = 'gt'): void
     {
-        Blade::component('gotime::components.'.$component, "$prefix-".($alias ?? $component));
+        Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
 }
