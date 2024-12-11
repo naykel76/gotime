@@ -36,9 +36,10 @@ trait WithLivewireHelpers
 
     public function create(): void
     {
-        // this is required to create a new model instance when working on the
-        // same page (modal). If any errors occurs, deal with them, do not
-        // remove from here!
+        if (! method_exists($this->form::class, 'createNewModel')) {
+            throw new \Exception('The createNewModel method is not defined in the class: ' . $this->form::class);
+        }
+
         $model = $this->form->createNewModel($this->initialData ?? []);
         $this->form->init($model);
         $this->showModal = true;
@@ -46,7 +47,6 @@ trait WithLivewireHelpers
 
     public function save(?string $action = null): void
     {
-
         // this must happen before the form is saved, otherwise there will be an
         // `id` and the model will not be new
         $isNewModel = $this->isNewModel();

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.5
+- Add exception handling for missing createNewModel method in WithLivewireHelpers trait
+
 ## 1.0.4
 - Refactor spacing and formatting for consistency
 - Enhance Renderable trait by adding dynamic view resolution and improving render method
