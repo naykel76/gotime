@@ -6,11 +6,15 @@
     'alignLeft' => false,
 ])
 
-{{-- If the `tr` data is wrapping it is likely because `td` content is NOT longer than the content
-in the `td`. This will likely ba a side effect of another cell having a width of 100%. To work
-around you can add `whitespace-nowrap` to the `td` that si wrapping --}}
-
 <th {{ $attributes->merge(['class' => 'fw7']) }} style="letter-spacing: .05em;">
+
+    {{-- convert to upper case unless txt-capitalize or txt-lower class is present --}}
+    @php
+        $text = Str::contains($attributes->get('class'), 'txt-capitalize') 
+            ? $slot : (Str::contains($attributes->get('class'), 'txt-lower') 
+            ? $slot : Str::upper($slot));
+    @endphp
+
     @if ($sortable)
         <button @class([
             'flex px-0 bdr-0 va-b ha-c',
@@ -18,7 +22,7 @@ around you can add `whitespace-nowrap` to the `td` that si wrapping --}}
             'w-full ha-r' => $alignRight,
             'w-full ha-c' => $alignCenter,
         ])>
-            <span>{{ Str::headline($slot) }}</span>
+            <span>{{ $text }}</span>
             @if ($direction === 'asc')
                 <x-gt-icon name="arrow-long-down" class="wh-1 ml-025" />
             @elseif($direction === 'desc')
@@ -28,6 +32,6 @@ around you can add `whitespace-nowrap` to the `td` that si wrapping --}}
             @endif
         </button>
     @else
-        <span>{{ Str::headline($slot) }}</span>
+        <span>{{ $text }}</span>
     @endif
 </th>
