@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.7
+- Added `Box` component
+
 ## 1.0.6
 - Add CSRF token meta tag and improve title case handling in table header component
 

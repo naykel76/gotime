@@ -87,7 +87,9 @@ class GotimeServiceProvider extends ServiceProvider
         // Livewire special components
         $this->registerComponentX('livewire-search-input', 'search-input', 'gtl');
 
-        // modals
+        $this->registerComponentX('box.base', 'box');
+
+        // Modals and Boxes
         $this->registerComponentX('modal.base', 'modal'); // yes, theses are the same
         $this->registerComponentX('modal.base', 'modal.base'); // yes, theses are the same
         $this->registerComponentX('modal.variants.confirm', 'modal.confirm');
@@ -111,6 +113,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
         $this->registerComponentX('input.pikaday', 'pikaday');
+        $this->registerComponentX('input.radio', 'radio');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');
 
@@ -118,7 +121,6 @@ class GotimeServiceProvider extends ServiceProvider
         // $this->registerComponentX('input.checkbox', 'checkbox');
         // $this->registerComponentX('input.file-input', 'file-input');
         // $this->registerComponentX('input.password', 'input.password');
-        // $this->registerComponentX('input.radio', 'radio');
         // $this->registerComponentX('input.trix', 'trix');
     }
 
