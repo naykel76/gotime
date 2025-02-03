@@ -11,7 +11,7 @@
 @endif
 
 <label for="{{ $for }}" {{ $attributes->except('tooltip') }}>
-    {{ Str::title($label) }}
+    {{ Str::of($label)->headline() }}
     @if ($req)
         <span class='txt-red'>*</span>
     @endif

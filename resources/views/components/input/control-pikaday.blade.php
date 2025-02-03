@@ -5,7 +5,8 @@
     <input x-data x-ref="datepicker"
         x-init="new Pikaday({
             field: $refs.datepicker,
-            format: 'DD-MM-YYYY'
+            format: 'MMM D, YYYY'
+            {{-- format: 'DD-MM-YYYY' --}}
         })"
         x-on:change="$dispatch('input', $el.value)"
         {{ $for ? "name=$for id=$for" : null }}

@@ -23,9 +23,7 @@
 
     {{-- Check if there is any content in the main slot and render it --}}
     @if ($slot->hasActualContent())
-        <div class="bx-content">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
     @endif
 
     {{-- If the content slot is used, render it.
