@@ -1,12 +1,11 @@
 @aware(['leadingAddon', 'trailingAddon', 'for' => null])
 
-<x-gotime::input.partials.control-only>
+<x-gotime::input.partials.control-with-addons>
 
     <input x-data x-ref="datepicker"
         x-init="new Pikaday({
             field: $refs.datepicker,
             format: 'MMM D, YYYY'
-            {{-- format: 'DD-MM-YYYY' --}}
         })"
         x-on:change="$dispatch('input', $el.value)"
         {{ $for ? "name=$for id=$for" : null }}
@@ -16,7 +15,7 @@
             'bdrr-r-0 bdr-r-0' => $trailingAddon,
         ]) }} />
 
-</x-gotime::input.partials.control-only>
+</x-gotime::input.partials.control-with-addons>
 
 @pushOnce('head')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">

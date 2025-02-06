@@ -30,6 +30,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->commands([InstallCommand::class]);
         $this->registerComponents();
         $this->registerFormComponents();
+        $this->registerV2FormComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
@@ -103,6 +104,12 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('toolbar.title-bar', 'title-bar');
     }
 
+    // these are components that have been revised for v2
+    protected function registerV2FormComponents(): void
+    {
+        $this->registerComponentX('input.input', 'input');
+    }
+
     protected function registerFormComponents(): void
     {
         $this->registerComponentX('input.checkbox', 'checkbox');
@@ -110,7 +117,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.ckeditor.ckeditor', 'ckeditor');
         $this->registerComponentX('input.ckeditor.inline', 'ckeditor.inline');
         $this->registerComponentX('input.email');
-        $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
         $this->registerComponentX('input.pikaday', 'pikaday');
         $this->registerComponentX('input.radio', 'radio');

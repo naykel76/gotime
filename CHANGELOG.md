@@ -1,13 +1,15 @@
 # Changelog
 
+## 1.2.0 (current)
+- Renamed `control-input` to `control-with-addons` and updated form components for more intuitive naming
+- Created `controls` directory to house all input components
+
 ## 1.1.0
 - Update label component to use headline method for improved title formatting
 - Update pikaday date format to align the the `Date` cast format
 
 ## 1.0.8
 - Removed `bx-content` class from `Box` component `slot` attribute
-  
-## 1.0.8
 - Added `Filterable` trait
 
 ## 1.0.7
