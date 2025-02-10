@@ -2,7 +2,7 @@
 
 namespace Naykel\Gotime\Traits;
 
-trait WithLivewireHelpers
+trait WithFormActions
 {
     //////////////////////////////////////////////////////////////////
     //     This trait is tightly coupled to the Formable trait      //

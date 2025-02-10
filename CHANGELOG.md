@@ -2,7 +2,8 @@
 
 ## 1.2.0 (current)
 - Renamed `control-input` to `control-with-addons` and updated form components for more intuitive naming
-- Created `controls` directory to house all input components
+- Refactor input components to improve structure and error handling, add form-row partial
+- Breaking change: Renamed `WithLivewireHelpers` to `WithFormActions` for more intuitive naming
 
 ## 1.1.0
 - Update label component to use headline method for improved title formatting

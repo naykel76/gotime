@@ -29,5 +29,7 @@
     @if ($icon)
         <x-gt-icon name="{{ $icon }}" class="fs0 wh-3 mr-075 {{ $iconClass }}" />
     @endif
-    {{ $slot }}
+    <div>
+        {{ $slot }}
+    </div>
 </div>
