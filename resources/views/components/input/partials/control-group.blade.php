@@ -1,6 +1,9 @@
 @aware(['for' => null, 'value' => null, 'label' => null, 'tooltip' => false, 'ignoreErrors' => false, 'helpText' => null, 'helpTextTop' => false, 'rowClass' => null, 'labelClass' => null, 'inline' => false])
 
-<div class='frm-row{{ $inline ? ' inline' : '' }} {{ $rowClass }}'>
+<x-gotime::input.partials.form-row
+    {{ $attributes->merge([
+        'class' => 'frm-row' . ($inline ? ' inline' : '') . ' ' . $rowClass,
+    ]) }}>
 
     @isset($label)
         <x-gotime::input.partials.label :tooltip="$tooltip ?? null" />
@@ -20,10 +23,12 @@
 
         @unless ($ignoreErrors)
             @error($for)
-                <small class="txt-red" role="alert"> {{ $message }} </small>
+                <p class="mt-025 txt-xs txt-red-600" role="alert">
+                    {{ $message }}
+                </p>
             @enderror
         @endunless
 
     </div>
 
-</div>
+</x-gotime::input.partials.form-row>

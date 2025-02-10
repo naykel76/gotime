@@ -14,3 +14,12 @@
         <x-gotime::input.controls.input {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
     </x-gotime::input.partials.control-group>
 @endif
+
+
+
+{{-- <div class="danger">
+
+    <x-gotime::input.partials.control-grp :$for>
+        <x-gotime::input.controls.input {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
+    </x-gotime::input.partials.control-grp>
+</div> --}}
