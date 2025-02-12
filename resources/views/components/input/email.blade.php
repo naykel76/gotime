@@ -3,16 +3,14 @@
 @php
     $for = $attributes->whereStartsWith('wire:model')->first() ?? $attributes->get('for');
     if (!isset($for)) {
-        throw new Exception('Neither `wire:model` nor the`for` attribute is set on the form control.');
+        throw new InvalidArgumentException('The form control requires either a `for` or `wire:model` attribute to be specified.');
     }
 @endphp
 
 @if ($controlOnly)
-    <x-gotime::input.control-input
-        {{ $attributes->merge(['type' => 'email'])->except(['label', 'help-text', 'rowClass']) }} />
+    <x-gotime::input.controls.input {{ $attributes->merge(['type' => 'email'])->except(['label', 'help-text', 'rowClass']) }} />
 @else
     <x-gotime::input.partials.control-group>
-        <x-gotime::input.control-input
-            {{ $attributes->merge(['type' => 'email'])->except(['label', 'help-text', 'rowClass']) }} />
+        <x-gotime::input.controls.input {{ $attributes->merge(['type' => 'email'])->except(['label', 'help-text', 'rowClass']) }} />
     </x-gotime::input.partials.control-group>
 @endif

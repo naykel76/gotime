@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+- Fix `email` and `password` components with incorrect component name
+
 ## 1.2.0
 - Renamed `control-input` to `control-with-addons` and updated form components for more intuitive naming
 - Refactor input components to improve structure and error handling, add form-row partial
