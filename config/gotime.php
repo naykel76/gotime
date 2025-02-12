@@ -20,6 +20,40 @@ return [
 
     /**
      * ----------------------------------------------------------------------
+     * Date Format
+     * ----------------------------------------------------------------------
+     * This is the default date format for the application. It is used in the
+     * DateCast class and date pickers components to ensure that dates are
+     * formatted correctly.
+     */
+    'date_format' => env('NK_DATE_FORMAT', 'd-M-Y'), // 28-MAR-2024
+
+    // Date format mappings for Pikaday and Flatpickr
+    'date_format_mappings' => [
+        'd-m-y' => [
+            'pikaday' => 'DD-MM-YY',
+            'flatpickr' => 'd-m-y',
+        ],
+        'd-m-Y' => [
+            'pikaday' => 'DD-MM-YYYY',
+            'flatpickr' => 'd-m-Y',
+        ],
+        'M d, Y' => [
+            'pikaday' => 'MMM D, YYYY',
+            'flatpickr' => 'M d, Y',
+        ],
+        'd M, Y' => [
+            'pikaday' => 'D MMM, YYYY',
+            'flatpickr' => 'd M, Y',
+        ],
+        'd-M-Y' => [
+            'pikaday' => 'D-MMM-YYYY',
+            'flatpickr' => 'd-M-Y',
+        ],
+    ],
+
+    /**
+     * ----------------------------------------------------------------------
      * Enable Debug Mode
      * ----------------------------------------------------------------------
      * This is not the same as Laravel's debug mode. This is a custom debug mode

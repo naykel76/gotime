@@ -24,7 +24,7 @@ trait Renderable
         return view($this->getView(), $data)
             ->layout(AppLayout::class, [
                 'pageTitle' => $this->pageTitle ?? null,
-                'layout' => $this->layout ?? config('naykel.livewire_layout'),
+                'layout' => $this->layout ?? config('gotime.livewire_layout'),
             ]);
     }
 

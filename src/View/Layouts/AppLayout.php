@@ -17,7 +17,7 @@ class AppLayout extends Component
     {
         // fall back to default if null or empty
         if (! $this->layout || $this->layout == '') {
-            $this->layout = config('naykel.template');
+            $this->layout = config('gotime.template');
         }
 
         if (view()->exists("components.layouts.$this->layout")) {

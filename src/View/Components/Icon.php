@@ -21,7 +21,7 @@ class Icon extends Component
 
     public function __construct(public string $name, public ?string $type = null)
     {
-        $this->type = $type ?? config('naykel.component.icon.type');
+        $this->type = $type ?? config('gotime.component.icon.type');
     }
 
     /**

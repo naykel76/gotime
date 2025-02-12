@@ -10,11 +10,10 @@ class DateCast implements CastsAttributes
 {
     /**
      * Cast the dates to human readable dates
-     * IMPORTANT must be a 'datetime' or 'timestamp'
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): ?string
     {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('M d, Y') : null;
+        return $value ? Carbon::parse($value)->format(config('gotime.date_format')) : null;
     }
 
     /**

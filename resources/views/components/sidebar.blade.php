@@ -12,8 +12,8 @@
         @if(!isset($header))
             <div class="flex space-between px-075 py-05 va-c bdr-b">
                 <div class="logo">
-                    <a href="{{ url('/') }}"><img src="{{ config('naykel.logo.path') }}" alt="{{ config('app.name') }}"
-                            height="{{ config('naykel.logo.height') }}" width="{{ config('naykel.logo.width') }}"></a>
+                    <a href="{{ url('/') }}"><img src="{{ config('gotime.logo.path') }}" alt="{{ config('app.name') }}"
+                            height="{{ config('gotime.logo.height') }}" width="{{ config('gotime.logo.width') }}"></a>
                 </div>
                 <button x-on:click="open = false" type="button" class="btn dark pxy-025">
                     <svg class="icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
