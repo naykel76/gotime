@@ -13,13 +13,13 @@
     </x-gotime::input.control-select>
 @else
     @if (empty($options))
-        <x-gotime::input.partials.control-group>
+        <x-gotime::input.partials.control-group :$for>
             <x-gotime::input.control-select {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
                 {{ $slot }}
             </x-gotime::input.control-select>
         </x-gotime::input.partials.control-group>
     @else
-        <x-gotime::input.partials.control-group>
+        <x-gotime::input.partials.control-group :$for>
             <x-gotime::input.control-select {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
                 @foreach ($options as $key => $value)
                     <option value="{{ $key }}">{{ $value }}</option>

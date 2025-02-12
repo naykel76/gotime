@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.2
+- add `$for` attribute to control groups to correctly associate labels and errors with inputs
+
 ## 1.2.1
 - Fix `email` and `password` components with incorrect component name
 

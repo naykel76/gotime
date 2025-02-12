@@ -10,7 +10,7 @@
 @if ($controlOnly)
     <x-gotime::input.controls.input {{ $attributes->merge(['type' => 'email'])->except(['label', 'help-text', 'rowClass']) }} />
 @else
-    <x-gotime::input.partials.control-group>
+    <x-gotime::input.partials.control-group :$for>
         <x-gotime::input.controls.input {{ $attributes->merge(['type' => 'email'])->except(['label', 'help-text', 'rowClass']) }} />
     </x-gotime::input.partials.control-group>
 @endif
