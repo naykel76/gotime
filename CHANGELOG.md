@@ -1,9 +1,10 @@
 # Changelog
 
-## 1.2.0 (current)
+## 1.2.0
 - Renamed `control-input` to `control-with-addons` and updated form components for more intuitive naming
 - Refactor input components to improve structure and error handling, add form-row partial
 - Breaking change: Renamed `WithLivewireHelpers` to `WithFormActions` for more intuitive naming
+- Breaking change: Renamed `naykel.php` config file to `gotime.php`
 
 ## 1.1.0
 - Update label component to use headline method for improved title formatting
