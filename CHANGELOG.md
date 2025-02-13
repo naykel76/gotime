@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.3
+- Enhance `CodeRendererExtension` to automatically add `Mermaid` component to render mermaid diagrams
+  
 ## 1.2.2
 - add `$for` attribute to control groups to correctly associate labels and errors with inputs
 

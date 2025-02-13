@@ -15,8 +15,6 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 
 class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
-    // public static $allowBladeForNextDocument = false;
-
     public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment->addRenderer(FencedCode::class, $this, 100);
@@ -27,10 +25,14 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         /** @var FencedCode $node */
         $info = $node->getInfoWords();
 
-        // if (!static::$allowBladeForNextDocument) return;
-
         if (in_array('+parse', $info)) {
             return Blade::render($node->getLiteral());
+        }
+
+        if (in_array('+parse-mermaid', $info)) {
+            $content = $node->getLiteral();
+            $wrappedContent = "<x-mermaid>\n" . $content . "\n</x-mermaid>\n";
+            return Blade::render($wrappedContent);
         }
     }
 }
