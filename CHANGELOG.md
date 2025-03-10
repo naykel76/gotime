@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+- Refactor datepicker component: add icon support and improve control group structure; 
+- Add reset public properties after saving to `WithFormActions`
+
 ## 1.2.3
 - Enhance `CodeRendererExtension` to automatically add `Mermaid` component to render mermaid diagrams
   

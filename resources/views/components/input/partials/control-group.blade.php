@@ -2,7 +2,7 @@
 
 <x-gotime::input.partials.form-row
     {{ $attributes->merge([
-        'class' => 'frm-row' . ($inline ? ' inline' : '') . ' ' . $rowClass,
+        'class' => ($inline ? ' inline' : '') . ' ' . $rowClass,
     ]) }}>
 
     @isset($label)

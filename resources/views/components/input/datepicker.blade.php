@@ -1,4 +1,4 @@
-@props(['controlOnly' => false])
+@props(['withIcon' => false])
 {{-- do not add `for` in the props to let this do its job --}}
 @php
     $for = $attributes->whereStartsWith('wire:model')->first() ?? $attributes->get('for');
@@ -7,12 +7,12 @@
     }
 @endphp
 
-@if ($controlOnly)
-    <x-gotime::input.controls.flatpickr {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
-@else
-    <x-gotime::input.partials.control-group :$for>
-        <x-gotime::input.controls.flatpickr {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
-    </x-gotime::input.partials.control-group>
-@endif
-
-
+<x-gotime::input.partials.control-group :$for>
+    <x-gotime::input.controls.flatpickr {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
+        @if ($withIcon)
+            <x-slot:trailingAddon>
+                <x-gt-icon name="calendar" />
+            </x-slot:trailingAddon>
+        @endif
+    </x-gotime::input.controls.flatpickr>
+</x-gotime::input.partials.control-group>
