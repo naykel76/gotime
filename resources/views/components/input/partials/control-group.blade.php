@@ -12,13 +12,13 @@
     <div class="flex-col w-full my-0">
 
         @if (isset($helpText) && $helpTextTop)
-            <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            <x-gotime::input.partials.help-text :$helpText />
         @endif
 
         {{ $slot }}
 
         @if (isset($helpText) && !$helpTextTop)
-            <div class="mb-025 txt-muted"> <small>{{ $helpText }}</small> </div>
+            <x-gotime::input.partials.help-text :$helpText />
         @endif
 
         @unless ($ignoreErrors)
