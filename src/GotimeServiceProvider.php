@@ -68,6 +68,8 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('loading-indicator');
         $this->registerComponentX('spinner');
         $this->registerComponentX('tooltip');
+        $this->registerComponentX('menu.menu-item', 'menu-item'); // wrapper for menu-link or other menu items
+        $this->registerComponentX('menu.menu-link', 'menu-link');
 
         // Alerts, Notifications, and Messages
         $this->registerComponentX('alert');

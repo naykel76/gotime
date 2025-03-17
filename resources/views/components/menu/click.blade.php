@@ -1,3 +1,7 @@
+{{-- Define `includeOrder` property here to simplify declaring the attribute
+directly on the component without needing to explicitly set it to true --}}
+@props(['includeOrder' => false])
+
 <x-gotime::menu.base {{ $attributes }}>
 
     @foreach ($menuItems as $item)
@@ -9,12 +13,12 @@
         @endphp
 
         @unless ($children)
-            <li>
-                <x-gotime::menu.menu-link :$url :$active :$itemClass :$newWindow>
-                    <x-gotime::menu.icon-selector :$withIcons :$icon :$iconClass />
+            <x-gt-menu-item :order="$includeOrder ? $loop->index : null">
+                <x-gt-menu-link :$url :itemClass="$itemClass" :newWindow="$newWindow">
+                    <x-gotime::menu.icon-selector :withIcons="$withIcons" :icon="$icon" :iconClass="$iconClass" />
                     {{ $item->name }}
-                </x-gotime::menu.menu-link>
-            </li>
+                </x-gt-menu-link>
+            </x-gt-menu-item>
         @endunless
 
         @if ($children)
