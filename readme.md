@@ -8,6 +8,9 @@
 
 Starter package for NayKel Laravel applications.
 
+## To Do's
+- Update `menu-link` to accept named routes
+
 ## Installation
 
 To get started, install Gotime using the Composer package manager:

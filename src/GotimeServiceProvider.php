@@ -110,6 +110,7 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerV2FormComponents(): void
     {
         $this->registerComponentX('input.datepicker', 'datepicker');
+        $this->registerComponentX('input.editor', 'editor');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
@@ -118,10 +119,12 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerFormComponents(): void
     {
-        $this->registerComponentX('input.checkbox', 'checkbox');
+        // deprecated. use editor component instead
         $this->registerComponentX('input.ckeditor.basic', 'ckeditor.basic');
         $this->registerComponentX('input.ckeditor.ckeditor', 'ckeditor');
         $this->registerComponentX('input.ckeditor.inline', 'ckeditor.inline');
+
+        $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.radio', 'radio');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1
+- Refactor help text with dedicated component
+- Refactor menu components: introduce `menu-item` and `menu-link` components for improved structure and flexibility
+- Add `Editor` component and ckeditor controls.
+
 ## 1.3.0
 - Refactor datepicker component: add icon support and improve control group structure; 
 - Add reset public properties after saving to `WithFormActions`

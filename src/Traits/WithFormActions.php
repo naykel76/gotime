@@ -66,9 +66,6 @@ trait WithFormActions
         }
 
         $this->dispatch('notify', 'Saved successfully!');
-        
-        // reset all public properties
-        $this->reset();
 
         $this->showModal = false;
     }

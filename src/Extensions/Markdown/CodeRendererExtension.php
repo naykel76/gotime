@@ -32,6 +32,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         if (in_array('+parse-mermaid', $info)) {
             $content = $node->getLiteral();
             $wrappedContent = "<x-mermaid>\n" . $content . "\n</x-mermaid>\n";
+
             return Blade::render($wrappedContent);
         }
     }

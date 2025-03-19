@@ -1,3 +1,4 @@
+{{-- this layout is deprecated in place of using control-layout  --}}
 @aware(['for', 'value' => null, 'label' => null, 'tooltip' => false, 'ignoreErrors' => false, 'helpText' => null, 'helpTextTop' => false, 'rowClass' => null, 'labelClass' => null])
 
 <div class='frm-row {{ $rowClass }}'>
