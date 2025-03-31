@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+- Update CKEDitor controls to use NK custom builds
+- Delete obsolete editor controls
+
 ## 1.3.1
 - Refactor help text with dedicated component
 - Refactor menu components: introduce `menu-item` and `menu-link` components for improved structure and flexibility
