@@ -33,13 +33,12 @@ class InstallCommand extends Command
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
-                '@erbelion/vite-plugin-laravel-purgecss' => 'github:naykel76/vite-plugin-laravel-purgecss',
-                '@fullhuman/postcss-purgecss' => '^5.0.0',
-                'nk_jtb' => '^0.10',
-                'sass' => '1.60.0',
-                'autoprefixer' => '^10.4.7',
-                'postcss' => '^8.4.14',
+                // '@erbelion/vite-plugin-laravel-purgecss' => 'github:naykel76/vite-plugin-laravel-purgecss',
+                // '@fullhuman/postcss-purgecss' => '^5.0.0',
+                'autoprefixer' => '^10.4.21',
+                'nk_jtb' => '^0.14.1',
+                'postcss' => '^8.5.3',
+                'sass' => '^1.86.0',
             ] + $packages;
         });
 
@@ -51,6 +50,20 @@ class InstallCommand extends Command
         "type": "module", ',
                 './package.json'
             );
+        }
+
+        // Append entries to the .gitignore file if they don't already exist
+        $gitignorePath = base_path('.gitignore');
+        if (file_exists($gitignorePath)) {
+            $gitignoreContent = file_get_contents($gitignorePath);
+
+            if (! str_contains($gitignoreContent, 'nk_tasks.md')) {
+                file_put_contents($gitignorePath, PHP_EOL . 'nk_tasks.md', FILE_APPEND);
+            }
+
+            if (! str_contains($gitignoreContent, '/tmp')) {
+                file_put_contents($gitignorePath, PHP_EOL . '/tmp', FILE_APPEND);
+            }
         }
 
         // Resources...
@@ -67,7 +80,6 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
         copy(__DIR__ . '/../../resources/publishable/readme.md', base_path('readme.md'));
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
-        copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
         // Public...
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/public/', public_path());

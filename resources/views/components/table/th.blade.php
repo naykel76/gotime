@@ -10,9 +10,7 @@
 
     {{-- convert to upper case unless txt-capitalize or txt-lower class is present --}}
     @php
-        $text = Str::contains($attributes->get('class'), 'txt-capitalize') 
-            ? $slot : (Str::contains($attributes->get('class'), 'txt-lower') 
-            ? $slot : Str::upper($slot));
+        $text = Str::contains($attributes->get('class'), 'txt-capitalize') ? $slot : (Str::contains($attributes->get('class'), 'txt-lower') ? $slot : Str::upper($slot));
     @endphp
 
     @if ($sortable)
@@ -24,11 +22,11 @@
         ])>
             <span>{{ $text }}</span>
             @if ($direction === 'asc')
-                <x-gt-icon name="arrow-long-down" class="wh-1 ml-025" />
+                <x-gt-icon name="chevron-down" class="wh-1 ml-025" />
             @elseif($direction === 'desc')
-                <x-gt-icon name="arrow-long-up" class="wh-1 ml-025" />
+                <x-gt-icon name="chevron-up" class="wh-1 ml-025" />
             @else
-                <x-gt-icon name="arrows-up-down" class="wh-1 opacity-02 ml-05" />
+                <x-gt-icon name="chevron-down" class="wh-1 opacity-02 ml-05" />
             @endif
         </button>
     @else

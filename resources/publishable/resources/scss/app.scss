@@ -1,9 +1,13 @@
-// @use "nk_jtb/src/variables" as * with(
-//     $primary: #000000,
-//     $secondary: #13ad3a
+// @use 'nk_jtb/src/v1/maps_and_variables/base' with (
+//     $text-color: #1b1b1f
 // );
 
-@use "nk_jtb/src/extras/nk-app";
-@use "nk_jtb/src/jtb";
-@use "nk_jtb/src/mixins/media" as *;
-@use "nk_jtb/src/variables" as *;
+// @use 'nk_jtb/src/v1/maps_and_variables/colors' with (
+//     $primary: #2228cc
+// );
+
+// @use 'nk_jtb/src/v1/maps_and_variables/components' with (
+//     $navbar-bg: colors.$primary
+// );
+
+@use 'nk_jtb/src/jtb';

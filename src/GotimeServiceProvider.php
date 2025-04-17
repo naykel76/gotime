@@ -77,11 +77,12 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('toast');
 
         // Buttons
-        $this->registerComponentX('resource-action-button');
-        $this->registerComponentX('button.base', 'button.base');
         $this->registerComponentX('button.submit', 'submit');
-        $this->registerComponentX('button.variants.default', 'button'); // default button
         $this->registerComponentX('button.variants.save', 'button.save');
+        $this->registerComponentX('resource-action-button');
+        $this->registerComponentX('v2/button.base', 'button.base');
+        $this->registerComponentX('v2/button.variants.default', 'button');
+        $this->registerComponentX('v2/button/resource-action', 'resource-action');
 
         // layouts
         $this->registerComponentX('layouts.base', 'gotime-layouts.base');
