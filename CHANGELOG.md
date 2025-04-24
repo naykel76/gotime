@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+- Refactor CKEditor components for v2
+- Removed deprecated CKEditor components and their associated partials.
+
 ## 1.3.1
 - Refactor help text with dedicated component
 - Refactor menu components: introduce `menu-item` and `menu-link` components for improved structure and flexibility
