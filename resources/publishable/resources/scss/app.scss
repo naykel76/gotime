@@ -3,7 +3,4 @@
 //     $secondary: #13ad3a
 // );
 
-@use "nk_jtb/src/extras/nk-app";
-@use "nk_jtb/src/jtb";
-@use "nk_jtb/src/mixins/media" as *;
-@use "nk_jtb/src/variables" as *;
+@use 'nk_jtb/src/jtb';

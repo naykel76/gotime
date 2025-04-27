@@ -30,7 +30,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->commands([InstallCommand::class]);
         $this->registerComponents();
         $this->registerFormComponents();
-        $this->registerV2FormComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
@@ -77,11 +76,11 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('toast');
 
         // Buttons
-        $this->registerComponentX('resource-action-button');
-        $this->registerComponentX('button.base', 'button.base');
         $this->registerComponentX('button.submit', 'submit');
-        $this->registerComponentX('button.variants.default', 'button'); // default button
         $this->registerComponentX('button.variants.save', 'button.save');
+        $this->registerComponentX('v2/button.base', 'button.base');
+        $this->registerComponentX('v2/button.variants.default', 'button');
+        $this->registerComponentX('v2/resource-action', 'resource-action');
 
         // layouts
         $this->registerComponentX('layouts.base', 'gotime-layouts.base');
@@ -106,24 +105,19 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('toolbar.title-bar', 'title-bar');
     }
 
-    // these are components that have been revised for v2
-    protected function registerV2FormComponents(): void
-    {
-        $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
-    }
-
     protected function registerFormComponents(): void
     {
+        $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.datepicker', 'datepicker');
         $this->registerComponentX('input.editor', 'editor');
         $this->registerComponentX('input.email');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password');
         $this->registerComponentX('input.pikaday', 'pikaday');
-        $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.radio', 'radio');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.textarea', 'textarea');
+        $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
     }
 
     /**

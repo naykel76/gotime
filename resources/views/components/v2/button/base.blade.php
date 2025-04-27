@@ -12,16 +12,14 @@
 @endphp
 
 <button {{ $attributes->merge(['type' => 'button']) }}>
-
     @if ($icon)
-        <x-gt-icon name="{{ $icon }}"
-            class="wh-1.25 {{ $iconClass }} {{ !$text ? '' : $margin }} {{ $position }}" />
+        <x-gt-icon name="{{ $icon }}" class="wh-1.25 {{ $iconClass }} {{ !$text ? '' : $margin }} {{ $position }}" />
     @endif
 
     @if ($text != '' || $slot->isNotEmpty())
         {{-- Use the slot if available, instead of text. Avoid wrapping this in a span or
         other element giving you full control over the slot for easier styling.  --}}
-        {{ $slot->isNotEmpty() ? $slot : ($text != '' ? $text : '') }}
+        {{-- {{ $slot->isNotEmpty() ? $slot : ($text != '' ? $text : '') }} --}}
+        {{ $slot->isNotEmpty() ? $slot : $text }}
     @endif
-
 </button>

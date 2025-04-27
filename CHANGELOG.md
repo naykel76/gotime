@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.0
+- Updated button component 
+- Updated resource-action component 
+- Added PublishedStatus Enum
+
 ## 1.4.0
 - Refactor CKEditor components for v2
 - Removed deprecated CKEditor components and their associated partials.
