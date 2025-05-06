@@ -29,27 +29,27 @@ enum PublishedStatus: string
     public function backgroundColor()
     {
         return match ($this) {
-            self::Released => 'bg-orange-100',
+            self::Released => 'bg-purple-100',
             self::Published => 'bg-green-100',
-            self::Draft => 'bg-gray-100',
+            self::Draft => 'bg-slate-100',
         };
     }
 
     public function textColor()
     {
         return match ($this) {
-            self::Released => 'txt-orange-600',
+            self::Released => 'txt-purple-600',
             self::Published => 'txt-green-600',
-            self::Draft => 'txt-gray-600',
+            self::Draft => 'txt-slate-600',
         };
     }
 
     public function borderColor()
     {
         return match ($this) {
-            self::Released => 'bdr-orange-200',
+            self::Released => 'bdr-purple-200',
             self::Published => 'bdr-green-200',
-            self::Draft => 'bdr-gray-200',
+            self::Draft => 'bdr-slate-200',
         };
     }
 }

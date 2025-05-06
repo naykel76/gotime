@@ -4,7 +4,6 @@ namespace Naykel\Gotime\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Naykel\Gotime\Facades\FileManagement as FMS;
 
 class InstallCommand extends Command
 {
@@ -33,25 +32,14 @@ class InstallCommand extends Command
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                // "@erbelion/vite-plugin-laravel-purgecss" => "^0.2.1",
-                '@erbelion/vite-plugin-laravel-purgecss' => 'github:naykel76/vite-plugin-laravel-purgecss',
-                '@fullhuman/postcss-purgecss' => '^5.0.0',
-                'nk_jtb' => '^0.10',
-                'sass' => '1.60.0',
-                'autoprefixer' => '^10.4.7',
-                'postcss' => '^8.4.14',
+                '@erbelion/vite-plugin-laravel-purgecss' => '^0.3.4',
+                'autoprefixer' => '^10.4.21',
+                'nk_jtb' => '^0.15.0',
+                'postcss' => '^8.5.3',
+                'sass' => '^1.86.3',
+                'vite' => '^6.2.4',
             ] + $packages;
         });
-
-        // Update node modules...
-        if (! FMS::stringInFile('./package.json', '"type": "module"')) {
-            FMS::replaceInFile(
-                '"private": true,',
-                '"private": true,
-        "type": "module", ',
-                './package.json'
-            );
-        }
 
         // Resources...
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/navs', resource_path('navs'));

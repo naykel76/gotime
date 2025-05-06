@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.1
+- Add torchlight support for code highlighting 
+- Removed highlight.js and related code in markdown layout
+- Refactor environment and vite configuration 
+- improve layout components
+- update PublishedStatus enum colors
+
 ## 1.5.0
 - Updated button component 
 - Updated resource-action component 
