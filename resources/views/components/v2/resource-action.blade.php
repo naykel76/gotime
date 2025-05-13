@@ -1,8 +1,16 @@
-@props(['routePrefix', 'slug' => null, 'action', 'icon' => null, 'text' => null, 'iconOnly' => false, 'id' => null])
+@props([
+    'action', // required: create, edit, delete, etc
+    'routePrefix' => null,
+    'slug' => null,
+    'id' => null,
+    'icon' => null,
+    'iconOnly' => false,
+    'text' => null,
+])
 
 @php
-    if (($action == 'edit' || $action == 'delete') && !isset($id)) {
-        throw new InvalidArgumentException("An item ID must be provided for the $action action in the resource-action component.");
+    if (($action == 'edit' || $action == 'delete') && !isset($id) && !isset($slug)) {
+        throw new InvalidArgumentException("An item ID or slug must be provided for the $action action in the resource-action component.");
     }
 
     $text ??= ucfirst($action);

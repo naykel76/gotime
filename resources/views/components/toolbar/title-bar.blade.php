@@ -4,7 +4,7 @@
 
 <div class="flex space-between va-c">
 
-    <{{ $h ?? 'h1' }} class="my-2">{{ $pageTitle }}</{{ $h ?? 'h1' }}>
+    <{{ $h ?? 'h1' }}>{{ $pageTitle }}</{{ $h ?? 'h1' }}>
 
         <div>
             <a class="btn primary" href="{{ route("$routePrefix.create") }}">
