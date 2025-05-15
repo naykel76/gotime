@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.2
+- Update table components and service provider
+
 ## 1.5.1
 - Add torchlight support for code highlighting 
 - Removed highlight.js and related code in markdown layout

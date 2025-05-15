@@ -99,7 +99,8 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
 
         // table components
-        $this->registerComponentX('table.th', 'table.th');
+        $this->registerComponentX('v2.table.th', 'table.th');
+        $this->registerComponentX('v2.table.table', 'table');
 
         // toolbars
         $this->registerComponentX('toolbar.title-bar', 'title-bar');
