@@ -37,6 +37,8 @@ trait Crudable
 
         $this->editing = $this->editing::updateOrCreate(['id' => $this->editing->id], $validatedData);
 
+        $this->component->dispatch('saved');
+
         return $this->editing;
     }
 

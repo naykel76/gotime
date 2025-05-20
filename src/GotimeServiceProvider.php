@@ -76,10 +76,14 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('toast');
 
         // Buttons
+        // NK::REFACTOR handling multiple variations is little primitive, but it works!
         $this->registerComponentX('button.submit', 'submit');
         $this->registerComponentX('button.variants.save', 'button.save');
         $this->registerComponentX('v2/button.base', 'button.base');
         $this->registerComponentX('v2/button.variants.default', 'button');
+        $this->registerComponentX('v2/button.variants.primary', 'button.primary');
+        $this->registerComponentX('v2/button.variants.secondary', 'button.secondary');
+
         $this->registerComponentX('v2/resource-action', 'resource-action');
 
         // layouts

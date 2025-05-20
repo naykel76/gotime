@@ -1,7 +1,7 @@
 # Changelog
 
-## 1.5.2
-- Update table components and service provider
+## 1.6.0
+- Update button variation components
 
 ## 1.5.1
 - Add torchlight support for code highlighting 
