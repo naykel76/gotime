@@ -2,6 +2,8 @@
 
 namespace Naykel\Gotime\Traits;
 
+use Livewire\Attributes\On;
+
 trait WithFormActions
 {
     //////////////////////////////////////////////////////////////////
@@ -15,9 +17,12 @@ trait WithFormActions
     public bool $showModal = false;
 
     /**
-     * The ID of the selected item and flag to show or hide modal.
+     * The ID of the selected item.
+     *
+     * Used to track which item is currently selected for actions like edit or
+     * delete and control modal visibility.
      */
-    public bool|int $selectedItemId = false;
+    public ?int $selectedId = null;
 
     /**
      * Edit the specified model by its ID.
@@ -41,8 +46,10 @@ trait WithFormActions
         }
 
         $model = $this->form->createNewModel($this->initialData ?? []);
+
         $this->form->init($model);
-        $this->showModal = true;
+
+        $this->showModal = true; // this is a lazy approach, but it works
     }
 
     public function save(?string $action = null): void
@@ -76,12 +83,11 @@ trait WithFormActions
     public function delete(?int $id = null): void
     {
         $this->modelClass::findOrFail($id)->delete();
-        $this->reset('selectedItemId');
-        // $this->dispatch('item-deleted');
+        $this->reset('selectedId');
     }
 
     /**
-     * Clear the forms temporary file upload.
+     * Clear the forms temporary file upload. Required for filepond to work
      */
     public function clearTmpUpload(): void
     {
@@ -119,11 +125,15 @@ trait WithFormActions
     }
 
     /**
-     * Cancel the form action and close the modal dialog.
+     * Cancels the current form action, resets form state and errors, and closes
+     * the modal dialog.
      */
     public function cancel(): void
     {
-        $this->showModal = false;
+        $this->reset(['form', 'showModal', 'selectedId']);
         $this->resetErrorBag();
+
+        // emit an event to notify other components if communication is needed
+        $this->dispatch('close-modal');
     }
 }

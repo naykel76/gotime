@@ -35,7 +35,7 @@
 
     $clickMethod = match ($action) {
         'create' => 'create',
-        'delete' => "\$set('selectedItemId', $id)",
+        'delete' => "\$set('selectedId', $id)",
         'edit' => "edit({$id})",
         'save' => 'save',
         default => 'view',

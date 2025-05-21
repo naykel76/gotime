@@ -40,21 +40,4 @@ trait Formable
             }
         }
     }
-
-    /**
-     * Create a new instance of the model.
-     *
-     * This is required to create a new model instance when working on the same
-     * page (modal). Do not remove from here!
-     *
-     * @param  array  $data  The data to be used to create the model instance.
-     * @return Model The newly created model instance.
-     */
-    public function createNewModel(array $data = []): Model
-    {
-        $data = $this->initialData ?? $data ?? [];
-        $model = $this->model::make($data);
-
-        return $model;
-    }
 }

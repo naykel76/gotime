@@ -1,15 +1,15 @@
-@props(['selectedItemId' => null, 'maxWidth' => null, 'withRedirect' => false])
+@props(['selectedId' => null, 'maxWidth' => null, 'withRedirect' => false])
 
 {{-- 
     Don't go crazy with options here, it is intended to be an opinionated!
 
-    'selectedItemId' is the ID of the item to be deleted. It is named this way to be
+    'selectedId' is the ID of the item to be deleted. It is named this way to be
     consistent with the trait and make it easier to use. For example:
 
-    <x-gt-modal.delete wire:model="selectedItemId" :$selectedItemId" />
+    <x-gt-modal.delete wire:model="selectedId" :$selectedId" />
 --}}
 
-<x-gt-modal.base id="$selectedItemId" :$maxWidth {{ $attributes }}>
+<x-gt-modal.base id="$selectedId" :$maxWidth {{ $attributes }}>
 
     <div class="bx-title inline-flex va-c">
         <div class=" pxy-05 bg-rose-50 rounded-full">
@@ -29,11 +29,11 @@
     @endisset
 
     <div class="bx-footer tar">
-        <x-gt-button wire:click="$set('selectedItemId', false)" wire:loading.attr="disabled" text="Nevermind" />
+        <x-gt-button wire:click="$set('selectedId', false)" wire:loading.attr="disabled" text="Nevermind" />
         @if ($withRedirect)
-            <x-gt-button wire:click="delete({{ $selectedItemId }}, 'delete_close')" text="Delete" class="danger" />
+            <x-gt-button wire:click="delete({{ $selectedId }}, 'delete_close')" text="Delete" class="danger" />
         @else
-            <x-gt-button wire:click="delete({{ $selectedItemId }})" text="Delete" class="danger" />
+            <x-gt-button wire:click="delete({{ $selectedId }})" text="Delete" class="danger" />
         @endif
     </div>
 

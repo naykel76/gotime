@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+- Changed `selectedItemId` to `selectedId` and updated necessary components
+- Updated `cancel` method to reset forms and dispatch 1close-modal` event
+
 ## 1.6.0
 - Update button variation components
 
