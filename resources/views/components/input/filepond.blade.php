@@ -47,8 +47,8 @@
             const pond = FilePond.create(this.$refs.input, {
                 acceptedFileTypes: @json($accepts())
             });
-            // Listen for pondReset event and remove all files
-            addEventListener('pondReset', e => {
+            // Listen for the file-upload-completed event from and remove all files
+            addEventListener('file-upload-completed', e => {
                 pond.removeFiles();
             });
             // Listen for the 'removefile' event
