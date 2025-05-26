@@ -10,14 +10,13 @@ class FileManagementService
     /**
      * Save the file with a unique filename.
      */
-    public function saveWithUnique(UploadedFile $file, string $directory, string $disk = 'public'): \Naykel\Gotime\DTO\FileInfo
+    public function saveWithUnique(UploadedFile $file, string $path, string $disk = 'public'): \Naykel\Gotime\DTO\FileInfo
     {
         $filename = $this->getUniqueFilename($file);
-        $file->storeAs($directory, $filename, $disk);
+        $file->storeAs($path, $filename, $disk);
 
-        return new FileInfo($directory, $filename, $disk);
+        return new FileInfo($path, $filename, $disk);
     }
-
     /**
      * Generate a unique filename for the uploaded file.
      *
