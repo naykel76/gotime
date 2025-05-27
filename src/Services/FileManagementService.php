@@ -17,6 +17,7 @@ class FileManagementService
 
         return new FileInfo($path, $filename, $disk);
     }
+
     /**
      * Generate a unique filename for the uploaded file.
      *

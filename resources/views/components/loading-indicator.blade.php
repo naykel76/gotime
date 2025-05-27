@@ -1,15 +1,15 @@
-    <div class="overlay flex ha-c va-c mxy-0" >
-        <div class="la-ball-spin la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+<div {{ $attributes->class(['overlay flex ha-c va-c mxy-0']) }}>
+    <div class="la-ball-spin la-2x">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
+</div>
 
     @push('styles')
     <style>

@@ -1,8 +1,8 @@
 {{-- *** COMPONENT BASED CLASS *** --}}
 
-{{-- do not use the control layout here because it causes problems when displaying errors --}}
-<div x-data="{ initFilePond }" wire:ignore x-init="initFilePond()">
+<div x-data="{ initFilePond, loading: false }" wire:ignore x-init="initFilePond()">
     <input type="file" x-ref="input" style="display:none">
+    <x-gt-loading-indicator x-show="loading" />
 </div>
 
 @pushOnce('styles')
@@ -30,13 +30,23 @@
         function initFilePond() {
             FilePond.registerPlugin(FilePondPluginFileValidateSize);
             FilePond.registerPlugin(FilePondPluginFileValidateType);
-            // Set global options for all FilePond instances
+
             FilePond.setOptions({
                 allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
                 maxFileSize: '{{ $maxFileSize }}KB',
                 server: {
                     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-                        @this.upload('{{ $attributes['wire:model'] }}', file, load, error, progress)
+                        @this.upload('{{ $attributes['wire:model'] }}', file,
+                            (uploadedFilename) => {
+                                load(uploadedFilename);
+                            },
+                            (e) => {
+                                error(e);
+                            },
+                            (event) => {
+                                progress(event.loaded, event.total);
+                            }
+                        )
                     },
                     revert: (filename, load) => {
                         @this.removeUpload('{{ $attributes['wire:model'] }}', filename, load)
@@ -47,7 +57,27 @@
             const pond = FilePond.create(this.$refs.input, {
                 acceptedFileTypes: @json($accepts())
             });
-            // Listen for the file-upload-completed event from and remove all files
+
+            // Show loader on start
+            pond.on('addfilestart', () => {
+                this.loading = true;
+            });
+
+            // Hide loader when file is processed
+            pond.on('processfile', () => {
+                this.loading = false;
+            });
+
+            // Also hide on error or abort
+            pond.on('processfileabort', () => {
+                this.loading = false;
+            });
+
+            pond.on('processfileerror', () => {
+                this.loading = false;
+            });
+
+            // Clear files when Livewire tells us upload is complete
             addEventListener('file-upload-completed', e => {
                 pond.removeFiles();
             });

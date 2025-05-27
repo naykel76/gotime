@@ -1,9 +1,12 @@
 # Changelog
 
+## 1.7.3
+- Add loading indicator to filepond
+- Change prefix on the search component
+
 ## 1.7.2
 - Updated `nk-ckeditor.js` to include `hr`
 - Refactor saveWithUnique method in FileManagementService to use 'path' instead of 'directory' for clarity
-
 
 ## 1.7.1
 - Refactor file upload handling in Crudable trait to improve storage configuration management
