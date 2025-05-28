@@ -2,7 +2,7 @@
 editor. Just use the control and build from scratch instead --}}
 
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $attributes->get('for');
+    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
     if (!isset($for)) {
         throw new InvalidArgumentException('The wire:model attribute must be specified for the editor control.');
     }
