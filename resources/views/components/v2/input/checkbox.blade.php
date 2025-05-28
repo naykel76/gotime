@@ -1,4 +1,4 @@
-@props(['for', 'option', 'options' => []])
+@props(['for', 'text' => null, 'options' => []])
 
 {{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
@@ -10,7 +10,7 @@
 
 {{-- TODO: Add support for rendering a group of checkboxes --}}
 <x-gotime::v2.input.partials.control-group :$for>
-    <x-gotime::v2.input.controls.checkbox :$option {{ $attributes->except(['for', 'label', 'help-text', 'rowClass']) }} />
+    <x-gotime::v2.input.controls.checkbox :$text {{ $attributes->except(['for', 'label', 'help-text', 'rowClass']) }} />
 </x-gotime::v2.input.partials.control-group>
 
 

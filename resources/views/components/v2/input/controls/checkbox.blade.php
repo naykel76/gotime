@@ -1,4 +1,4 @@
-@props(['option'])
+@props(['text' => null])
 
 {{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
@@ -8,10 +8,15 @@
     }
 @endphp
 
-<label>
-    <input
-        {{ $attributes }} name="{{ $for }}"
-        @checked(!$attributes->has('wire:model') && old($for))
-        type="checkbox" />
-    {{ $slot->isNotEmpty() ? $slot : $option }}
-</label>
+{{-- display the label only when needed --}}
+@if ($text || $slot->isNotEmpty())
+    <label>
+@endif
+
+<input {{ $attributes }} name="{{ $for }}"
+    @checked(!$attributes->has('wire:model') && old($for)) type="checkbox" />
+
+@if ($text || $slot->isNotEmpty())
+    {{ $slot->isNotEmpty() ? $slot : $text }}
+    </label>
+@endif
