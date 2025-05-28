@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.0
+- refactor form components to improve error messaging for missing `for` or `wire:model` attributes
+- refactor form components to use v2 structure
+
 ## 1.7.3
 - Add loading indicator to filepond
 - Change prefix on the search component

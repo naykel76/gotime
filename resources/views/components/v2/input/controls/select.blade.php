@@ -1,4 +1,4 @@
-{{-- TODO: Add support for addons --}}
+{{-- NKTD: Add support for addons --}}
 @props([
     'placeholder' => null,
     'options' => [],

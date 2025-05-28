@@ -1,4 +1,4 @@
-@props(['controlOnly' => false, 'placeholder' => null, 'options' => []])
+@props(['placeholder' => null, 'options' => []])
 
 {{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
