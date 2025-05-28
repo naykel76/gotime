@@ -6,7 +6,7 @@
     $dateFormat = config('gotime.date_format_mappings')[$defaultFormat]['pikaday'];
 @endphp
 
-<x-gotime::input.partials.control-with-addons>
+<x-gotime::v2.input.partials.control-with-addons>
 
     <input x-data x-ref="datepicker"
         x-init="new Pikaday({ field: $refs.datepicker, format: '{{ $dateFormat }}' })"
@@ -17,7 +17,7 @@
             ])->except(['for']) }}
         @if (old($for) || $value) value="{{ old($for) ? old($for) : $value }}" @endif />
 
-</x-gotime::input.partials.control-with-addons>
+</x-gotime::v2.input.partials.control-with-addons>
 
 @pushOnce('head')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">

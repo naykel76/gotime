@@ -6,7 +6,7 @@
     $dateFormat = config('gotime.date_format_mappings')[$defaultFormat]['flatpickr'];
 @endphp
 
-<x-gotime::input.partials.control-with-addons>
+<x-gotime::v2.input.partials.control-with-addons>
 
     <input x-data x-ref="datePickerInput"
         x-init="flatpickr($refs.datePickerInput, {
@@ -18,7 +18,7 @@
             ])->except(['for']) }}
         type="text">
 
-</x-gotime::input.partials.control-with-addons>
+</x-gotime::v2.input.partials.control-with-addons>
 
 @pushOnce('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">

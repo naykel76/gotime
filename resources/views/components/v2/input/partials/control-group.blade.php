@@ -6,7 +6,7 @@
     ]) }}>
 
     @isset($label)
-        <x-gotime::input.partials.label :tooltip="$tooltip ?? null" />
+        <x-gotime::v2.input.partials.label :tooltip="$tooltip ?? null" />
     @endisset
 
     <div class="flex-col w-full my-0">
