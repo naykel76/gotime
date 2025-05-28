@@ -1,6 +1,6 @@
 @props([
     'for' => null,
-    'text' => null,
+    'label' => null, // do not confuse with the control group label
     'componentName' => 'checkbox control',
 ])
 
@@ -12,14 +12,14 @@
 @endphp
 
 {{-- NKTD: Add error support, or maybe just let the control-group handle it??? --}}
-@if ($text || $slot->isNotEmpty())
+@if ($label || $slot->isNotEmpty())
     <label>
 @endif
 
 <input {{ $attributes }} name="{{ $for }}"
     @checked(!$attributes->has('wire:model') && old($for)) type="checkbox" />
 
-@if ($text || $slot->isNotEmpty())
-    {{ $slot->isNotEmpty() ? $slot : $text }}
+@if ($label || $slot->isNotEmpty())
+    {{ $slot->isNotEmpty() ? $slot : $label }}
     </label>
 @endif

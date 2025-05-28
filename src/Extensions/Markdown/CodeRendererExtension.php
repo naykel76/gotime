@@ -34,6 +34,13 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return '<pre>' . Blade::render($node->getLiteral()) . '</pre>';
         }
 
+        // torchlight codeblock wrap in <x-torchlight-code> tags
+        if (in_array('+parse-torchlight-blade', $info)) {
+            $parse = '<x-torchlight-code language="blade">' . $node->getLiteral() . '</x-torchlight-code>';
+
+            return '<pre>' . Blade::render($parse) . '</pre>';
+        }
+
         if (in_array('+parse-mermaid', $info)) {
             $content = $node->getLiteral();
             $wrappedContent = "<x-mermaid>\n" . $content . "\n</x-mermaid>\n";

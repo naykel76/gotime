@@ -1,13 +1,26 @@
-@aware(['for' => null, 'value' => null, 'label' => null, 'tooltip' => false, 'ignoreErrors' => false, 'helpText' => null, 'helpTextTop' => false, 'rowClass' => null, 'labelClass' => null, 'inline' => false])
+@aware([
+    'for' => null,
+    'value' => null,
+    'label' => null,
+    'tooltip' => false,
+    'ignoreErrors' => false,
+    'helpText' => null,
+    'helpTextTop' => false,
+    'rowClass' => null,
+    'labelClass' => null,
+    'inline' => false,
+    'componentName' => '', // included to allow special conditions like the label for the checkbox component
+])
 
 <x-gotime::v2.input.partials.form-row
     {{ $attributes->merge([
         'class' => ($inline ? ' inline' : '') . ' ' . $rowClass,
     ]) }}>
 
-    @isset($label)
+    {{-- Render label unless component is a checkbox, as checkboxes handle labels differently --}}
+    @if (isset($label) && $componentName !== 'checkbox')
         <x-gotime::v2.input.partials.label :tooltip="$tooltip ?? null" />
-    @endisset
+    @endif
 
     <div class="flex-col w-full my-0">
 

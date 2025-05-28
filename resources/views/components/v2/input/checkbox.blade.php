@@ -1,10 +1,9 @@
 @props([
     'for' => null,
-    'text' => null,
+    'label' => null,
     'options' => [],
     'componentName' => 'checkbox',
 ])
-
 @php
     $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
     if (!isset($for)) {
@@ -12,9 +11,11 @@
     }
 @endphp
 
-<x-gotime::v2.input.partials.control-group :$for>
+{{-- Do not confuse this label here with the control group label; pass through
+the component name and let the control group handle it --}}
+<x-gotime::v2.input.partials.control-group :$for :$componentName>
     @if (empty($options))
-        <x-gotime::v2.input.controls.checkbox :$for :$text
+        <x-gotime::v2.input.controls.checkbox :$for :$label
             {{ $attributes->except(['for', 'label', 'help-text', 'rowClass']) }} />
     @else
         {{-- NKTD: Add support for rendering a group of checkboxes --}}
