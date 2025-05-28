@@ -1,14 +1,17 @@
-@props(['text' => null])
+@props([
+    'for' => null,
+    'text' => null,
+    'componentName' => 'checkbox control',
+])
 
-{{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
+    $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
     if (!isset($for)) {
-        throw new InvalidArgumentException('A `for` or `wire:model` attribute must be provided for this form control.');
+        throw new InvalidArgumentException("The `$componentName` component requires either a `for` or `wire:model` attribute to be set.");
     }
 @endphp
 
-{{-- display the label only when needed --}}
+{{-- NKTD: Add error support, or maybe just let the control-group handle it??? --}}
 @if ($text || $slot->isNotEmpty())
     <label>
 @endif

@@ -1,6 +1,12 @@
-@aware(['editorId', 'editorType' => 'classic', 'editorConfig' => 'standard'])
+@aware([
+    'editorId' => null,
+    'editorType' => 'classic',
+    'editorConfig' => 'standard',
+    'componentName' => 'ckeditor control',
+])
 
 @php
+
     $wireModel = $attributes->whereStartsWith('wire:model')->first();
 
     if (!isset($wireModel)) {

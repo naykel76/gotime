@@ -1,23 +1,23 @@
-@props(['for', 'text' => null, 'options' => []])
+@props([
+    'for' => null,
+    'text' => null,
+    'options' => [],
+    'componentName' => 'checkbox',
+])
 
-{{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
+    $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
     if (!isset($for)) {
-        throw new InvalidArgumentException('A `for` or `wire:model` attribute must be provided for this form control.');
+        throw new InvalidArgumentException("The `$componentName` component requires either a `for` or `wire:model` attribute to be set.");
     }
 @endphp
 
-{{-- TODO: Add support for rendering a group of checkboxes --}}
 <x-gotime::v2.input.partials.control-group :$for>
-    <x-gotime::v2.input.controls.checkbox :$text {{ $attributes->except(['for', 'label', 'help-text', 'rowClass']) }} />
+    @if (empty($options))
+        <x-gotime::v2.input.controls.checkbox :$for :$text
+            {{ $attributes->except(['for', 'label', 'help-text', 'rowClass']) }} />
+    @else
+        {{-- NKTD: Add support for rendering a group of checkboxes --}}
+        @dd('there is a problem with the checkbox component, it does not currently support group options');
+    @endif
 </x-gotime::v2.input.partials.control-group>
-
-
-{{-- @if (empty($options))
-    <x-gotime::v2.input.controls.checkbox {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
-        {{ $slot }}
-    </x-gotime::v2.input.controls.checkbox>
-@else
-    <x-gotime::v2.input.controls.checkbox {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
-@endif --}}

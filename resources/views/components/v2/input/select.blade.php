@@ -1,19 +1,23 @@
-@props(['placeholder' => null, 'options' => []])
+@props([
+    'for' => null,
+    'options' => [],
+    'placeholder' => null,
+    'componentName' => 'select',
+])
 
-{{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
+    $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
     if (!isset($for)) {
-        throw new InvalidArgumentException('A `for` or `wire:model` attribute must be provided for this form control.');
+        throw new InvalidArgumentException("The `$componentName` component requires either a `for` or `wire:model` attribute to be set.");
     }
 @endphp
 
 <x-gotime::v2.input.partials.control-group :$for>
     @if (empty($options))
-        <x-gotime::v2.input.controls.select {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
+        <x-gotime::v2.input.controls.select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
             {{ $slot }}
         </x-gotime::v2.input.controls.select>
     @else
-        <x-gotime::v2.input.controls.select {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
+        <x-gotime::v2.input.controls.select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
     @endif
 </x-gotime::v2.input.partials.control-group>

@@ -1,16 +1,17 @@
-{{-- NKTD: Add support for addons --}}
 @props([
     'placeholder' => null,
     'options' => [],
+    'componentName' => 'select control',
 ])
 
-{{-- this check needs to be in both the control, and component to make sure we cover both cases --}}
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
+    $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
     if (!isset($for)) {
-        throw new InvalidArgumentException('A `for` or `wire:model` attribute must be provided for this form control.');
+        throw new InvalidArgumentException("The `$componentName` component requires either a `for` or `wire:model` attribute to be set.");
     }
 @endphp
+
+{{-- NKTD: Add support for addons --}}
 
 <select name="{{ $for }}" id="{{ $for }}"
     {{ $attributes->merge([
@@ -28,4 +29,4 @@
             <option value="{{ $key }}">{{ $value }}</option>
         @endforeach
     @endif
-</select> 
+</select>
