@@ -8,6 +8,6 @@ editor. Just use the control and build from scratch instead --}}
     }
 @endphp
 
-<x-gotime::input.partials.control-group>
+<x-gotime::v2.input.partials.control-group>
     <x-gotime::v2.input.controls.ckeditor {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
-</x-gotime::input.partials.control-group>
+</x-gotime::v2.input.partials.control-group>

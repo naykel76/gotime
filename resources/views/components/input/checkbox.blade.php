@@ -2,7 +2,7 @@
 
 {{-- do not add `for` in the props to let this do its job --}}
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $attributes->get('for');
+    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
     if (!isset($for)) {
         throw new Exception('Neither `wire:model` nor the`for` attribute is set on the form control.');
     }
