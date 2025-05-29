@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.1
+- Add support for Torchlight PHP parsing; ensure proper wrapping in `<pre>` tags for improved rendering.
+
 ## 1.8.0
 - refactor form components to improve error messaging for missing `for` or `wire:model` attributes
 - refactor form components to use v2 structure
