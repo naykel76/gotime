@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0
+- Update for Laravel 12 compatibility
+- Refactor `composer.json` and `.env.example` for dependency updates;
+- remove `postcss.config.js` and enhance InstallCommand with NPM scripts management.
+
 ## 1.8.1
 - Add support for Torchlight PHP parsing; ensure proper wrapping in `<pre>` tags for improved rendering.
 

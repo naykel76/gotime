@@ -34,17 +34,21 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return '<pre>' . Blade::render($node->getLiteral()) . '</pre>';
         }
 
-        // torchlight codeblock wrap in <x-torchlight-code> tags
-        if (in_array('+parse-torchlight-blade', $info)) {
-            $parse = '<x-torchlight-code language="blade">' . $node->getLiteral() . '</x-torchlight-code>';
+        // Handle multiple torchlight languages in a DRY way
+        $torchlightLanguages = [
+            '+torchlight-php'   => 'php',
+            '+torchlight-css'   => 'css',
+            '+torchlight-scss'  => 'scss',
+            '+torchlight-blade' => 'blade',
+            '+torchlight-html' => 'html',
+            '+torchlight-js' => 'js',
+        ];
 
-            return '<pre>' . Blade::render($parse) . '</pre>';
-        }
-
-        if (in_array('+parse-torchlight-php', $info)) {
-            $parse = '<x-torchlight-code language="php">' . $node->getLiteral() . '</x-torchlight-code>';
-
-            return '<pre>' . Blade::render($parse) . '</pre>';
+        foreach ($torchlightLanguages as $flag => $language) {
+            if (in_array($flag, $info)) {
+                $parse = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
+                return '<pre>' . Blade::render($parse) . '</pre>';
+            }
         }
 
         if (in_array('+parse-mermaid', $info)) {

@@ -5,10 +5,11 @@ import purge from "@erbelion/vite-plugin-laravel-purgecss";
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '')
     const isDev = env.VITE_APP_ENV === 'local';
-
+    const VITE_APP_URL = env.VITE_APP_URL;
+    
     return {
         server: isDev ? {
-            open: 'http://localhost:3002',
+            open: VITE_APP_URL,
             // Watch settings to ignore unnecessary directories during the dev server reload
             watch: {
                 ignored: ['**/node_modules/**', '**/storage/**', '**/vendor/**'],

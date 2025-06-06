@@ -7,12 +7,7 @@
 <link rel="icon" type="image/x-icon" href="{{ config('gotime.favicon') }}">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-@env('local')
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    @vite(['resources/js/app.js'])
-@else
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
-@endenv
+@vite(['resources/scss/app.scss', 'resources/js/app.js'])
 
 @livewireStyles
 

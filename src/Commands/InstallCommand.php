@@ -41,6 +41,22 @@ class InstallCommand extends Command
             ] + $packages;
         });
 
+        // NPM Scripts...
+        $this->updateNodeScripts(function ($scripts) {
+            return [
+                "build" => "vite build",
+                'build1' => 'concurrently "vite build" "npm run build:css"',
+                'build:css' => 'sass resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
+                'build:staging' => 'vite build --mode=staging',
+                'housekeeping' => 'rm -rf node_modules/.vite node_modules/.vite-cache public/build',
+                'debug' => 'vite --debug',
+                'dev' => 'concurrently "vite" "npm run watch:jtb"',
+                'nuke' => 'rm -rf node_modules vendor public/build',
+                'nuke:ps' => 'powershell -NoProfile -Command "Remove-Item -Recurse -Force node_modules, vendor, public/build"',
+                'watch:jtb' => 'sass --watch resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
+            ] + $scripts;
+        });
+
         // Resources...
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/navs', resource_path('navs'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/scss', resource_path('scss'));
@@ -51,7 +67,6 @@ class InstallCommand extends Command
 
         // Assets...
         copy(__DIR__ . '/../../resources/publishable/.env.example', base_path('.env.example'));
-        copy(__DIR__ . '/../../resources/publishable/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__ . '/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
         copy(__DIR__ . '/../../resources/publishable/readme.md', base_path('readme.md'));
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
@@ -94,6 +109,29 @@ class InstallCommand extends Command
         );
 
         ksort($packages[$configurationKey]);
+
+        file_put_contents(
+            base_path('package.json'),
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
+        );
+    }
+
+    /**
+     * Update the "scripts" section of the package.json file.
+     */
+    protected static function updateNodeScripts(callable $callback)
+    {
+        if (! file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
+
+        $packages['scripts'] = $callback(
+            array_key_exists('scripts', $packages) ? $packages['scripts'] : []
+        );
+
+        ksort($packages['scripts']);
 
         file_put_contents(
             base_path('package.json'),
