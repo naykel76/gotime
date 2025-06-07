@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.1
+- Add `choices` component
+
 ## 1.9.0
 - Update for Laravel 12 compatibility
 - Refactor `composer.json` and `.env.example` for dependency updates;
