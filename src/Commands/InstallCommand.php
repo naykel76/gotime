@@ -44,7 +44,7 @@ class InstallCommand extends Command
         // NPM Scripts...
         $this->updateNodeScripts(function ($scripts) {
             return [
-                "build" => "vite build",
+                'build' => 'vite build',
                 'build1' => 'concurrently "vite build" "npm run build:css"',
                 'build:css' => 'sass resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
                 'build:staging' => 'vite build --mode=staging',

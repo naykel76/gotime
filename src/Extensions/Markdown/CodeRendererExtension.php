@@ -23,6 +23,8 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         /** @var FencedCode $node */
+        // Get info words from the code block (e.g., language and flags) html
+        // +parse,
         $info = $node->getInfoWords();
 
         if (in_array('+parse', $info)) {
@@ -34,11 +36,18 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return '<pre>' . Blade::render($node->getLiteral()) . '</pre>';
         }
 
+        if (in_array('+parse-mermaid', $info)) {
+            $content = $node->getLiteral();
+            $wrappedContent = "<x-mermaid>\n" . $content . "\n</x-mermaid>\n";
+
+            return Blade::render($wrappedContent);
+        }
+
         // Handle multiple torchlight languages in a DRY way
         $torchlightLanguages = [
-            '+torchlight-php'   => 'php',
-            '+torchlight-css'   => 'css',
-            '+torchlight-scss'  => 'scss',
+            '+torchlight-php' => 'php',
+            '+torchlight-css' => 'css',
+            '+torchlight-scss' => 'scss',
             '+torchlight-blade' => 'blade',
             '+torchlight-html' => 'html',
             '+torchlight-js' => 'js',
@@ -47,15 +56,43 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         foreach ($torchlightLanguages as $flag => $language) {
             if (in_array($flag, $info)) {
                 $parse = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
+
                 return '<pre>' . Blade::render($parse) . '</pre>';
             }
         }
 
-        if (in_array('+parse-mermaid', $info)) {
-            $content = $node->getLiteral();
-            $wrappedContent = "<x-mermaid>\n" . $content . "\n</x-mermaid>\n";
+        /**
+         * Display the code block with Torchlight syntax highlighting
+         * and render the code itself as Blade output.
+         */
+        if (in_array('+parse-and-code', $info)) {
+            // Wrap the code block in a Torchlight component for syntax highlighting
+            $highlightedCode = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
 
-            return Blade::render($wrappedContent);
+            // Render the highlighted code block with Blade and wrap it in <pre> tags
+            $renderedCodeBlock = '<pre>' . Blade::render($highlightedCode) . '</pre>';
+
+            // Render the code itself as Blade output
+            $renderedOutput = '<div class="bx">' . Blade::render($node->getLiteral()) . '</div>';
+
+            // Return both the highlighted code and the rendered result
+            return $renderedOutput . $renderedCodeBlock;
+        }
+
+        // This is a hacky way to parse and code js, but it works
+        if (in_array('+parse-and-code-js', $info)) {
+            $language = 'blade';
+            // Wrap the code block in a Torchlight component for syntax highlighting
+            $highlightedCode = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
+
+            // Render the highlighted code block with Blade and wrap it in <pre> tags
+            $renderedCodeBlock = '<pre>' . Blade::render($highlightedCode) . '</pre>';
+
+            // Render the code itself as Blade output
+            $renderedOutput = Blade::render($node->getLiteral());
+
+            // Return both the highlighted code and the rendered result
+            return $renderedOutput . $renderedCodeBlock;
         }
     }
 }

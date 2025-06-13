@@ -106,3 +106,16 @@ if (! function_exists('calcPercentage')) {
         return $num / $total * 100;
     }
 }
+
+// ------------------------------------------------------------------
+// -- MATH HELPERS --
+// ------------------------------------------------------------------
+
+if (! function_exists('getWord')) {
+    function getWord(string $string, int $position = 0): ?string
+    {
+        $words = preg_split('/\s+/', trim($string));
+
+        return $words[$position] ?? null;
+    }
+}
