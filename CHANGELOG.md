@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.0
+- Remove `choices` component
+- Add `slim-select` component
+
 ## 1.9.1
 - Add `choices` component
 

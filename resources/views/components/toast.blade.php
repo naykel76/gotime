@@ -5,7 +5,12 @@
     "
     x-transition.out.opacity.duration.1000ms>
 
-    <div class="bx pxy-1 fixed pos-b pos-r mxy flex va-c minw-16 z-top">
+    <div class="bx pxy-1 fixed bottom-0 right-0 mxy flex va-c minw-16 z-top">
+        <x-gt-icon name="check-circle" class="txt-green" />
+        <div x-text="message" class="mx-1"></div>
+        <x-gt-icon name="x-mark" class="fs0 close ml-auto" @click="show = false" />
+    </div>
+    <div class="bx pxy-1 fixed bottom-0 right-0 mxy flex va-c minw-16 z-top">
         <x-gt-icon name="check-circle" class="txt-green" />
         <div x-text="message" class="mx-1"></div>
         <x-gt-icon name="x-mark" class="fs0 close ml-auto" @click="show = false" />

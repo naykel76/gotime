@@ -20,10 +20,8 @@ inputs. This may not work for all use cases but it ticks the box for now!
         <x-gt-icon name="question-mark-circle" class="txt-muted icon" />
     </div>
 
-    {{-- <div class="absolute pos-r minw-18 z-100 bx pxy-075 mt-05 txt-sm fw4 bg-stone-100" x-show="open" --}}
     <div x-show="open" x-transition.duration style="display: none;"
-        {{ $attributes->merge(['class' => 'absolute pos-r minw-18 z-100 bx pxy-075 mt-05 txt-xs fw4 light']) }}>
+        {{ $attributes->merge(['class' => 'absolute right-0 minw-18 z-100 bx pxy-075 mt-05 txt-xs fw4 light']) }}>
         {{ $slot }}
     </div>
-
 </span>

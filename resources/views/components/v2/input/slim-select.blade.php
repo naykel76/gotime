@@ -2,7 +2,7 @@
     'for' => null,
     'options' => [],
     'placeholder' => null,
-    'componentName' => 'select',
+    'componentName' => 'slim-select',
 ])
 
 @php
@@ -14,10 +14,10 @@
 
 <x-gotime::v2.input.partials.control-group :$for>
     @if (empty($options))
-        <x-gotime::v2.input.controls.choices :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
+        <x-gotime::v2.input.controls.slim-select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
             {{ $slot }}
-        </x-gotime::v2.input.controls.choices>
+        </x-gotime::v2.input.controls.slim-select>
     @else
-        <x-gotime::v2.input.controls.choices :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
+        <x-gotime::v2.input.controls.slim-select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
     @endif
 </x-gotime::v2.input.partials.control-group>

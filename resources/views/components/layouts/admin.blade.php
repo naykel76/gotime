@@ -11,7 +11,7 @@
         </div>
         <div class="flex">
             <nav> <a href="/" class="btn pink mr" target="blank">Home Page</a> </nav>
-            <x-authit-account-dropdown class="pos-r" btn-class="txt-white" />
+            <x-authit-account-dropdown class="right-0" btn-class="txt-white" />
         </div>
     </div>
     <main class="nk-main flex">
