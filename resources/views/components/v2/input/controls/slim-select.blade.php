@@ -34,6 +34,9 @@
                         }
                     }
                 });
+                this.$watch('values', (newVal) => {
+                    SLIM.setSelected(newVal);
+                });
                 SLIM.setSelected(this.values);
             }
         }));

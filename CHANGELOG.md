@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.10.1
+- Add watcher to `slim-select` component to fix issue with `slim-select` not updating when the model changes
+  
 ## 1.10.0
 - Remove `choices` component
 - Add `slim-select` component
