@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.10.2
+- Fix `checkbox` not correctly rendering in `v2` components
+  
 ## 1.10.1
 - Add watcher to `slim-select` component to fix issue with `slim-select` not updating when the model changes
   
