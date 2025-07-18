@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.3
+- Enhance `CodeRendererExtension` so that `+parse-mermaid` supports both
+  importing Mermaid diagrams from a file path and rendering inline Mermaid code
+  blocks.
+
 ## 1.10.2
 - Fix `checkbox` not correctly rendering in `v2` components
   

@@ -36,10 +36,14 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return '<pre>' . Blade::render($node->getLiteral()) . '</pre>';
         }
 
+        // If +parse-mermaid is present, either import a Mermaid file (if the
+        // content is a file path) or render the code block content directly as
+        // Mermaid code. This allows both file-based and inline Mermaid
+        // diagrams.
         if (in_array('+parse-mermaid', $info)) {
-            $content = $node->getLiteral();
-            $wrappedContent = "<x-mermaid>\n" . $content . "\n</x-mermaid>\n";
-
+            $content = trim($node->getLiteral());
+            $mermaidContent = file_exists($content) ? file_get_contents($content) : $content;
+            $wrappedContent = "<x-mermaid>\n" . $mermaidContent . "\n</x-mermaid>\n";
             return Blade::render($wrappedContent);
         }
 
@@ -51,6 +55,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             '+torchlight-blade' => 'blade',
             '+torchlight-html' => 'html',
             '+torchlight-js' => 'js',
+            '+torchlight-bash' => 'bash',
         ];
 
         foreach ($torchlightLanguages as $flag => $language) {
