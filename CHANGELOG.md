@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.10.4
+- Improve `CodeRendererExtension` to accept block content or a file path for Mermaid diagrams.
+
 ## 1.10.3
 - Enhance `CodeRendererExtension` so that `+parse-mermaid` supports both
   importing Mermaid diagrams from a file path and rendering inline Mermaid code

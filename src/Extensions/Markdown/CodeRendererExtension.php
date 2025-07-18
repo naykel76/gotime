@@ -36,13 +36,22 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return '<pre>' . Blade::render($node->getLiteral()) . '</pre>';
         }
 
-        // If +parse-mermaid is present, either import a Mermaid file (if the
-        // content is a file path) or render the code block content directly as
-        // Mermaid code. This allows both file-based and inline Mermaid
-        // diagrams.
+        // If +parse-mermaid is present, treat the code block content as a file path
+        // relative to the project root (base_path). If the file exists, import its contents
+        // as the Mermaid diagram. Otherwise, treat the code block content as an inline
+        // Mermaid diagram. This allows both file-based and inline Mermaid diagrams.
         if (in_array('+parse-mermaid', $info)) {
             $content = trim($node->getLiteral());
-            $mermaidContent = file_exists($content) ? file_get_contents($content) : $content;
+            // Use base_path as the root, allow any relative path under project
+            $safePath = ltrim($content, '/\\');
+            $diagramPath = base_path($safePath);
+
+            if (file_exists($diagramPath)) {
+                $mermaidContent = file_get_contents($diagramPath);
+            } else {
+                $mermaidContent = $content; // fallback: treat as inline diagram
+            }
+
             $wrappedContent = "<x-mermaid>\n" . $mermaidContent . "\n</x-mermaid>\n";
             return Blade::render($wrappedContent);
         }
