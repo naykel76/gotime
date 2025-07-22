@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.5
+- Update `Formable` trait to use PHP Reflection for type-safe property assignment.
+- Ensure integer properties are cast correctly, preventing empty strings from being converted to zero.
+
 ## 1.10.4
 - Improve `CodeRendererExtension` to accept block content or a file path for Mermaid diagrams.
 

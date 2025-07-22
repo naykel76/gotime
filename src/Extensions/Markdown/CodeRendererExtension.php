@@ -53,6 +53,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             }
 
             $wrappedContent = "<x-mermaid>\n" . $mermaidContent . "\n</x-mermaid>\n";
+
             return Blade::render($wrappedContent);
         }
 

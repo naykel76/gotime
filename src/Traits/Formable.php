@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 trait Formable
 {
     /**
-     * Represents the model being edited or a new instance being created.
+     * The model being edited or created.
      *
-     * This property only reflects the model's state when initially set or after
-     * saving the form. It does not update to reflect changes made during form
-     * editing.
+     * Only reflects the model's state when initially set or after saving.
+     * Does not auto-sync with form changes.
      *
      * https://naykel.com.au/gotime/traits/formable#editing
      */
@@ -20,23 +19,30 @@ trait Formable
     /**
      * Set form properties for a given model.
      *
-     * This method iterates over the model's attributes and sets the form's
-     * properties to the corresponding values if the property exists in the form
-     * object.
+     * Iterates over the model's attributes and sets matching form properties,
+     * if they exist on the class.
      *
-     * @param  Model  $model  The model to get properties from.
+     * Note: This only sets properties that already exist on the model. It will
+     * not initialise unset properties—by design—so you can control which values
+     * are relevant to the form.
      */
     protected function setFormProperties(Model $model): void
     {
-
-        // It is IMPORTANT to note that this method will only set values for
-        // properties that have been set in the model. New models will not have
-        // any properties set. The solution is initialize required properties
-        // when creating a new `Model`.
-
         foreach ($model->getAttributes() as $property => $value) {
             if (property_exists($this, $property)) {
-                $this->$property = $value ?? '';
+                // Use PHP Reflection to inspect the property's declared type.
+                // This is necessary because PHP doesn’t provide a direct way
+                // to access a property's type hint at runtime without reflection.
+                $reflection = new \ReflectionProperty($this, $property);
+                $type = $reflection->getType();
+
+                // If property is typed as int or ?int, safely cast the value.
+                // Avoid casting '' to 0, which can be misleading.
+                if ($type && $type->getName() === 'int') {
+                    $this->$property = ($value === null || $value === '') ? null : (int) $value;
+                } else {
+                    $this->$property = $value ?? '';
+                }
             }
         }
     }
