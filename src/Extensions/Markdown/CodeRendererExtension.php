@@ -31,11 +31,6 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return Blade::render($node->getLiteral());
         }
 
-        // torchlight codeblock wrap in <pre> tags
-        if (in_array('+parse-code', $info)) {
-            return '<pre>' . Blade::render($node->getLiteral()) . '</pre>';
-        }
-
         // If +parse-mermaid is present, treat the code block content as a file path
         // relative to the project root (base_path). If the file exists, import its contents
         // as the Mermaid diagram. Otherwise, treat the code block content as an inline
@@ -59,13 +54,15 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         // Handle multiple torchlight languages in a DRY way
         $torchlightLanguages = [
-            '+torchlight-php' => 'php',
-            '+torchlight-css' => 'css',
-            '+torchlight-scss' => 'scss',
+            '+torchlight-bash' => 'bash',
             '+torchlight-blade' => 'blade',
+            '+torchlight-css' => 'css',
             '+torchlight-html' => 'html',
             '+torchlight-js' => 'js',
-            '+torchlight-bash' => 'bash',
+            '+torchlight-json' => 'json',
+            '+torchlight-php' => 'php',
+            '+torchlight-powershell' => 'powershell',
+            '+torchlight-scss' => 'scss',
         ];
 
         foreach ($torchlightLanguages as $flag => $language) {

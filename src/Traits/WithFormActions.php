@@ -32,6 +32,7 @@ trait WithFormActions
      *
      * @param  int  $id  The ID of the model to edit.
      */
+    #[On('edit-model')]
     public function edit($id): void
     {
         $model = $this->modelClass::findOrFail($id);
@@ -39,6 +40,7 @@ trait WithFormActions
         $this->showModal = true;
     }
 
+    #[On('create-model')]
     public function create(): void
     {
         if (! method_exists($this->form::class, 'createNewModel')) {
@@ -49,7 +51,7 @@ trait WithFormActions
 
         $this->form->init($model);
 
-        $this->showModal = true; // this is a lazy approach, but it works
+        $this->showModal = true;
     }
 
     public function save(?string $action = null): void
@@ -73,16 +75,18 @@ trait WithFormActions
         }
 
         $this->dispatch('notify', 'Saved successfully!');
-
+        $this->dispatch('model-saved');
         $this->showModal = false;
     }
 
     /**
      * Delete a model instance from the database and and optionally handle redirection.
      */
+    #[On('delete-model')]
     public function delete(?int $id = null): void
     {
         $this->modelClass::findOrFail($id)->delete();
+        $this->dispatch('model-deleted');
         $this->reset('selectedId');
     }
 
@@ -115,7 +119,6 @@ trait WithFormActions
      */
     private function handleRedirect(string $routePrefix, string $action, ?int $id = null)
     {
-
         return match ($action) {
             'save_close', 'delete_close' => redirect(route("$this->routePrefix.index")),
             'save_new' => redirect(route("$routePrefix.create")),
@@ -125,15 +128,29 @@ trait WithFormActions
     }
 
     /**
-     * Cancels the current form action, resets form state and errors, and closes
-     * the modal dialog.
+     * Cancels the current form action, resets UI state and closes modal.
+     *
+     * Note: We don't reset the form object here to avoid errors in nested
+     * components. The form will be properly initialized when create/edit
+     * methods are called.
      */
     public function cancel(): void
     {
-        $this->reset(['form', 'showModal', 'selectedId']);
+        // dont reset the form or it will throw errors in nested components.
+        // Rely on the initialisation of the form to reset the form state.
+        $this->reset(['showModal', 'selectedId']);
         $this->resetErrorBag();
-
-        // emit an event to notify other components if communication is needed
         $this->dispatch('close-modal');
+    }
+
+    /**
+     * Resets the form to a completely fresh state by creating a new instance.
+     * All properties are reset to their default values and error bags are cleared.
+     */
+    public function resetForm(): void
+    {
+        $formClass = get_class($this->form);
+        $this->form = new $formClass($this, 'form');
+        $this->resetErrorBag();
     }
 }

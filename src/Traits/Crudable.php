@@ -56,8 +56,6 @@ trait Crudable
             );
         });
 
-        $this->component->dispatch('item-saved');
-
         return $this->editing;
     }
 

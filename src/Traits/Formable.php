@@ -17,26 +17,27 @@ trait Formable
     public ?Model $editing;
 
     /**
-     * Set form properties for a given model.
+     * Set form properties from model attributes.
      *
-     * Iterates over the model's attributes and sets matching form properties,
-     * if they exist on the class.
+     * Iterates over the model's attributes and sets matching form properties
+     * if they exist on the form object. Properties are type-cast appropriately
+     * based on their declared type hints.
      *
-     * Note: This only sets properties that already exist on the model. It will
-     * not initialise unset properties—by design—so you can control which values
-     * are relevant to the form.
+     * This method only processes attributes that exist on the model, so form
+     * properties without corresponding model attributes will retain their
+     * default values.
      */
     protected function setFormProperties(Model $model): void
     {
         foreach ($model->getAttributes() as $property => $value) {
             if (property_exists($this, $property)) {
                 // Use PHP Reflection to inspect the property's declared type.
-                // This is necessary because PHP doesn’t provide a direct way
-                // to access a property's type hint at runtime without reflection.
+                // This is necessary because PHP doesn't provide a direct way to
+                // access a property's type hint at runtime without reflection.
                 $reflection = new \ReflectionProperty($this, $property);
                 $type = $reflection->getType();
 
-                // If property is typed as int or ?int, safely cast the value.
+                // If property is typed as int, safely cast the value.
                 // Avoid casting '' to 0, which can be misleading.
                 if ($type && $type->getName() === 'int') {
                     $this->$property = ($value === null || $value === '') ? null : (int) $value;

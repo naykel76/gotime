@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.0
+- Update `WithFormActions` trait to dispatch custom events for resource actions.
+- Add `resetForm` method to fully reset form state.
+- Refactor form property assignment to use PHP Reflection for type-safe handling.
+- Update resource action button to allow custom event names.
+
 ## 1.10.5
 - Update `Formable` trait to use PHP Reflection for type-safe property assignment.
 - Ensure integer properties are cast correctly, preventing empty strings from being converted to zero.
