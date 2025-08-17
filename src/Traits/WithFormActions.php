@@ -7,7 +7,7 @@ use Livewire\Attributes\On;
 trait WithFormActions
 {
     // ////////////////////////////////////////////////////////////////
-    //     This trait is tightly coupled to the Formable trait      //
+    //     This trait is tightly coupled to the Crudable trait      //
     //      the editing property must be $this->form->editing       //
     // ////////////////////////////////////////////////////////////////
 
@@ -40,6 +40,12 @@ trait WithFormActions
         $this->showModal = true;
     }
 
+    /**
+     * Create a new model instance.
+     *
+     * This method creates a new model instance using the form's createNewModel
+     * method, initializes the form with the model, and shows the modal dialog.
+     */
     #[On('create-model')]
     public function create(): void
     {
@@ -54,13 +60,20 @@ trait WithFormActions
         $this->showModal = true;
     }
 
+    /**
+     * Save the current form data and handle post-save actions.
+     *
+     * This method validates and persists the model, handles notifications,
+     * dispatches events, and manages redirection based on the action parameter.
+     * After successful save, the form is reset to prepare for the next operation.
+     */
     public function save(?string $action = null): void
     {
         // this must happen before the form is saved, otherwise there will be an
         // `id` and the model will not be new
         $isNewModel = $this->isNewModel();
 
-        // call the save method from the formable trait and persist the model
+        // call the save method from the Crudable trait and persist the model
         $model = $this->form->save();
 
         // this only needs to redirect on the first save
@@ -76,7 +89,8 @@ trait WithFormActions
 
         $this->dispatch('notify', 'Saved successfully!');
         $this->dispatch('model-saved');
-        $this->showModal = false;
+
+        $this->resetForm();
     }
 
     /**
@@ -128,29 +142,27 @@ trait WithFormActions
     }
 
     /**
-     * Cancels the current form action, resets UI state and closes modal.
+     * Cancels the current form action and resets all form state.
      *
-     * Note: We don't reset the form object here to avoid errors in nested
-     * components. The form will be properly initialized when create/edit
-     * methods are called.
+     * This method resets the form to a clean state and closes the modal.
+     * The form will be properly initialized when create/edit methods are called.
      */
     public function cancel(): void
     {
-        // dont reset the form or it will throw errors in nested components.
-        // Rely on the initialisation of the form to reset the form state.
-        $this->reset(['showModal', 'selectedId']);
-        $this->resetErrorBag();
+        $this->resetForm();
         $this->dispatch('close-modal');
     }
 
     /**
-     * Resets the form to a completely fresh state by creating a new instance.
-     * All properties are reset to their default values and error bags are cleared.
+     * Resets the form and UI state to a completely fresh state.
+     *
+     * This method resets form data, UI properties (modal visibility, selected ID),
+     * and clears error bags to ensure a clean state for the next operation.
      */
     public function resetForm(): void
     {
-        $formClass = get_class($this->form);
-        $this->form = new $formClass($this, 'form');
+        $this->form->reset();
+        $this->reset(['showModal', 'selectedId']);
         $this->resetErrorBag();
     }
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.0
+- Standardise date format configuration and mappings for picker libraries to ensure accurate formatting across the app.
+- Refactor form action trait to fully reset form state after saving or canceling, enhancing reliability in UI workflows.
+- Update NPM dependencies and scripts for improved compatibility.
+
 ## 1.11.0
 - Update `WithFormActions` trait to dispatch custom events for resource actions.
 - Add `resetForm` method to fully reset form state.

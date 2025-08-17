@@ -11,8 +11,6 @@
     }
 @endphp
 
-{{-- NKTD: Add support for addons --}}
-
 <select name="{{ $for }}" id="{{ $for }}"
     {{ $attributes->merge([
             'class' => $errors->has($for) ? 'bdr-red z-100 placeholder-red-400' : null,

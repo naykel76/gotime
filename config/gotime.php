@@ -26,28 +26,35 @@ return [
      * DateCast class and date pickers components to ensure that dates are
      * formatted correctly.
      */
-    'date_format' => env('NK_DATE_FORMAT', 'd-M-Y'), // 28-MAR-2024
+    'date_format' => env('NK_DATE_FORMAT', 'd-m-Y'),
 
-    // Date format mappings for Pikaday and Flatpickr
+    /**
+     * ----------------------------------------------------------------------
+     * Date Format Mappings
+     * ----------------------------------------------------------------------
+     * This is the mapping of date formats for different date picker libraries.
+     * It is used to ensure that the date format is consistent across the
+     * application and that the date pickers are configured correctly.
+     */
     'date_format_mappings' => [
-        'd-m-y' => [
+        'd-m-y' => [ // Output: 05-03-25
             'pikaday' => 'DD-MM-YY',
             'flatpickr' => 'd-m-y',
         ],
-        'd-m-Y' => [
+        'd-m-Y' => [ // Output: 05-03-2025
             'pikaday' => 'DD-MM-YYYY',
             'flatpickr' => 'd-m-Y',
         ],
-        'M d, Y' => [
-            'pikaday' => 'MMM D, YYYY',
+        'M d, Y' => [ // Output: Mar 05, 2025
+            'pikaday' => 'MMM DD, YYYY',
             'flatpickr' => 'M d, Y',
         ],
-        'd M, Y' => [
-            'pikaday' => 'D MMM, YYYY',
+        'd M, Y' => [ // Output: 05 Mar, 2025
+            'pikaday' => 'DD MMM, YYYY',
             'flatpickr' => 'd M, Y',
         ],
-        'd-M-Y' => [
-            'pikaday' => 'D-MMM-YYYY',
+        'd-M-Y' => [ // Output: 05-Mar-2025
+            'pikaday' => 'DD-MMM-YYYY',
             'flatpickr' => 'd-M-Y',
         ],
     ],
