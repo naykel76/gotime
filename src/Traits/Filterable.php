@@ -103,16 +103,37 @@ trait Filterable
 
     /**
      * Get the filter mode for a given key, defaulting to 'single' if not set.
-     *
-     * The `filterMode` property is expected to be an array mapping keys to modes.
      */
     public function getFilterMode(string $key): string
     {
-        if (! property_exists($this, 'filterMode')) {
-            return 'single';
+        // Check for new filterOptions structure first
+        if (property_exists($this, 'filterOptions') && isset($this->filterOptions[$key]['mode'])) {
+            return $this->filterOptions[$key]['mode'];
         }
 
-        return $this->filterMode[$key] ?? 'single';
+        return 'single';
+    }
+
+    /**
+     * Get the display label for a filter key.
+     *
+     * Returns the configured label from filterOptions, or the key itself if no
+     * label is set.
+     */
+    public function getFilterLabel(string $key): string
+    {
+        return $this->filterOptions[$key]['label'] ?? $key;
+    }
+
+    /**
+     * Get the display value for a filter key/value pair.
+     *
+     * Looks up the display value from the filterOptions 'displayValues' array.
+     * If no display value is found, returns the original value as a string.
+     */
+    public function getDisplayValue(string $key, mixed $value): string
+    {
+        return $this->filterOptions[$key]['displayValues'][$value] ?? (string) $value;
     }
 
     /**

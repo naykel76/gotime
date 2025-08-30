@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.0
+- Refactor modal to include focus trap for better accessibility.
+- Added `Filterable` trait to enhance Livewire components with dynamic filtering capabilities.
+- Added `HasFormattedDates` trait to add query scopes and standardise date formatting across models.
+
 ## 1.12.0
 - Standardise date format configuration and mappings for picker libraries to ensure accurate formatting across the app.
 - Refactor form action trait to fully reset form state after saving or canceling, enhancing reliability in UI workflows.
