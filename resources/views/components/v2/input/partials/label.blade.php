@@ -4,6 +4,7 @@
     'labelClass' => null,
     'req' => false,
     'tooltip' => false,
+    'noTransform' => false, // disables headline transformation of label
 ])
 
 @if ($tooltip)
@@ -11,7 +12,7 @@
 @endif
 
 <label for="{{ $for }}" {{ $attributes->except('tooltip') }}>
-    {{ Str::of($label)->headline() }}
+    {{ $noTransform ? $label : Str::of($label)->headline() }}
     @if ($req)
         <span class='txt-red'>*</span>
     @endif

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.14.0
+- Added `FloatAsInteger` cast to handle float values stored as integers in the database.
+- Removed `MoneyCast` in favor of `FloatAsInteger` for better clarity and functionality.
+- Update label component to optionally use `Str::headline` for improved title formatting.
+
 ## 1.13.0
 - Refactor modal to include focus trap for better accessibility.
 - Added `Filterable` trait to enhance Livewire components with dynamic filtering capabilities.
