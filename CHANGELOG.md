@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.1
+- Refactor pagination views: remove old templates and implement a new livewire
+  pagination component with improved accessibility and functionality
+  
 ## 1.14.0
 - Added `FloatAsInteger` cast to handle float values stored as integers in the database.
 - Removed `MoneyCast` in favor of `FloatAsInteger` for better clarity and functionality.
