@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2
+- Updated `setFormProperties` method in `WithFormActions` trait properties correctly.
+
 ## 1.14.1
 - Refactor pagination views: remove old templates and implement a new livewire
   pagination component with improved accessibility and functionality

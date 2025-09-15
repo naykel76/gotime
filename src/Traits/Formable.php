@@ -37,10 +37,14 @@ trait Formable
                 $reflection = new \ReflectionProperty($this, $property);
                 $type = $reflection->getType();
 
-                // If property is typed as int, safely cast the value.
-                // Avoid casting '' to 0, which can be misleading.
+                // Handle type casting for form properties:
+                // - For int: avoid casting '' to 0, which can be misleading.
+                // - For array: ensure only arrays are assigned, wrap non-empty
+                //   scalars in an array, use [] for empty values.
                 if ($type && $type->getName() === 'int') {
                     $this->$property = ($value === null || $value === '') ? null : (int) $value;
+                } elseif ($type && $type->getName() === 'array') {
+                    $this->$property = is_array($value) ? $value : (empty($value) ? [] : [$value]);
                 } else {
                     $this->$property = $value ?? '';
                 }
