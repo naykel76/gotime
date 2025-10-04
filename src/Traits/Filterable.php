@@ -115,23 +115,26 @@ trait Filterable
     }
 
     /**
-     * Get the display label for a filter key.
+     * Get the human-readable label for an active filter key.
      *
-     * Returns the configured label from filterOptions, or the key itself if no
-     * label is set.
+     * This method is strictly for UI display purposes (e.g., showing active
+     * filters). It does not affect filtering logic. Returns the configured
+     * label from $filterOptions or the key itself if no label is set.
      */
-    public function getFilterLabel(string $key): string
+    public function getActiveFilterLabel(string $key): string
     {
         return $this->filterOptions[$key]['label'] ?? $key;
     }
 
     /**
-     * Get the display value for a filter key/value pair.
+     * Get the human-readable display value for an active filter key/value pair.
      *
-     * Looks up the display value from the filterOptions 'displayValues' array.
-     * If no display value is found, returns the original value as a string.
+     * This method is strictly for UI display purposes (e.g., showing active
+     * filters). It does not affect filtering logic. Returns the configured
+     * display value from $filterOptions['displayValues'] or the value as a
+     * string if no mapping is found.
      */
-    public function getDisplayValue(string $key, mixed $value): string
+    public function getActiveFilterValue(string $key, mixed $value): string
     {
         return $this->filterOptions[$key]['displayValues'][$value] ?? (string) $value;
     }

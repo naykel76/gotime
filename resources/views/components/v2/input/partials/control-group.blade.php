@@ -35,11 +35,7 @@
         @endif
 
         @unless ($ignoreErrors)
-            @error($for)
-                <p class="mt-025 txt-xs txt-red-600" role="alert">
-                    {{ $message }}
-                </p>
-            @enderror
+            <x-gotime::v2.input.partials.error :for="$for" />
         @endunless
 
     </div>

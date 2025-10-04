@@ -43,13 +43,13 @@ class InstallCommand extends Command
         // NPM Scripts...
         $this->updateNodeScripts(function ($scripts) {
             return [
-                'log' => 'code storage/logs/laravel.log',
                 'build' => 'vite build',
                 'build:css' => 'sass resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
                 'build:staging' => 'vite build --mode=staging',
                 'debug' => 'vite --debug',
                 'dev' => 'concurrently "vite" "npm run watch:jtb"',
                 'housekeeping' => 'rm -rf node_modules/.vite node_modules/.vite-cache public/build',
+                'log' => 'code storage/logs/laravel.log',
                 'nuke' => 'rm -rf node_modules vendor public/build',
                 'nuke:ps' => 'powershell -NoProfile -Command "Remove-Item -Recurse -Force node_modules, vendor, public/build"',
                 'watch:jtb' => 'sass --watch resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
