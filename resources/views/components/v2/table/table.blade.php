@@ -1,7 +1,4 @@
-{{-- This table component is intentionally minimal. Add utility classes as needed or use specialised
-components like gt-table.th for more specific functionality. --}}
-
-<table class="bdr">
+<table {{ $attributes->class(['bdr']) }}>
     @isset($thead)
         <thead {{ $thead->attributes->class(['bg-gray-100 bdr-b']) }}>
             {{ $thead }}

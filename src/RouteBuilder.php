@@ -140,7 +140,7 @@ class RouteBuilder
     {
         $file = getJsonFile(resource_path("navs/$filename.json"));
 
-        return $this->cache ? cache()->remember($filename, 3600, fn () => $file) : $file;
+        return $this->cache ? cache()->remember($filename, 3600, fn() => $file) : $file;
     }
 
     /**
