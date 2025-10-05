@@ -2,7 +2,9 @@
 
 namespace Naykel\Gotime\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Naykel\Gotime\Enums\DateRange;
 
 trait Filterable
 {
@@ -19,7 +21,7 @@ trait Filterable
      * - If filter mode is 'single' or not defined: always replaces the existing value (default behavior).
      * - If filter mode is 'multi': uses multi-value logic.
      */
-    public function setFilter(string $key, mixed $value): void
+    public function setFilter(string $key, mixed $value, ?string $column = null): void
     {
         // Clear filter if value is empty (but preserve 0 and false)
         if ($this->shouldClearFilter($value)) {
@@ -34,6 +36,11 @@ trait Filterable
             $this->setSingleFilter($key, $value);
         } else {
             $this->setMultiFilter($key, $value);
+        }
+
+        // Store column info if provided for date_range filters
+        if ($key === 'date_range' && $column) {
+            $this->filters['date_range_column'] = $column;
         }
     }
 
@@ -53,7 +60,7 @@ trait Filterable
             // Remove specific value from array filter.
             if (is_array($this->filters[$key])) {
                 // Filter out the specific value and re-index array.
-                $this->filters[$key] = array_values(array_filter($this->filters[$key], fn ($item) => $item != $value));
+                $this->filters[$key] = array_values(array_filter($this->filters[$key], fn($item) => $item != $value));
 
                 // Clean up: if array is now empty, remove the whole key.
                 if (empty($this->filters[$key])) {
@@ -78,26 +85,77 @@ trait Filterable
     /**
      * Apply all active filters to the given query builder.
      *
-     * Automatically detects single vs multi-value filters:
-     * - Single values use WHERE clause.
-     * - Arrays use WHERE IN clause.
-     * - Skips null and empty string values (but allows 0 and false).
+     * Loops through each filter in the $filters array and applies the appropriate WHERE clause:
+     * - Special filters (like 'date_range') use enum-based custom handling
+     * - Basic filters use standard WHERE or WHERE IN clauses based on value type
+     * - Skips null and empty string values (but preserves 0 and false)
      */
     protected function applyFilters($query): Builder
     {
         foreach ($this->filters as $key => $value) {
-            // Skip null and empty values (but allow 0 and false).
+            if ($key === 'date_range') {
+                $column = $this->filters['date_range_column'] ?? 'created_at';
+                $query = $this->applyDateRangeFilter($query, $value, $column);
+
+                continue; // Skip to next filter - don't run basic filter logic below
+            }
+
+            // Skip the column storage key
+            if ($key === 'date_range_column') {
+                continue;
+            }
+
+            // Basic filter logic for all other filters (department, status, etc.)
             if ($value !== null && $value !== '') {
                 if (is_array($value)) {
-                    // Multi-value filter: WHERE column IN (value1, value2, ...).
+                    // Multi-value filter: WHERE column IN (value1, value2, ...)
                     $query->whereIn($key, $value);
                 } else {
-                    // Single value filter: WHERE column = value.
+                    // Single value filter: WHERE column = value
                     $query->where($key, $value);
                 }
             }
         }
 
+        return $query;
+    }
+
+    /**
+     * Apply date range filtering to the given query builder.
+     *
+     * Uses DateRange enum to determine the appropriate date filtering logic.
+     * Can be used independently or as part of applyFilters().
+     */
+    protected function applyDateRangeFilter($query, string $dateRangeValue, string $column = 'created_at'): Builder
+    {
+        $dateRange = DateRange::from($dateRangeValue);
+
+        // add options to select desired date ranges?? For example: custom =
+        // true/false or LastYear = true/false
+        // - For the time being i will just disable the custom range but is is
+        //   ok to leave the code here
+        // -show hide date selector when custom is selected
+        if ($dateRange === DateRange::Custom) {
+            // Use custom date properties for custom ranges
+            if (
+                property_exists($this, 'customStartDate') && property_exists($this, 'customEndDate')
+                && $this->customStartDate && $this->customEndDate
+            ) {
+                $query->whereBetween($column, [
+                    Carbon::parse($this->customStartDate)->startOfDay(),
+                    Carbon::parse($this->customEndDate)->endOfDay(),
+                ]);
+            }
+        } else {
+            // Handle preset ranges using enum
+            $dates = $dateRange->dates();
+
+            if ($dates) {
+                $query->whereBetween($column, $dates);
+            }
+        }
+
+        // If dates() returns null (e.g., 'all' time), no date filtering is applied
         return $query;
     }
 

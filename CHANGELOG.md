@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.1
+- Add `MoneyCast` for handling monetary
+- refactor `DateRange` enum for improved clarity
+- enhance `Filterable` trait with date range filtering logic
+
 ## 1.15.0
 - remove unused elements from home page and enhance footer structure; 
 - create a dedicated error partial for improved error handling in input components;
