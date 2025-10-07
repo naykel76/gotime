@@ -42,6 +42,9 @@ trait Filterable
         if ($key === 'date_range' && $column) {
             $this->filters['date_range_column'] = $column;
         }
+
+        // Reset pagination when filters change
+        $this->resetPageIfExists();
     }
 
     /**
@@ -73,13 +76,13 @@ trait Filterable
     /**
      * Clear all active filters.
      *
-     * Resets the filters array to an empty state. Uncomment `$this->resetPage()` if using pagination
+     * Resets the filters array to an empty state and resets pagination
      * to ensure the first page of results is displayed after clearing filters.
      */
     public function clearAllFilters(): void
     {
         $this->filters = [];
-        // $this->resetPage(); // Uncomment if using pagination.
+        $this->resetPageIfExists();
     }
 
     /**
@@ -252,6 +255,18 @@ trait Filterable
     {
         if ($existing !== $value) {
             $this->filters[$key] = [$existing, $value];
+        }
+    }
+
+    /**
+     * Reset pagination when filters change
+     */
+    private function resetPageIfExists(): void
+    {
+        // Simply check if resetPage method exists and call it. This is safe
+        // because resetPage() is available in all Livewire components.
+        if (method_exists($this, 'resetPage')) {
+            $this->resetPage();
         }
     }
 }

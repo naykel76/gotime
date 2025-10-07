@@ -1,5 +1,8 @@
 # Changelog
 
+- Refactor Filterable trait: implement pagination reset logic when filters change=
+- 
+
 ## 1.15.1
 - Add `MoneyCast` for handling monetary
 - refactor `DateRange` enum for improved clarity

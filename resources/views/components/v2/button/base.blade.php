@@ -5,15 +5,11 @@
         'right' => 'order-1',
         default => 'order-0',
     };
-    $margin = match ($iconPosition) {
-        'right' => 'ml-05',
-        default => 'mr-05',
-    };
 @endphp
 
 <button {{ $attributes->merge(['type' => 'button']) }}>
     @if ($icon)
-        <x-gt-icon name="{{ $icon }}" class="wh-1.25 {{ $iconClass }} {{ !$text ? '' : $margin }} {{ $position }}" />
+        <x-gt-icon name="{{ $icon }}" class="{{ $iconClass }} {{ $position }}" />
     @endif
 
     @if ($text != '' || $slot->isNotEmpty())
