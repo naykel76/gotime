@@ -11,3 +11,7 @@
 // optional imports
 // @use "../../node_modules/nk_jtb/src/extras/nk-app" as *;
 // @use "../../node_modules/nk_jtb/src/extras/nk-docs" as *;
+
+[x-cloak] {
+    display: none !important;
+}

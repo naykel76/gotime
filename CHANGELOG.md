@@ -1,7 +1,8 @@
 # Changelog
 
+## 1.15.2
 - Refactor Filterable trait: implement pagination reset logic when filters change=
-- 
+- Fix pagination button sizes for better UI consistency
 
 ## 1.15.1
 - Add `MoneyCast` for handling monetary
