@@ -6,10 +6,10 @@
 
     <div x-show="open" x-on:click="open = !open" class="overlay"></div>
 
-    <div class="sidebar transition w-20 light"
-        :class="{'-translate-x-full opacity-0':open === false, 'translate-x-0 opacity-1': open === true}">
+    <div class="transition w-20 light fixed" style="inset: 0; z-index: 40;"
+        :class="{ '-translate-x-full opacity-0': open === false, 'translate-x-0 opacity-1': open === true }">
 
-        @if(!isset($header))
+        @if (!isset($header))
             <div class="flex space-between px-075 py-05 va-c bdr-b">
                 <div class="logo">
                     <a href="{{ url('/') }}"><img src="{{ config('gotime.logo.path') }}" alt="{{ config('app.name') }}"
@@ -34,4 +34,3 @@
     </div>
 
 </div>
-
