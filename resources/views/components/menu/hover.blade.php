@@ -4,11 +4,13 @@
             $children = $item->children ?? null;
             $url = $item->url;
             $active = $isActive($url);
+            $icon = $item->icon;
         @endphp
 
         @unless ($children)
             <li>
                 <x-gotime::menu.menu-link :$url :$active :$itemClass :$newWindow>
+                    <x-gotime::menu.icon-selector :$withIcons :$icon :$iconClass />
                     {{ $item->name }}
                 </x-gotime::menu.menu-link>
             </li>
@@ -17,6 +19,7 @@
         @if ($children)
             <li class="relative" x-data="{ show: false }" x-on:mouseenter="show=true" x-on:mouseleave="show=false">
                 <x-gotime::menu.menu-link :$url :$active :$itemClass :$newWindow :isParent="$item->isParent">
+                    <x-gotime::menu.icon-selector :$withIcons :$icon :$iconClass />
                     {{ $item->name }}
                 </x-gotime::menu.menu-link>
                 <div class="absolute mt-05 flex w-16 z-100" x-show="show" x-transition.duration style="display: none;">
