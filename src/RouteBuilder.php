@@ -13,7 +13,7 @@ class RouteBuilder
     protected array $data = [];
 
     /**
-     * @var array|object Object of menus from json file
+     * @var array|object Menu groups from json file
      */
     protected array|object $menus;
 
@@ -23,10 +23,13 @@ class RouteBuilder
     protected bool $cache = false;
 
     /**
-     * RouteBuilder constructor.
-     *
-     * @param  string  $filename  The name of the JSON file to read the menu from.
-     * @param  string|null  $layout  default for all views in the menu
+     * @var string Layout to use for markdown content
+     */
+    protected string $markdownLayout = 'components.layouts.markdown';
+
+    /**
+     * @param  string  $filename  The name of the JSON file to read routes from.
+     * @param  string|null  $layout  Default layout for all views
      */
     public function __construct(
         protected string $filename,
@@ -37,23 +40,23 @@ class RouteBuilder
     }
 
     /**
-     * Create routes and views based on the menu data. This method iterates
-     * through each menu item and generates corresponding routes and views.
+     * Create routes from the navigation file. Iterates through all menu groups
+     * and processes their links to generate routes (the menu grouping itself
+     * is ignored - we just need to process all links).
      */
     public function create(): void
     {
         foreach ($this->menus as $menuName => $menu) {
-            $this->data['menus'] = $this->getMenuKeys($this->menus);
+            $this->data['menus'] = $this->getMenuNames($this->menus);
             $this->processLinks($menu->links);
         }
     }
 
     /**
-     * Processes the links of a menu. If a link is a parent and has child routes,
+     * Processes route links. If a link is a parent and has children,
      * it recursively calls itself to process the child links.
      *
-     * @param  array  $links  The links of the menu to process.
-     * @param  string  $menuName  The name of the menu.
+     * @param  array  $links  The links to process.
      */
     protected function processLinks(array $links): void
     {
@@ -64,10 +67,6 @@ class RouteBuilder
                 $this->make($item);
             }
 
-            // NK::TD find a way to override the exclude_child_routes and create
-            // for a specific child route. Currently it is not possible and the
-            // solution is not use exclude_child_routes in the parent route and
-            // set the exclude_route to true in the child route.
             if ($item->isParent && empty($routeItem->exclude_child_routes)) {
                 $this->processLinks($routeItem->children);
             }
@@ -75,43 +74,50 @@ class RouteBuilder
     }
 
     /**
-     * Process a single menu item and create a route (if applicable).
+     * Process a single route item and create a route (if applicable).
      *
-     * @param  array|object  $item  The menu item to process.
+     * @param  RouteDTO  $item  The route item to process.
      */
     protected function make(RouteDTO $item): void
     {
-        $url = $item->url;
-        $routeName = $item->routeName;
+        $resolved = $this->resolveView($item);
+        $routeData = array_merge($this->data, $resolved['data']);
+
+        $this->createRoute($item->url, $resolved['view'], $item->routeName, $routeData);
+    }
+
+    /**
+     * Resolve the view path and data for a route item.
+     * Priority: markdown type > constructor layout > default view path
+     *
+     * @param  RouteDTO  $item  The route item to resolve
+     * @return array Contains 'view' (the blade file) and 'data' (additional context)
+     */
+    protected function resolveView(RouteDTO $item): array
+    {
         $viewPath = $item->view;
+        $data = ['type' => $item->type ?? null];
 
-        $this->data['type'] = ($item->type ?? null); // blade|md|null
-
-        // ----------------------------------------------------------------
-        // Note: The following conditional block is not a complete solution
-        // because it limits you to a single markdown layout that may or may
-        // not be suitable for all cases. In the future, consider adding
-        // another parameter in the JSON file where you could define a
-        // specific layout for markdown files.
-        // ----------------------------------------------------------------
-
-        // If the 'type' is set to 'md' (markdown), update the viewPath to
-        // the location of the "markdown layout" which is
-        // 'layouts.markdown'. Also, set the data['path'] to the location
-        // of the actual markdown file to be injected into the layout.
-        if (isset($item->type) && $item->type == 'md') {
-            $this->data['path'] = $viewPath;
-            $viewPath = 'components.layouts.markdown';
+        if ($item->type === 'md') {
+            $data['path'] = $viewPath;
+            return [
+                'view' => $this->markdownLayout,
+                'data' => $data
+            ];
         }
 
         if ($this->layout) {
-            // set the path to the file to be injected into the layout
-            $this->data['path'] = $viewPath;
-            // set the view to the default layout (template) for the view
-            $viewPath = $this->layout;
+            $data['path'] = $viewPath;
+            return [
+                'view' => $this->layout,
+                'data' => $data
+            ];
         }
 
-        $this->createRoute($url, $viewPath, $routeName);
+        return [
+            'view' => $viewPath,
+            'data' => $data
+        ];
     }
 
     /**
@@ -120,21 +126,20 @@ class RouteBuilder
      * @param  string  $url  The URL for the route.
      * @param  string  $view  The view path for the route.
      * @param  string|null  $name  The name of the route.
+     * @param  array  $data  Data to pass to the view.
      */
-    private function createRoute(string $url, string $view, ?string $name): void
+    private function createRoute(string $url, string $view, ?string $name, array $data): void
     {
-        $data = $this->data;
-
         Route::get($url, function () use ($data, $view) {
-            return view($view)->with([$data, 'data' => $data]);
+            return view($view)->with(['data' => $data]);
         })->name($name);
     }
 
     /**
-     * Get the menu items from the json file
+     * Get the menu groups from the json file
      *
-     * @param  string  $filename  The name of the JSON file to read the menu from.
-     * @return object The menu items from the JSON file.
+     * @param  string  $filename  The name of the JSON file to read routes from.
+     * @return object The menu groups from the JSON file.
      */
     protected function getMenusFromJson(string $filename): object
     {
@@ -144,12 +149,12 @@ class RouteBuilder
     }
 
     /**
-     * Get menu names (keys)
+     * Get menu names (keys) from the navigation file
      *
      * @param  object  $obj  The object to get the keys from.
      * @return array The keys of the object.
      */
-    private function getMenuKeys(object $obj): array
+    private function getMenuNames(object $obj): array
     {
         return array_keys(get_object_vars($obj));
     }

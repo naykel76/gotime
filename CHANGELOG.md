@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.16.0 (WIP)
+
+- Refactor `RouteBuilder`: improve documentation, simplify route creation, and rename methods for clarity.
+- Remove unused commands in InstallCommand
+- Add favicon and apple-touch-icon images
+- Refactor `head` partial to remove redundant lines
+
+Update .gitignore to include storage/debugbar; add apple-touch-icon.png and favicon.ico files; refactor RouteBuilder for improved clarity and structure
+
 ## 1.15.2
 - Refactor Filterable trait: implement pagination reset logic when filters change=
 - Fix pagination button sizes for better UI consistency

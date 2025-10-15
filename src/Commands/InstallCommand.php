@@ -44,15 +44,11 @@ class InstallCommand extends Command
         $this->updateNodeScripts(function ($scripts) {
             return [
                 'build' => 'vite build',
-                'build:css' => 'sass resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
-                'build:staging' => 'vite build --mode=staging',
                 'debug' => 'vite --debug',
-                'dev' => 'concurrently "vite" "npm run watch:jtb"',
-                'housekeeping' => 'rm -rf node_modules/.vite node_modules/.vite-cache public/build',
+                'dev' => 'vite',
                 'log' => 'code storage/logs/laravel.log',
                 'nuke' => 'rm -rf node_modules vendor public/build',
-                'nuke:ps' => 'powershell -NoProfile -Command "Remove-Item -Recurse -Force node_modules, vendor, public/build"',
-                'watch:jtb' => 'sass --watch resources/scss/app.scss public/css/app.css --no-source-map --style=compressed',
+                'nuke:ps' => 'powershell -NoProfile -Command "Remove-Item -Recurse -Force node_modules, vendor, public/build"'
             ] + $scripts;
         });
 
@@ -82,7 +78,6 @@ class InstallCommand extends Command
 
         // clean up
         shell_exec('rm -rf ' . resource_path('css'));
-        if (file_exists(public_path('favicon.ico'))) unlink(public_path('favicon.ico'));
         if (file_exists(resource_path('views/welcome.blade.php'))) unlink(resource_path('views/welcome.blade.php'));
 
         return Command::SUCCESS;
