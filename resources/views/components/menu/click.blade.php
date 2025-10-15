@@ -14,7 +14,7 @@ directly on the component without needing to explicitly set it to true --}}
 
         @unless ($children)
             <x-gt-menu-item :order="$includeOrder ? $loop->index : null">
-                <x-gt-menu-link :$url :itemClass="$itemClass" :newWindow="$newWindow">
+                <x-gt-menu-link :$url :$active :itemClass="$itemClass" :newWindow="$newWindow">
                     <x-gotime::menu.icon-selector :withIcons="$withIcons" :icon="$icon" :iconClass="$iconClass" />
                     {{ $item->name }}
                 </x-gt-menu-link>
@@ -22,7 +22,7 @@ directly on the component without needing to explicitly set it to true --}}
         @endunless
 
         @if ($children)
-            <div x-data="{ open: false }">
+            <li x-data="{ open: false }">
                 <div x-on:click="open = !open">
                     <a href="#" class="space-between">
                         <span>
@@ -36,7 +36,7 @@ directly on the component without needing to explicitly set it to true --}}
                 <div x-show="open" class="pl" x-transition x-cloak>
                     <x-gotime::menu.menu-children :$children />
                 </div>
-            </div>
+            </li>
         @endif
     @endforeach
 

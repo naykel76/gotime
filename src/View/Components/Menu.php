@@ -45,14 +45,21 @@ class Menu extends Component
     /**
      * Check if the current URL matches the given URL.
      *
+     * This method checks for exact matches and also considers child routes
+     * by checking if the current URL starts with the given URL pattern.
+     *
      * Note: Sanitizing the URL is not necessary as it is handled in the RouteDTO.
      *
      * @param  string  $url  The URL to compare with the current request URL.
-     * @return bool True if the URLs match, false otherwise.
+     * @return bool True if the URLs match or is a child route, false otherwise.
      */
     public function isActive(string $url): bool
     {
-        return request()->is($url);
+        // Remove leading slash for consistency
+        $url = ltrim($url, '/');
+        
+        // Check for exact match or child routes
+        return request()->is($url) || request()->is($url . '/*');
     }
 
     public function render()
