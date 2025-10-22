@@ -5,7 +5,7 @@
     @endif
 
     @if ($hasTitle)
-        <h1>{{ $pageTitle }}</h1>
+        <h1>{{ $title }}</h1>
     @endif
 
     {{ $slot }}

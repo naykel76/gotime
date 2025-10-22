@@ -53,8 +53,9 @@ class RouteBuilder
     }
 
     /**
-     * Processes route links. If a link is a parent and has children,
-     * it recursively calls itself to process the child links.
+     * Processes route links. If a link is a parent and has children, it
+     * recursively calls itself to process the child links, unless
+     * 'exclude_child_routes' is set to true.
      *
      * @param  array  $links  The links to process.
      */
@@ -67,6 +68,7 @@ class RouteBuilder
                 $this->make($item);
             }
 
+            // check for child routes and process them recursively when applicable
             if ($item->isParent && empty($routeItem->exclude_child_routes)) {
                 $this->processLinks($routeItem->children);
             }

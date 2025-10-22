@@ -1,4 +1,4 @@
-<x-gt-app-layout layout="base" :$pageTitle>
+<x-gt-app-layout layout="base" :title="$title ?? null">
 
     @if(class_exists(\Naykel\Devit\DevitServiceProvider::class))
         @includeIf('devit::components.dev-toolbar')
