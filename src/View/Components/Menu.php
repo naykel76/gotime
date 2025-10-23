@@ -15,12 +15,14 @@ class Menu extends Component
     public function __construct(
         public string $filename = 'nav-main',   // name of json file in navs directory
         public string $menuname = 'main',       // specific menu from json file
-        public string $layout = 'click',        // click|hover|none
-        public string $title = '',              // menu title (free type)
+        public string $layout = 'collapse',     // collapse|dropdown
+        // public string $trigger = 'click',       // click|hover|none
+        public string $menuTitle = '',
         public string $itemClass = '',
         public bool $withIcons = false,
         public bool $newWindow = false,
         public string $iconClass = '',
+        public bool $open = false,              // default state for collapse menu
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));
     }
@@ -59,7 +61,7 @@ class Menu extends Component
     {
         $viewPath = view()->exists("components.layouts.menu.$this->layout")
             ? "components.layouts.menu.$this->layout"
-            : "gotime::components.menu.$this->layout";
+            : "gotime::components.v2.menu.$this->layout";
 
         return view($viewPath)
             ->with([

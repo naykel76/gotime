@@ -1,13 +1,11 @@
 # Changelog
 
 ## 1.16.0 (WIP)
-
 - Refactor `RouteBuilder`: improve documentation, simplify route creation, and rename methods for clarity.
 - Remove unused commands in InstallCommand
 - Add favicon and apple-touch-icon images
 - Refactor `head` partial to remove redundant lines
-
-Update .gitignore to include storage/debugbar; add apple-touch-icon.png and favicon.ico files; refactor RouteBuilder for improved clarity and structure
+- Refactor Markdown component by processing markdown into HTML and updating the view to use rendered content directly
 
 ## 1.15.2
 - Refactor Filterable trait: implement pagination reset logic when filters change=
@@ -32,7 +30,7 @@ Update .gitignore to include storage/debugbar; add apple-touch-icon.png and favi
   
 ## 1.14.0
 - Added `FloatAsInteger` cast to handle float values stored as integers in the database.
-- Removed `MoneyCast` in favor of `FloatAsInteger` for better clarity and functionality.
+- Removed `MoneyCast` in favor of `FloatAsInteger` for better clarity and functionality.grs
 - Update label component to optionally use `Str::headline` for improved title formatting.
 
 ## 1.13.0
