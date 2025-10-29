@@ -11,7 +11,7 @@ use Naykel\Gotime\RouteBuilder;
 */
 
 Route::get('/', function () {
-    return view('pages.home');
+    return view('pages.home', ['title' => 'Welcome']);
 })->name('home');
 
 (new RouteBuilder('nav-main'))->create();

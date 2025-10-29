@@ -5,13 +5,11 @@ import purge from "@erbelion/vite-plugin-laravel-purgecss";
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '')
     const isDev = mode === 'development';
-    const isStaging = mode === 'staging';
-    const VITE_APP_URL = env.VITE_APP_URL;
 
     return {
         ...(isDev && {
             server: {
-                open: VITE_APP_URL,
+                open: env.APP_URL,
                 watch: {
                     ignored: ['**/node_modules/**', '**/storage/**', '**/vendor/**', '!**/vendor/naykel/**'],
                 },

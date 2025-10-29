@@ -26,3 +26,4 @@ nk_tasks.md
 /tmp
 # is only needed in production
 composer.lock 
+storage/debugbar
