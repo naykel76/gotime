@@ -2,7 +2,7 @@
     <meta name="robots" content="noindex,follow">
 @endpush
 
-<x-gt-app-layout layout="base" :$pageTitle class="nk-admin relative">
+<x-gt-app-layout layout="base" :$title class="nk-admin relative">
     <div class="navbar">
         <div class="logo">
             <a href="{{ route('admin.dashboard') }}">

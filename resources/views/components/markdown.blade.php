@@ -1,6 +1,4 @@
-<div>
-    @markdown($file)
-</div>
+{!! $renderedContent !!}
 
 @pushOnce('head')
     <style>
@@ -17,5 +15,4 @@
             visibility: visible;
         }
     </style>
-
 @endPushOnce

@@ -54,6 +54,7 @@ class Menu extends Component
      */
     public function isActive(string $url): bool
     {
+        $url = ltrim($url, '/');
         return request()->is($url);
     }
 
@@ -66,6 +67,7 @@ class Menu extends Component
         return view($viewPath)
             ->with([
                 'menuItems' => $this->getMenu($this->menuname)->menuItems,
+                'isActive' => fn($url) => $this->isActive($url),
             ]);
     }
 }

@@ -1,18 +1,13 @@
-{{-- --------------- BEFORE YOU DO ANYTHING CRAZY -------------
-DO NOT remove the container from this layout. If you don't want
-the container then publish the layout locally and override. --}}
-
 <div class="navbar">
-    <div class="container">
-        <div class="logo">
-            <a href="{{ url('/') }}"><img src="{{ config('gotime.logo.path') }}" alt="{{ config('app.name') }}"
-                    height="{{ config('gotime.logo.height') }}" width="{{ config('gotime.logo.width') }}"></a>
-        </div>
-        <div class="flex va-c to-md:hidden">
-            <x-gt-menu layout="hover" class="gap-1" itemClass="nav-item rounded-05" />
+    <div class="container va-c">
+        <a href="{{ url('/') }}" class="flex-centered">
+            <img src="{{ config('gotime.logo.path') }}" alt="{{ config('app.name') }}">
+        </a>
+        <div class="to-md:hidden mxy-0">
+            <x-gt-menu layout="dropdown" itemClass="rounded-lg txt-white hover:txt-white bg-stone-800 hover:bg-gray-800 px-1 py-075" />
         </div>
     </div>
-    <div class="md:hidden mxy-0">
+    {{-- <div class="md:hidden mxy-0">
         <x-gt-sidebar layout="burger-button-main" />
-    </div>
+    </div> --}}
 </div>

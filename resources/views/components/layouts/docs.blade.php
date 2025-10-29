@@ -1,20 +1,10 @@
 @props(['hasAside' => true])
 
-<x-gt-app-layout layout="base" :$pageTitle>
+<x-gt-app-layout layout="base" :$title>
 
-    @if (class_exists(\Naykel\Devit\DevitServiceProvider::class))
-        @includeIf('devit::components.dev-toolbar')
-    @else
-        @if (config('authit.allow_register') && Route::has('login'))
-            @includeFirst([ 'components.layouts.partials.top-toolbar', 'gotime::components.layouts.partials.top-toolbar', ])
-        @endif
-    @endif
 
     @includeFirst(['components.layouts.partials.navbar', 'gotime::components.layouts.partials.navbar'])
 
-    @isset($top)
-        {{ $top }}
-    @endisset
 
     <main {{ $attributes->class(['nk-main container py-2 md:py-5', $hasAside ? 'flex gap-5' : '']) }}>
 
@@ -30,10 +20,6 @@
         </div>
 
     </main>
-
-    @isset($bottom)
-        {{ $bottom }}
-    @endisset
 
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 

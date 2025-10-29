@@ -10,7 +10,7 @@
         {{ $top }}
     @endisset
 
-    <x-gt-menu layout="click" class="menu" />
+    <x-gt-menu layout="collapse" class="menu" />
 
     {{ $slot }}
 
