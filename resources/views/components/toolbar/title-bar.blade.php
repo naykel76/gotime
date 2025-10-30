@@ -2,7 +2,7 @@
     $resource = dotLastSegment($routePrefix);
 @endphp
 
-<div class="flex space-between va-c">
+<div class="flex justify-between va-c">
 
     <{{ $h ?? 'h1' }}>{{ $pageTitle }}</{{ $h ?? 'h1' }}>
 

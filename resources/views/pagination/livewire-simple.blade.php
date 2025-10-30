@@ -8,7 +8,7 @@
 
 <div>
     @if ($paginator->hasPages())
-        <nav role="navigation" aria-label="Pagination Navigation" class="flex space-between items-center">
+        <nav role="navigation" aria-label="Pagination Navigation" class="flex justify-between items-center">
             <!-- Status Text Showing X to Y of Z results -->
             <p class="text-sm">
                 Showing <span class="fw6">{{ $paginator->firstItem() }}</span>

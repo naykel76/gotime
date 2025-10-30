@@ -9,7 +9,7 @@
 <div>
     @if ($paginator->hasPages())
         <!-- Mobile Pagination -->
-        <div class="hidden on-sm:flex space-between items-center">
+        <div class="hidden on-sm:flex justify-between items-center">
             @if ($paginator->onFirstPage())
                 <button type="button" class="btn primary xs" disabled> Previous </button>
             @else
@@ -27,7 +27,7 @@
         </div>
 
         <!-- Desktop Pagination -->
-        <div class="flex space-between items-center on-sm:hidden">
+        <div class="flex justify-between items-center on-sm:hidden">
             
             <!-- Status Text Showing X to Y of Z results -->
             <p class="text-sm">

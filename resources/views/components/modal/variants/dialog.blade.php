@@ -4,7 +4,7 @@
 
 <x-gt-modal.base :$maxWidth {{ $attributes }}>
     {{-- close button should always be available --}}
-    <div class="bx-title flex va-c space-between">
+    <div class="bx-title flex va-c justify-between">
         @isset($title)
             <div class="bx-title">
                 {{ $title }}

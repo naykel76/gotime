@@ -10,7 +10,7 @@
         :class="{'-translate-x-full opacity-0':open === false, 'translate-x-0 opacity-1': open === true}">
 
         @if(!isset($header))
-            <div class="flex space-between px-075 py-05 va-c bdr-b">
+            <div class="flex justify-between px-075 py-05 va-c bdr-b">
                 <div class="logo">
                     <a href="{{ url('/') }}"><img src="{{ config('gotime.logo.path') }}" alt="{{ config('app.name') }}"
                             height="{{ config('gotime.logo.height') }}" width="{{ config('gotime.logo.width') }}"></a>

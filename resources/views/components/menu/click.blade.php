@@ -24,7 +24,7 @@ directly on the component without needing to explicitly set it to true --}}
         @if ($children)
             <div x-data="{ open: false }">
                 <div x-on:click="open = !open">
-                    <a href="#" class="space-between">
+                    <a href="#" class="justify-between">
                         <span>
                             <x-gotime::menu.icon-selector :$withIcons :$icon :$iconClass />
                             {{ $item->name }}

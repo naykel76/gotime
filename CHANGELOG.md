@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.16.0 (wip)
+- Fixed incorrect flex classes
+
 ## 1.15.2
 - Refactor Filterable trait: implement pagination reset logic when filters change=
 - Fix pagination button sizes for better UI consistency
