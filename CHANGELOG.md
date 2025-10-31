@@ -2,6 +2,8 @@
 
 ## 1.16.0 (wip)
 - Fixed incorrect flex classes
+- Refactor `RouteBuilder`: improve documentation, simplify route creation, and rename methods for clarity.
+- Refactor Markdown component by processing markdown into HTML and updating the view to use rendered content directly
 
 ## 1.15.2
 - Refactor Filterable trait: implement pagination reset logic when filters change=
