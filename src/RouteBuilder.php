@@ -102,23 +102,25 @@ class RouteBuilder
 
         if ($item->type === 'md') {
             $data['path'] = $viewPath;
+
             return [
                 'view' => $this->markdownLayout,
-                'data' => $data
+                'data' => $data,
             ];
         }
 
         if ($this->layout) {
             $data['path'] = $viewPath;
+
             return [
                 'view' => $this->layout,
-                'data' => $data
+                'data' => $data,
             ];
         }
 
         return [
             'view' => $viewPath,
-            'data' => $data
+            'data' => $data,
         ];
     }
 

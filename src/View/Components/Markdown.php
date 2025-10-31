@@ -5,12 +5,10 @@ namespace Naykel\Gotime\View\Components;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
 
-
 class Markdown extends Component
 {
     /**
      * Raw markdown file content loaded from disk
-     * @var string
      */
     protected string $file;
 
@@ -18,7 +16,6 @@ class Markdown extends Component
      * Processed HTML ready for display in the view. This contains the markdown
      * converted to HTML, with any TOC extracted and content wrapped in a
      * .markdown-content div.
-     * @var string
      */
     protected string $renderedContent;
 
@@ -69,7 +66,7 @@ class Markdown extends Component
     public function render()
     {
         return view('gotime::components.markdown')->with([
-            'renderedContent' => $this->renderedContent
+            'renderedContent' => $this->renderedContent,
         ]);
     }
 }

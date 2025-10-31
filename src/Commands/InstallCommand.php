@@ -48,7 +48,7 @@ class InstallCommand extends Command
                 'dev' => 'vite',
                 'log' => 'code storage/logs/laravel.log',
                 'nuke' => 'rm -rf node_modules vendor public/build',
-                'nuke:ps' => 'powershell -NoProfile -Command "Remove-Item -Recurse -Force node_modules, vendor, public/build"'
+                'nuke:ps' => 'powershell -NoProfile -Command "Remove-Item -Recurse -Force node_modules, vendor, public/build"',
             ] + $scripts;
         });
 
