@@ -78,6 +78,9 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
          * and render the code itself as Blade output.
          */
         if (in_array('+parse-and-code', $info)) {
+            // Extract the language from info words (first word is typically the language)
+            $language = $info[0] ?? 'html'; // Default to 'html' if no language specified
+
             // Wrap the code block in a Torchlight component for syntax highlighting
             $highlightedCode = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
 

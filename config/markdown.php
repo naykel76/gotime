@@ -47,6 +47,7 @@ return [
         League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension::class,
         League\CommonMark\Extension\Table\TableExtension::class,
         League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension::class,
+        \Naykel\Gotime\Extensions\Markdown\AccordionCodeRendererExtension::class,
         \Naykel\Gotime\Extensions\Markdown\CodeRendererExtension::class,
     ],
 

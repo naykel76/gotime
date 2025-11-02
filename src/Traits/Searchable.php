@@ -14,7 +14,10 @@ trait Searchable
      */
     public function updatingSearch(): void
     {
-        $this->gotoPage(1);
+        // Only reset pagination if the component uses pagination
+        if (method_exists($this, 'gotoPage')) {
+            $this->gotoPage(1);
+        }
     }
 
     /**
