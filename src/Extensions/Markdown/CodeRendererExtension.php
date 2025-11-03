@@ -67,7 +67,8 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         foreach ($torchlightLanguages as $flag => $language) {
             if (in_array($flag, $info)) {
-                $parse = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
+                // Wrap content in @verbatim to prevent Blade from executing directives
+                $parse = '<x-torchlight-code language="' . $language . '">@verbatim' . $node->getLiteral() . '@endverbatim</x-torchlight-code>';
 
                 return '<pre>' . Blade::render($parse) . '</pre>';
             }
