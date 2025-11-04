@@ -5,6 +5,7 @@
 - Refactor `RouteBuilder`: improve documentation, simplify route creation, and rename methods for clarity.
 - Refactor Markdown component by processing markdown into HTML and updating the view to use rendered content directly
 - Add `AccordionCodeRendererExtension` and enhance `CodeRendererExtension` 
+- Replace `menu` component with `nav` component across the package for improved semantics and flexibility.
 
 ## 1.15.2
 - Refactor Filterable trait: implement pagination reset logic when filters change=
