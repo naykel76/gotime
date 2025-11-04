@@ -8,7 +8,7 @@ use Naykel\Gotime\Commands\InstallCommand;
 use Naykel\Gotime\View\Components\Filepond;
 use Naykel\Gotime\View\Components\Icon;
 use Naykel\Gotime\View\Components\Markdown;
-use Naykel\Gotime\View\Components\Menu;
+use Naykel\Gotime\View\Components\Nav;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Layouts\AppLayout;
 
@@ -52,7 +52,7 @@ class GotimeServiceProvider extends ServiceProvider
             Filepond::class,
             Icon::class,
             Markdown::class,
-            Menu::class,
+            Nav::class,
             Sidebar::class,
         ]);
     }

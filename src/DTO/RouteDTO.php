@@ -7,7 +7,7 @@ namespace Naykel\Gotime\DTO;
  * takes an object as input and sets the properties of the DTO based on the
  * properties of the input object.
  *
- * This DTO is also the basis for the MenuItemDTO class, as they share many of
+ * This DTO is also the basis for the NavItemDTO class, as they share many of
  * the same properties and methods.
  */
 class RouteDTO
