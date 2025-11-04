@@ -3,6 +3,7 @@
 namespace Naykel\Gotime\Extensions\Markdown;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\ExtensionInterface;
@@ -21,14 +22,12 @@ class AccordionCodeRendererExtension implements ExtensionInterface, NodeRenderer
     {
         /** @var FencedCode $node */
         $info = $node->getInfoWords();
-        $infoString = $node->getInfo(); // Get raw info string to parse title
+        $infoString = $node->getInfo();
 
-        // Only handle code blocks with +accordion flag
         if (! in_array('+accordion', $info)) {
-            return null; // Let other renderers handle it
+            return null;
         }
 
-        // Define supported torchlight languages
         $torchlightLanguages = [
             '+torchlight-bash' => 'bash',
             '+torchlight-blade' => 'blade',
@@ -41,7 +40,6 @@ class AccordionCodeRendererExtension implements ExtensionInterface, NodeRenderer
             '+torchlight-scss' => 'scss',
         ];
 
-        // Find which torchlight language is being used
         $language = null;
         foreach ($torchlightLanguages as $flag => $lang) {
             if (in_array($flag, $info)) {
@@ -50,30 +48,62 @@ class AccordionCodeRendererExtension implements ExtensionInterface, NodeRenderer
             }
         }
 
-        // If no torchlight language found, return null (let other renderers handle it)
         if (! $language) {
             return null;
         }
 
-        // Extract title from +title="Your Title" or use default
         $title = 'View Code';
         if (preg_match('/\+title=(["\'])(.+?)\1/', $infoString, $matches)) {
             $title = $matches[2];
         } elseif (preg_match('/\+title=(\S+)/', $infoString, $matches)) {
-            // Handle unquoted single word titles
             $title = $matches[1];
         }
 
-        // Generate the highlighted code
+        $uniqueId = 'code-' . Str::random(8);
+        $rawCode = htmlspecialchars($node->getLiteral());
+
+        // Check if +parse-and-code flag is present
+        $parseAndCode = in_array('+parse-and-code', $info);
+
         $parse = '<x-torchlight-code language="' . $language . '">' . $node->getLiteral() . '</x-torchlight-code>';
 
-        $accordionWrapper = '
-            <div x-data="{ open: false }" class="mt-05">
-                <button x-on:click="open = !open" class="btn sm">
-                    <span>' . htmlspecialchars($title) . "</span>
-                </button>
-                <div x-show=\"open\" x-collapse class=\"mt-05\">
-                    <pre>" . Blade::render($parse) . '</pre>
+        // If +parse-and-code, render the output first
+        $renderedOutput = '';
+        if ($parseAndCode) {
+            $renderedOutput = Blade::render($node->getLiteral());
+        }
+
+        $accordionWrapper = $renderedOutput . '
+            <div x-data="{ open: false }" class="mt-05 mb">
+                <div class="flex items-center gap-05">
+                    <button x-on:click="open = !open" class="btn sm">
+                        <span>' . htmlspecialchars($title) . '</span>
+                    </button>
+                    <button x-data="{ copied: false }"
+                        @click="
+                            const code = document.getElementById(\'' . $uniqueId . '\').getAttribute(\'data-code\');
+                            if (navigator.clipboard && window.isSecureContext) {
+                                navigator.clipboard.writeText(code);
+                            } else {
+                                const textarea = document.createElement(\'textarea\');
+                                textarea.value = code;
+                                textarea.style.position = \'fixed\';
+                                textarea.style.left = \'-999999px\';
+                                document.body.appendChild(textarea);
+                                textarea.select();
+                                document.execCommand(\'copy\');
+                                document.body.removeChild(textarea);
+                            }
+                            copied = true;
+                            setTimeout(() => copied = false, 2000);
+                        "
+                        class="btn sm"
+                        :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                        x-text="copied ? \'Copied!\' : \'Copy\'" >
+                    </button>
+                </div>
+                <div x-show="open" x-collapse class="mt-05">
+                    <pre id="' . $uniqueId . '" data-code="' . $rawCode . '">' . Blade::render($parse) . '</pre>
                 </div>
             </div>';
 
