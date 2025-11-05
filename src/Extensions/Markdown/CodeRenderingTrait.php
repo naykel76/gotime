@@ -83,25 +83,52 @@ trait CodeRenderingTrait
     }
 
     /**
+     * Build a collapsible section with view/copy buttons
+     */
+    private function buildCollapsibleSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel): string
+    {
+        $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
+        $rawCode = htmlspecialchars($code);
+        $renderedCode = $this->renderTorchlightCode($code, $language, $verbatim);
+        $copyJs = $this->getCopyButtonJs($uniqueId);
+        
+        return '
+            <div x-data="{ open: false }" class="mt-05 mb">
+                <div class="flex items-center gap-05">
+                    <button x-on:click="open = !open" class="btn sm">
+                        <span>' . htmlspecialchars($viewLabel) . '</span>
+                    </button>
+                    <button x-data="{ copied: false }" @click="' . $copyJs . '" class="btn sm"
+                        :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                        x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'">
+                    </button>
+                </div>
+                <div x-show="open" x-collapse class="mt-05">
+                    <pre id="' . $uniqueId . '" data-code="' . $rawCode . '">' . $renderedCode . '</pre>
+                </div>
+            </div>';
+    }
+
+    /**
      * Format HTML with proper indentation without breaking SVG or attributes
      */
     private function formatHtml(string $html): string
     {
         $html = preg_replace('/>\s+</', '><', $html);
-
+        
         $formatted = '';
         $indent = 0;
         $indentString = '    ';
         $voidElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-
+        
         $tokens = preg_split('/(<[^>]+>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-
+        
         foreach ($tokens as $token) {
             $token = trim($token);
             if (empty($token)) {
                 continue;
             }
-
+            
             if (preg_match('/^</', $token)) {
                 if (preg_match('/^<\//', $token)) {
                     $indent--;
@@ -116,7 +143,7 @@ trait CodeRenderingTrait
                 $formatted .= str_repeat($indentString, $indent) . $token . "\n";
             }
         }
-
+        
         return trim($formatted);
     }
 }

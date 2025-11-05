@@ -23,6 +23,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     {
         /** @var FencedCode $node */
         $info = $node->getInfoWords();
+        $infoString = $node->getInfo();
         $language = $info[0] ?? 'html';
         $content = $node->getLiteral();
 
@@ -31,24 +32,56 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return $this->renderMermaid($content);
         }
 
-        // New system: +render
+        // Check if we should use collapsible rendering
+        $isCollapsible = in_array('+collapse', $info);
+        
+        // Extract class attribute if provided
+        $wrapperClass = '';
+        if (preg_match('/class=(["\'])(.+?)\1/', $infoString, $matches)) {
+            $wrapperClass = ' class="' . htmlspecialchars($matches[2]) . '"';
+        }
+
+        // Extract title for collapsible sections
+        $title = 'View Code';
+        if (preg_match('/\+title=(["\'])(.+?)\1/', $infoString, $matches)) {
+            $title = $matches[2];
+        } elseif (preg_match('/\+title=(\S+)/', $infoString, $matches)) {
+            $title = $matches[1];
+        }
+
+        // Handle +render flag
         if (in_array('+render', $info)) {
-            $rendered = '<div class="bx px-1 bdr-pink">' . Blade::render($content) . '</div>';
+            $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
+            $codeLanguage = $this->getTorchlightLanguage($info, $language);
+            
+            $hasSource = in_array('+source', $info);
+            $hasCode = in_array('+code', $info) || $this->getCodeLanguageOverride($info);
 
-            // +render +source = show visual + original Blade source
-            if (in_array('+source', $info)) {
-                $codeLanguage = $this->getTorchlightLanguage($info, $language);
+            // If collapsible, build accordion sections
+            if ($isCollapsible) {
+                $output = $rendered;
+                
+                if ($hasSource) {
+                    $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Source', 'Copy Source');
+                }
+                
+                if ($hasCode || !$hasSource) {
+                    $generatedHtml = $this->formatHtml(Blade::render($content));
+                    $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Code');
+                }
+                
+                return $output;
+            }
+            
+            // Non-collapsible (inline)
+            if ($hasSource) {
                 $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
-
                 return $rendered . $codeBlock;
             }
 
-            // +render +code = show visual + generated HTML
-            if (in_array('+code', $info)) {
-                $codeLanguage = $this->getTorchlightLanguage($info, $language);
+            if ($hasCode) {
                 $generatedHtml = $this->formatHtml(Blade::render($content));
                 $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
-
                 return $rendered . $codeBlock;
             }
 
