@@ -1,16 +1,18 @@
-@use "../../node_modules/nk_jtb/src/maps_and_variables/base" as * with (
+@use '../../node_modules/nk_jtb/src/maps_and_variables/base' as * with (
     $primary: #12486b,
     $secondary: #419197,
     $accent: #78d6c6
 );
-@use "../../node_modules/nk_jtb/src/maps_and_variables/components" as * with (
-    $navbar-bg: transparent,
+@use '../../node_modules/nk_jtb/src/maps_and_variables/components' as * with (
+    $navbar-bg: transparent
 );
-@use "../../node_modules/nk_jtb/src/build" as *;
 
-// optional imports
-// @use "../../node_modules/nk_jtb/src/extras/nk-app" as *;
+@use '../../node_modules/nk_jtb/src/build' as *;
+@use '../../node_modules/nk_jtb/src/extras/nk-app' as *;
 // @use "../../node_modules/nk_jtb/src/extras/nk-docs" as *;
+
+@use '../../node_modules/nk_jtb/src/maps_and_variables/colors' as *;
+@use 'sass:map';
 
 [x-cloak] {
     display: none !important;

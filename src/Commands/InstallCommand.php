@@ -34,9 +34,9 @@ class InstallCommand extends Command
             return [
                 '@erbelion/vite-plugin-laravel-purgecss' => '^0.4.2',
                 'autoprefixer' => '^10.4.21',
-                'nk_jtb' => '^0.15.0',
+                'nk_jtb' => '^0.20.0',
                 'postcss' => '^8.5.6',
-                'sass' => '^1.90.0',
+                'sass' => '^1.93.3',
             ] + $packages;
         });
 
@@ -56,9 +56,6 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/navs', resource_path('navs'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/scss', resource_path('scss'));
         (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/views', resource_path('views'));
-
-        // NK::TD change this to a prompt so it is not installed each time
-        copy(__DIR__ . '/../../config/markdown.php', base_path('config/markdown.php'));
 
         // Assets...
         copy(__DIR__ . '/../../resources/publishable/.env.example', base_path('.env.example'));
