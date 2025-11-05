@@ -91,7 +91,7 @@ trait CodeRenderingTrait
         $rawCode = htmlspecialchars($code);
         $renderedCode = $this->renderTorchlightCode($code, $language, $verbatim);
         $copyJs = $this->getCopyButtonJs($uniqueId);
-        
+
         return '
             <div x-data="{ open: false }" class="mt-05 mb">
                 <div class="flex items-center gap-05">
@@ -115,20 +115,20 @@ trait CodeRenderingTrait
     private function formatHtml(string $html): string
     {
         $html = preg_replace('/>\s+</', '><', $html);
-        
+
         $formatted = '';
         $indent = 0;
         $indentString = '    ';
         $voidElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-        
+
         $tokens = preg_split('/(<[^>]+>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        
+
         foreach ($tokens as $token) {
             $token = trim($token);
             if (empty($token)) {
                 continue;
             }
-            
+
             if (preg_match('/^</', $token)) {
                 if (preg_match('/^<\//', $token)) {
                     $indent--;
@@ -143,7 +143,7 @@ trait CodeRenderingTrait
                 $formatted .= str_repeat($indentString, $indent) . $token . "\n";
             }
         }
-        
+
         return trim($formatted);
     }
 }

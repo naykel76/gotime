@@ -1,10 +1,10 @@
 # Changelog
 
-## 1.16.0 (wip)
-- Fixed incorrect flex classes
+## 1.20.0 (wip)
+- refactor layout components to use `layouts.app` and `layouts.base` for improved structure and maintainability.
 - Refactor `RouteBuilder`: improve documentation, simplify route creation, and rename methods for clarity.
 - Refactor Markdown component by processing markdown into HTML and updating the view to use rendered content directly
-- Add `AccordionCodeRendererExtension` and enhance `CodeRendererExtension` 
+- Enhance `CodeRendererExtension` 
 - Replace `menu` component with `nav` component across the package for improved semantics and flexibility.
 
 ## 1.15.2

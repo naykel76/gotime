@@ -10,7 +10,6 @@ use Naykel\Gotime\View\Components\Icon;
 use Naykel\Gotime\View\Components\Markdown;
 use Naykel\Gotime\View\Components\Nav;
 use Naykel\Gotime\View\Components\Sidebar;
-use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -29,6 +28,7 @@ class GotimeServiceProvider extends ServiceProvider
     {
         $this->commands([InstallCommand::class]);
         $this->registerComponents();
+        $this->registerLayoutComponents();
         $this->registerFormComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
@@ -48,7 +48,6 @@ class GotimeServiceProvider extends ServiceProvider
         ], 'gotime-app-layouts');
 
         $this->loadViewComponentsAs('gt', [
-            AppLayout::class,
             Filepond::class,
             Icon::class,
             Markdown::class,
@@ -86,10 +85,6 @@ class GotimeServiceProvider extends ServiceProvider
 
         $this->registerComponentX('v2/resource-action', 'resource-action');
 
-        // layouts
-        $this->registerComponentX('layouts.base', 'gotime-layouts.base');
-        $this->registerComponentX('layouts.partials.two-column-responsive');
-
         // Livewire special components
         $this->registerComponentX('livewire-search-input', 'search-input');
 
@@ -108,6 +103,17 @@ class GotimeServiceProvider extends ServiceProvider
 
         // toolbars
         $this->registerComponentX('toolbar.title-bar', 'title-bar');
+    }
+
+    /**
+     * Configure the Gotime Blade components.
+     *
+     * @return void
+     */
+    protected function registerLayoutComponents()
+    {
+        $this->registerComponentX('v2.layouts.app', 'layouts.app');
+        $this->registerComponentX('v2.layouts.base', 'layouts.base');
     }
 
     protected function registerFormComponents(): void

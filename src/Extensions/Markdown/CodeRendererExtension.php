@@ -34,7 +34,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         // Check if we should use collapsible rendering
         $isCollapsible = in_array('+collapse', $info);
-        
+
         // Extract class attribute if provided
         $wrapperClass = '';
         if (preg_match('/class=(["\'])(.+?)\1/', $infoString, $matches)) {
@@ -53,35 +53,37 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         if (in_array('+render', $info)) {
             $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
             $codeLanguage = $this->getTorchlightLanguage($info, $language);
-            
+
             $hasSource = in_array('+source', $info);
             $hasCode = in_array('+code', $info) || $this->getCodeLanguageOverride($info);
 
             // If collapsible, build accordion sections
             if ($isCollapsible) {
                 $output = $rendered;
-                
+
                 if ($hasSource) {
                     $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Source', 'Copy Source');
                 }
-                
-                if ($hasCode || !$hasSource) {
+
+                if ($hasCode || ! $hasSource) {
                     $generatedHtml = $this->formatHtml(Blade::render($content));
                     $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Code');
                 }
-                
+
                 return $output;
             }
-            
+
             // Non-collapsible (inline)
             if ($hasSource) {
                 $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
+
                 return $rendered . $codeBlock;
             }
 
             if ($hasCode) {
                 $generatedHtml = $this->formatHtml(Blade::render($content));
                 $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
+
                 return $rendered . $codeBlock;
             }
 
