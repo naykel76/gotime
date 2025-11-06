@@ -104,7 +104,7 @@ class RouteBuilder
             $data['path'] = $viewPath;
 
             return [
-                'view' => $this->markdownLayout,
+                'view' => $this->prefixView($this->markdownLayout),
                 'data' => $data,
             ];
         }
@@ -113,13 +113,13 @@ class RouteBuilder
             $data['path'] = $viewPath;
 
             return [
-                'view' => $this->layout,
+                'view' => $this->prefixView($this->layout),
                 'data' => $data,
             ];
         }
 
         return [
-            'view' => $viewPath,
+            'view' => $this->prefixView($viewPath),
             'data' => $data,
         ];
     }
@@ -161,5 +161,20 @@ class RouteBuilder
     private function getMenuNames(object $obj): array
     {
         return array_keys(get_object_vars($obj));
+    }
+
+    /**
+     * Prefix the view with 'gotime::' if it starts with 'components.'
+     *
+     * @param  string  $view  The view path
+     * @return string The prefixed view path
+     */
+    protected function prefixView(string $view): string
+    {
+        if (str_starts_with($view, 'components.')) {
+            return 'gotime::' . $view;
+        }
+
+        return $view;
     }
 }

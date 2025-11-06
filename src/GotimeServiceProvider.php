@@ -33,10 +33,18 @@ class GotimeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/naykel.php' => config_path('naykel.php'),
             ], 'gotime-config');
+
+            $this->publishes([
+                __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
+            ], 'gotime-layouts');
         }
     }
 
-    protected function registerComponents(): void {}
+    protected function registerComponents(): void
+    {
+        // Alerts, Notifications, and Messages
+        $this->registerComponentX('toast');
+    }
 
     protected function registerLayoutComponents(): void
     {
