@@ -5,6 +5,8 @@ namespace Naykel\Gotime;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Naykel\Gotime\Commands\InstallCommand;
+use Naykel\Gotime\View\Components\Icon;
+use Naykel\Gotime\View\Components\Nav;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,14 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerFormComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
+
+        $this->loadViewComponentsAs('gt', [
+            // Filepond::class,
+            Icon::class,
+            // Markdown::class,
+            Nav::class,
+            // Sidebar::class,
+        ]);
 
         if ($this->app->runningInConsole()) {
             $this->commands([InstallCommand::class]);

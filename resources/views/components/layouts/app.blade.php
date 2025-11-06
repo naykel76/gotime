@@ -6,6 +6,6 @@
         {{ $slot }}
     </main>
 
-    {{-- @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer']) --}}
+    @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
 </x-gt-layouts.base>
