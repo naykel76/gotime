@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Naykel\Gotime\Commands\InstallCommand;
 use Naykel\Gotime\View\Components\Icon;
+use Naykel\Gotime\View\Components\Markdown;
 use Naykel\Gotime\View\Components\Nav;
 
 class GotimeServiceProvider extends ServiceProvider
@@ -28,7 +29,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->loadViewComponentsAs('gt', [
             // Filepond::class,
             Icon::class,
-            // Markdown::class,
+            Markdown::class,
             Nav::class,
             // Sidebar::class,
         ]);
