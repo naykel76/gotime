@@ -1,6 +1,6 @@
 <x-gt-layouts.base :title="$title ?? null" :class="$bodyClass ?? null">
 
-    {{-- @includeFirst(['components.layouts.partials.navbar', 'gotime::components.layouts.partials.navbar']) --}}
+    <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons/>
 
     <main {{ $attributes->merge(['class' => 'nk-main']) }}>
         {{ $slot }}

@@ -16,7 +16,6 @@ class Nav extends Component
         public string $filename = 'nav-main',   // name of json file in navs directory
         public string $menuname = 'main',       // specific menu from json file
         public string $layout = 'collapse',     // collapse|dropdown
-        public string $trigger = 'click',       // click|hover
         public bool $open = false,              // default state child menus
         public string $navClass = '',           // classes for <nav> element
         public bool $withIcons = false,
