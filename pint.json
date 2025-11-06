@@ -1,0 +1,20 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "class_attributes_separation": {
+            "elements": {
+                "const": "one",
+                "method": "one",
+                "property": "none",
+                "trait_import": "none"
+            }
+        },
+        "concat_space": {
+            "spacing": "one"
+        },
+        "control_structure_braces": false,
+        "function_declaration": {
+            "closure_fn_spacing": "none"
+        }
+    }
+}

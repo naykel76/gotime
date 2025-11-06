@@ -1,0 +1,69 @@
+{
+    "name": "naykel/gotime",
+    "description": "Starter package for NayKel Laravel applications",
+    "keywords": [
+        "Laravel",
+        "Naykel",
+        "starter"
+    ],
+    "homepage": "https://naykel.com.au",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nathan Watts",
+            "email": "nathan@naykel.com.au",
+            "homepage": "https://naykel.com.au"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "livewire/livewire": "^3.4",
+        "illuminate/contracts": "^10.0||^11.0||^12.0",
+        "graham-campbell/markdown": "^16.0",
+        "torchlight/torchlight-laravel": "^0.6.1"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.25",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "orchestra/testbench": "^10.0.0||^9.0.0||^8.22.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Naykel\\Gotime\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Naykel\\Gotime\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Naykel\\Gotime\\GotimeServiceProvider"
+            ],
+            "aliases": {
+                "Gotime": "Naykel\\Gotime\\Facades\\Gotime",
+                "FileManagement": "Naykel\\Gotime\\Facades\\FileManagement"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
