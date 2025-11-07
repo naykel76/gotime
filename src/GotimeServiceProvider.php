@@ -55,6 +55,10 @@ class GotimeServiceProvider extends ServiceProvider
     {
         // Alerts, Notifications, and Messages
         $this->registerComponentX('toast');
+
+        // Tables and Lists
+        $this->registerComponentX('table.table', 'table');
+        $this->registerComponentX('table.th', 'table.th');
     }
 
     protected function registerLayoutComponents(): void
@@ -63,7 +67,13 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('layouts.base', 'layouts.base');
     }
 
-    protected function registerFormComponents(): void {}
+    protected function registerFormComponents(): void
+    {
+        $this->registerComponentX('button.base', 'button.base');
+        $this->registerComponentX('button.default', 'button');
+        $this->registerComponentX('button.primary', 'button.primary');
+        $this->registerComponentX('button.secondary', 'button.secondary');
+    }
 
     /**
      * @param  string  $component  (path and name)
@@ -75,3 +85,33 @@ class GotimeServiceProvider extends ServiceProvider
         Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
 }
+
+// $this->registerComponentX('alert');
+// $this->registerComponentX('box.base', 'box');
+
+// $this->registerComponentX('errors');
+// $this->registerComponentX('input.checkbox', 'checkbox');
+// $this->registerComponentX('input.ckeditor', 'ckeditor');
+// $this->registerComponentX('input.datepicker', 'datepicker');
+// $this->registerComponentX('input.editor', 'editor');
+// $this->registerComponentX('input.email', 'input.email');
+// $this->registerComponentX('input.input', 'input');
+// $this->registerComponentX('input.password', 'input.password');
+// $this->registerComponentX('input.pikaday', 'pikaday');
+// $this->registerComponentX('input.radio', 'radio');
+// $this->registerComponentX('input.select', 'select');
+// $this->registerComponentX('input.slim-select', 'slim-select');
+// $this->registerComponentX('input.textarea', 'textarea');
+// $this->registerComponentX('livewire-search-input', 'search-input');
+// $this->registerComponentX('loading-indicator');
+// $this->registerComponentX('menu.menu-item', 'menu-item'); // wrapper for menu-link or other menu items
+// $this->registerComponentX('menu.menu-link', 'menu-link');
+// $this->registerComponentX('modal.base', 'modal'); // yes, theses are the same
+// $this->registerComponentX('modal.base', 'modal.base'); // yes, theses are the same
+// $this->registerComponentX('modal.variants.confirm', 'modal.confirm');
+// $this->registerComponentX('modal.variants.delete', 'modal.delete');
+// $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
+// $this->registerComponentX('resource-action', 'resource-action');
+// $this->registerComponentX('spinner');
+// $this->registerComponentX('toolbar.title-bar', 'title-bar');
+// $this->registerComponentX('tooltip');
