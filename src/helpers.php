@@ -6,6 +6,36 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 // -- FILES AND FILESYSTEM --
 // ------------------------------------------------------------------
 
+if (! function_exists('getFormFieldName')) {
+    /**
+     * Extract the field name from wire:model attribute or explicit 'for' parameter.
+     * Prioritizes wire:model to support Livewire binding, falls back to 'for' prop.
+     *
+     * @param  \Illuminate\View\ComponentAttributeBag  $attributes  The component attributes
+     * @param  string|null  $for  The explicit 'for' parameter
+     * @param  string  $componentName  Component name for error messages
+     * @return string The extracted field name
+     *
+     * @throws \InvalidArgumentException If neither wire:model nor 'for' is provided
+     */
+    function getFormFieldName($attributes, ?string $for, string $componentName = 'component'): string
+    {
+        $fieldName = $attributes->whereStartsWith('wire:model')->first() ?? $for;
+
+        if (! isset($fieldName)) {
+            throw new InvalidArgumentException(
+                "The `$componentName` component requires either a `for` or `wire:model` attribute to be set."
+            );
+        }
+
+        return $fieldName;
+    }
+}
+
+// ------------------------------------------------------------------
+// -- FILES AND FILESYSTEM --
+// ------------------------------------------------------------------
+
 if (! function_exists('getJsonFile')) {
     function getJsonFile(string $path, bool $returnAsArray = false): array|object
     {

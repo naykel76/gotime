@@ -1,7 +1,6 @@
 @aware([
     'for' => null,
     'label' => null,
-    'labelClass' => null,
     'req' => false,
     'tooltip' => false,
     'noTransform' => false, // disables headline transformation of label

@@ -1,1 +1,1 @@
-<div class="mb-025 txt-xs"> {{ $helpText }} </div>
+<div class="my-025 txt-sm"> {{ $helpText }} </div>

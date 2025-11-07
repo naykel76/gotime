@@ -4,10 +4,7 @@
 ])
 
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
-    if (!isset($for)) {
-        throw new InvalidArgumentException("The `$componentName` component requires either a `for` or `wire:model` attribute to be set.");
-    }
+    $for = getFormFieldName($attributes, $for, $componentName);
 @endphp
 
 <x-gotime::.input.partials.control-group :$for>
