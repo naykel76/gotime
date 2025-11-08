@@ -93,11 +93,20 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         // Check for +code-X override first (e.g., +code-blade)
         $codeOverride = $this->getCodeLanguageOverride($info);
         if ($codeOverride) {
-            return $this->renderCodeBlock($content, $codeOverride, true);
+            $codeLanguage = $codeOverride;
+            if ($isCollapsible) {
+                return $this->buildCollapsibleSection($content, $codeLanguage, true, $title, 'Copy Code');
+            }
+
+            return $this->renderCodeBlock($content, $codeLanguage, true);
         }
 
         // Just +code = show highlighted code only
         if (in_array('+code', $info)) {
+            if ($isCollapsible) {
+                return $this->buildCollapsibleSection($content, $language, true, $title, 'Copy Code');
+            }
+
             return $this->renderCodeBlock($content, $language, true);
         }
 

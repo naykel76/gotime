@@ -1,4 +1,4 @@
-<x-gt-layouts.base :title="$title ?? 'Docs'" class="nk-docs">
+<x-gt-layouts.base :title="str_replace('-', ' ', basename($data['path'] ?? 'Docs'))" class="nk-docs">
 
     <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons/>
 
@@ -17,3 +17,4 @@
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
 </x-gt-layouts.base> 
+
