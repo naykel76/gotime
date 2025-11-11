@@ -19,100 +19,190 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $environment->addRenderer(FencedCode::class, $this, 100);
     }
 
+    /**
+     * Main rendering method that determines how to render a fenced code block.
+     *
+     * Handles multiple rendering modes including preview rendering (+render),
+     * code-only display (+code), and language overrides (+code-X). Returns null
+     * if no special flags are present to let the default renderer handle it.
+     */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         /** @var FencedCode $node */
-        $info = $node->getInfoWords();
-        $infoString = $node->getInfo();
-        $language = $info[0] ?? 'html';
+        $flagString = $node->getInfo();         // 'html +render +collapse class="bg-gray-100" +title="Show Code"'
+        $flagsArray = $node->getInfoWords();    // ['html', '+render', '+collapse', 'class="bg-gray-100"', '+title="Show Code"']
+        $language = $flagsArray[0] ?? 'html';
         $content = $node->getLiteral();
 
-        // Legacy: +parse-mermaid (render mermaid diagrams)
-        if (in_array('+parse-mermaid', $info)) {
-            return $this->renderMermaid($content);
-        }
-
-        // Check if we should use collapsible rendering
-        $isCollapsible = in_array('+collapse', $info);
-
-        // Extract class attribute if provided
-        $wrapperClass = '';
-        if (preg_match('/class=(["\'])(.+?)\1/', $infoString, $matches)) {
-            $wrapperClass = ' class="' . htmlspecialchars($matches[2]) . '"';
-        }
-
-        // Extract title for collapsible sections
-        $title = 'View Code';
-        if (preg_match('/\+title=(["\'])(.+?)\1/', $infoString, $matches)) {
-            $title = $matches[2];
-        } elseif (preg_match('/\+title=(\S+)/', $infoString, $matches)) {
-            $title = $matches[1];
-        }
+        // configuration flags
+        $isCollapsible = in_array('+collapse', $flagsArray);
+        $wrapperClass = $this->extractAttribute($flagString, 'class', true) ?? '';
+        $title = $this->extractAttribute($flagString, '+title') ?? 'Show Code';
 
         // Handle +render flag
-        if (in_array('+render', $info)) {
-            $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
-            $codeLanguage = $this->getTorchlightLanguage($info, $language);
-
-            $hasSource = in_array('+source', $info);
-            $hasCode = in_array('+code', $info) || $this->getCodeLanguageOverride($info);
-
-            // If collapsible, build accordion sections
-            if ($isCollapsible) {
-                $output = $rendered;
-
-                if ($hasSource) {
-                    $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Source', 'Copy Source');
-                }
-
-                if ($hasCode || ! $hasSource) {
-                    $generatedHtml = $this->formatHtml(Blade::render($content));
-                    $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Code');
-                }
-
-                return $output;
-            }
-
-            // Non-collapsible (inline)
-            if ($hasSource) {
-                $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
-
-                return $rendered . $codeBlock;
-            }
-
-            if ($hasCode) {
-                $generatedHtml = $this->formatHtml(Blade::render($content));
-                $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
-
-                return $rendered . $codeBlock;
-            }
-
-            return $rendered;
+        if (in_array('+render', $flagsArray)) {
+            return $this->renderWithPreview($content, $flagsArray, $language, $isCollapsible, $wrapperClass, $title);
         }
 
         // Check for +code-X override first (e.g., +code-blade)
-        $codeOverride = $this->getCodeLanguageOverride($info);
+        $codeOverride = $this->getCodeLanguageOverride($flagsArray);
         if ($codeOverride) {
-            $codeLanguage = $codeOverride;
-            if ($isCollapsible) {
-                return $this->buildCollapsibleSection($content, $codeLanguage, true, $title, 'Copy Code');
-            }
-
-            return $this->renderCodeBlock($content, $codeLanguage, true);
+            return $this->renderCode($content, $codeOverride, $isCollapsible, $title);
         }
 
         // Just +code = show highlighted code only
-        if (in_array('+code', $info)) {
-            if ($isCollapsible) {
-                return $this->buildCollapsibleSection($content, $language, true, $title, 'Copy Code');
-            }
-
-            return $this->renderCodeBlock($content, $language, true);
+        if (in_array('+code', $flagsArray)) {
+            return $this->renderCode($content, $language, $isCollapsible, $title);
         }
 
         // No flags = return null (let default renderer handle it)
         return null;
     }
+
+    /**
+     * Renders content with a live preview alongside optional code display.
+     *
+     * Handles the +render flag by showing the rendered output first, then optionally
+     * includes source code (+source) or generated HTML (+code) in either collapsible
+     * or inline format based on configuration.
+     */
+    private function renderWithPreview(
+        string $content,
+        array $flagsArray,
+        string $language,
+        bool $isCollapsible,
+        string $wrapperClass,
+        string $title
+    ): string {
+        $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
+        $codeLanguage = $this->getTorchlightLanguage($flagsArray, $language);
+
+        $hasSource = in_array('+source', $flagsArray);
+        $hasCode = in_array('+code', $flagsArray) || $this->getCodeLanguageOverride($flagsArray);
+
+        if ($isCollapsible) {
+            return $this->buildCollapsiblePreview($rendered, $content, $codeLanguage, $hasSource, $hasCode, $title);
+        }
+
+        return $this->buildInlinePreview($rendered, $content, $codeLanguage, $hasSource, $hasCode);
+    }
+
+    /**
+     * Builds a collapsible preview with rendered output and optional code sections.
+     *
+     * Creates accordion-style sections showing the rendered preview followed by
+     * collapsible source code and/or generated HTML based on the flags present.
+     */
+    private function buildCollapsiblePreview(
+        string $rendered,
+        string $content,
+        string $codeLanguage,
+        bool $hasSource,
+        bool $hasCode,
+        string $title
+    ): string {
+        $output = $rendered;
+
+        if ($hasSource) {
+            $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Source', 'Copy Source');
+        }
+
+        if ($hasCode || ! $hasSource) {
+            $generatedHtml = $this->formatHtml(Blade::render($content));
+            $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Code');
+        }
+
+        return $output;
+    }
+
+    /**
+     * Builds an inline preview with rendered output and optional code blocks.
+     *
+     * Shows the rendered preview immediately followed by code blocks displayed
+     * inline (not collapsible) for source and/or generated HTML based on flags.
+     */
+    private function buildInlinePreview(
+        string $rendered,
+        string $content,
+        string $codeLanguage,
+        bool $hasSource,
+        bool $hasCode
+    ): string {
+        if ($hasSource) {
+            $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
+
+            return $rendered . $codeBlock;
+        }
+
+        if ($hasCode) {
+            $generatedHtml = $this->formatHtml(Blade::render($content));
+            $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
+
+            return $rendered . $codeBlock;
+        }
+
+        return $rendered;
+    }
+
+    /**
+     * Renders code block in either collapsible or inline format.
+     *
+     * Used for +code and +code-X flags to display syntax-highlighted code blocks
+     * either as collapsible sections or standard inline code blocks.
+     */
+    private function renderCode(string $content, string $language, bool $isCollapsible, string $title): string
+    {
+        if ($isCollapsible) {
+            return $this->buildCollapsibleSection($content, $language, true, $title, 'Copy Code');
+        }
+
+        return $this->renderCodeBlock($content, $language, true);
+    }
+
+    /**
+     * Extracts an attribute value from the flag string.
+     *
+     * Searches for attrName="value" (quoted) or attrName=value (unquoted) patterns
+     * and returns the extracted value. When formatAsHtml is true, returns a formatted
+     * HTML attribute string (e.g., ' class="value"'), otherwise returns just the raw value.
+     * Returns null if the attribute is not found.
+     */
+    private function extractAttribute(string $flagString, string $attrName, bool $formatAsHtml = false): ?string
+    {
+        $escapedAttr = preg_quote($attrName, '/');
+
+        // Quoted: attr="value" or attr='value'
+        if (preg_match("/{$escapedAttr}=([\"'])(.+?)\\1/", $flagString, $matches)) {
+            $value = $matches[2];
+
+            return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
+        }
+        // Unquoted: attr=value
+        if (preg_match("/{$escapedAttr}=(\\S+)/", $flagString, $matches)) {
+            $value = $matches[1];
+
+            return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
+        }
+
+        return null;
+    }
+    // private function extractAttribute(string $flagString, string $attrName, bool $formatAsHtml = false): ?string
+    // {
+    //     // Quoted: attr="value" or attr='value'
+    //     if (preg_match("/{$attrName}=([\"'])(.+?)\\1/", $flagString, $matches)) {
+    //         $value = $matches[2];
+
+    //         return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
+    //     }
+    //     // Unquoted: attr=value
+    //     if (preg_match("/{$attrName}=(\\S+)/", $flagString, $matches)) {
+    //         $value = $matches[1];
+
+    //         return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
+    //     }
+
+    //     return null;
+    // }
 
     private function renderMermaid(string $content): string
     {

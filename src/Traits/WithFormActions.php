@@ -50,6 +50,8 @@ trait WithFormActions
     #[On('create-model')]
     public function create(): void
     {
+        $this->resetForm(); // Ensure form is reset before creating a new model
+
         $model = method_exists($this->form, 'createNewModel')
             ? $this->form->createNewModel($this->initialData ?? [])
             : $this->modelClass::make($this->initialData ?? []);
