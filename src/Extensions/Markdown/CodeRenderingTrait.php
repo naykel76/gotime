@@ -31,29 +31,45 @@ trait CodeRenderingTrait
     }
 
     /**
-     * Render a code block with Torchlight highlighting
+     * Build the Torchlight component string (without rendering).
      */
-    private function renderCodeBlock(string $code, string $language, bool $verbatim): string
+    public function buildTorchlightString(string $code, string $language, bool $verbatim): string
     {
         $wrappedCode = $verbatim
             ? '@verbatim' . $code . '@endverbatim'
             : $code;
 
-        $torchlight = '<x-torchlight-code language="' . $language . '">' . $wrappedCode . '</x-torchlight-code>';
-
-        return '<pre>' . Blade::render($torchlight) . '</pre>';
+        return '<pre><x-torchlight-code language="' . $language . '">' . $wrappedCode . '</x-torchlight-code></pre>';
     }
 
     /**
-     * Render Torchlight code for use in collapsible sections
+     * Render Torchlight code component with syntax highlighting.
+     *
+     * Output: <x-torchlight-code>...</x-torchlight-code> or
+     *         <x-torchlight-code>@verbatim...@endverbatim</x-torchlight-code>
+     *
+     * @link https://claude.ai/share/b9398274-5ba4-4478-a966-63fad4229068
+     *
+     * IMPORTANT: Blade compilation happens in TWO stages for components
+     * ==================================================================
+     *
+     * Stage 1 (User's view file):
+     * ---------------------------
+     * User wraps in @verbatim to prevent Blade from executing {{ }} syntax
+     * before the component receives it. This is because the component will
+     * render the code before we put it inside the torchlight component.
+     *
+     * Stage 2 (Inside this method):
+     * -----------------------------
+     * verbatim may be applied again which seems redundant but is necessary
+     * because we are calling Blade::render() manually here and may need to
+     * prevent execution again.
+     *
+     * Both are needed!
      */
-    private function renderTorchlightCode(string $code, string $language, bool $verbatim): string
+    public function renderCodeBlock(string $code, string $language, bool $verbatim): string
     {
-        $wrappedCode = $verbatim
-            ? '@verbatim' . $code . '@endverbatim'
-            : $code;
-
-        $torchlight = '<x-torchlight-code language="' . $language . '">' . $wrappedCode . '</x-torchlight-code>';
+        $torchlight = $this->buildTorchlightString($code, $language, $verbatim);
 
         return Blade::render($torchlight);
     }
@@ -83,13 +99,46 @@ trait CodeRenderingTrait
     }
 
     /**
-     * Build a collapsible section with view/copy buttons
+     * Build a standalone copy button
      */
-    private function buildCollapsibleSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel): string
+    public function buildCopyButton(string $uniqueId, string $label = 'Copy Code'): string
+    {
+        $copyJs = $this->getCopyButtonJs($uniqueId);
+
+        return '
+            <div x-data="{ copied: false }">
+                <button @click="' . $copyJs . '" 
+                    class="btn sm"
+                    :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                    x-text="copied ? \'Copied!\' : \'' . $label . '\'">
+                </button>
+            </div>';
+    }
+
+    /**
+     * Build a collapsible wrapper (just the accordion, no code inside)
+     */
+    public function buildCollapsibleWrapper(string $content, string $buttonLabel = 'Show Code'): string
+    {
+        return '
+            <div x-data="{ open: false }" class="mt-05 mb">
+                <button x-on:click="open = !open" class="btn sm">
+                    <span>' . htmlspecialchars($buttonLabel) . '</span>
+                </button>
+                <div x-show="open" x-collapse class="mt-05">
+                    ' . $content . '
+                </div>
+            </div>';
+    }
+
+    /**
+     * Build a collapsible section with view and copy buttons (the full unit)
+     */
+    public function buildCollapsibleSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel): string
     {
         $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
         $rawCode = htmlspecialchars($code);
-        $renderedCode = $this->renderTorchlightCode($code, $language, $verbatim);
+        $renderedCode = $this->renderCodeBlock($code, $language, $verbatim);
         $copyJs = $this->getCopyButtonJs($uniqueId);
 
         return '

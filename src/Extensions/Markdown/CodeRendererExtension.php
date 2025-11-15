@@ -22,15 +22,15 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     /**
      * Main rendering method that determines how to render a fenced code block.
      *
-     * Handles multiple rendering modes including preview rendering (+render),
+     * Handles multiple rendering modes including preview rendering (+preview),
      * code-only display (+code), and language overrides (+code-X). Returns null
      * if no special flags are present to let the default renderer handle it.
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         /** @var FencedCode $node */
-        $flagString = $node->getInfo();         // 'html +render +collapse class="bg-gray-100" +title="Show Code"'
-        $flagsArray = $node->getInfoWords();    // ['html', '+render', '+collapse', 'class="bg-gray-100"', '+title="Show Code"']
+        $flagString = $node->getInfo();         // 'html +preview +collapse class="bg-gray-100" +title="Show Code"'
+        $flagsArray = $node->getInfoWords();    // ['html', '+preview', '+collapse', 'class="bg-gray-100"', '+title="Show Code"']
         $language = $flagsArray[0] ?? 'html';
         $content = $node->getLiteral();
 
@@ -39,8 +39,8 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $wrapperClass = $this->extractAttribute($flagString, 'class', true) ?? '';
         $title = $this->extractAttribute($flagString, '+title') ?? 'Show Code';
 
-        // Handle +render flag
-        if (in_array('+render', $flagsArray)) {
+        // Handle +preview flag
+        if (in_array('+preview', $flagsArray)) {
             return $this->renderWithPreview($content, $flagsArray, $language, $isCollapsible, $wrapperClass, $title);
         }
 
@@ -62,7 +62,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     /**
      * Renders content with a live preview alongside optional code display.
      *
-     * Handles the +render flag by showing the rendered output first, then optionally
+     * Handles the +preview flag by showing the rendered output first, then optionally
      * includes source code (+source) or generated HTML (+code) in either collapsible
      * or inline format based on configuration.
      */
@@ -185,39 +185,5 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         }
 
         return null;
-    }
-    // private function extractAttribute(string $flagString, string $attrName, bool $formatAsHtml = false): ?string
-    // {
-    //     // Quoted: attr="value" or attr='value'
-    //     if (preg_match("/{$attrName}=([\"'])(.+?)\\1/", $flagString, $matches)) {
-    //         $value = $matches[2];
-
-    //         return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
-    //     }
-    //     // Unquoted: attr=value
-    //     if (preg_match("/{$attrName}=(\\S+)/", $flagString, $matches)) {
-    //         $value = $matches[1];
-
-    //         return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
-    //     }
-
-    //     return null;
-    // }
-
-    private function renderMermaid(string $content): string
-    {
-        $content = trim($content);
-        $safePath = ltrim($content, '/\\');
-        $diagramPath = base_path($safePath);
-
-        if (file_exists($diagramPath)) {
-            $mermaidContent = file_get_contents($diagramPath);
-        } else {
-            $mermaidContent = $content;
-        }
-
-        $wrapped = "<x-mermaid>\n" . $mermaidContent . "\n</x-mermaid>\n";
-
-        return Blade::render($wrapped);
     }
 }
