@@ -43,7 +43,7 @@ trait CodeRenderingTrait
     }
 
     /**
-     * Render Torchlight code component with syntax highlighting.
+     * Render Torchlight code component with syntax highlighting and automatic copy button.
      *
      * Output: <x-torchlight-code>...</x-torchlight-code> or
      *         <x-torchlight-code>@verbatim...@endverbatim</x-torchlight-code>
@@ -70,8 +70,33 @@ trait CodeRenderingTrait
     public function renderCodeBlock(string $code, string $language, bool $verbatim): string
     {
         $torchlight = $this->buildTorchlightString($code, $language, $verbatim);
+        $renderedCode = Blade::render($torchlight);
 
-        return Blade::render($torchlight);
+        return $this->wrapCodeWithCopyButton($code, $renderedCode);
+    }
+
+    /**
+     * Wrap rendered code with a copy button
+     */
+    private function wrapCodeWithCopyButton(string $rawCode, string $renderedCode): string
+    {
+        $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
+        $escapedCode = htmlspecialchars($rawCode);
+        $copyJs = $this->getCopyButtonJs($uniqueId);
+
+        return '
+            <div class="relative code-block-wrapper">
+                <div class="absolute z-10" style="top: 0.5rem; right: 0.5rem;">
+                    <div x-data="{ copied: false }">
+                        <button @click="' . $copyJs . '" 
+                            class="btn xs"
+                            :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                            x-text="copied ? \'Copied!\' : \'Copy\'">
+                        </button>
+                    </div>
+                </div>
+                <pre id="' . $uniqueId . '" data-code="' . $escapedCode . '">' . $renderedCode . '</pre>
+            </div>';
     }
 
     /**
