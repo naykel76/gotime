@@ -1,7 +1,6 @@
 <table {{ $attributes}}>
     @isset($thead)
-        {{-- <thead {{ $thead->attributes->class(['bg-gray-100 bdr-b']) }}> --}}
-        <thead {{ $thead->attributes->class(['bg-gray-100 bdr-b']) }}>
+        <thead {{ $thead->attributes->class(['bg-gray-100']) }}>
             {{ $thead }}
         </thead>
     @endisset

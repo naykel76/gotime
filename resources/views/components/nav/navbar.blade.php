@@ -21,7 +21,7 @@
             @endphp
 
             @if ($hasChildren)
-                <li x-data="{ open: @js($open) }" x-on:click.away="open = false" class="relative">
+                <li x-data="{ open: @js($open) }" class="relative" x-on:click.outside="open = false" x-on:keydown.escape="open = false">
                     <button x-on:click="open = !open" @class(['active' => $active])>
                         <x-gotime::.icon-label :label="$item->name" :icon="$showIcon ? $icon : null" />
                         <x-gotime::.chevron-toggle />

@@ -59,9 +59,8 @@ class Nav extends Component
 
     public function render()
     {
-        // Check for user override first, then package views
-        $viewPath = view()->exists("components.layouts.nav.$this->layout")
-            ? "components.layouts.nav.$this->layout"
+        $viewPath = view()->exists("components.$this->layout")
+            ? "components.$this->layout"
             : "gotime::components.nav.$this->layout";
 
         return view($viewPath)
