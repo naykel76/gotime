@@ -1,6 +1,9 @@
+{{-- At this stage I do not see the point of creating a separate component for the inline 
+editor. Just use the control and build from scratch instead --}}
+
 @props([
     'for' => null,
-    'componentName' => 'input.password',
+    'componentName' => 'editor',
 ])
 
 @php
@@ -11,5 +14,5 @@
 @endphp
 
 <x-gotime::.input.partials.control-group :$for>
-    <x-gotime::.input.controls.input :$for {{ $attributes->merge(['type' => 'password'])->except(['label', 'help-text', 'rowClass']) }} />
+    <x-gotime::.input.controls.ckeditor :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
 </x-gotime::.input.partials.control-group>

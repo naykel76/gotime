@@ -1,6 +1,8 @@
 <x-gt-layouts.base :title="str_replace('-', ' ', basename($data['path'] ?? 'Docs'))" class="nk-docs">
 
-    <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons/>
+    <div class="to-md:hidden">
+        <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons class="pink" />
+    </div>
 
     <main class="docs-layout py-3">
         <aside class="left-sidebar px space-y">

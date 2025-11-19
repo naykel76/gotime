@@ -102,6 +102,7 @@ trait WithFormActions
     {
         $this->modelClass::findOrFail($id)->delete();
         $this->dispatch('model-deleted');
+        $this->dispatch('notify', 'Deleted successfully!');
         $this->reset('selectedId');
     }
 

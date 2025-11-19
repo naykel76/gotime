@@ -114,17 +114,17 @@ if (! function_exists('toPath')) {
 //     }
 // }
 
-// if (! function_exists('dotLastSegment')) {
-//     /**
-//      * Explode dot notation and return the last segment
-//      */
-//     function dotLastSegment(string $item): string
-//     {
-//         $arr = explode('.', $item);
+if (! function_exists('dotLastSegment')) {
+    /**
+     * Explode dot notation and return the last segment
+     */
+    function dotLastSegment(string $item): string
+    {
+        $arr = explode('.', $item);
 
-//         return end($arr);
-//     }
-// }
+        return end($arr);
+    }
+}
 
 // // ------------------------------------------------------------------
 // // -- MATH HELPERS --
