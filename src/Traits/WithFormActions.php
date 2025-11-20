@@ -66,32 +66,62 @@ trait WithFormActions
      *
      * This method validates and persists the model, handles notifications,
      * dispatches events, and manages redirection based on the action parameter.
-     * After successful save, the form is reset to prepare for the next operation.
+     * The form is reset after save unless using save_stay action.
+     *
+     * @param  string|null  $action  The post-save action (save_close, save_new, save_stay, save_edit)
      */
     public function save(?string $action = null): void
     {
-        // this must happen before the form is saved, otherwise there will be an
-        // `id` and the model will not be new
+        // Capture whether model is new before saving (once saved, it will have an ID)
         $isNewModel = $this->isNewModel();
 
-        // call the save method from the Crudable trait and persist the model
+        // Persist the model via the Crudable trait
         $model = $this->form->save();
 
-        // this only needs to redirect on the first save
+        // For existing models with save_edit action, notify and return early
+        // This prevents unnecessary redirects on subsequent saves
         if (! $isNewModel && $action == 'save_edit') {
             $this->dispatch('notify', 'Saved successfully!');
 
             return;
         }
 
+        // Handle redirects for route-based workflows
         if ($action) {
-            $this->handleRedirect($this->routePrefix, $action, $model->id);
+            $this->handleRedirect($this->routePrefix, $action, $model);
         }
 
         $this->dispatch('notify', 'Saved successfully!');
         $this->dispatch('model-saved');
 
-        $this->resetForm();
+        // Reset form for all actions except save_stay
+        // This allows route-based forms to persist data when staying on the same page
+        if ($action !== 'save_stay') {
+            $this->resetForm();
+        }
+    }
+
+    /**
+     * Handles redirection based on the provided action.
+     *
+     * Laravel's route model binding automatically uses the model's route key
+     * (e.g., slug, uuid, or id) based on the route definition.
+     *
+     * @param  string  $routePrefix  The prefix for the route
+     * @param  string  $action  The action to perform (save_close, save_new, save_stay, save_edit)
+     * @param  mixed  $model  The model instance for generating route parameters
+     *
+     * @throws \Exception If an invalid action is provided
+     */
+    private function handleRedirect(string $routePrefix, string $action, $model = null)
+    {
+        return match ($action) {
+            'save_close', 'delete_close' => redirect(route("$this->routePrefix.index")),
+            'save_new' => redirect(route("$routePrefix.create")),
+            'save_edit' => redirect(route("$routePrefix.edit", $model)),
+            'save_stay' => null, // Stay on current page without redirect
+            default => throw new \Exception("Invalid action: $action"),
+        };
     }
 
     /**
@@ -122,25 +152,6 @@ trait WithFormActions
     private function isNewModel(): bool
     {
         return is_null($this->form->editing->id);
-    }
-
-    /**
-     * Handles redirection based on the provided action.
-     *
-     * @param  string  $routePrefix  The prefix for the route.
-     * @param  string  $action  The action to be performed 'save_close', 'delete_close' ...
-     * @param  int  $id  The optional ID for routes that require it.
-     *
-     * @throws \Exception Throws an exception if an invalid action is provided.
-     */
-    private function handleRedirect(string $routePrefix, string $action, ?int $id = null)
-    {
-        return match ($action) {
-            'save_close', 'delete_close' => redirect(route("$this->routePrefix.index")),
-            'save_new' => redirect(route("$routePrefix.create")),
-            'save_edit', 'save_stay' => redirect(route("$routePrefix.edit", $id)),
-            default => throw new \Exception("Invalid action: $action"),
-        };
     }
 
     /**

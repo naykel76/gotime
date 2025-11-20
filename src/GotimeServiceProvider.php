@@ -5,9 +5,10 @@ namespace Naykel\Gotime;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Naykel\Gotime\Commands\InstallCommand;
-use Naykel\Gotime\View\Components\Icon;
-use Naykel\Gotime\View\Components\Markdown;
-use Naykel\Gotime\View\Components\Nav;
+use Naykel\Gotime\Components\Filepond;
+use Naykel\Gotime\Components\Icon;
+use Naykel\Gotime\Components\Markdown;
+use Naykel\Gotime\Components\Nav;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,10 @@ class GotimeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/gotime.php', 'gotime');
         $this->mergeConfigFrom(__DIR__ . '/../config/services.php', 'services');
         $this->mergeConfigFrom(__DIR__ . '/../config/markdown.php', 'markdown');
+
+        $this->app->singleton('filemanagement', function ($app) {
+            return new \Naykel\Gotime\Services\FileManagementService;
+        });
     }
 
     public function boot()
@@ -28,11 +33,10 @@ class GotimeServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
         $this->loadViewComponentsAs('gt', [
-            // Filepond::class,
+            Filepond::class,
             Icon::class,
             Markdown::class,
             Nav::class,
-            // Sidebar::class,
         ]);
 
         if ($this->app->runningInConsole()) {
@@ -89,6 +93,7 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerComponents(): void
     {
         $this->registerComponentX('code');
+        $this->registerComponentX('loading-indicator');
 
         // Alerts, Notifications, and Messages
         $this->registerComponentX('errors');
@@ -135,6 +140,7 @@ class GotimeServiceProvider extends ServiceProvider
         // $this->registerComponentX('input.password', 'input.password');
         // $this->registerComponentX('input.pikaday', 'pikaday');
         // $this->registerComponentX('input.radio', 'radio');
+        $this->registerComponentX('livewire-search-input', 'search-input');
     }
 
     /**
@@ -150,11 +156,6 @@ class GotimeServiceProvider extends ServiceProvider
 
 // $this->registerComponentX('alert');
 // $this->registerComponentX('box.base', 'box');
-
-// $this->registerComponentX('livewire-search-input', 'search-input');
-// $this->registerComponentX('loading-indicator');
-// $this->registerComponentX('menu.menu-item', 'menu-item'); // wrapper for menu-link or other menu items
-// $this->registerComponentX('menu.menu-link', 'menu-link');
 
 // $this->registerComponentX('spinner');
 // $this->registerComponentX('toolbar.title-bar', 'title-bar');

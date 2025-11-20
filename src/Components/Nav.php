@@ -1,6 +1,6 @@
 <?php
 
-namespace Naykel\Gotime\View\Components;
+namespace Naykel\Gotime\Components;
 
 use Illuminate\View\Component;
 use Naykel\Gotime\DTO\NavDTO;
