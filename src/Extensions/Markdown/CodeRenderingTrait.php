@@ -172,13 +172,16 @@ trait CodeRenderingTrait
                     <button x-on:click="open = !open" class="btn sm">
                         <span>' . htmlspecialchars($viewLabel) . '</span>
                     </button>
-                    <button x-data="{ copied: false }" @click="' . $copyJs . '" class="btn sm"
-                        :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
-                        x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'">
-                    </button>
+                    <div x-data="{ copied: false }">
+                        <button @click="' . $copyJs . '" class="btn sm"
+                            :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                            x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'">
+                        </button>
+                    </div>
                 </div>
                 <div x-show="open" x-collapse class="mt-05">
-                    <pre id="' . $uniqueId . '" data-code="' . $rawCode . '">' . $renderedCode . '</pre>
+                    <div id="' . $uniqueId . '" data-code="' . $rawCode . '" style="display: none;"></div>
+                    ' . $renderedCode . '
                 </div>
             </div>';
     }
