@@ -125,22 +125,23 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('button.default', 'button');
         $this->registerComponentX('button.primary');
         $this->registerComponentX('button.secondary');
+        $this->registerComponentX('button.submit', 'submit');
         $this->registerComponentX('resource-action');
 
         // inputs
         $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.ckeditor', 'ckeditor');
+        $this->registerComponentX('input.email', 'input.email');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.slim-select', 'slim-select');
         $this->registerComponentX('input.textarea', 'textarea');
+        $this->registerComponentX('livewire-search-input', 'search-input');
         // $this->registerComponentX('input.datepicker', 'datepicker');
         // $this->registerComponentX('input.editor', 'editor');
-        // $this->registerComponentX('input.email', 'input.email');
-        // $this->registerComponentX('input.password', 'input.password');
+        $this->registerComponentX('input.password', 'input.password');
         // $this->registerComponentX('input.pikaday', 'pikaday');
         // $this->registerComponentX('input.radio', 'radio');
-        $this->registerComponentX('livewire-search-input', 'search-input');
     }
 
     /**

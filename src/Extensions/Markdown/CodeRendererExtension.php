@@ -36,6 +36,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         // configuration flags
         $isCollapsible = in_array('+collapse', $flagsArray);
+        $isSelectable = in_array('+selectable', $flagsArray);
         $wrapperClass = $this->extractAttribute($flagString, 'class', true) ?? '';
         $title = $this->extractAttribute($flagString, '+title') ?? 'Show Code';
 
@@ -47,12 +48,12 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         // Check for +code-X override first (e.g., +code-blade)
         $codeOverride = $this->getCodeLanguageOverride($flagsArray);
         if ($codeOverride) {
-            return $this->renderCode($content, $codeOverride, $isCollapsible, $title);
+            return $this->renderCode($content, $codeOverride, $isCollapsible, $isSelectable, $title);
         }
 
         // Just +code = show highlighted code only
         if (in_array('+code', $flagsArray)) {
-            return $this->renderCode($content, $language, $isCollapsible, $title);
+            return $this->renderCode($content, $language, $isCollapsible, $isSelectable, $title);
         }
 
         // No flags = return null (let default renderer handle it)
@@ -150,13 +151,13 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
      * Used for +code and +code-X flags to display syntax-highlighted code blocks
      * either as collapsible sections or standard inline code blocks.
      */
-    private function renderCode(string $content, string $language, bool $isCollapsible, string $title): string
+    private function renderCode(string $content, string $language, bool $isCollapsible, bool $isSelectable, string $title): string
     {
         if ($isCollapsible) {
             return $this->buildCollapsibleSection($content, $language, true, $title, 'Copy Code');
         }
 
-        return $this->renderCodeBlock($content, $language, true);
+        return $this->renderCodeBlock($content, $language, true, $isSelectable);
     }
 
     /**

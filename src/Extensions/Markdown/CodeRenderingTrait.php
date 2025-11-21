@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Blade;
 trait CodeRenderingTrait
 {
     /**
+     * Cache for cleaned code to avoid repeated processing
+     */
+    private array $cleanCodeCache = [];
+
+    /**
      * Get code language override from +code-X flag
      */
     private function getCodeLanguageOverride(array $info): ?string
@@ -28,6 +33,37 @@ trait CodeRenderingTrait
         $override = $this->getCodeLanguageOverride($info);
 
         return $override ?? $defaultLanguage;
+    }
+
+    /**
+     * Strip Torchlight annotations from code
+     */
+    private function stripTorchlightAnnotations(string $code): string
+    {
+        // Cache cleaned code to avoid repeated processing
+        $hash = md5($code);
+        if (isset($this->cleanCodeCache[$hash])) {
+            return $this->cleanCodeCache[$hash];
+        }
+
+        $lines = explode("\n", $code);
+        $cleaned = [];
+
+        foreach ($lines as $line) {
+            // Combine all regex patterns into one for better performance
+            $cleanedLine = preg_replace(
+                '/\s*(?:\/\/|#|<!--)\s*\[tl!.*?\].*?(?:-->)?$/i',
+                '',
+                $line
+            );
+
+            $cleaned[] = $cleanedLine;
+        }
+
+        $result = implode("\n", $cleaned);
+        $this->cleanCodeCache[$hash] = $result;
+
+        return $result;
     }
 
     /**
@@ -67,28 +103,32 @@ trait CodeRenderingTrait
      *
      * Both are needed!
      */
-    public function renderCodeBlock(string $code, string $language, bool $verbatim): string
+    public function renderCodeBlock(string $code, string $language, bool $verbatim, bool $isSelectable = false): string
     {
         $torchlight = $this->buildTorchlightString($code, $language, $verbatim);
         $renderedCode = Blade::render($torchlight);
 
-        return $this->wrapCodeWithCopyButton($code, $renderedCode);
+        return $this->wrapCodeWithCopyButton($code, $renderedCode, $isSelectable);
     }
 
     /**
      * Wrap rendered code with a copy button
      */
-    private function wrapCodeWithCopyButton(string $rawCode, string $renderedCode): string
+    private function wrapCodeWithCopyButton(string $rawCode, string $renderedCode, bool $isSelectable = false): string
     {
         $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
-        $escapedCode = htmlspecialchars($rawCode);
+        $cleanCode = $this->stripTorchlightAnnotations($rawCode);
+        $escapedCode = htmlspecialchars($cleanCode);
         $copyJs = $this->getCopyButtonJs($uniqueId);
 
+        $selectableClass = $isSelectable ? ' selectable-code-block' : '';
+        $selectableAttr = $isSelectable ? ' data-selectable="true"' : '';
+
         return '
-            <div class="relative code-block-wrapper">
+            <div class="relative code-block-wrapper' . $selectableClass . '"' . $selectableAttr . ' style="' . ($isSelectable ? 'cursor: pointer; transition: all 0.2s ease;' : '') . '">
                 <div class="absolute z-10" style="top: 0.5rem; right: 0.5rem;">
                     <div x-data="{ copied: false }">
-                        <button @click="' . $copyJs . '" 
+                        <button @click.stop="' . $copyJs . '" 
                             class="btn xs"
                             :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
                             x-text="copied ? \'Copied!\' : \'Copy\'">
@@ -162,7 +202,8 @@ trait CodeRenderingTrait
     public function buildCollapsibleSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel): string
     {
         $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
-        $rawCode = htmlspecialchars($code);
+        $cleanCode = $this->stripTorchlightAnnotations($code);
+        $rawCode = htmlspecialchars($cleanCode);
         $renderedCode = $this->renderCodeBlock($code, $language, $verbatim);
         $copyJs = $this->getCopyButtonJs($uniqueId);
 
