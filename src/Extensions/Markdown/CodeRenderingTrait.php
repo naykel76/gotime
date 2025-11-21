@@ -118,6 +118,8 @@ trait CodeRenderingTrait
     {
         $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
         $cleanCode = $this->stripTorchlightAnnotations($rawCode);
+        // Trim trailing newlines/whitespace from code for cleaner copying
+        $cleanCode = rtrim($cleanCode);
         $escapedCode = htmlspecialchars($cleanCode);
         $copyJs = $this->getCopyButtonJs($uniqueId);
 
