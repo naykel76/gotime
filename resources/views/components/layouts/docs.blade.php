@@ -1,40 +1,22 @@
-@props(['hasAside' => true])
+<x-gt-layouts.base :title="str_replace('-', ' ', basename($data['path'] ?? 'Docs'))" class="nk-docs">
 
-<x-gt-app-layout layout="base" :$pageTitle>
+    <div class="to-md:hidden">
+        <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons class="pink" />
+    </div>
 
-    @if (class_exists(\Naykel\Devit\DevitServiceProvider::class))
-        @includeIf('devit::components.dev-toolbar')
-    @else
-        @if (config('authit.allow_register') && Route::has('login'))
-            @includeFirst([ 'components.layouts.partials.top-toolbar', 'gotime::components.layouts.partials.top-toolbar', ])
-        @endif
-    @endif
+    <main class="docs-layout py-3">
+        <aside class="left-sidebar px space-y">
+            @foreach ($data['menus'] as $menu)
+                <x-gt-nav menuname="{{ $menu }}" filename="{{ $data['filename'] }}" class="menu" menu-title="{{ $menu }}" />
+            @endforeach
+        </aside>
 
-    @includeFirst(['components.layouts.partials.navbar', 'gotime::components.layouts.partials.navbar'])
-
-    @isset($top)
-        {{ $top }}
-    @endisset
-
-    <main {{ $attributes->class(['nk-main container py-2 md:py-5', $hasAside ? 'flex gap-5' : '']) }}>
-
-        @isset($navigation)
-            <aside class="w-18 fs0" {{ $navigation->attributes }}>
-                {{ $navigation }}
-            </aside>
-        @endisset
-
-        {{-- style="min-width: 0; is to prevent the code blocks overflowing because flexbox is being a dick! --}}
-        <div class="fg1" style="min-width: 0;">
-            {{ $slot }}
+        <div class="main-content-area">
+            <x-gt-markdown path="{{ resource_path('views/' . $data['path']) }}" />
         </div>
-
     </main>
-
-    @isset($bottom)
-        {{ $bottom }}
-    @endisset
 
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
-</x-gt-app-layout>
+</x-gt-layouts.base> 
+

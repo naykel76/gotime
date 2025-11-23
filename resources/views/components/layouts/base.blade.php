@@ -1,36 +1,25 @@
-@props(['pageTitle' => null, 'nofollow' => false])
+@props(['title' => null, 'nofollow' => false])
 
 <!doctype html>
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    @if ($nofollow)
-        <meta name="robots" content="noindex,follow">
-    @endif
-    @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
-</head>
+    <head>
+        @if ($nofollow)
+            <meta name="robots" content="noindex,follow">
+        @endif
+        @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])
+    </head>
 
-@if (!app()->environment('local'))
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics_id') }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    <body {{ $attributes }}>
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', '{{ config('services.analytics_id') }}', {
-            cookie_flags: 'SameSite=None;Secure'
-        });
-    </script>
-@endif
+        {{ $slot }}
 
-<body {{ $attributes }}>
-    {{ $slot }}
-    <x-gt-toast />
-    @livewireScripts
-    @stack('scripts')
-</body>
+        <x-gt-toast />
+
+        @livewireScripts
+        @stack('scripts')
+        
+    </body>
 
 </html>

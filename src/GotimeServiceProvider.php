@@ -30,6 +30,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->commands([InstallCommand::class]);
         $this->registerComponents();
         $this->registerFormComponents();
+        $this->registerLayoutComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
@@ -55,6 +56,11 @@ class GotimeServiceProvider extends ServiceProvider
             Menu::class,
             Sidebar::class,
         ]);
+    }
+
+    protected function registerLayoutComponents(): void
+    {
+        $this->registerComponentX('layouts.base', 'layouts.base');
     }
 
     /**
