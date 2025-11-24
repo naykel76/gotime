@@ -3,6 +3,7 @@
 ## 2.0.0 (wip)
 - Update base layout and refactor ready for local temp components
 - Refactor layout partials and remove unused ones
+- Refactor components to improve structure and clarity
 
 ## 1.16.0 (wip)
 - Fixed incorrect flex classes

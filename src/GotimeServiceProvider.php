@@ -27,26 +27,12 @@ class GotimeServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->commands([InstallCommand::class]);
         $this->registerComponents();
+        $this->registerDirectives();
         $this->registerFormComponents();
         $this->registerLayoutComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
-
-        $this->publishes([
-            __DIR__ . '/../config/naykel.php' => config_path('naykel.php'),
-        ], 'gotime-config');
-
-        $this->publishes([
-            __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
-        ], 'gotime-all-layouts');
-
-        // only publish the main app layout and partials
-        $this->publishes([
-            __DIR__ . '/../resources/views/components/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
-            __DIR__ . '/../resources/views/components/layouts/partials' => resource_path('views/components/layouts/partials'),
-        ], 'gotime-app-layouts');
 
         $this->loadViewComponentsAs('gt', [
             AppLayout::class,
@@ -56,18 +42,66 @@ class GotimeServiceProvider extends ServiceProvider
             Menu::class,
             Sidebar::class,
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([InstallCommand::class]);
+
+            $this->publishes([
+                __DIR__ . '/../config/naykel.php' => config_path('naykel.php'),
+            ], 'gotime-config');
+
+            $this->publishes([
+                __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
+            ], 'gotime-all-layouts');
+
+            // only publish the main app layout and partials
+            $this->publishes([
+                __DIR__ . '/../resources/views/components/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
+                __DIR__ . '/../resources/views/components/layouts/partials' => resource_path('views/components/layouts/partials'),
+            ], 'gotime-app-layouts');
+        }
     }
 
     protected function registerLayoutComponents(): void
     {
         $this->registerComponentX('layouts.base', 'layouts.base');
+        // $this->registerComponentX('layouts.app', 'layouts.app');
     }
 
-    /**
-     * Configure the Gotime Blade components.
-     *
-     * @return void
-     */
+    protected function registerDirectives(): void
+    {
+        // Render slot in a <div> with optional attributes
+        Blade::directive('addSlot', function ($expression) {
+            $parts = array_map('trim', explode(',', $expression, 2));
+            $slot = $parts[0];
+            $attrs = $parts[1] ?? '[]';
+
+            return <<<BLADE
+            <?php if(isset({$slot}) && {$slot}->isNotEmpty()): ?>
+                <div {{ {$slot}->attributes->merge({$attrs}) }}>
+                    {{ {$slot} }}
+                </div>
+            <?php endif; ?>
+            BLADE;
+        });
+
+        // Render slot in a custom element with optional attributes
+        Blade::directive('addSlotEl', function ($expression) {
+            $parts = array_map('trim', explode(',', $expression, 3));
+            $tag = $parts[0];
+            $slot = $parts[1];
+            $attrs = $parts[2] ?? '[]';
+
+            return <<<BLADE
+            <?php if(isset({$slot}) && {$slot}->isNotEmpty()): ?>
+                <<?php echo {$tag}; ?> {{ {$slot}->attributes->merge({$attrs}) }}>
+                    {{ {$slot} }}
+                </<?php echo {$tag}; ?>>
+            <?php endif; ?>
+            BLADE;
+        });
+    }
+
     protected function registerComponents()
     {
         $this->registerComponentX('loading-indicator');
@@ -92,10 +126,6 @@ class GotimeServiceProvider extends ServiceProvider
 
         $this->registerComponentX('v2/resource-action', 'resource-action');
 
-        // layouts
-        $this->registerComponentX('layouts.base', 'gotime-layouts.base');
-        $this->registerComponentX('layouts.partials.two-column-responsive');
-
         // Livewire special components
         $this->registerComponentX('livewire-search-input', 'search-input');
 
@@ -108,9 +138,9 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('modal.variants.delete', 'modal.delete');
         $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
 
-        // table components
-        $this->registerComponentX('v2.table.th', 'table.th');
-        $this->registerComponentX('v2.table.table', 'table');
+        // Tables and Lists
+        $this->registerComponentX('table.table', 'table');
+        $this->registerComponentX('table.th', 'table.th');
 
         // toolbars
         $this->registerComponentX('toolbar.title-bar', 'title-bar');
@@ -130,6 +160,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.input.input', 'input');
         $this->registerComponentX('v2.input.password', 'input.password');
         $this->registerComponentX('v2.input.select', 'select');
+
     }
 
     /**
