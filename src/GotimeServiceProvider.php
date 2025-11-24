@@ -115,17 +115,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('errors');
         $this->registerComponentX('toast');
 
-        // Buttons
-        // NK::REFACTOR handling multiple variations is little primitive, but it works!
-        $this->registerComponentX('button.submit', 'submit');
-        $this->registerComponentX('button.variants.save', 'button.save');
-        $this->registerComponentX('v2/button.base', 'button.base');
-        $this->registerComponentX('v2/button.variants.default', 'button');
-        $this->registerComponentX('v2/button.variants.primary', 'button.primary');
-        $this->registerComponentX('v2/button.variants.secondary', 'button.secondary');
-
-        $this->registerComponentX('v2/resource-action', 'resource-action');
-
         // Livewire special components
         $this->registerComponentX('livewire-search-input', 'search-input');
 
@@ -148,6 +137,15 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerFormComponents(): void
     {
+        // buttons
+        $this->registerComponentX('button.base');
+        $this->registerComponentX('button.default', 'button');
+        $this->registerComponentX('button.primary');
+        $this->registerComponentX('button.secondary');
+        $this->registerComponentX('button.submit', 'submit');
+        $this->registerComponentX('resource-action');
+
+        //
         $this->registerComponentX('input.datepicker', 'datepicker');
         $this->registerComponentX('input.editor', 'editor');
         $this->registerComponentX('input.pikaday', 'pikaday');
@@ -160,7 +158,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('v2.input.input', 'input');
         $this->registerComponentX('v2.input.password', 'input.password');
         $this->registerComponentX('v2.input.select', 'select');
-
     }
 
     /**
