@@ -5,9 +5,10 @@ namespace Naykel\Gotime;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Naykel\Gotime\Commands\InstallCommand;
-use Naykel\Gotime\View\Components\Filepond;
-use Naykel\Gotime\View\Components\Icon;
-use Naykel\Gotime\View\Components\Markdown;
+use Naykel\Gotime\Components\Filepond;
+use Naykel\Gotime\Components\Icon;
+use Naykel\Gotime\Components\Markdown;
+use Naykel\Gotime\Components\Nav;
 use Naykel\Gotime\View\Components\Menu;
 use Naykel\Gotime\View\Components\Sidebar;
 use Naykel\Gotime\View\Layouts\AppLayout;
@@ -35,10 +36,11 @@ class GotimeServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
         $this->loadViewComponentsAs('gt', [
-            AppLayout::class,
             Filepond::class,
             Icon::class,
             Markdown::class,
+            Nav::class,
+            AppLayout::class,
             Menu::class,
             Sidebar::class,
         ]);
@@ -115,9 +117,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('errors');
         $this->registerComponentX('toast');
 
-        // Livewire special components
-        $this->registerComponentX('livewire-search-input', 'search-input');
-
         $this->registerComponentX('box.base', 'box');
 
         // Modals and Boxes
@@ -145,19 +144,21 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('button.submit', 'submit');
         $this->registerComponentX('resource-action');
 
-        //
-        $this->registerComponentX('input.datepicker', 'datepicker');
-        $this->registerComponentX('input.editor', 'editor');
-        $this->registerComponentX('input.pikaday', 'pikaday');
-        $this->registerComponentX('input.radio', 'radio');
+        // inputs
+        $this->registerComponentX('input.checkbox', 'checkbox');
+        $this->registerComponentX('input.ckeditor', 'ckeditor');
+        $this->registerComponentX('input.email', 'input.email');
+        $this->registerComponentX('input.input', 'input');
+        $this->registerComponentX('input.password', 'input.password');
+        $this->registerComponentX('input.select', 'select');
+        $this->registerComponentX('input.slim-select', 'slim-select');
         $this->registerComponentX('input.textarea', 'textarea');
-        $this->registerComponentX('v2.input.checkbox', 'checkbox');
-        $this->registerComponentX('v2.input.slim-select', 'slim-select');
-        $this->registerComponentX('v2.input.ckeditor', 'ckeditor');
-        $this->registerComponentX('v2.input.email', 'input.email');
-        $this->registerComponentX('v2.input.input', 'input');
-        $this->registerComponentX('v2.input.password', 'input.password');
-        $this->registerComponentX('v2.input.select', 'select');
+        $this->registerComponentX('livewire-search-input', 'search-input');
+        // $this->registerComponentX('input.datepicker', 'datepicker');
+        // $this->registerComponentX('input.editor', 'editor');
+        // $this->registerComponentX('input.pikaday', 'pikaday');
+        // $this->registerComponentX('input.radio', 'radio');
+
     }
 
     /**

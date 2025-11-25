@@ -1,8 +1,6 @@
-{{-- *** COMPONENT BASED CLASS *** --}}
-
 <div x-data="{ initFilePond, loading: false }" wire:ignore x-init="initFilePond()">
     <input type="file" x-ref="input" style="display:none">
-    <x-gt-loading-indicator x-show="loading" />
+    {{-- <x-gt-loading-indicator x-show="loading" /> --}}
 </div>
 
 @pushOnce('styles')

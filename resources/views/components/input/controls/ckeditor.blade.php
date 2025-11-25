@@ -20,11 +20,11 @@
     ];
 @endphp
 
-<x-gotime::v2.input.partials.ckeditor-base>
+<x-gotime::.input.partials.ckeditor-base>
     <div x-data="editor($wire.entangle('{{ $wireModel }}'), @js($config))" x-cloak>
         <div id="{{ $editorId }}" x-model="content" x-on:input.debounce.500ms></div>
     </div>
-</x-gotime::v2.input.partials.ckeditor-base>
+</x-gotime::.input.partials.ckeditor-base>
 
 @pushOnce('scripts')
     <script>

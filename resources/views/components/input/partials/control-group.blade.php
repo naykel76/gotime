@@ -3,41 +3,34 @@
     'value' => null,
     'label' => null,
     'tooltip' => false,
-    'ignoreErrors' => false,
     'helpText' => null,
     'helpTextTop' => false,
     'rowClass' => null,
-    'labelClass' => null,
-    'inline' => false,
     'componentName' => '', // included to allow special conditions like the label for the checkbox component
 ])
 
-<x-gotime::v2.input.partials.form-row
-    {{ $attributes->merge([
-        'class' => ($inline ? ' inline' : '') . ' ' . $rowClass,
-    ]) }}>
+<x-gotime::.input.partials.form-row
+    {{ $attributes->merge(['class' => $rowClass]) }}>
 
     {{-- Render label unless component is a checkbox, as checkboxes handle labels differently --}}
     @if (isset($label) && $componentName !== 'checkbox')
-        <x-gotime::v2.input.partials.label :tooltip="$tooltip ?? null" />
+        <x-gotime::.input.partials.label :tooltip="$tooltip ?? null" />
     @endif
 
     <div class="flex-col w-full my-0">
 
         @if (isset($helpText) && $helpTextTop)
-            <x-gotime::v2.input.partials.help-text :$helpText />
+            <x-gotime::.input.partials.help-text :$helpText />
         @endif
 
         {{ $slot }}
 
         @if (isset($helpText) && !$helpTextTop)
-            <x-gotime::v2.input.partials.help-text :$helpText />
+            <x-gotime::.input.partials.help-text :$helpText />
         @endif
 
-        @unless ($ignoreErrors)
-            <x-gotime::v2.input.partials.error :for="$for" />
-        @endunless
+        <x-gotime::.input.partials.error :for="$for" />
 
     </div>
 
-</x-gotime::v2.input.partials.form-row>
+</x-gotime::.input.partials.form-row>

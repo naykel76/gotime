@@ -1,6 +1,6 @@
 <?php
 
-namespace Naykel\Gotime\View\Components;
+namespace Naykel\Gotime\Components;
 
 use Illuminate\View\Component;
 
@@ -32,6 +32,6 @@ class Filepond extends Component
 
     public function render()
     {
-        return view('gotime::components.input.filepond');
+        return view('gotime::components.input.controls.filepond');
     }
 }

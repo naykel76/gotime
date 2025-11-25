@@ -12,12 +12,12 @@
     }
 @endphp
 
-<x-gotime::v2.input.partials.control-group :$for>
+<x-gotime::.input.partials.control-group :$for>
     @if (empty($options))
-        <x-gotime::v2.input.controls.slim-select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
+        <x-gotime::.input.controls.slim-select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
             {{ $slot }}
-        </x-gotime::v2.input.controls.slim-select>
+        </x-gotime::.input.controls.slim-select>
     @else
-        <x-gotime::v2.input.controls.slim-select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
+        <x-gotime::.input.controls.slim-select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
     @endif
-</x-gotime::v2.input.partials.control-group>
+</x-gotime::.input.partials.control-group>

@@ -1,20 +1,20 @@
 @props([
+    'for' => null,
     'placeholder' => null,
     'options' => [],
     'componentName' => 'select control',
 ])
 
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? ($for ?? null);
-    if (!isset($for)) {
-        throw new InvalidArgumentException("The `$componentName` component requires either a `for` or `wire:model` attribute to be set.");
-    }
+    $for = getFormFieldName($attributes, $for, $componentName);
 @endphp
 
 <select name="{{ $for }}" id="{{ $for }}"
     {{ $attributes->merge([
-            'class' => $errors->has($for) ? 'bdr-red z-100 placeholder-red-400' : null,
-        ])->except(['for']) }}>
+            'class' => $errors->has($for) ? 'bdr-2 bdr-red-400 placeholder-red-400' : null,
+        ])->except(['for']) }}
+    {{-- Accessibility: mark invalid selects for screen readers --}}
+    @if ($errors->has($for)) aria-invalid="true" aria-describedby="{{ $for }}-error" @endif>
 
     @unless ($attributes->has('multiple'))
         <option disabled selected value="">{{ $placeholder ?? 'Please select...' }}</option>
