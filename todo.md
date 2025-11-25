@@ -1,0 +1,1 @@
+1. Add dimensions to logo for better rendering.

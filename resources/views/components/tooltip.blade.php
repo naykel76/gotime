@@ -1,8 +1,3 @@
-{{--
-The `position` attribute has been created for easy positioning when used with
-inputs. This may not work for all use cases but it ticks the box for now!
---}}
-
 @props(['position'])
 
 @php
