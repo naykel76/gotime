@@ -4,19 +4,19 @@
         <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons class="pink" />
     </div>
 
-    <main class="docs-layout py-3">
+    <div class="docs-layout">
+        
         <aside class="left-sidebar px space-y">
             @foreach ($data['menus'] as $menu)
                 <x-gt-nav menuname="{{ $menu }}" filename="{{ $data['filename'] }}" class="menu" menu-title="{{ $menu }}" />
             @endforeach
         </aside>
 
-        <div class="main-content-area">
-            <x-gt-markdown path="{{ resource_path('views/' . $data['path']) }}" />
-        </div>
-    </main>
+        <x-gt-markdown path="{{ resource_path('views/' . $data['path']) }}" />
+
+    </div>
+
 
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
-</x-gt-layouts.base> 
-
+</x-gt-layouts.base>

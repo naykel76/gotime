@@ -1,4 +1,23 @@
-{!! $renderedContent !!}
+@props(['id', 'maxWidth'])
+
+@php
+    $maxWidth = [
+        'sm' => 'container-sm',
+        'md' => 'container-md',
+        'lg' => 'container-lg',
+        'xl' => 'container-xl',
+    ][$maxWidth ?? 'md'];
+@endphp
+
+<main {{ $attributes->class([$maxWidth, 'py-3']) }}>
+    {!! $content !!}
+</main>
+
+@if ($toc)
+    <nav>
+        {!! $toc !!}
+    </nav>
+@endif
 
 @pushOnce('head')
     <style>
