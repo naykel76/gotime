@@ -1,5 +1,11 @@
-{{-- Display text with an optional icon prefix. 
-Supports both label prop and slot for content. --}}
+{{-- 
+    Text with optional icon prefix.
+    
+    Usage:
+    - Pass text via 'label' prop OR slot content
+    - Add 'icon' prop to display an icon before the text
+--}}
+
 @props(['label' => null, 'icon' => null])
 
 @if ($icon)

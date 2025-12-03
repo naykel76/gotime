@@ -75,7 +75,7 @@ trait CodeRenderingTrait
             ? '@verbatim' . $code . '@endverbatim'
             : $code;
 
-        return '<pre><x-torchlight-code language="' . $language . '">' . $wrappedCode . '</x-torchlight-code></pre>';
+        return '<x-torchlight-code language="' . $language . '">' . $wrappedCode . '</x-torchlight-code>';
     }
 
     /**
@@ -230,38 +230,97 @@ trait CodeRenderingTrait
     }
 
     /**
-     * Format HTML with proper indentation without breaking SVG or attributes
+     * Clean HTML by removing Blade/Livewire comment artifacts and formatting with proper indentation
+     */
+    private function cleanRenderedHtml(string $html): string
+    {
+        // Remove Livewire/Blade comment artifacts
+        $html = preg_replace('/<!--\[if (BLOCK|ENDBLOCK)\]><!\\[endif\\]-->/', '', $html);
+
+        // Remove blank lines
+        $lines = explode("\n", $html);
+        $html = implode("\n", array_filter($lines, fn($line) => trim($line) !== ''));
+
+        // Format with custom formatter
+        return $this->formatHtml($html);
+    }
+
+    /**
+     * Format HTML with consistent indentation
      */
     private function formatHtml(string $html): string
     {
-        $html = preg_replace('/>\s+</', '><', $html);
-
         $formatted = '';
-        $indent = 0;
-        $indentString = '    ';
+        $indentLevel = 0;
+        $indentString = '    '; // 4 spaces
+
+        // Self-closing/void elements that don't need closing tags
         $voidElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
 
-        $tokens = preg_split('/(<[^>]+>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        // Elements that should keep content inline (not add newlines around content)
+        // Removed span since it often contains block elements
+        $inlineElements = ['a', 'strong', 'em', 'b', 'i', 'small', 'code', 'label'];
 
-        foreach ($tokens as $token) {
-            $token = trim($token);
+        // Split HTML into tokens (tags and text content)
+        preg_match_all('/(<[^>]+>|[^<]+)/', $html, $matches);
+        $tokens = $matches[0];
+
+        $i = 0;
+        while ($i < count($tokens)) {
+            $token = trim($tokens[$i]);
+
             if (empty($token)) {
+                $i++;
+
                 continue;
             }
 
+            // Check if it's a tag
             if (preg_match('/^</', $token)) {
-                if (preg_match('/^<\//', $token)) {
-                    $indent--;
-                    $formatted .= str_repeat($indentString, max(0, $indent)) . $token . "\n";
-                } elseif (preg_match('/\/>$/', $token) || preg_match('/<(' . implode('|', $voidElements) . ')[\s>]/i', $token)) {
-                    $formatted .= str_repeat($indentString, $indent) . $token . "\n";
-                } else {
-                    $formatted .= str_repeat($indentString, $indent) . $token . "\n";
-                    $indent++;
+                // Closing tag
+                if (preg_match('/^<\/([a-z0-9]+)>$/i', $token, $match)) {
+                    $indentLevel--;
+                    $formatted .= str_repeat($indentString, max(0, $indentLevel)) . $token . "\n";
                 }
-            } else {
-                $formatted .= str_repeat($indentString, $indent) . $token . "\n";
+                // Self-closing tag or void element
+                elseif (preg_match('/\/>$/', $token) || preg_match('/<(' . implode('|', $voidElements) . ')[\s>\/]/i', $token)) {
+                    $formatted .= str_repeat($indentString, $indentLevel) . $token . "\n";
+                }
+                // Opening tag
+                elseif (preg_match('/<([a-z0-9]+)[\s>]/i', $token, $match)) {
+                    $tagName = strtolower($match[1]);
+
+                    // Check if this is an inline element with ONLY text content (no nested tags)
+                    if (in_array($tagName, $inlineElements) && isset($tokens[$i + 1])) {
+                        $nextToken = trim($tokens[$i + 1]);
+                        // Only inline if next is text (not a tag) and closing tag follows
+                        if (! preg_match('/^</', $nextToken) && isset($tokens[$i + 2]) && preg_match('/^<\/' . $tagName . '>$/i', trim($tokens[$i + 2]))) {
+                            // Inline element with simple text - keep on same line
+                            $formatted .= str_repeat($indentString, $indentLevel) . $token . $nextToken . trim($tokens[$i + 2]) . "\n";
+                            $i += 3;
+
+                            continue;
+                        }
+                    }
+
+                    // Block element (or inline with nested content)
+                    $formatted .= str_repeat($indentString, $indentLevel) . $token . "\n";
+                    $indentLevel++;
+                }
+                // Other tags (comments, etc)
+                else {
+                    $formatted .= str_repeat($indentString, $indentLevel) . $token . "\n";
+                }
             }
+            // Text content
+            else {
+                $trimmed = trim($token);
+                if ($trimmed !== '') {
+                    $formatted .= str_repeat($indentString, $indentLevel) . $trimmed . "\n";
+                }
+            }
+
+            $i++;
         }
 
         return trim($formatted);

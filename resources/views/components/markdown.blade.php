@@ -1,20 +1,12 @@
-@props(['id', 'maxWidth'])
-
-@php
-    $maxWidth = [
-        'sm' => 'container-sm',
-        'md' => 'container-md',
-        'lg' => 'container-lg',
-        'xl' => 'container-xl',
-    ][$maxWidth ?? 'md'];
-@endphp
-
-<main {{ $attributes->class([$maxWidth, 'py-3']) }}>
-    {!! $content !!}
+<main class="markdown-content flex-1">
+    <div class="container-md py-3">
+        {!! $content !!}
+    </div>
 </main>
 
 @if ($toc)
-    <nav>
+    <nav class="right-sidebar">
+        <h2 class="txt-1 font-semibold txt-gray-900 mb-05">On This Page</h2>
         {!! $toc !!}
     </nav>
 @endif

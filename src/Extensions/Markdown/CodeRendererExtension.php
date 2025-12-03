@@ -78,39 +78,39 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
         $codeLanguage = $this->getTorchlightLanguage($flagsArray, $language);
 
-        $hasSource = in_array('+source', $flagsArray);
-        $hasCode = in_array('+code', $flagsArray) || $this->getCodeLanguageOverride($flagsArray);
+        $hasCode = in_array('+code', $flagsArray);
+        $hasOutput = in_array('+output', $flagsArray);
 
         if ($isCollapsible) {
-            return $this->buildCollapsiblePreview($rendered, $content, $codeLanguage, $hasSource, $hasCode, $title);
+            return $this->buildCollapsiblePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput, $title);
         }
 
-        return $this->buildInlinePreview($rendered, $content, $codeLanguage, $hasSource, $hasCode);
+        return $this->buildInlinePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput);
     }
 
     /**
      * Builds a collapsible preview with rendered output and optional code sections.
      *
      * Creates accordion-style sections showing the rendered preview followed by
-     * collapsible source code and/or generated HTML based on the flags present.
+     * collapsible original code and/or generated HTML output based on the flags present.
      */
     private function buildCollapsiblePreview(
         string $rendered,
         string $content,
         string $codeLanguage,
-        bool $hasSource,
         bool $hasCode,
+        bool $hasOutput,
         string $title
     ): string {
         $output = $rendered;
 
-        if ($hasSource) {
-            $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Source', 'Copy Source');
+        if ($hasCode) {
+            $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Code', 'Copy Code');
         }
 
-        if ($hasCode || ! $hasSource) {
-            $generatedHtml = $this->formatHtml(Blade::render($content));
-            $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Code');
+        if ($hasOutput) {
+            $generatedHtml = $this->cleanRenderedHtml(Blade::render($content));
+            $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Output');
         }
 
         return $output;
@@ -120,23 +120,23 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
      * Builds an inline preview with rendered output and optional code blocks.
      *
      * Shows the rendered preview immediately followed by code blocks displayed
-     * inline (not collapsible) for source and/or generated HTML based on flags.
+     * inline (not collapsible) for original code and/or generated HTML output based on flags.
      */
     private function buildInlinePreview(
         string $rendered,
         string $content,
         string $codeLanguage,
-        bool $hasSource,
-        bool $hasCode
+        bool $hasCode,
+        bool $hasOutput
     ): string {
-        if ($hasSource) {
+        if ($hasCode) {
             $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
 
             return $rendered . $codeBlock;
         }
 
-        if ($hasCode) {
-            $generatedHtml = $this->formatHtml(Blade::render($content));
+        if ($hasOutput) {
+            $generatedHtml = $this->cleanRenderedHtml(Blade::render($content));
             $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
 
             return $rendered . $codeBlock;
