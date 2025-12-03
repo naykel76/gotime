@@ -11,7 +11,7 @@
                     <li x-data="{ open: @js($open) }" class="order-{{ $order }}">
                         <x-gotime::nav.partials.parent-button :label="$item->name" :$active :$icon />
                         <ul x-show="open" x-collapse>
-                            <x-gotime::nav.partials.children :children="$item->children" />
+                            @include('gotime::components.nav.partials.children', ['children' => $item->children])
                         </ul>
                     </li>
                 @else
