@@ -1,38 +1,23 @@
-<nav class="{{ $navClass }}">
-    @if ($menuTitle)
-        <div class="menu-title">{{ Str::upper($menuTitle) }}</div>
-    @endif
+<x-gotime::nav.base :class="$navClass ?? null">
     <ul {{ $attributes->merge(['class' => 'menu']) }}>
         @foreach ($menuItems as $item)
             @php
-                $hasChildren = !empty($item->children);
-                $url = $item->url;
-                $active = $isActive($url);
-                $icon = $item->icon ?? '';
-                $showIcon = $withIcons && $icon !== '';
+                $active = $isActive($item->url);
                 $order = $item->order ?? $loop->index;
+                $icon = $withIcons && $item->icon ? $item->icon : null;
             @endphp
-            @canany([$item->permission, !$item->permission])
-                @if ($hasChildren)
+            @canany($item->permissions)
+                @if ($item->hasChildren)
                     <li x-data="{ open: @js($open) }" class="order-{{ $order }}">
-                        <button x-on:click="open = !open" @class(['active' => $active])>
-                            <x-gotime::.icon-label :label="$item->name" :icon="$showIcon ? $icon : null" />
-                            <x-gotime::.chevron-toggle />
-                        </button>
+                        <x-gotime::nav.partials.parent-button :label="$item->name" :$active :$icon />
                         <ul x-show="open" x-collapse>
-                            @foreach ($item->children as $child)
-                                <li>
-                                    <a href="{{ url($child->url) }}" @class(['menu-link', 'active' => $isActive($child->url)])>
-                                        <x-gotime::.icon-label :label="$child->name" />
-                                    </a>
-                                </li>
-                            @endforeach
+                            <x-gotime::nav.partials.children :children="$item->children" />
                         </ul>
                     </li>
                 @else
                     <li class="order-{{ $order }}">
-                        <a href="{{ url($url) }}" @class(['active' => $active])>
-                            <x-gotime::.icon-label :label="$item->name" :icon="$showIcon ? $icon : null" />
+                        <a href="{{ $item->url }}" {{ $active ? 'class="active"' : '' }}>
+                            <x-gotime::icon-label :label="$item->name" :$icon />
                         </a>
                     </li>
                 @endif
@@ -40,4 +25,4 @@
         @endforeach
     </ul>
     {{ $slot }}
-</nav>
+</x-gotime::nav.base>

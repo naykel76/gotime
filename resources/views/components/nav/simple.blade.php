@@ -1,17 +1,18 @@
-<nav {{ $navClass ? 'class=' . $navClass : '' }}>
+<nav @if ($navClass) class="{{ $navClass }}" @endif>
     <ul {{ $attributes->merge(['class' => 'menu']) }}>
         @foreach ($menuItems as $item)
             @php
                 $active = $isActive($item->url);
                 $order = $item->order ?? $loop->index;
-                $icon = $item->icon ?? '';
-                $showIcon = $withIcons && $icon !== '';
+                $icon = $withIcons && $item->icon ? $item->icon : null;
             @endphp
-            <li class="order-{{ $order }}">
-                <a href="{{ url($item->url) }}" {{ $active ? 'class=active' : '' }}>
-                    <x-gotime::icon-label :label="$item->name" :icon="$showIcon ? $icon : null" />
-                </a>
-            </li>
+            @canany($item->permissions)
+                <li class="order-{{ $order }}">
+                    <a href="{{ $item->url }}" {{ $active ? 'class="active"' : '' }}>
+                        <x-gotime::icon-label :label="$item->name" :$icon />
+                    </a>
+                </li>
+            @endcanany
         @endforeach
     </ul>
     {{ $slot }}

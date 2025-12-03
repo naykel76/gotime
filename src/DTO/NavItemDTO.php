@@ -8,50 +8,42 @@ use Illuminate\Support\Str;
 class NavItemDTO
 {
     /**
+     * The navigation item display name.
+     */
+    public readonly string $name;
+
+    /**
      * Navigation item URL. This can be a full URL (including the 'https://' prefix)
      * for external links, or a relative URL for internal links.
      */
-    public string $url;
-
-    /**
-     * The navigation item display name.
-     */
-    public string $name;
+    public readonly string $url;
 
     /**
      * The children of the navigation item.
      */
-    public ?array $children;
+    public readonly ?array $children;
 
     /**
-     * Indicates if the navigation item is a parent.
+     * Indicates if the navigation item has children.
      */
-    public bool $isParent;
+    public readonly bool $hasChildren;
 
     /**
      * The icon name to be used for the navigation item when withIcons is set to true.
      */
-    public string $icon;
+    public readonly string $icon;
 
     /**
-     * Optional description for the navigation item.
-     *
-     * This is not displayed by default but can be used to describe the page the
-     * navigation item links to, provide a short summary of the item, etc.
+     * Processed permissions array for use in Blade canany directive.
+     * Always returns a flat array ready for @canany directive.
+     * Supports JSON input as: null (unrestricted), string (single), or array (multiple).
      */
-    public ?string $description;
+    public readonly array $permissions;
 
     /**
-     * Optional permission required to view this navigation item.
-     * Uses Laravel's Gate/Policy authorization.
+     * Order for sorting navigation items.
      */
-    public ?string $permission;
-
-    /**
-     * Optional order for sorting navigation items.
-     * If not set, items are ordered by their array index.
-     */
-    public ?int $order;
+    public readonly ?int $order;
 
     /**
      * NavItemDTO constructor.
@@ -66,12 +58,28 @@ class NavItemDTO
 
         $this->name = $item->name;
         $this->icon = $item->icon ?? '';
-        $this->description = $item->description ?? '';
-        $this->permission = $item->permission ?? null;
         $this->order = $item->order ?? null;
-        $this->isParent = property_exists($item, 'children');
+        $this->hasChildren = property_exists($item, 'children');
         $this->url = $this->handleUrl($item);
-        $this->isParent ? $this->handleChildren($item->children) : $this->children = null;
+        $this->permissions = $this->processPermissions($item->permissions ?? null);
+        $this->hasChildren ? $this->handleChildren($item->children) : $this->children = null;
+    }
+
+    /**
+     * Process permissions into a flat array for canany directive.
+     *
+     * @param  string|array|null  $permissions
+     * @return array Flat array ready for @canany directive
+     */
+    protected function processPermissions(string|array|null $permissions): array
+    {
+        // Convert to array format, keeping null as null
+        $permissionsArray = $permissions === null
+            ? [null]
+            : (is_array($permissions) ? $permissions : [$permissions]);
+
+        // Add the boolean check (true if null, false if set)
+        return array_merge($permissionsArray, [!$permissions]);
     }
 
     /**
@@ -88,7 +96,7 @@ class NavItemDTO
 
         // if the item is a parent without a route or url you are safe to assume
         // it is a place holder so don't attempt to create a link, just exit.
-        if ($this->isParent && ! isset($item->route_name) && ! isset($item->url)) return '';
+        if ($this->hasChildren && ! isset($item->route_name) && ! isset($item->url)) return '';
 
         // I am not sure it is possible to get here without a route_name or url
         // set, but just in case, throw an exception.
