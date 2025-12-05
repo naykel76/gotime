@@ -68,7 +68,6 @@ class NavItemDTO
     /**
      * Process permissions into a flat array for canany directive.
      *
-     * @param  string|array|null  $permissions
      * @return array Flat array ready for @canany directive
      */
     protected function processPermissions(string|array|null $permissions): array
@@ -79,7 +78,7 @@ class NavItemDTO
             : (is_array($permissions) ? $permissions : [$permissions]);
 
         // Add the boolean check (true if null, false if set)
-        return array_merge($permissionsArray, [!$permissions]);
+        return array_merge($permissionsArray, [! $permissions]);
     }
 
     /**

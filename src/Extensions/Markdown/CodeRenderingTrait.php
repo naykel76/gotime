@@ -127,8 +127,8 @@ trait CodeRenderingTrait
         $selectableAttr = $isSelectable ? ' data-selectable="true"' : '';
 
         return '
-            <div class="relative code-block-wrapper' . $selectableClass . '"' . $selectableAttr . ' style="' . ($isSelectable ? 'cursor: pointer; transition: all 0.2s ease;' : '') . '">
-                <div class="absolute z-10" style="top: 0.5rem; right: 0.5rem;">
+            <div class="relative code-block-wrapper' . $selectableClass . '"' . $selectableAttr . ' style="position: relative; isolation: isolate;' . ($isSelectable ? ' cursor: pointer; transition: all 0.2s ease;' : '') . '">
+                <div style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
                     <div x-data="{ copied: false }">
                         <button @click.stop="' . $copyJs . '" 
                             class="btn xs"
@@ -215,10 +215,11 @@ trait CodeRenderingTrait
                     <button x-on:click="open = !open" class="btn sm">
                         <span>' . htmlspecialchars($viewLabel) . '</span>
                     </button>
-                    <div x-data="{ copied: false }">
+                    <div x-data="{ copied: false }" style="position: static;">
                         <button @click="' . $copyJs . '" class="btn sm"
                             :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
-                            x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'">
+                            x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'"
+                            style="position: static; display: inline-block;">
                         </button>
                     </div>
                 </div>
@@ -236,6 +237,14 @@ trait CodeRenderingTrait
     {
         // Remove Livewire/Blade comment artifacts
         $html = preg_replace('/<!--\[if (BLOCK|ENDBLOCK)\]><!\\[endif\\]-->/', '', $html);
+
+        // Remove outermost div with wire:snapshot (Livewire wrapper) but keep its contents
+        $html = preg_replace('/^<div[^>]*wire:snapshot="[^"]*"[^>]*>\s*(.*?)\s*<\/div>$/s', '$1', trim($html));
+
+        // Remove remaining wire attributes
+        $html = preg_replace('/\s*wire:snapshot="[^"]*"/', '', $html);
+        $html = preg_replace('/\s*wire:effects="[^"]*"/', '', $html);
+        $html = preg_replace('/\s*wire:id="[^"]*"/', '', $html);
 
         // Remove blank lines
         $lines = explode("\n", $html);

@@ -153,6 +153,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.slim-select', 'slim-select');
         $this->registerComponentX('input.textarea', 'textarea');
+        $this->registerComponentX('input.toggle', 'toggle');
         $this->registerComponentX('livewire-search-input', 'search-input');
         // $this->registerComponentX('input.datepicker', 'datepicker');
         // $this->registerComponentX('input.editor', 'editor');
