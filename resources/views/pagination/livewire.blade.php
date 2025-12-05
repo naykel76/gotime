@@ -16,9 +16,9 @@
         
         {{-- results count: hide < lg, show >= lg --}}
         <p class="hidden lg:block">
-            Showing <span class="fw6">{{ $paginator->firstItem() }}</span>
-            to <span class="fw6">{{ $paginator->lastItem() }}</span>
-            of <span class="fw6">{{ $paginator->total() }}</span> results
+            Showing <span class="font-semibold">{{ $paginator->firstItem() }}</span>
+            to <span class="font-semibold">{{ $paginator->lastItem() }}</span>
+            of <span class="font-semibold">{{ $paginator->total() }}</span> results
         </p>
         
         {{-- desktop pagination: hide < md, show >= md --}}

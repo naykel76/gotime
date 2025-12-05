@@ -74,14 +74,14 @@
     <a href="{{ route("$routePrefix.$action", $id ?: $slug) }}" {{ $attributes->class([$class, 'action-button']) }}>
         <x-gt-icon name="{{ $icon }}" class="wh-1" />
         @unless ($iconOnly)
-            <span class="ml-025 fw6">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
+            <span class="ml-025 font-semibold">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
         @endunless
     </a>
 @else
     <x-gt-button.base wire:click="{{ $clickMethod }}" {{ $attributes->class([$class, 'action-button']) }}>
         <x-gt-icon name="{{ $icon }}" class="wh-1" />
         @unless ($iconOnly)
-            <span class="ml-025 fw6">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
+            <span class="ml-025 font-semibold">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
         @endunless
     </x-gt-button.base>
 @endif
