@@ -15,10 +15,14 @@
             @endphp
             @canany($item->permissions)
                 @if ($item->hasChildren)
-                    <li x-data="{ open: @js($open) }" class="relative order-{{ $order }}" x-on:click.outside="open = false" x-on:keydown.escape="open = false">
+                    <li x-data="{ open: @js($open) }" class="relative order-{{ $order }}"
+                        @mouseenter="open = true"
+                        @mouseleave="open = false"
+                        @click.outside="open = false"
+                        @keydown.escape="open = false">
                         <x-gotime::nav.partials.parent-button :label="$item->name" :$active :$icon />
-                        <div x-show="open" x-collapse class="absolute mt-05 flex w-10 z-100">
-                            <ul class="bx pxy-0 w-full flex-col gap-0 mx-0">
+                        <div x-show="open" x-collapse class="absolute flex w-10 z-100">
+                            <ul class="bx pxy-0 w-full flex-col gap-0 mx-0 mt-05">
                                 @include('gotime::components.nav.partials.children', ['children' => $item->children])
                             </ul>
                         </div>

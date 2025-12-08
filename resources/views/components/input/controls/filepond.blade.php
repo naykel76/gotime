@@ -1,89 +1,89 @@
-<div x-data="{ initFilePond, loading: false }" wire:ignore x-init="initFilePond()">
+{{-- pass the Livewire component instance to the initFilePond function so it can interact with Livewire --}}
+<div x-data="{ initFilePond, loading: false }" wire:ignore x-init="initFilePond($wire)">
     <input type="file" x-ref="input" style="display:none">
-    {{-- <x-gt-loading-indicator x-show="loading" /> --}}
 </div>
-
-@pushOnce('styles')
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-    <style>
-        .filepond--root {
-            margin-bottom: 0 !important;
-        }
-
-        .filepond--credits {
-            display: none;
-        }
-    </style>
-@endPushOnce
-
-@pushOnce('scripts')
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-@endPushOnce
 
 @push('scripts')
     <script>
-        function initFilePond() {
-            FilePond.registerPlugin(FilePondPluginFileValidateSize);
-            FilePond.registerPlugin(FilePondPluginFileValidateType);
+        function initFilePond(livewireComponent) {
+
+            const $wire = livewireComponent;
 
             FilePond.setOptions({
+                // Allow multiple files if the Blade component attribute 'multiple' is present
                 allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
+
+                // Max file size (in Kilobytes) passed from the Blade component
                 maxFileSize: '{{ $maxFileSize }}KB',
+
+                // Configure FilePond to use Livewire's built-in upload and revert handlers
                 server: {
+                    // Define the handler when a file is ready to be uploaded
                     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-                        @this.upload('{{ $attributes['wire:model'] }}', file,
+                        // Use Livewire's $wire.upload() method for handling temporary file uploads
+                        $wire.upload(
+                            '{{ $attributes['wire:model'] }}', // The Livewire component property (e.g., 'public $photo') to bind the upload to
+                            file,
+
+                            // On success of the Livewire upload, call FilePond's load method
                             (uploadedFilename) => {
                                 load(uploadedFilename);
+                                // $wire.dispatch('file-uploaded');
                             },
+
+                            // On error
                             (e) => {
                                 error(e);
                             },
+
+                            // Upload progress
                             (event) => {
                                 progress(event.loaded, event.total);
                             }
                         )
                     },
+
+                    // Define the handler when FilePond removes a file from the UI
                     revert: (filename, load) => {
-                        @this.removeUpload('{{ $attributes['wire:model'] }}', filename, load)
+                        $wire.removeUpload('{{ $attributes['wire:model'] }}', filename, load)
                     },
                 }
             });
-            // Create a new FilePond instance and attach it to the input element
+
+            // Create FilePond instance on the hidden input
             const pond = FilePond.create(this.$refs.input, {
-                acceptedFileTypes: @json($accepts())
+                acceptedFileTypes: @json($accepts()) // Allowed MIME types (retrieved from the Blade component)
             });
 
-            // Show loader on start
+            // Show a loader when a file starts processing
             pond.on('addfilestart', () => {
                 this.loading = true;
             });
 
-            // Hide loader when file is processed
+            // Hide loader once processed
             pond.on('processfile', () => {
                 this.loading = false;
             });
 
-            // Also hide on error or abort
+            // Hide loader on abort
             pond.on('processfileabort', () => {
                 this.loading = false;
             });
 
+            // Hide loader on error
             pond.on('processfileerror', () => {
                 this.loading = false;
             });
 
-            // Clear files when Livewire tells us upload is complete
-            addEventListener('file-upload-completed', e => {
+            // When Livewire says the upload is complete, clear FilePond UI
+            addEventListener('file-upload-completed', (e) => {
                 pond.removeFiles();
             });
-            // Listen for the 'removefile' event
-            pond.on('removefile', function(file) {
-                // call the clearTmpUpload method on the CreateEdit component to clear
-                // the tmpUpload property in the form. This is ugly but it works.
-                @this.call('clearTmpUpload');
+
+            // When a user removes a file from FilePond
+            pond.on('removefile', (file) => {
+                // Call a method on the Livewire component to clear any temporary data on the backend
+                $wire.call('clearTmpUpload');
             });
         }
     </script>

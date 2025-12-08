@@ -17,7 +17,7 @@
 
         <x-gt-toast />
 
-        @livewireScripts
+        @livewireScriptConfig(['navigate' => false])
         @stack('scripts')
         
     </body>

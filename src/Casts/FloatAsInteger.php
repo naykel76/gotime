@@ -21,8 +21,6 @@ class FloatAsInteger implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): ?float
     {
-        // Convert integer back to float: divide by 10^decimals
-        // round() ensures we get exactly the right number of decimal places
         return $value === null ? null : round($value / (10 ** $this->decimals), $this->decimals);
     }
 
@@ -38,8 +36,15 @@ class FloatAsInteger implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): ?int
     {
-        // Convert float to integer: multiply by 10^decimals and round
-        // Cast to int to ensure we store an integer type
-        return $value === null ? null : (int) round($value * (10 ** $this->decimals));
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        // Handle string inputs (e.g., "19.99" or "19")
+        if (is_string($value)) {
+            $value = (float) $value;
+        }
+
+        return (int) round($value * (10 ** $this->decimals));
     }
 }

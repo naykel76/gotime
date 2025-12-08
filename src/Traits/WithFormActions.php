@@ -179,9 +179,17 @@ trait WithFormActions
         $this->resetErrorBag();
     }
 
-    #[On('model-saved')]
-    public function refreshComponent()
+    public function imageUrl()
     {
-        $this->resetPage();
+        if ($this->form->tmpUpload) {
+            return $this->form->tmpUpload->temporaryUrl();
+        }
+
+        // editing model exist
+        if (isset($this->form->editing)) {
+            return $this->form->editing->featuredImageUrl();
+        }
+
+        return url('/svg/placeholder.svg');
     }
 }
