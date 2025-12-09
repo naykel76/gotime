@@ -38,10 +38,12 @@ trait Formable
     {
         foreach ($model->getAttributes() as $property => $value) {
             if (property_exists($this, $property)) {
+                // Get cast value, not raw DB value
+                $value = $model->$property;
+
                 $reflection = new \ReflectionProperty($this, $property);
                 $type = $reflection->getType();
 
-                // Untyped properties default to string for safe form binding
                 if (! $type) {
                     $this->$property = $value ?? '';
 
@@ -51,20 +53,10 @@ trait Formable
                 $typeName = $type->getName();
 
                 match ($typeName) {
-                    // Convert null to empty string for wire:model compatibility
                     'string' => $this->$property = $value ?? '',
-
-                    // Explicit cast ensures boolean type
                     'bool' => $this->$property = (bool) $value,
-
-                    // Defensive cast handles DB drivers that return numeric columns
-                    // as strings. Empty strings become null for nullable integers.
                     'int' => $this->$property = ($value === null || $value === '') ? null : (int) $value,
-
-                    // Preserve arrays, wrap non-empty scalars, use [] for empty values
                     'array' => $this->$property = is_array($value) ? $value : (empty($value) ? [] : [$value]),
-
-                    // All other types (DateTime, custom objects, etc.) assigned directly
                     default => $this->$property = $value,
                 };
             }
