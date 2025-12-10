@@ -68,24 +68,35 @@ trait WithFormActions
      * Handles notifications, event dispatching, and optional redirects for
      * route-based workflows.
      *
-     * @param  string|null  $action  Optional post-save action (save_close, save_new, save_stay)
+     * @param  string|null  $action  Optional post-save action (save_close, save_new, save_edit)
      */
     public function save(?string $action = null): void
     {
+
+        $isNewModel = $this->isNewModel();
+
         // Persist the model via the form object's save() method
+        // Save the model using the form's save() method
         $model = $this->form->save();
 
+        // If editing an existing model and the action is 'save_edit', notify and exit early
+        // This avoids unnecessary redirects or additional processing on repeated saves
+        if (! $isNewModel && $action === 'save_edit') {
+            $this->dispatch('notify', 'Saved successfully!');
+
+            return;
+        }
+
         // Handle redirects for route-based workflows
-        if ($action) {
+        if ($action && $action !== 'skip_redirect') {
             $this->handleRedirect($this->routePrefix, $action, $model);
         }
 
         $this->dispatch('notify', 'Saved successfully!');
         $this->dispatch('model-saved');
 
-        // Reset form for component-based workflows (when no action provided)
+        // Reset and close modal only when no action provided
         if (! $action) {
-            $this->resetFormData(); // Not strictly necessary but keeps state clean
             $this->closeModal();
         }
     }
@@ -101,7 +112,7 @@ trait WithFormActions
         return match ($action) {
             'save_close' => redirect(route("$routePrefix.index")),
             'save_new' => redirect(route("$routePrefix.create")),
-            'save_stay' => redirect(route("$routePrefix.edit", $model)),
+            'save_edit' => redirect(route("$routePrefix.edit", $model)),
             default => throw new \Exception("Invalid action: $action"),
         };
     }
@@ -144,6 +155,7 @@ trait WithFormActions
      */
     public function cancel(): void
     {
+        $this->resetFormData(); // Not strictly necessary but handles edge cases cleanly
         $this->closeModal();
     }
 

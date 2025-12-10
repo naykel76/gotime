@@ -138,12 +138,13 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerFormComponents(): void
     {
         // buttons
+        $this->registerComponentX('button.action'); // shell only
         $this->registerComponentX('button.base');
         $this->registerComponentX('button.default', 'button');
         $this->registerComponentX('button.primary');
         $this->registerComponentX('button.secondary');
         $this->registerComponentX('button.submit', 'submit');
-        $this->registerComponentX('resource-action');
+        $this->registerComponentX('resource-action'); // the works
 
         // inputs
         $this->registerComponentX('input.checkbox', 'checkbox');

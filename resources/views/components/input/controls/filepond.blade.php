@@ -9,12 +9,16 @@
 
             const $wire = livewireComponent;
 
-            FilePond.setOptions({
+            // Create FilePond instance with ALL options passed directly to create()
+            const pond = FilePond.create(this.$refs.input, {
                 // Allow multiple files if the Blade component attribute 'multiple' is present
                 allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
 
                 // Max file size (in Kilobytes) passed from the Blade component
-                maxFileSize: '{{ $maxFileSize }}KB',
+                maxFileSize: '{{ $maxFileSize }}MB',
+
+                // Allowed MIME types (retrieved from the Blade component)
+                acceptedFileTypes: @json($accepts()),
 
                 // Configure FilePond to use Livewire's built-in upload and revert handlers
                 server: {
@@ -48,11 +52,6 @@
                         $wire.removeUpload('{{ $attributes['wire:model'] }}', filename, load)
                     },
                 }
-            });
-
-            // Create FilePond instance on the hidden input
-            const pond = FilePond.create(this.$refs.input, {
-                acceptedFileTypes: @json($accepts()) // Allowed MIME types (retrieved from the Blade component)
             });
 
             // Show a loader when a file starts processing
