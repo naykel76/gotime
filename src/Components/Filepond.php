@@ -8,7 +8,7 @@ class Filepond extends Component
 {
     public function __construct(
         public string $type = '',
-        public int $maxFileSize = 5120, // size in KB
+        public int $maxFileSize = 5, // size in MB
     ) {}
 
     // public bool $multiple = false,
