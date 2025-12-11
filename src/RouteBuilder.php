@@ -71,6 +71,11 @@ class RouteBuilder
     protected function processLinks(array $links): void
     {
         foreach ($links as $routeItem) {
+            // Skip import entries - they're handled by NavDTO for display only
+            if (isset($routeItem->import)) {
+                continue;
+            }
+
             $item = new RouteDTO($routeItem);
 
             if ($item->excludeRoute === false) {
