@@ -9,7 +9,7 @@
 @props(['label' => null, 'icon' => null])
 
 @if ($icon)
-    <span class="inline-flex items-center gap-05">
+    <span {{ $attributes->merge(['class' => 'inline-flex items-center gap-05']) }}>
         <x-gt-icon :name="$icon" />
         {{ $label ?? $slot }}
     </span>

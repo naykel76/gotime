@@ -9,9 +9,6 @@ use Naykel\Gotime\Components\Filepond;
 use Naykel\Gotime\Components\Icon;
 use Naykel\Gotime\Components\Markdown;
 use Naykel\Gotime\Components\Nav;
-use Naykel\Gotime\View\Components\Menu;
-use Naykel\Gotime\View\Components\Sidebar;
-use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -40,9 +37,6 @@ class GotimeServiceProvider extends ServiceProvider
             Icon::class,
             Markdown::class,
             Nav::class,
-            AppLayout::class,
-            Menu::class,
-            Sidebar::class,
         ]);
 
         if ($this->app->runningInConsole()) {
@@ -109,9 +103,9 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('loading-indicator');
         $this->registerComponentX('spinner');
         $this->registerComponentX('tooltip');
-        $this->registerComponentX('menu.menu-item', 'menu-item'); // wrapper for menu-link or other menu items
-        $this->registerComponentX('menu.menu-link', 'menu-link');
 
+
+        $this->registerComponentX('sidebar');
         // Alerts, Notifications, and Messages
         $this->registerComponentX('alert');
         $this->registerComponentX('errors');
