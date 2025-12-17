@@ -55,6 +55,17 @@ class RouteDTO
      */
     public ?string $view;
 
+    /**
+     * Override the layout for this specific item.
+     */
+    public ?string $layout;
+
+    /**
+     * Layout options/modifiers for this specific item.
+     * Useful for passing CSS classes, styles, or configuration to the layout.
+     */
+    public array $layoutOptions;
+
     public function __construct(object $item)
     {
         $this->routeName = $item->route_name ?? null;
@@ -62,6 +73,7 @@ class RouteDTO
         $this->excludeRoute = $item->exclude_route ?? false;
         $this->type = $item->type ?? null;
         $this->view = empty($item->view) ? $this->url : toPath($item->view);
+        $this->layout = $item->layout ?? null;
         $this->isParent = property_exists($item, 'children');
         $this->isParent ? $this->handleChildren($item->children) : $this->children = null;
     }

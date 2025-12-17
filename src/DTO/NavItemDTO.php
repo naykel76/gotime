@@ -34,6 +34,12 @@ class NavItemDTO
     public readonly string $icon;
 
     /**
+     * Optional custom icon type/location (e.g., 'brands', 'outline').
+     * If not specified, uses the default icon type from config.
+     */
+    public readonly ?string $iconType;
+
+    /**
      * Processed permissions array for use in Blade canany directive.
      * Always returns a flat array ready for @canany directive.
      * Supports JSON input as: null (unrestricted), string (single), or array (multiple).
@@ -57,12 +63,34 @@ class NavItemDTO
         }
 
         $this->name = $item->name;
-        $this->icon = $item->icon ?? '';
+        [$this->icon, $this->iconType] = $this->handleIcon($item->icon ?? '');
         $this->order = $item->order ?? null;
         $this->hasChildren = property_exists($item, 'children');
         $this->url = $this->handleUrl($item);
         $this->permissions = $this->processPermissions($item->permissions ?? null);
         $this->hasChildren ? $this->handleChildren($item->children) : $this->children = null;
+    }
+
+    /**
+     * Parse icon string to extract name and optional custom type.
+     * Supports formats: 'icon-name' or 'type:icon-name'
+     *
+     * @param  string  $iconString  The icon string from JSON
+     * @return array [iconName, iconType or null]
+     */
+    protected function handleIcon(string $iconString): array
+    {
+        if (empty($iconString)) {
+            return ['', null];
+        }
+
+        // Check if icon string contains a colon-separated type
+        if (strpos($iconString, ':') !== false) {
+            [$iconType, $iconName] = explode(':', $iconString, 2);
+            return [$iconName, $iconType];
+        }
+
+        return [$iconString, null];
     }
 
     /**

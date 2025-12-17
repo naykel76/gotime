@@ -21,6 +21,7 @@ class Icon extends Component
 
     public function __construct(public string $name, public ?string $type = null)
     {
+        // Use provided type, or fall back to config default
         $this->type = $type ?? config('gotime.component.icon.type');
     }
 

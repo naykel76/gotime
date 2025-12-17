@@ -106,10 +106,9 @@ class RouteBuilder
      * Resolve the view path and data for a route item.
      *
      * Resolution priority:
-     * 1. Markdown type ('md') → uses $this->markdownLayout
-     * 2. Per-item layout → uses $item->layout
-     * 3. Constructor layout → uses $this->layout
-     * 4. Direct view → uses $item->view directly
+     * 1. Per-item layout → uses $item->layout
+     * 2. Constructor layout → uses $this->layout
+     * 3. Direct view → uses $item->view directly
      *
      * When a layout is used, the original view path is passed as $data['path']
      * so the layout can render it.
@@ -120,21 +119,11 @@ class RouteBuilder
     protected function resolveView(RouteDTO $item): array
     {
         $viewPath = $item->view;
-        $data = ['type' => $item->type ?? null];
+        $data = [];
 
         // Add layout options to data if present
         if (! empty($item->layoutOptions)) {
             $data['layoutOptions'] = $item->layoutOptions;
-        }
-
-        // Markdown files use the markdown layout
-        if ($item->type === 'md') {
-            $data['path'] = $viewPath;
-
-            return [
-                'view' => $this->markdownLayout,
-                'data' => $data,
-            ];
         }
 
         // Per-item layout override takes highest priority

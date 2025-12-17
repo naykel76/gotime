@@ -12,6 +12,7 @@
                 $active = $isActive($item->url);
                 $order = $item->order ?? $loop->index;
                 $icon = $withIcons && $item->icon ? $item->icon : null;
+                $iconType = $withIcons && $item->iconType ? $item->iconType : null;
             @endphp
             @canany($item->permissions)
                 @if ($item->hasChildren)
@@ -20,7 +21,7 @@
                         @mouseleave="open = false"
                         @click.outside="open = false"
                         @keydown.escape="open = false">
-                        <x-gotime::nav.partials.parent-button :label="$item->name" :$active :$icon />
+                        <x-gotime::nav.partials.parent-button :label="$item->name" :$active :$icon :$iconType />
                         <div x-show="open" x-collapse class="absolute flex min-w-12 z-100">
                             <ul class="bx pxy-0 w-full flex-col gap-0 mx-0 mt-05">
                                 @include('gotime::components.nav.partials.children', ['children' => $item->children])
@@ -30,7 +31,7 @@
                 @else
                     <li class="order-{{ $order }}">
                         <a href="{{ $item->url }}" {{ $active ? 'class="active"' : '' }}>
-                            <x-gotime::icon-label :label="$item->name" :$icon />
+                            <x-gotime::icon-label :label="$item->name" :$icon :$iconType />
                         </a>
                     </li>
                 @endif
