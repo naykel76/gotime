@@ -78,12 +78,12 @@
         @endunless
     </a>
 @else
-    <x-gt-button.base wire:click="{{ $clickMethod }}" {{ $attributes->class([$class, 'action-button']) }}>
+    <button wire:click="{{ $clickMethod }}" {{ $attributes->merge(['type' => 'button'])->class([$class, 'action-button']) }}>
         <x-gt-icon name="{{ $icon }}" class="wh-1" />
         @unless ($iconOnly)
             <span class="ml-025 font-semibold">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
         @endunless
-    </x-gt-button.base>
+    </button>
 @endif
 
 @push('styles')

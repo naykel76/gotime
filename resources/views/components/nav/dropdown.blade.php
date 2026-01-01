@@ -16,11 +16,6 @@
                                 @include('gotime::components.nav.partials.children', ['children' => $item->children])
                             </ul>
                         </div>
-                        {{-- <div x-show="open" x-collapse class="absolute mt-05 flex w-10 z-100">
-                            <ul class="bx pxy-0 w-full flex-col gap-0">
-                                @include('gotime::components.nav.partials.children', ['children' => $item->children])
-                            </ul>
-                        </div> --}}
                     </li>
                 @else
                     <li class="order-{{ $order }}">
