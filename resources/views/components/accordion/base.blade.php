@@ -1,4 +1,6 @@
-<div x-data="{ open: false }" class="bg-white rounded-lg shadow-sm bdr bdr-gray-200">
+@props(['opened' => false, 'title'])
+
+<div x-data="{ open: @json($opened) }" class="bg-white rounded-lg shadow-sm bdr bdr-gray-200">
     <button type="button" x-on:click="open = !open" class="w-full px-1.5 py-1 flex items-center justify-between hover:bg-gray-50">
         <span class="font-semibold txt-gray-900">{{ $title }}</span>
         <svg class="wh-1" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
