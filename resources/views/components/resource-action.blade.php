@@ -8,6 +8,8 @@
     'text' => null,
     'dispatchTo' => null, // target component for dispatchTo
     'dispatch' => null, // event name for global dispatch
+    'eventName' => null, // custom event name (overrides default)
+    'classOverride' => null, // override the default action classes
 ])
 
 @php
@@ -28,7 +30,8 @@
         };
     }
 
-    $class = match ($action) {
+    // Use the classOverride if provided, otherwise use default classes based on action
+    $class = $classOverride ?? match ($action) {
         'create' => 'txt-sky-600',
         'delete' => 'txt-red-600',
         'edit' => 'txt-orange-600',
@@ -40,11 +43,12 @@
      * Build the Livewire click method string based on action and dispatch options.
      */
     if (!function_exists('buildClickMethod')) {
-        function buildClickMethod(string $action, $id = null, ?string $dispatchTo = null, ?string $dispatch = null): string
+        function buildClickMethod(string $action, $id = null, ?string $dispatchTo = null, ?string $dispatch = null, ?string $eventName = null): string
         {
             // Handle dispatch cases (component-to-component or global events)
             if ($dispatchTo || $dispatch) {
-                $eventName = $action . '-model'; // e.g., 'create-model', 'edit-model'
+                // Use custom event name if provided, otherwise default to action-model pattern
+                $eventName = $eventName ?? $action . '-model'; // e.g., 'create-model', 'edit-model'
 
                 // Only edit and delete actions need ID parameters
                 $params = in_array($action, ['edit', 'delete']) && $id ? ", { id: $id }" : '';
@@ -65,7 +69,7 @@
     }
 
     // Generate the wire:click method string
-    $clickMethod = buildClickMethod($action, $id, $dispatchTo, $dispatch);
+    $clickMethod = buildClickMethod($action, $id, $dispatchTo, $dispatch, $eventName);
 
 @endphp
 

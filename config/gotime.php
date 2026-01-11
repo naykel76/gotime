@@ -39,6 +39,10 @@ return [
             'pikaday' => 'DD-MM-YY',
             'flatpickr' => 'd-m-y',
         ],
+        'd-M-y' => [ // Output: 05-Mar-25
+            'pikaday' => 'DD-MMM-YY',
+            'flatpickr' => 'd-M-y',
+        ],
         'd-m-Y' => [ // Output: 05-03-2025
             'pikaday' => 'DD-MM-YYYY',
             'flatpickr' => 'd-m-Y',
