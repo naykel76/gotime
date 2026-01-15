@@ -87,6 +87,7 @@ class NavItemDTO
         // Check if icon string contains a colon-separated type
         if (strpos($iconString, ':') !== false) {
             [$iconType, $iconName] = explode(':', $iconString, 2);
+
             return [$iconName, $iconType];
         }
 
