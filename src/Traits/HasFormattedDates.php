@@ -135,7 +135,6 @@ trait HasFormattedDates
     | These methods provide formatted date strings for common date attributes.
     |
     */
-
     public function createdAt(?string $format = null): ?string
     {
         return $this->formAt('created_at', $format);
@@ -146,9 +145,19 @@ trait HasFormattedDates
         return $this->formAt('updated_at', $format);
     }
 
+    public function publishedAt(?string $format = null): ?string
+    {
+        return $this->formAt('published_at', $format);
+    }
+
     public function startedAt(?string $format = null): ?string
     {
         return $this->formAt('started_at', $format);
+    }
+
+    public function endedAt(?string $format = null): ?string
+    {
+        return $this->formAt('ended_at', $format);
     }
 
     public function completedAt(?string $format = null): ?string
@@ -159,26 +168,5 @@ trait HasFormattedDates
     public function expiredAt(?string $format = null): ?string
     {
         return $this->formAt('expired_at', $format);
-    }
-
-    public function publishedAt(?string $format = null): ?string
-    {
-        return $this->formAt('published_at', $format);
-    }
-
-    // other variations
-    public function startDate(?string $format = null): ?string
-    {
-        return $this->formAt('start_date', $format);
-    }
-
-    public function endDate(?string $format = null): ?string
-    {
-        return $this->formAt('end_date', $format);
-    }
-
-    public function expiryDate(?string $format = null): ?string
-    {
-        return $this->formAt('expiry_date', $format);
     }
 }

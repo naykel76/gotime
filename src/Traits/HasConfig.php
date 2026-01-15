@@ -8,7 +8,7 @@ trait HasConfig
     {
         $config = config("resources.{$resource}");
 
-        if (!$config) {
+        if (! $config) {
             throw new \Exception("Config not found for resource: {$resource}");
         }
 

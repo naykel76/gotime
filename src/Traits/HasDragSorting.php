@@ -5,9 +5,9 @@ namespace Naykel\Gotime\Traits;
 use Closure;
 use Illuminate\Support\Facades\DB;
 
-trait Draggable
+trait HasDragSorting
 {
-    public static function bootDraggable()
+    public static function bootHasDragSorting()
     {
         static::addGlobalScope(function ($query) {
             return $query->orderBy('position');

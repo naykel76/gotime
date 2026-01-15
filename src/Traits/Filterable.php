@@ -86,6 +86,33 @@ trait Filterable
     }
 
     /**
+     * Check if a specific filter value is currently active.
+     *
+     * Handles both single-value and multi-value filter modes automatically.
+     *
+     * @param  string  $key  The database column name
+     * @param  mixed  $value  The value to check
+     * @return bool True if the filter is active with the given value
+     */
+    public function isActiveFilter(string $key, mixed $value): bool
+    {
+        // Filter not set at all
+        if (! isset($this->filters[$key])) {
+            return false;
+        }
+
+        $filter = $this->filters[$key];
+
+        // Multi-value mode: check if value exists in array
+        if (is_array($filter)) {
+            return in_array($value, $filter);
+        }
+
+        // Single-value mode: direct comparison
+        return $filter === $value;
+    }
+
+    /**
      * Apply all active filters to the given query builder.
      *
      * Loops through each filter in the $filters array and applies the appropriate WHERE clause:
