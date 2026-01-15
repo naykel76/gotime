@@ -1,4 +1,4 @@
-<x-gt-layouts.base :title="$title ?? null">
+<x-layouts.base :title="$title ?? null">
     <style>
         h1 {
             font-size: 5rem;
@@ -184,4 +184,4 @@
             </div>
         </div>
     </div>
-</x-gt-layouts.base>
+</x-layouts.base>

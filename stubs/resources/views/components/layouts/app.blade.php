@@ -1,4 +1,4 @@
-<x-gt-layouts.base :title="$title ?? null" :class="$bodyClass ?? null">
+<x-layouts.base :title="$title ?? null" :class="$bodyClass ?? null">
 
     @isset($top) {{ $top }} @endisset
 
@@ -8,4 +8,4 @@
 
     @includeFirst(['components.layouts.partials.footer', 'gotime::components.layouts.partials.footer'])
 
-</x-gt-layouts.base>
+</x-layouts.base>

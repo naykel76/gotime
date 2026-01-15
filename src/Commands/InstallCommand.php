@@ -46,7 +46,7 @@ class InstallCommand extends Command
 
         File::copyDirectory(__DIR__ . '/../../stubs', base_path());
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
-        copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
+        // copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
         // Clean up
         File::deleteDirectory(resource_path('css'));
