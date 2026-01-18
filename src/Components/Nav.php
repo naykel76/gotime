@@ -21,6 +21,7 @@ class Nav extends Component
         public bool $withIcons = false,
         public string $iconClass = '',
         public string $menuTitle = '',
+        public bool $excludeWrapper = false,    // render without <nav> wrapper
     ) {
         $this->file = getJsonFile(resource_path("navs/$this->filename.json"));
     }

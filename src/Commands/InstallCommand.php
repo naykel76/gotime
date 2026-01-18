@@ -26,11 +26,23 @@ class InstallCommand extends Command
             return [
                 '@erbelion/vite-plugin-laravel-purgecss' => '^0.4.2',
                 'autoprefixer' => '^10.4.21',
-                'nk_jtb' => '^0.20.0',
+                'nk_jtb' => 'file:/~/sites/nk_jtb',
                 'postcss' => '^8.5.6',
                 'sass' => '^1.93.3',
             ] + $packages;
         });
+
+        // NPM Dev Packages...
+        $this->updateNodePackages(function ($packages) {
+            return [
+                '@alpinejs/collapse' => '^3.15.4',
+                '@alpinejs/sort' => '^3.15.4',
+                'filepond' => '^4.32.10',
+                'filepond-plugin-file-validate-size' => '^2.2.8',
+                'filepond-plugin-file-validate-type' => '^1.2.9',
+                'filepond-plugin-image-preview' => '^4.6.12',
+            ] + $packages;
+        }, false);
 
         // NPM Scripts...
         $this->updateNodeScripts(function ($scripts) {

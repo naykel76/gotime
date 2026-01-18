@@ -58,16 +58,16 @@ if (! function_exists('getFile')) {
     }
 }
 
-if (! function_exists('fileExists')) {
-    function fileExists(string $path): string|false
-    {
-        if (! file_exists($path)) {
-            throw new FileNotFoundException("File does not exist at path {$path}.");
-        }
+// if (! function_exists('fileExists')) {
+//     function fileExists(string $path): string|false
+//     {
+//         if (! file_exists($path)) {
+//             throw new FileNotFoundException("File does not exist at path {$path}.");
+//         }
 
-        return true;
-    }
-}
+//         return true;
+//     }
+// }
 
 // ------------------------------------------------------------------
 // -- URL PATH CONVERSION HELPERS --
@@ -92,27 +92,27 @@ if (! function_exists('toPath')) {
     }
 }
 
-if (! function_exists('toDot')) {
-    /**
-     * Convert url or path to dot notation
-     */
-    function toDot(string $input): string
-    {
-        return str_replace('/', '.', ltrim($input, '.'));
-    }
-}
+// if (! function_exists('toDot')) {
+//     /**
+//      * Convert url or path to dot notation
+//      */
+//     function toDot(string $input): string
+//     {
+//         return str_replace('/', '.', ltrim($input, '.'));
+//     }
+// }
 
-if (! function_exists('numSegments')) {
-    /**
-     * Count the number of segments in a path
-     */
-    function numSegments(string $path, bool $trim = true): int
-    {
-        $path = $trim ? trim($path, '/') : $path;
+// if (! function_exists('numSegments')) {
+//     /**
+//      * Count the number of segments in a path
+//      */
+//     function numSegments(string $path, bool $trim = true): int
+//     {
+//         $path = $trim ? trim($path, '/') : $path;
 
-        return count(explode('/', $path));
-    }
-}
+//         return count(explode('/', $path));
+//     }
+// }
 
 if (! function_exists('dotLastSegment')) {
     /**
@@ -137,15 +137,15 @@ if (! function_exists('calcPercentage')) {
     }
 }
 
-// ------------------------------------------------------------------
-// -- MATH HELPERS --
-// ------------------------------------------------------------------
+// // ------------------------------------------------------------------
+// // --  --
+// // ------------------------------------------------------------------
 
-if (! function_exists('getWord')) {
-    function getWord(string $string, int $position = 0): ?string
-    {
-        $words = preg_split('/\s+/', trim($string));
+// if (! function_exists('getWord')) {
+//     function getWord(string $string, int $position = 0): ?string
+//     {
+//         $words = preg_split('/\s+/', trim($string));
 
-        return $words[$position] ?? null;
-    }
-}
+//         return $words[$position] ?? null;
+//     }
+// }

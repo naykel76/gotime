@@ -9,6 +9,7 @@ use Naykel\Gotime\Components\Filepond;
 use Naykel\Gotime\Components\Icon;
 use Naykel\Gotime\Components\Markdown;
 use Naykel\Gotime\Components\Nav;
+use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,7 @@ class GotimeServiceProvider extends ServiceProvider
             Icon::class,
             Markdown::class,
             Nav::class,
+            AppLayout::class,
         ]);
 
         if ($this->app->runningInConsole()) {
@@ -58,11 +60,6 @@ class GotimeServiceProvider extends ServiceProvider
         }
     }
 
-    protected function registerLayoutComponents(): void
-    {
-        $this->registerComponentX('layouts.base', 'layouts.base');
-        // $this->registerComponentX('layouts.app', 'layouts.app');
-    }
 
     protected function registerDirectives(): void
     {
@@ -104,7 +101,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('spinner');
         $this->registerComponentX('tooltip');
 
-
         $this->registerComponentX('sidebar');
         // Alerts, Notifications, and Messages
         $this->registerComponentX('alert');
@@ -144,8 +140,10 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('input.checkbox', 'checkbox');
         $this->registerComponentX('input.ckeditor', 'ckeditor');
         $this->registerComponentX('input.email', 'input.email');
+        $this->registerComponentX('input.flatpickr', 'flatpickr');
         $this->registerComponentX('input.input', 'input');
         $this->registerComponentX('input.password', 'input.password');
+        $this->registerComponentX('input.pikaday', 'pikaday');
         $this->registerComponentX('input.select', 'select');
         $this->registerComponentX('input.slim-select', 'slim-select');
         $this->registerComponentX('input.textarea', 'textarea');
@@ -153,7 +151,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('livewire-search-input', 'search-input');
         // $this->registerComponentX('input.datepicker', 'datepicker');
         // $this->registerComponentX('input.editor', 'editor');
-        // $this->registerComponentX('input.pikaday', 'pikaday');
         // $this->registerComponentX('input.radio', 'radio');
 
     }

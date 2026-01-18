@@ -4,7 +4,7 @@
             <img src="{{ asset('favicon.svg') }}" alt="{{ config('app.name') }}"class="bg-yellow-50 pxy-025 rounded"
                 height="{{ config('gotime.logo.height') }}" width="{{ config('gotime.logo.width') }}">
         </a>
-        <div class="txt-2.5 font-bold">NAYKEL</div>
+        <div class="txt-2 font-bold">{{ Str::upper(config('app.name')) }}</div>
     </div>
     <ul {{ $attributes->merge(['class' => 'menu']) }}>
         @foreach ($menuItems as $item)
