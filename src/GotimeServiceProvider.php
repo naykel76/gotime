@@ -29,7 +29,6 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponents();
         $this->registerDirectives();
         $this->registerFormComponents();
-        $this->registerLayoutComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gotime');
 
