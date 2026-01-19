@@ -1,5 +1,7 @@
 <x-layouts.base :title="str_replace('-', ' ', basename($data['path'] ?? 'Docs'))">
 
+    @includeFirst(['components.layouts.partials.navbar', 'gotime::components.layouts.partials.navbar'])
+
     <div class="nk-docs">
         <aside class="left-sidebar space-y-2">
             @foreach ($data['menus'] as $menu)
