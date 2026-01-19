@@ -26,7 +26,7 @@ class InstallCommand extends Command
             return [
                 '@erbelion/vite-plugin-laravel-purgecss' => '^0.4.2',
                 'autoprefixer' => '^10.4.21',
-                'nk_jtb' => 'file:/~/sites/nk_jtb',
+                "nk_jtb" => "^0.22.0",
                 'postcss' => '^8.5.6',
                 'sass' => '^1.93.3',
             ] + $packages;
