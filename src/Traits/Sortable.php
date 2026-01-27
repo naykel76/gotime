@@ -4,15 +4,15 @@ namespace Naykel\Gotime\Traits;
 
 trait Sortable
 {
-    public string $sortColumn = 'id';
-    public string $sortDirection = 'asc';
-
     /**
      * Get the sort direction for a given column.
      */
     public function getSortDirection(string $column): ?string
     {
-        return $this->sortColumn === $column ? $this->sortDirection : null;
+        $sortColumn = $this->sortColumn ?? null;
+        $sortDirection = $this->sortDirection ?? null;
+
+        return $sortColumn === $column ? $sortDirection : null;
     }
 
     /**
@@ -20,8 +20,11 @@ trait Sortable
      */
     public function sortBy(string $column): void
     {
-        if ($this->sortColumn === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        $currentColumn = $this->sortColumn ?? null;
+        $currentDirection = $this->sortDirection ?? 'asc';
+
+        if ($currentColumn === $column) {
+            $this->sortDirection = $currentDirection === 'asc' ? 'desc' : 'asc';
         } else {
             $this->sortDirection = 'asc';
         }
@@ -34,6 +37,12 @@ trait Sortable
      */
     protected function applySorting($query)
     {
-        return $query->orderBy($this->sortColumn, $this->sortDirection);
+        if (! isset($this->sortColumn)) {
+            return $query;
+        }
+
+        $sortDirection = $this->sortDirection ?? 'asc';
+
+        return $query->orderBy($this->sortColumn, $sortDirection);
     }
 }

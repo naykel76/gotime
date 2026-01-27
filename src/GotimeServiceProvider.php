@@ -59,7 +59,6 @@ class GotimeServiceProvider extends ServiceProvider
         }
     }
 
-
     protected function registerDirectives(): void
     {
         // Render slot in a <div> with optional attributes
