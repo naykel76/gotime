@@ -1,5 +1,5 @@
 <x-layouts.base :title="$title ?? 'Markdown Page'">
-    <x-devit />
+    
     <div class="to-md:hidden">
            <x-gt-nav filename="nav-main" menuname="main" layout="navbar" withIcons />
     </div>

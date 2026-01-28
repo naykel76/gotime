@@ -9,7 +9,6 @@ use Naykel\Gotime\Components\Filepond;
 use Naykel\Gotime\Components\Icon;
 use Naykel\Gotime\Components\Markdown;
 use Naykel\Gotime\Components\Nav;
-use Naykel\Gotime\View\Layouts\AppLayout;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -37,7 +36,6 @@ class GotimeServiceProvider extends ServiceProvider
             Icon::class,
             Markdown::class,
             Nav::class,
-            AppLayout::class,
         ]);
 
         if ($this->app->runningInConsole()) {
