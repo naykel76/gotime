@@ -60,6 +60,11 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
         // copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
+        // Add to .gitignore
+        $gitignorePath = base_path('.gitignore');
+        $gitignoreEntries = "\n/.cursor\n/.github\n/.opencode\n/tmp\nnk_tasks.md";
+        File::append($gitignorePath, $gitignoreEntries);
+
         // Clean up
         File::deleteDirectory(resource_path('css'));
 
