@@ -58,11 +58,10 @@ class InstallCommand extends Command
 
         File::copyDirectory(__DIR__ . '/../../stubs', base_path());
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
-        // copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
         // Add to .gitignore
         $gitignorePath = base_path('.gitignore');
-        $gitignoreEntries = "\n/.cursor\n/.github\n/.opencode\n/tmp\nnk_tasks.md";
+        $gitignoreEntries = "\n/.cursor\n/.github\n/.opencode\n/tmp\nnk_tasks.md\nAGENTS.md";
         File::append($gitignorePath, $gitignoreEntries);
 
         // Clean up
