@@ -49,6 +49,7 @@ return [
         League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension::class,
         League\CommonMark\Extension\TableOfContents\TableOfContentsExtension::class,
         \Naykel\Gotime\Extensions\Markdown\CodeRendererExtension::class,
+        \Naykel\Gotime\Extensions\Markdown\Container\ContainerExtension::class,
     ],
 
     // CodeRendererExtension::$allowBladeForNextDocument = true

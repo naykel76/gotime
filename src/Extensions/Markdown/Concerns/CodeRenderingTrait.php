@@ -1,11 +1,13 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown;
+namespace Naykel\Gotime\Extensions\Markdown\Concerns;
 
 use Illuminate\Support\Facades\Blade;
 
 trait CodeRenderingTrait
 {
+    use ContainerRenderingTrait;
+
     /**
      * Cache for cleaned code to avoid repeated processing
      */
@@ -179,22 +181,6 @@ trait CodeRenderingTrait
                     :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
                     x-text="copied ? \'Copied!\' : \'' . $label . '\'">
                 </button>
-            </div>';
-    }
-
-    /**
-     * Build a collapsible wrapper (just the accordion, no code inside)
-     */
-    public function buildCollapsibleWrapper(string $content, string $buttonLabel = 'Show Code'): string
-    {
-        return '
-            <div x-data="{ open: false }" class="mt-05 mb">
-                <button x-on:click="open = !open" class="btn sm">
-                    <span>' . htmlspecialchars($buttonLabel) . '</span>
-                </button>
-                <div x-show="open" x-collapse class="mt-05">
-                    ' . $content . '
-                </div>
             </div>';
     }
 

@@ -9,9 +9,12 @@ use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use Naykel\Gotime\Extensions\Markdown\Concerns\AttributeParsingTrait;
+use Naykel\Gotime\Extensions\Markdown\Concerns\CodeRenderingTrait;
 
 class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
+    use AttributeParsingTrait;
     use CodeRenderingTrait;
 
     public function register(EnvironmentBuilderInterface $environment): void
@@ -158,33 +161,5 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         }
 
         return $this->renderCodeBlock($content, $language, true, $isSelectable);
-    }
-
-    /**
-     * Extracts an attribute value from the flag string.
-     *
-     * Searches for attrName="value" (quoted) or attrName=value (unquoted) patterns
-     * and returns the extracted value. When formatAsHtml is true, returns a formatted
-     * HTML attribute string (e.g., ' class="value"'), otherwise returns just the raw value.
-     * Returns null if the attribute is not found.
-     */
-    private function extractAttribute(string $flagString, string $attrName, bool $formatAsHtml = false): ?string
-    {
-        $escapedAttr = preg_quote($attrName, '/');
-
-        // Quoted: attr="value" or attr='value'
-        if (preg_match("/{$escapedAttr}=([\"'])(.+?)\\1/", $flagString, $matches)) {
-            $value = $matches[2];
-
-            return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
-        }
-        // Unquoted: attr=value
-        if (preg_match("/{$escapedAttr}=(\\S+)/", $flagString, $matches)) {
-            $value = $matches[1];
-
-            return $formatAsHtml ? ' ' . $attrName . '="' . htmlspecialchars($value) . '"' : $value;
-        }
-
-        return null;
     }
 }
