@@ -38,6 +38,9 @@ class ContainerStartParser implements BlockStartParserInterface
         $parts = preg_split('/\s+/', $infoString, 2);
         $type = $parts[0] ?? 'box'; // Default to 'box' if no type specified
         
+        // Advance cursor to end of line to consume the opening tag
+        $cursor->advanceToEnd();
+        
         return BlockStart::of(new ContainerParser($type, $infoString, $indent))
             ->at($cursor);
     }

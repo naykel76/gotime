@@ -130,6 +130,7 @@ trait CodeRenderingTrait
 
         return '
             <div class="relative code-block-wrapper' . $selectableClass . '"' . $selectableAttr . ' style="position: relative; isolation: isolate;' . ($isSelectable ? ' cursor: pointer; transition: all 0.2s ease;' : '') . '">
+                <textarea id="' . $uniqueId . '-raw" style="display: none;">' . $escapedCode . '</textarea>
                 <div style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
                     <div x-data="{ copied: false }">
                         <button @click.stop="' . $copyJs . '" 
@@ -139,7 +140,7 @@ trait CodeRenderingTrait
                         </button>
                     </div>
                 </div>
-                <pre id="' . $uniqueId . '" data-code="' . $escapedCode . '">' . $renderedCode . '</pre>
+                <pre id="' . $uniqueId . '">' . $renderedCode . '</pre>
             </div>';
     }
 
@@ -149,7 +150,7 @@ trait CodeRenderingTrait
     private function getCopyButtonJs(string $elementId): string
     {
         return "
-            const code = document.getElementById('{$elementId}').getAttribute('data-code');
+            const code = document.getElementById('{$elementId}-raw').value;
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(code);
             } else {
@@ -197,6 +198,7 @@ trait CodeRenderingTrait
 
         return '
             <div x-data="{ open: false }" class="mt-05 mb">
+                <textarea id="' . $uniqueId . '-raw" style="display: none;">' . $rawCode . '</textarea>
                 <div class="flex items-center gap-05">
                     <button x-on:click="open = !open" class="btn sm">
                         <span>' . htmlspecialchars($viewLabel) . '</span>
@@ -210,7 +212,6 @@ trait CodeRenderingTrait
                     </div>
                 </div>
                 <div x-show="open" x-collapse class="mt-05">
-                    <div id="' . $uniqueId . '" data-code="' . $rawCode . '" style="display: none;"></div>
                     ' . $renderedCode . '
                 </div>
             </div>';

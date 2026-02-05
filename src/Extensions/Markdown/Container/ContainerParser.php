@@ -46,6 +46,8 @@ class ContainerParser extends AbstractBlockContinueParser
             return BlockContinue::finished();
         }
 
+        // Let child blocks be parsed - don't consume the line
+        // This is key: we return at current cursor position so CommonMark can parse child blocks
         return BlockContinue::at($cursor);
     }
 }
