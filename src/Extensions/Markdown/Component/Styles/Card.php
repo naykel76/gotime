@@ -20,12 +20,12 @@ class Card implements StyleInterface
         $customClass = $attributes['class'] ?? '';
 
         $wrapperClass = htmlspecialchars(trim('bg-white rounded-lg shadow-sm bdr bdr-gray-200 ' . $customClass));
-        $titleEscaped = htmlspecialchars($title);
+        $escapedTitle = htmlspecialchars($title);
 
         return <<<HTML
             <div x-data="{ open: {$opened} }" class="{$wrapperClass}">
                 <button type="button" x-on:click="open = !open" class="w-full px-1.5 py-1 flex items-center justify-between hover:bg-gray-50">
-                    <span class="font-semibold txt-gray-900">{$titleEscaped}</span>
+                    <span class="font-semibold txt-gray-900">{$escapedTitle}</span>
                     <svg class="wh-1" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>

@@ -15,15 +15,6 @@ use Naykel\Gotime\Extensions\Markdown\Support\AttributeParser;
 
 class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
-    private TorchlightRenderer $torchlight;
-    private HtmlCleaner $htmlCleaner;
-
-    public function __construct()
-    {
-        $this->torchlight = new TorchlightRenderer;
-        $this->htmlCleaner = new HtmlCleaner;
-    }
-
     public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment->addRenderer(FencedCode::class, $this, 100);
@@ -48,7 +39,8 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             return $this->renderWithPreview($content, $attributes, $language, $isCollapsible, $wrapperClass, $title);
         }
 
-        $codeOverride = $this->torchlight->getLanguage($attributes, '');
+        $torchlight = new TorchlightRenderer;
+        $codeOverride = $torchlight->getLanguage($attributes, '');
         if ($codeOverride) {
             return $this->renderCode($content, $codeOverride, $isCollapsible, $isSelectable, $title);
         }
@@ -69,16 +61,19 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         string $title
     ): string {
         $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
-        $codeLanguage = $this->torchlight->getLanguage($attributes, $language);
+        
+        $torchlight = new TorchlightRenderer;
+        $htmlCleaner = new HtmlCleaner;
+        $codeLanguage = $torchlight->getLanguage($attributes, $language);
 
         $hasCode = isset($attributes['code']);
         $hasOutput = isset($attributes['output']);
 
         if ($isCollapsible) {
-            return $this->buildCollapsiblePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput, $title);
+            return $this->buildCollapsiblePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput, $title, $torchlight, $htmlCleaner);
         }
 
-        return $this->buildInlinePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput);
+        return $this->buildInlinePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput, $torchlight, $htmlCleaner);
     }
 
     private function buildCollapsiblePreview(
@@ -87,17 +82,19 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         string $codeLanguage,
         bool $hasCode,
         bool $hasOutput,
-        string $title
+        string $title,
+        TorchlightRenderer $torchlight,
+        HtmlCleaner $htmlCleaner
     ): string {
         $output = $rendered;
 
         if ($hasCode) {
-            $output .= $this->buildCollapsibleCodeSection($content, $codeLanguage, true, 'View Code', 'Copy Code');
+            $output .= $this->buildCollapsibleCodeSection($content, $codeLanguage, true, 'View Code', 'Copy Code', $torchlight, $htmlCleaner);
         }
 
         if ($hasOutput) {
-            $generatedHtml = $this->htmlCleaner->cleanAndFormat(Blade::render($content));
-            $output .= $this->buildCollapsibleCodeSection($generatedHtml, $codeLanguage, false, $title, 'Copy Output');
+            $generatedHtml = $htmlCleaner->cleanAndFormat(Blade::render($content));
+            $output .= $this->buildCollapsibleCodeSection($generatedHtml, $codeLanguage, false, $title, 'Copy Output', $torchlight, $htmlCleaner);
         }
 
         return $output;
@@ -108,16 +105,18 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         string $content,
         string $codeLanguage,
         bool $hasCode,
-        bool $hasOutput
+        bool $hasOutput,
+        TorchlightRenderer $torchlight,
+        HtmlCleaner $htmlCleaner
     ): string {
         if ($hasCode) {
-            $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
+            $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true, $torchlight, $htmlCleaner);
             return $rendered . $codeBlock;
         }
 
         if ($hasOutput) {
-            $generatedHtml = $this->htmlCleaner->cleanAndFormat(Blade::render($content));
-            $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
+            $generatedHtml = $htmlCleaner->cleanAndFormat(Blade::render($content));
+            $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false, $torchlight, $htmlCleaner);
             return $rendered . $codeBlock;
         }
 
@@ -126,30 +125,33 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
     private function renderCode(string $content, string $language, bool $isCollapsible, bool $isSelectable, string $title): string
     {
+        $torchlight = new TorchlightRenderer;
+        $htmlCleaner = new HtmlCleaner;
+        
         if ($isCollapsible) {
-            return $this->buildCollapsibleCodeSection($content, $language, true, $title, 'Copy Code');
+            return $this->buildCollapsibleCodeSection($content, $language, true, $title, 'Copy Code', $torchlight, $htmlCleaner);
         }
 
-        return $this->renderCodeBlock($content, $language, true, $isSelectable);
+        return $this->renderCodeBlock($content, $language, true, $torchlight, $htmlCleaner, $isSelectable);
     }
 
-    private function renderCodeBlock(string $code, string $language, bool $verbatim, bool $isSelectable = false): string
+    private function renderCodeBlock(string $code, string $language, bool $verbatim, TorchlightRenderer $torchlight, HtmlCleaner $htmlCleaner, bool $isSelectable = false): string
     {
-        $torchlight = $this->torchlight->buildComponentString($code, $language, $verbatim);
-        $renderedCode = Blade::render($torchlight);
-        $cleanCode = $this->htmlCleaner->stripTorchlightAnnotations($code);
+        $componentString = $torchlight->buildComponentString($code, $language, $verbatim);
+        $renderedCode = Blade::render($componentString);
+        $cleanCode = $htmlCleaner->stripTorchlightAnnotations($code);
 
         return $this->wrapWithCopyButton(rtrim($cleanCode), $renderedCode, $isSelectable);
     }
 
-    private function buildCollapsibleCodeSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel): string
+    private function buildCollapsibleCodeSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel, TorchlightRenderer $torchlight, HtmlCleaner $htmlCleaner): string
     {
         $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
-        $cleanCode = $this->htmlCleaner->stripTorchlightAnnotations($code);
-        $rawCode = htmlspecialchars(rtrim($cleanCode));
+        $cleanCode = $htmlCleaner->stripTorchlightAnnotations($code);
+        $escapedRawCode = htmlspecialchars(rtrim($cleanCode));
 
-        $torchlight = $this->torchlight->buildComponentString($code, $language, $verbatim);
-        $renderedCode = Blade::render($torchlight);
+        $componentString = $torchlight->buildComponentString($code, $language, $verbatim);
+        $renderedCode = Blade::render($componentString);
 
         $copyJs = $this->generateCopyJs($uniqueId);
         $escapedViewLabel = htmlspecialchars($viewLabel);
@@ -157,7 +159,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         return <<<HTML
             <div x-data="{ open: false }" class="mt-05 mb">
-                <textarea id="{$uniqueId}-raw" style="display: none;">{$rawCode}</textarea>
+                <textarea id="{$uniqueId}-raw" style="display: none;">{$escapedRawCode}</textarea>
                 <div class="flex items-center gap-05">
                     <button x-on:click="open = !open" class="btn sm">
                         <span>{$escapedViewLabel}</span>

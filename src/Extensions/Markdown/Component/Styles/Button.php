@@ -19,12 +19,12 @@ class Button implements StyleInterface
         $customClass = $attributes['class'] ?? '';
 
         $wrapperClass = htmlspecialchars(trim('mt-05 mb ' . $customClass));
-        $titleEscaped = htmlspecialchars($title);
+        $escapedTitle = htmlspecialchars($title);
 
         return <<<HTML
             <div x-data="{ open: {$opened} }" class="{$wrapperClass}">
                 <button x-on:click="open = !open" class="btn sm">
-                    <span>{$titleEscaped}</span>
+                    <span>{$escapedTitle}</span>
                 </button>
                 <div x-show="open" x-collapse class="mt-05">
                     {$content}

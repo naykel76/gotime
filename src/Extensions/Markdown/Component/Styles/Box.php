@@ -21,9 +21,9 @@ class Box implements StyleInterface
         $wrapperClass = htmlspecialchars(trim('rounded-lg px-1.5 py-1 bdr ' . $customClass));
 
         if ($title) {
-            $titleEscaped = htmlspecialchars($title);
+            $escapedTitle = htmlspecialchars($title);
             $titleHtml = <<<HTML
-                <div class="font-semibold mb-0.5">{$titleEscaped}</div>
+                <div class="font-semibold mb-0.5">{$escapedTitle}</div>
             HTML;
         } else {
             $titleHtml = '';
