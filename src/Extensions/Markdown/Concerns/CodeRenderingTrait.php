@@ -12,12 +12,12 @@ trait CodeRenderingTrait
     private array $cleanCodeCache = [];
 
     /**
-     * Get code language override from +code-X flag
+     * Get code language override from code-X flag
      */
-    private function getCodeLanguageOverride(array $info): ?string
+    private function getCodeLanguageOverride(array $attributes): ?string
     {
-        foreach ($info as $flag) {
-            if (preg_match('/^\+code-(.+)$/', $flag, $matches)) {
+        foreach ($attributes as $key => $value) {
+            if (preg_match('/^code-(.+)$/', $key, $matches)) {
                 return $matches[1];
             }
         }
@@ -28,9 +28,9 @@ trait CodeRenderingTrait
     /**
      * Get Torchlight language (with override support)
      */
-    private function getTorchlightLanguage(array $info, string $defaultLanguage): string
+    private function getTorchlightLanguage(array $attributes, string $defaultLanguage): string
     {
-        $override = $this->getCodeLanguageOverride($info);
+        $override = $this->getCodeLanguageOverride($attributes);
 
         return $override ?? $defaultLanguage;
     }

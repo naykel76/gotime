@@ -58,34 +58,34 @@ class AttributeParser
     {
         $attributes = [];
 
-        // Match quoted attributes: attr="value" or attr='value'
-        preg_match_all('/(\w+)=(["\'])(.+?)\2/', $string, $quotedMatches, PREG_SET_ORDER);
+        // Match quoted attributes: attr="value" or attr='value' (supports +attr="value")
+        preg_match_all('/([\w+]+)=(["\'])(.+?)\2/', $string, $quotedMatches, PREG_SET_ORDER);
         foreach ($quotedMatches as $match) {
-            $attributes[$match[1]] = $match[3];
+            // Strip + prefix from key if present
+            $key = ltrim($match[1], '+');
+            $attributes[$key] = $match[3];
         }
 
-        // Match unquoted attributes: attr=value
-        preg_match_all('/(\w+)=(\S+)/', $string, $unquotedMatches, PREG_SET_ORDER);
+        // Match unquoted attributes: attr=value (supports +attr=value)
+        preg_match_all('/([\w+]+)=(\S+)/', $string, $unquotedMatches, PREG_SET_ORDER);
         foreach ($unquotedMatches as $match) {
+            // Strip + prefix from key if present
+            $key = ltrim($match[1], '+');
             // Skip if already captured as quoted
-            if (! isset($attributes[$match[1]])) {
-                $attributes[$match[1]] = $match[2];
+            if (! isset($attributes[$key])) {
+                $attributes[$key] = $match[2];
             }
         }
 
         // Match boolean flags (words without = sign)
         // Remove all key=value pairs first, then split remaining words
-        $withoutPairs = preg_replace('/\w+=(?:["\'][^"\']*["\']|\S+)/', '', $string);
+        $withoutPairs = preg_replace('/[\w+]+=(?:["\'][^"\']*["\']|\S+)/', '', $string);
         $words = preg_split('/\s+/', trim($withoutPairs), -1, PREG_SPLIT_NO_EMPTY);
 
         foreach ($words as $word) {
-            // Skip the component type (first word after :::)
-            if (! isset($attributes['_type'])) {
-                $attributes['_type'] = $word;
-            } else {
-                // Boolean flags like 'opened'
-                $attributes[$word] = true;
-            }
+            // Strip + prefix if present (+preview becomes preview)
+            $key = ltrim($word, '+');
+            $attributes[$key] = true;
         }
 
         return $attributes;

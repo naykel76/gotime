@@ -1,6 +1,6 @@
 # Container Testing
 
-This file tests all three container types with the new LayoutRegistry system.
+This file tests all three container types with the new system.
 
 ## Test 1: Collapse Card (Default)
 
@@ -64,14 +64,3 @@ console.log("Code block inside collapse!");
 
 Another paragraph with more content.
 :::
-
-## Test 7: Code Block with Collapse (Backward Compatibility)
-
-This tests that the old code block system still works with the new LayoutRegistry:
-
-```html +preview +code
-<div class="example">
-    <h1>Hello World</h1>
-    <p>This should work with the legacy bridge.</p>
-</div>
-```

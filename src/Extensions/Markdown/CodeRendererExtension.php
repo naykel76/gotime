@@ -31,30 +31,33 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         /** @var FencedCode $node */
-        $flagString = $node->getInfo();         // 'html +preview +collapse class="bg-gray-100" +title="Show Code"'
-        $flagsArray = $node->getInfoWords();    // ['html', '+preview', '+collapse', 'class="bg-gray-100"', '+title="Show Code"']
+        $flagString = $node->getInfo();         // 'html +preview +collapse class="bg-gray-100" title="Show Code"'
+        $flagsArray = $node->getInfoWords();    // ['html', '+preview', '+collapse', 'class="bg-gray-100"', 'title="Show Code"']
         $language = $flagsArray[0] ?? 'html';
         $content = $node->getLiteral();
 
-        // configuration flags
-        $isCollapsible = in_array('+collapse', $flagsArray);
-        $isSelectable = in_array('+selectable', $flagsArray);
-        $wrapperClass = AttributeParser::extractAttribute($flagString, 'class', true) ?? '';
-        $title = AttributeParser::extractAttribute($flagString, '+title') ?? 'Show Code';
+        // Parse all flags into attributes (strips + prefix)
+        $attributes = AttributeParser::parse($flagString);
 
-        // Handle +preview flag
-        if (in_array('+preview', $flagsArray)) {
-            return $this->renderWithPreview($content, $flagsArray, $language, $isCollapsible, $wrapperClass, $title);
+        // Configuration flags (now without + prefix)
+        $isCollapsible = isset($attributes['collapse']);
+        $isSelectable = isset($attributes['selectable']);
+        $wrapperClass = isset($attributes['class']) ? ' class="' . htmlspecialchars($attributes['class']) . '"' : '';
+        $title = $attributes['title'] ?? 'Show Code';
+
+        // Handle preview flag
+        if (isset($attributes['preview'])) {
+            return $this->renderWithPreview($content, $attributes, $language, $isCollapsible, $wrapperClass, $title);
         }
 
-        // Check for +code-X override first (e.g., +code-blade)
-        $codeOverride = $this->getCodeLanguageOverride($flagsArray);
+        // Check for code-X override first (e.g. code-blade)
+        $codeOverride = $this->getCodeLanguageOverride($attributes);
         if ($codeOverride) {
             return $this->renderCode($content, $codeOverride, $isCollapsible, $isSelectable, $title);
         }
 
-        // Just +code = show highlighted code only
-        if (in_array('+code', $flagsArray)) {
+        // Just code = show highlighted code only
+        if (isset($attributes['code'])) {
             return $this->renderCode($content, $language, $isCollapsible, $isSelectable, $title);
         }
 
@@ -65,23 +68,23 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     /**
      * Renders content with a live preview alongside optional code display.
      *
-     * Handles the +preview flag by showing the rendered output first, then optionally
-     * includes source code (+source) or generated HTML (+code) in either collapsible
+     * Handles the preview flag by showing the rendered output first, then optionally
+     * includes source code or generated HTML (code, output) in either collapsible
      * or inline format based on configuration.
      */
     private function renderWithPreview(
         string $content,
-        array $flagsArray,
+        array $attributes,
         string $language,
         bool $isCollapsible,
         string $wrapperClass,
         string $title
     ): string {
         $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
-        $codeLanguage = $this->getTorchlightLanguage($flagsArray, $language);
+        $codeLanguage = $this->getTorchlightLanguage($attributes, $language);
 
-        $hasCode = in_array('+code', $flagsArray);
-        $hasOutput = in_array('+output', $flagsArray);
+        $hasCode = isset($attributes['code']);
+        $hasOutput = isset($attributes['output']);
 
         if ($isCollapsible) {
             return $this->buildCollapsiblePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput, $title);

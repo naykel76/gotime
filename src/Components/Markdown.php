@@ -77,21 +77,14 @@ class Markdown extends Component
     }
 
     /**
-     * Extract the table-of-contents element with proper nested tag handling.
-     * Supports both new format (<ul class="toc">) and old format (<div data-toc>)
+     * Extract the table-of-contents element: only the new format (<ul class="toc">) is supported.
      */
     protected function extractToc(string $html): ?string
     {
-        // Try new format first: <ul class="toc">
-        $toc = $this->extractNestedTag($html, 'ul', 'class="[^"]*toc[^"]*"');
-
-        // Fall back to old format: <div data-toc>
-        if (! $toc) {
-            $toc = $this->extractNestedTag($html, 'div', 'data-toc');
-        }
-
-        return $toc;
+        // Only support new format: <ul class="toc">
+        return $this->extractNestedTag($html, 'ul', 'class="[^\"]*toc[^\"]*"');
     }
+
 
     /**
      * Extract a nested HTML tag with specific attribute pattern
