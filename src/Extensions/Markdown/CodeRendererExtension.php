@@ -9,69 +9,57 @@ use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use Naykel\Gotime\Extensions\Markdown\Concerns\CodeRenderingTrait;
+use Naykel\Gotime\Extensions\Markdown\Services\HtmlCleaner;
+use Naykel\Gotime\Extensions\Markdown\Services\TorchlightRenderer;
 use Naykel\Gotime\Extensions\Markdown\Support\AttributeParser;
 
 class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
-    use CodeRenderingTrait;
+    private TorchlightRenderer $torchlight;
+    private HtmlCleaner $htmlCleaner;
+
+    public function __construct()
+    {
+        $this->torchlight = new TorchlightRenderer;
+        $this->htmlCleaner = new HtmlCleaner;
+    }
 
     public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment->addRenderer(FencedCode::class, $this, 100);
     }
 
-    /**
-     * Main rendering method that determines how to render a fenced code block.
-     *
-     * Handles multiple rendering modes including preview rendering (+preview),
-     * code-only display (+code), and language overrides (+code-X). Returns null
-     * if no special flags are present to let the default renderer handle it.
-     */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
         /** @var FencedCode $node */
-        $flagString = $node->getInfo();         // 'html +preview +collapse class="bg-gray-100" title="Show Code"'
-        $flagsArray = $node->getInfoWords();    // ['html', '+preview', '+collapse', 'class="bg-gray-100"', 'title="Show Code"']
+        $flagString = $node->getInfo();
+        $flagsArray = $node->getInfoWords();
         $language = $flagsArray[0] ?? 'html';
         $content = $node->getLiteral();
 
-        // Parse all flags into attributes (strips + prefix)
         $attributes = AttributeParser::parse($flagString);
 
-        // Configuration flags (now without + prefix)
         $isCollapsible = isset($attributes['collapse']);
         $isSelectable = isset($attributes['selectable']);
         $wrapperClass = isset($attributes['class']) ? ' class="' . htmlspecialchars($attributes['class']) . '"' : '';
         $title = $attributes['title'] ?? 'Show Code';
 
-        // Handle preview flag
         if (isset($attributes['preview'])) {
             return $this->renderWithPreview($content, $attributes, $language, $isCollapsible, $wrapperClass, $title);
         }
 
-        // Check for code-X override first (e.g. code-blade)
-        $codeOverride = $this->getCodeLanguageOverride($attributes);
+        $codeOverride = $this->torchlight->getLanguage($attributes, '');
         if ($codeOverride) {
             return $this->renderCode($content, $codeOverride, $isCollapsible, $isSelectable, $title);
         }
 
-        // Just code = show highlighted code only
         if (isset($attributes['code'])) {
             return $this->renderCode($content, $language, $isCollapsible, $isSelectable, $title);
         }
 
-        // No flags = return null (let default renderer handle it)
         return null;
     }
 
-    /**
-     * Renders content with a live preview alongside optional code display.
-     *
-     * Handles the preview flag by showing the rendered output first, then optionally
-     * includes source code or generated HTML (code, output) in either collapsible
-     * or inline format based on configuration.
-     */
     private function renderWithPreview(
         string $content,
         array $attributes,
@@ -81,7 +69,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         string $title
     ): string {
         $rendered = '<div' . $wrapperClass . '>' . Blade::render($content) . '</div>';
-        $codeLanguage = $this->getTorchlightLanguage($attributes, $language);
+        $codeLanguage = $this->torchlight->getLanguage($attributes, $language);
 
         $hasCode = isset($attributes['code']);
         $hasOutput = isset($attributes['output']);
@@ -93,12 +81,6 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         return $this->buildInlinePreview($rendered, $content, $codeLanguage, $hasCode, $hasOutput);
     }
 
-    /**
-     * Builds a collapsible preview with rendered output and optional code sections.
-     *
-     * Creates accordion-style sections showing the rendered preview followed by
-     * collapsible original code and/or generated HTML output based on the flags present.
-     */
     private function buildCollapsiblePreview(
         string $rendered,
         string $content,
@@ -110,23 +92,17 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $output = $rendered;
 
         if ($hasCode) {
-            $output .= $this->buildCollapsibleSection($content, $codeLanguage, true, 'View Code', 'Copy Code');
+            $output .= $this->buildCollapsibleCodeSection($content, $codeLanguage, true, 'View Code', 'Copy Code');
         }
 
         if ($hasOutput) {
-            $generatedHtml = $this->cleanRenderedHtml(Blade::render($content));
-            $output .= $this->buildCollapsibleSection($generatedHtml, $codeLanguage, false, $title, 'Copy Output');
+            $generatedHtml = $this->htmlCleaner->cleanAndFormat(Blade::render($content));
+            $output .= $this->buildCollapsibleCodeSection($generatedHtml, $codeLanguage, false, $title, 'Copy Output');
         }
 
         return $output;
     }
 
-    /**
-     * Builds an inline preview with rendered output and optional code blocks.
-     *
-     * Shows the rendered preview immediately followed by code blocks displayed
-     * inline (not collapsible) for original code and/or generated HTML output based on flags.
-     */
     private function buildInlinePreview(
         string $rendered,
         string $content,
@@ -136,32 +112,110 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
     ): string {
         if ($hasCode) {
             $codeBlock = $this->renderCodeBlock($content, $codeLanguage, true);
-
             return $rendered . $codeBlock;
         }
 
         if ($hasOutput) {
-            $generatedHtml = $this->cleanRenderedHtml(Blade::render($content));
+            $generatedHtml = $this->htmlCleaner->cleanAndFormat(Blade::render($content));
             $codeBlock = $this->renderCodeBlock($generatedHtml, $codeLanguage, false);
-
             return $rendered . $codeBlock;
         }
 
         return $rendered;
     }
 
-    /**
-     * Renders code block in either collapsible or inline format.
-     *
-     * Used for +code and +code-X flags to display syntax-highlighted code blocks
-     * either as collapsible sections or standard inline code blocks.
-     */
     private function renderCode(string $content, string $language, bool $isCollapsible, bool $isSelectable, string $title): string
     {
         if ($isCollapsible) {
-            return $this->buildCollapsibleSection($content, $language, true, $title, 'Copy Code');
+            return $this->buildCollapsibleCodeSection($content, $language, true, $title, 'Copy Code');
         }
 
         return $this->renderCodeBlock($content, $language, true, $isSelectable);
+    }
+
+    private function renderCodeBlock(string $code, string $language, bool $verbatim, bool $isSelectable = false): string
+    {
+        $torchlight = $this->torchlight->buildComponentString($code, $language, $verbatim);
+        $renderedCode = Blade::render($torchlight);
+        $cleanCode = $this->htmlCleaner->stripTorchlightAnnotations($code);
+
+        return $this->wrapWithCopyButton(rtrim($cleanCode), $renderedCode, $isSelectable);
+    }
+
+    private function buildCollapsibleCodeSection(string $code, string $language, bool $verbatim, string $viewLabel, string $copyLabel): string
+    {
+        $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
+        $cleanCode = $this->htmlCleaner->stripTorchlightAnnotations($code);
+        $rawCode = htmlspecialchars(rtrim($cleanCode));
+
+        $torchlight = $this->torchlight->buildComponentString($code, $language, $verbatim);
+        $renderedCode = Blade::render($torchlight);
+
+        $copyJs = $this->generateCopyJs($uniqueId);
+
+        return '
+            <div x-data="{ open: false }" class="mt-05 mb">
+                <textarea id="' . $uniqueId . '-raw" style="display: none;">' . $rawCode . '</textarea>
+                <div class="flex items-center gap-05">
+                    <button x-on:click="open = !open" class="btn sm">
+                        <span>' . htmlspecialchars($viewLabel) . '</span>
+                    </button>
+                    <div x-data="{ copied: false }" style="position: static;">
+                        <button @click="' . $copyJs . '" class="btn sm"
+                            :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                            x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'"
+                            style="position: static; display: inline-block;">
+                        </button>
+                    </div>
+                </div>
+                <div x-show="open" x-collapse class="mt-05">
+                    <pre id="' . $uniqueId . '">' . $renderedCode . '</pre>
+                </div>
+            </div>';
+    }
+
+    private function wrapWithCopyButton(string $rawCode, string $renderedCode, bool $isSelectable = false): string
+    {
+        $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
+        $copyJs = $this->generateCopyJs($uniqueId);
+
+        $selectableClass = $isSelectable ? ' selectable-code-block' : '';
+        $selectableAttr = $isSelectable ? ' data-selectable="true"' : '';
+
+        return '
+            <div class="relative code-block-wrapper' . $selectableClass . '"' . $selectableAttr . ' style="position: relative; isolation: isolate;' . ($isSelectable ? ' cursor: pointer; transition: all 0.2s ease;' : '') . '">
+                <textarea id="' . $uniqueId . '-raw" style="display: none;">' . htmlspecialchars($rawCode) . '</textarea>
+                <div style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
+                    <div x-data="{ copied: false }">
+                        <button @click.stop="' . $copyJs . '" 
+                            class="btn xs"
+                            :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
+                            x-text="copied ? \'Copied!\' : \'Copy\'">
+                        </button>
+                    </div>
+                </div>
+                <pre id="' . $uniqueId . '">' . $renderedCode . '</pre>
+            </div>';
+    }
+
+    private function generateCopyJs(string $elementId): string
+    {
+        return "
+            const code = document.getElementById('{$elementId}-raw').value;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = code;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-999999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            copied = true;
+            setTimeout(() => copied = false, 2000);
+        ";
     }
 }
