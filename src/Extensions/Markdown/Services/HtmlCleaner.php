@@ -8,11 +8,6 @@ namespace Naykel\Gotime\Extensions\Markdown\Services;
 class HtmlCleaner
 {
     /**
-     * Cache for cleaned code to avoid repeated processing
-     */
-    private array $cleanCache = [];
-
-    /**
      * Clean HTML by removing Blade/Livewire comment artifacts.
      */
     public function clean(string $html): string
@@ -127,12 +122,6 @@ class HtmlCleaner
      */
     public function stripTorchlightAnnotations(string $code): string
     {
-        // Cache cleaned code to avoid repeated processing
-        $hash = md5($code);
-        if (isset($this->cleanCache[$hash])) {
-            return $this->cleanCache[$hash];
-        }
-
         $lines = explode("\n", $code);
         $cleaned = [];
 
@@ -147,9 +136,6 @@ class HtmlCleaner
             $cleaned[] = $cleanedLine;
         }
 
-        $result = implode("\n", $cleaned);
-        $this->cleanCache[$hash] = $result;
-
-        return $result;
+        return implode("\n", $cleaned);
     }
 }

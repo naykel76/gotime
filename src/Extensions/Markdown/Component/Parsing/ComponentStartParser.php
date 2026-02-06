@@ -32,16 +32,17 @@ class ComponentStartParser implements BlockStartParserInterface
         }
 
         // Get the rest of the line (component type and attributes)
-        $infoString = trim($cursor->getRemainder());
+        $remainder = trim($cursor->getRemainder());
 
-        // Extract component type (first word)
-        $parts = preg_split('/\s+/', $infoString, 2);
+        // Extract component type (first word) and attributes (rest)
+        $parts = preg_split('/\s+/', $remainder, 2);
         $type = $parts[0] ?? 'box'; // Default to 'box' if no type specified
+        $attributesString = $parts[1] ?? ''; // Only the attributes, not the type
 
         // Advance cursor to end of line to consume the opening tag
         $cursor->advanceToEnd();
 
-        return BlockStart::of(new ComponentParser($type, $infoString, $indent))
+        return BlockStart::of(new ComponentParser($type, $attributesString, $indent))
             ->at($cursor);
     }
 }

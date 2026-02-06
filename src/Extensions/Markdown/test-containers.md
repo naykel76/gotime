@@ -1,6 +1,6 @@
 # Container Testing
 
-This file tests all three container types with the new system.
+This file tests all component types.
 
 ## Test 1: Collapse Card (Default)
 

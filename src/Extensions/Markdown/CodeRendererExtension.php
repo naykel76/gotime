@@ -152,50 +152,56 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $renderedCode = Blade::render($torchlight);
 
         $copyJs = $this->generateCopyJs($uniqueId);
+        $escapedViewLabel = htmlspecialchars($viewLabel);
+        $escapedCopyLabel = htmlspecialchars($copyLabel);
 
-        return '
+        return <<<HTML
             <div x-data="{ open: false }" class="mt-05 mb">
-                <textarea id="' . $uniqueId . '-raw" style="display: none;">' . $rawCode . '</textarea>
+                <textarea id="{$uniqueId}-raw" style="display: none;">{$rawCode}</textarea>
                 <div class="flex items-center gap-05">
                     <button x-on:click="open = !open" class="btn sm">
-                        <span>' . htmlspecialchars($viewLabel) . '</span>
+                        <span>{$escapedViewLabel}</span>
                     </button>
                     <div x-data="{ copied: false }" style="position: static;">
-                        <button @click="' . $copyJs . '" class="btn sm"
-                            :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
-                            x-text="copied ? \'Copied!\' : \'' . $copyLabel . '\'"
+                        <button @click="{$copyJs}" class="btn sm"
+                            :class="copied ? 'bg-sky-500' : 'bg-sky-300'"
+                            x-text="copied ? 'Copied!' : '{$escapedCopyLabel}'"
                             style="position: static; display: inline-block;">
                         </button>
                     </div>
                 </div>
                 <div x-show="open" x-collapse class="mt-05">
-                    <pre id="' . $uniqueId . '">' . $renderedCode . '</pre>
+                    <pre id="{$uniqueId}">{$renderedCode}</pre>
                 </div>
-            </div>';
+            </div>
+        HTML;
     }
 
     private function wrapWithCopyButton(string $rawCode, string $renderedCode, bool $isSelectable = false): string
     {
         $uniqueId = 'code-' . \Illuminate\Support\Str::random(8);
         $copyJs = $this->generateCopyJs($uniqueId);
+        $escapedRawCode = htmlspecialchars($rawCode);
 
         $selectableClass = $isSelectable ? ' selectable-code-block' : '';
+        $selectableStyle = $isSelectable ? ' cursor: pointer; transition: all 0.2s ease;' : '';
         $selectableAttr = $isSelectable ? ' data-selectable="true"' : '';
 
-        return '
-            <div class="relative code-block-wrapper' . $selectableClass . '"' . $selectableAttr . ' style="position: relative; isolation: isolate;' . ($isSelectable ? ' cursor: pointer; transition: all 0.2s ease;' : '') . '">
-                <textarea id="' . $uniqueId . '-raw" style="display: none;">' . htmlspecialchars($rawCode) . '</textarea>
+        return <<<HTML
+            <div class="relative code-block-wrapper{$selectableClass}"{$selectableAttr} style="position: relative; isolation: isolate;{$selectableStyle}">
+                <textarea id="{$uniqueId}-raw" style="display: none;">{$escapedRawCode}</textarea>
                 <div style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
                     <div x-data="{ copied: false }">
-                        <button @click.stop="' . $copyJs . '" 
+                        <button @click.stop="{$copyJs}" 
                             class="btn xs"
-                            :class="copied ? \'bg-sky-500\' : \'bg-sky-300\'"
-                            x-text="copied ? \'Copied!\' : \'Copy\'">
+                            :class="copied ? 'bg-sky-500' : 'bg-sky-300'"
+                            x-text="copied ? 'Copied!' : 'Copy'">
                         </button>
                     </div>
                 </div>
-                <pre id="' . $uniqueId . '">' . $renderedCode . '</pre>
-            </div>';
+                <pre id="{$uniqueId}">{$renderedCode}</pre>
+            </div>
+        HTML;
     }
 
     private function generateCopyJs(string $elementId): string

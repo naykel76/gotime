@@ -22,13 +22,13 @@ class ComponentRenderer implements NodeRendererInterface
 
         /** @var ComponentBlock $node */
         $type = $node->getType();
-        $infoString = $node->getInfoString();
+        $attributesString = $node->getAttributesString();
 
         // Render child nodes (the content inside the component)
         $content = $childRenderer->renderNodes($node->children());
 
-        // Parse attributes from info string
-        $attributes = AttributeParser::parse($infoString);
+        // Parse attributes from attributes string (type is already extracted)
+        $attributes = AttributeParser::parse($attributesString);
 
         // Return raw HTML directly - don't wrap in HtmlElement
         return $this->renderComponent($type, $content, $attributes);

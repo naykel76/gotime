@@ -16,13 +16,13 @@ use League\CommonMark\Node\Block\AbstractBlock;
 class ComponentBlock extends AbstractBlock
 {
     protected string $type;
-    protected string $infoString;
+    protected string $attributesString;
 
-    public function __construct(string $type, string $infoString)
+    public function __construct(string $type, string $attributesString)
     {
         parent::__construct();
         $this->type = $type;
-        $this->infoString = $infoString;
+        $this->attributesString = $attributesString;
     }
 
     public function getType(): string
@@ -30,8 +30,12 @@ class ComponentBlock extends AbstractBlock
         return $this->type;
     }
 
-    public function getInfoString(): string
+    /**
+     * Get the attributes string (everything after the component type).
+     * Example: For "::: collapse title='Hello' opened", returns "title='Hello' opened"
+     */
+    public function getAttributesString(): string
     {
-        return $this->infoString;
+        return $this->attributesString;
     }
 }

@@ -2,10 +2,8 @@
 
 namespace Naykel\Gotime\Extensions\Markdown\Services;
 
-use Illuminate\Support\Facades\Blade;
-
 /**
- * Renders Torchlight syntax-highlighted code blocks.
+ * Builds Torchlight syntax-highlighted code components.
  */
 class TorchlightRenderer
 {
@@ -19,23 +17,6 @@ class TorchlightRenderer
             : $code;
 
         return '<x-torchlight-code language="' . $language . '">' . $wrappedCode . '</x-torchlight-code>';
-    }
-
-    /**
-     * Render Torchlight code component with syntax highlighting.
-     *
-     * @link https://claude.ai/share/b9398274-5ba4-4478-a966-63fad4229068
-     *
-     * IMPORTANT: Blade compilation happens in TWO stages for components
-     * Stage 1: User wraps in @verbatim to prevent Blade from executing {{ }} syntax
-     * Stage 2: verbatim may be applied again here since we call Blade::render() manually
-     * Both are needed!
-     */
-    public function render(string $code, string $language, bool $verbatim): string
-    {
-        $torchlight = $this->buildComponentString($code, $language, $verbatim);
-
-        return Blade::render($torchlight);
     }
 
     /**
