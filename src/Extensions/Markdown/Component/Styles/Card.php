@@ -1,9 +1,9 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown\Container\Layouts;
+namespace Naykel\Gotime\Extensions\Markdown\Component\Styles;
 
 /**
- * Card-style collapsible layout.
+ * Card-style collapsible component.
  *
  * Renders a collapsible section with:
  * - White background with border and shadow
@@ -11,14 +11,14 @@ namespace Naykel\Gotime\Extensions\Markdown\Container\Layouts;
  * - Chevron icon that rotates
  * - Perfect for FAQs and accordions
  */
-class CollapseCard implements LayoutInterface
+class Card implements StyleInterface
 {
     public function render(string $content, array $attributes): string
     {
         $title = $attributes['title'] ?? 'Show More';
         $opened = isset($attributes['opened']) ? 'true' : 'false';
         $customClass = $attributes['class'] ?? '';
-        
+
         $wrapperClass = htmlspecialchars(trim('bg-white rounded-lg shadow-sm bdr bdr-gray-200 ' . $customClass));
         $titleEscaped = htmlspecialchars($title);
 

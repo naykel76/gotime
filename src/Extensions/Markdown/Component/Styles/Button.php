@@ -1,23 +1,23 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown\Container\Layouts;
+namespace Naykel\Gotime\Extensions\Markdown\Component\Styles;
 
 /**
- * Simple button-style collapsible layout.
+ * Simple button-style collapsible component.
  *
  * Minimal collapse with:
  * - Simple button with no card styling
  * - No icon
  * - Lightweight and clean
  */
-class CollapseButton implements LayoutInterface
+class Button implements StyleInterface
 {
     public function render(string $content, array $attributes): string
     {
         $title = $attributes['title'] ?? 'Show More';
         $opened = isset($attributes['opened']) ? 'true' : 'false';
         $customClass = $attributes['class'] ?? '';
-        
+
         $wrapperClass = htmlspecialchars(trim('mt-05 mb ' . $customClass));
         $titleEscaped = htmlspecialchars($title);
 

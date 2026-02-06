@@ -1,6 +1,6 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown\Container;
+namespace Naykel\Gotime\Extensions\Markdown\Component\Parsing;
 
 use League\CommonMark\Parser\Block\BlockStart;
 use League\CommonMark\Parser\Block\BlockStartParserInterface;
@@ -8,14 +8,14 @@ use League\CommonMark\Parser\Cursor;
 use League\CommonMark\Parser\MarkdownParserStateInterface;
 
 /**
- * Parses container blocks that start with :::
+ * Parses component blocks that start with :::
  *
  * Syntax:
  * ::: type attr="value" flag
  * Content...
  * :::
  */
-class ContainerStartParser implements BlockStartParserInterface
+class ComponentStartParser implements BlockStartParserInterface
 {
     public function tryStart(Cursor $cursor, MarkdownParserStateInterface $parserState): ?BlockStart
     {
@@ -31,17 +31,17 @@ class ContainerStartParser implements BlockStartParserInterface
             return BlockStart::none();
         }
 
-        // Get the rest of the line (container type and attributes)
+        // Get the rest of the line (component type and attributes)
         $infoString = trim($cursor->getRemainder());
-        
-        // Extract container type (first word)
+
+        // Extract component type (first word)
         $parts = preg_split('/\s+/', $infoString, 2);
         $type = $parts[0] ?? 'box'; // Default to 'box' if no type specified
-        
+
         // Advance cursor to end of line to consume the opening tag
         $cursor->advanceToEnd();
-        
-        return BlockStart::of(new ContainerParser($type, $infoString, $indent))
+
+        return BlockStart::of(new ComponentParser($type, $infoString, $indent))
             ->at($cursor);
     }
 }

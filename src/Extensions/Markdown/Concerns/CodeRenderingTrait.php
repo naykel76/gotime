@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Blade;
 
 trait CodeRenderingTrait
 {
-    use ContainerRenderingTrait;
-
     /**
      * Cache for cleaned code to avoid repeated processing
      */

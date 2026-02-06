@@ -1,8 +1,14 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown\Concerns;
+namespace Naykel\Gotime\Extensions\Markdown\Support;
 
-trait AttributeParsingTrait
+/**
+ * Parses attributes from markdown info strings.
+ *
+ * Provides static methods to extract attributes from strings like:
+ * - collapse title="Show More" class="foo" opened
+ */
+class AttributeParser
 {
     /**
      * Extracts an attribute value from a string.
@@ -18,7 +24,7 @@ trait AttributeParsingTrait
      *   extractAttribute('title=Hello', 'title') => 'Hello'
      *   extractAttribute('+title="Show Code"', '+title') => 'Show Code'
      */
-    private function extractAttribute(string $string, string $attrName, bool $formatAsHtml = false): ?string
+    public static function extractAttribute(string $string, string $attrName, bool $formatAsHtml = false): ?string
     {
         $escapedAttr = preg_quote($attrName, '/');
 
@@ -42,13 +48,13 @@ trait AttributeParsingTrait
      * Parse all attributes from a string into an associative array.
      *
      * Extracts all key="value" or key=value pairs from the input string.
-     * Useful for container blocks where you want all attributes at once.
+     * Useful for component blocks where you want all attributes at once.
      *
      * Example:
-     *   parseAttributes('title="Hello" class="foo bar" opened')
+     *   parse('title="Hello" class="foo bar" opened')
      *   => ['title' => 'Hello', 'class' => 'foo bar', 'opened' => true]
      */
-    protected function parseAttributes(string $string): array
+    public static function parse(string $string): array
     {
         $attributes = [];
 
@@ -62,7 +68,7 @@ trait AttributeParsingTrait
         preg_match_all('/(\w+)=(\S+)/', $string, $unquotedMatches, PREG_SET_ORDER);
         foreach ($unquotedMatches as $match) {
             // Skip if already captured as quoted
-            if (!isset($attributes[$match[1]])) {
+            if (! isset($attributes[$match[1]])) {
                 $attributes[$match[1]] = $match[2];
             }
         }
@@ -71,10 +77,10 @@ trait AttributeParsingTrait
         // Remove all key=value pairs first, then split remaining words
         $withoutPairs = preg_replace('/\w+=(?:["\'][^"\']*["\']|\S+)/', '', $string);
         $words = preg_split('/\s+/', trim($withoutPairs), -1, PREG_SPLIT_NO_EMPTY);
-        
+
         foreach ($words as $word) {
-            // Skip the container type (first word after :::)
-            if (!isset($attributes['_type'])) {
+            // Skip the component type (first word after :::)
+            if (! isset($attributes['_type'])) {
                 $attributes['_type'] = $word;
             } else {
                 // Boolean flags like 'opened'

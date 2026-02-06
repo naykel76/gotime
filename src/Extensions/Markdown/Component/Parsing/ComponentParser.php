@@ -1,6 +1,6 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown\Container;
+namespace Naykel\Gotime\Extensions\Markdown\Component\Parsing;
 
 use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Parser\Block\AbstractBlockContinueParser;
@@ -9,20 +9,20 @@ use League\CommonMark\Parser\Block\BlockContinueParserInterface;
 use League\CommonMark\Parser\Cursor;
 
 /**
- * Continues parsing a container block until the closing ::: is found.
+ * Continues parsing a component block until the closing ::: is found.
  */
-class ContainerParser extends AbstractBlockContinueParser
+class ComponentParser extends AbstractBlockContinueParser
 {
-    private ContainerBlock $block;
+    private ComponentBlock $block;
     private int $indent;
 
     public function __construct(string $type, string $infoString, int $indent)
     {
-        $this->block = new ContainerBlock($type, $infoString);
+        $this->block = new ComponentBlock($type, $infoString);
         $this->indent = $indent;
     }
 
-    public function getBlock(): ContainerBlock
+    public function getBlock(): ComponentBlock
     {
         return $this->block;
     }

@@ -9,12 +9,11 @@ use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use Naykel\Gotime\Extensions\Markdown\Concerns\AttributeParsingTrait;
 use Naykel\Gotime\Extensions\Markdown\Concerns\CodeRenderingTrait;
+use Naykel\Gotime\Extensions\Markdown\Support\AttributeParser;
 
 class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
-    use AttributeParsingTrait;
     use CodeRenderingTrait;
 
     public function register(EnvironmentBuilderInterface $environment): void
@@ -40,8 +39,8 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         // configuration flags
         $isCollapsible = in_array('+collapse', $flagsArray);
         $isSelectable = in_array('+selectable', $flagsArray);
-        $wrapperClass = $this->extractAttribute($flagString, 'class', true) ?? '';
-        $title = $this->extractAttribute($flagString, '+title') ?? 'Show Code';
+        $wrapperClass = AttributeParser::extractAttribute($flagString, 'class', true) ?? '';
+        $title = AttributeParser::extractAttribute($flagString, '+title') ?? 'Show Code';
 
         // Handle +preview flag
         if (in_array('+preview', $flagsArray)) {

@@ -1,19 +1,19 @@
 <?php
 
-namespace Naykel\Gotime\Extensions\Markdown\Container;
+namespace Naykel\Gotime\Extensions\Markdown\Component\Parsing;
 
 use League\CommonMark\Node\Block\AbstractBlock;
 
 /**
- * Represents a container block in the markdown AST.
+ * Represents a component block in the markdown AST.
  *
- * Containers are defined with ::: syntax:
+ * Components are defined with ::: syntax:
  *
  * ::: collapse title="Example"
  * Content here
  * :::
  */
-class ContainerBlock extends AbstractBlock
+class ComponentBlock extends AbstractBlock
 {
     protected string $type;
     protected string $infoString;
