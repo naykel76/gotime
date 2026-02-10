@@ -42,7 +42,7 @@ class GotimeServiceProvider extends ServiceProvider
             $this->commands([InstallCommand::class]);
 
             $this->publishes([
-                __DIR__ . '/../config/naykel.php' => config_path('naykel.php'),
+                __DIR__ . '/../config/gotime.php' => config_path('gotime.php'),
             ], 'gotime-config');
 
             $this->publishes([

@@ -30,10 +30,15 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         $attributes = AttributeParser::parse($flagString);
 
-        $isCollapsible = isset($attributes['collapse']);
+        $isCollapsible = isset($attributes['collapse']) || isset($attributes['demo-folded']);
         $isSelectable = isset($attributes['selectable']);
         $wrapperClass = isset($attributes['class']) ? ' class="' . htmlspecialchars($attributes['class']) . '"' : '';
         $title = $attributes['title'] ?? 'Show Code';
+
+        if (isset($attributes['demo']) || isset($attributes['demo-folded'])) {
+            $attributes['preview'] = true;
+            $attributes['code'] = true;
+        }
 
         if (isset($attributes['preview'])) {
             return $this->renderWithPreview($content, $attributes, $language, $isCollapsible, $wrapperClass, $title);
@@ -190,7 +195,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $selectableAttr = $isSelectable ? ' data-selectable="true"' : '';
 
         return <<<HTML
-            <div class="relative code-block-wrapper{$selectableClass}"{$selectableAttr} style="position: relative; isolation: isolate;{$selectableStyle}">
+            <div class="code-block-wrapper{$selectableClass}"{$selectableAttr} style="isolation: isolate;{$selectableStyle}">
                 <textarea id="{$uniqueId}-raw" style="display: none;">{$escapedRawCode}</textarea>
                 <div style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
                     <div x-data="{ copied: false }">
