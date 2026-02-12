@@ -56,12 +56,18 @@ class InstallCommand extends Command
             ] + $scripts;
         });
 
+        // Remove tailwindcss packages...
+        $this->removeNodePackages([
+            '@tailwindcss/vite',
+            'tailwindcss',
+        ]);
+
         File::copyDirectory(__DIR__ . '/../../stubs', base_path());
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
 
         // Add to .gitignore
         $gitignorePath = base_path('.gitignore');
-        $gitignoreEntries = "\n/.cursor\n/.github\n/.opencode\n/tmp\nnk_tasks.md\nAGENTS.md";
+        $gitignoreEntries = "\n/.agents\n/.cursor\n/.github\n/.vscode\n/tmp\nnk_tasks.md";
         File::append($gitignorePath, $gitignoreEntries);
 
         // Clean up
@@ -120,6 +126,31 @@ class InstallCommand extends Command
         );
 
         ksort($packages['scripts']);
+
+        file_put_contents(
+            base_path('package.json'),
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
+        );
+    }
+
+    /**
+     * Remove packages from the "package.json" file.
+     */
+    protected static function removeNodePackages(array $packagesToRemove)
+    {
+        if (! file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
+
+        foreach (['dependencies', 'devDependencies'] as $key) {
+            if (array_key_exists($key, $packages)) {
+                foreach ($packagesToRemove as $package) {
+                    unset($packages[$key][$package]);
+                }
+            }
+        }
 
         file_put_contents(
             base_path('package.json'),

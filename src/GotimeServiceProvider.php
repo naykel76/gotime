@@ -44,16 +44,6 @@ class GotimeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/gotime.php' => config_path('gotime.php'),
             ], 'gotime-config');
-
-            $this->publishes([
-                __DIR__ . '/../resources/views/components/layouts' => resource_path('views/components/layouts'),
-            ], 'gotime-all-layouts');
-
-            // only publish the main app layout and partials
-            $this->publishes([
-                __DIR__ . '/../resources/views/components/layouts/app.blade.php' => resource_path('views/components/layouts/app.blade.php'),
-                __DIR__ . '/../resources/views/components/layouts/partials' => resource_path('views/components/layouts/partials'),
-            ], 'gotime-app-layouts');
         }
     }
 

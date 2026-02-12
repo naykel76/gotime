@@ -28,3 +28,7 @@ nk_tasks.md
 # is only needed in production
 composer.lock 
 storage/debugbar
+.agents/
+.cursor/
+*.cache
+*.tmp

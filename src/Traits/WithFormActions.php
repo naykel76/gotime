@@ -2,6 +2,7 @@
 
 namespace Naykel\Gotime\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 
 trait WithFormActions
@@ -62,43 +63,57 @@ trait WithFormActions
     }
 
     /**
-     * Save the current form data and handle post-save actions.
+     * Save the current form data.
      *
-     * Delegates to the form object's save() method to persist the model.
-     * Handles notifications, event dispatching, and optional redirects for
-     * route-based workflows.
+     * Delegates to the form object's save() method to persist the model,
+     * dispatches notifications and events.
      *
-     * @param  string|null  $action  Optional post-save action (save_close, save_new, save_edit)
+     * @return Model The model that was persisted
      */
-    public function save(?string $action = null): void
+    public function save(): Model
     {
-
-        $isNewModel = $this->isNewModel();
-
-        // Persist the model via the form object's save() method
-        // Save the model using the form's save() method
         $model = $this->form->save();
-
-        // If editing an existing model and the action is 'save_edit', notify and exit early
-        // This avoids unnecessary redirects or additional processing on repeated saves
-        if (! $isNewModel && $action === 'save_edit') {
-            $this->dispatch('notify', 'Saved successfully!');
-
-            return;
-        }
-
-        // Handle redirects for route-based workflows
-        if ($action && $action !== 'skip_redirect') {
-            $this->handleRedirect($this->routePrefix, $action, $model);
-        }
-
         $this->dispatch('notify', 'Saved successfully!');
         $this->dispatch('model-saved');
 
-        // Reset and close modal only when no action provided
-        if (! $action) {
-            $this->closeModal();
+        return $model;
+    }
+
+    /**
+     * Save and close the modal.
+     */
+    public function saveAndClose(): void
+    {
+        $this->save();
+        $this->closeModal();
+    }
+
+    /**
+     * Save and redirect to the create route.
+     *
+     * Requires $routePrefix to be set.
+     */
+    public function saveAndNew(): void
+    {
+        $this->save();
+        $this->handleRedirect('save_new');
+    }
+
+    /**
+     * Save and redirect to the edit route.
+     *
+     * For existing models, this notifies without redirecting.
+     * Requires $routePrefix to be set.
+     */
+    public function saveAndEdit(): void
+    {
+        $model = $this->save();
+
+        if (! $this->isNewModel()) {
+            return;
         }
+
+        $this->handleRedirect('save_edit', $model);
     }
 
     /**
@@ -107,12 +122,12 @@ trait WithFormActions
      * Used for route-based workflows. Laravel's route model binding automatically
      * uses the model's route key (slug, uuid, or id) based on route definition.
      */
-    private function handleRedirect(string $routePrefix, string $action, $model)
+    private function handleRedirect(string $action, ?Model $model = null): void
     {
-        return match ($action) {
-            'save_close' => redirect(route("$routePrefix.index")),
-            'save_new' => redirect(route("$routePrefix.create")),
-            'save_edit' => redirect(route("$routePrefix.edit", $model)),
+        match ($action) {
+            'save_close' => redirect(route("{$this->routePrefix}.index")),
+            'save_new' => redirect(route("{$this->routePrefix}.create")),
+            'save_edit' => redirect(route("{$this->routePrefix}.edit", $model)),
             default => throw new \Exception("Invalid action: $action"),
         };
     }
