@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 class ConfigCommand extends Command
 {
     protected $signature = 'gotime:config';
-
     protected $description = 'Publish Gotime config file';
 
     public function handle()

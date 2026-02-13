@@ -85,7 +85,6 @@ class Markdown extends Component
         return $this->extractNestedTag($html, 'ul', 'class="[^\"]*toc[^\"]*"');
     }
 
-
     /**
      * Extract a nested HTML tag with specific attribute pattern
      */

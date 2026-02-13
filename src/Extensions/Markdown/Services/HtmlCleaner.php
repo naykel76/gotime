@@ -55,6 +55,7 @@ class HtmlCleaner
 
             if (empty($token)) {
                 $i++;
+
                 continue;
             }
 
@@ -81,6 +82,7 @@ class HtmlCleaner
                             // Inline element with simple text - keep on same line
                             $formatted .= str_repeat($indentString, $indentLevel) . $token . $nextToken . trim($tokens[$i + 2]) . "\n";
                             $i += 3;
+
                             continue;
                         }
                     }
@@ -114,6 +116,7 @@ class HtmlCleaner
     public function cleanAndFormat(string $html): string
     {
         $cleaned = $this->clean($html);
+
         return $this->format($cleaned);
     }
 

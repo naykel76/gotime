@@ -67,8 +67,22 @@ class InstallCommand extends Command
 
         // Add to .gitignore
         $gitignorePath = base_path('.gitignore');
-        $gitignoreEntries = "\n/.agents\n/.cursor\n/.github\n/.vscode\n/tmp\nnk_tasks.md";
-        File::append($gitignorePath, $gitignoreEntries);
+
+        if (File::exists($gitignorePath)) {
+            $existingContent = File::get($gitignorePath);
+            $entriesToAdd = array_filter([
+                '/.agents',
+                '/.cursor',
+                '/.github',
+                '/.vscode',
+                '/tmp',
+                'nk_tasks.md',
+            ], fn($entry) => ! str_contains($existingContent, $entry));
+
+            if (! empty($entriesToAdd)) {
+                File::append($gitignorePath, "\n" . implode("\n", $entriesToAdd));
+            }
+        }
 
         // Clean up
         File::deleteDirectory(resource_path('css'));

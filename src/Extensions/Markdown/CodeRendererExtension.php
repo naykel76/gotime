@@ -46,6 +46,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             if ($hasOutput) {
                 return DemoComponent::renderWithOutput($content, $content, $language, $isCollapsible, $wrapperClass, $title);
             }
+
             return DemoComponent::render($content, $content, $language, $isCollapsible, $wrapperClass, $title);
         }
 
@@ -53,8 +54,10 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             $previewHtml = PreviewComponent::render(Blade::render($content), $wrapperClass);
             if ($isCollapsible) {
                 $codeHtml = CollapsibleCodeComponent::render('', $language, false, $title, 'Copy Output');
+
                 return '<div class="demo-code-wrapper">' . $previewHtml . $codeHtml . '</div>';
             }
+
             return $previewHtml;
         }
 
@@ -65,12 +68,14 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
             if ($isCollapsible) {
                 return CollapsibleCodeComponent::render($content, $codeLanguage, true, $title, 'Copy Code');
             }
+
             return CodeBlockComponent::render($content, $codeLanguage);
         }
 
         if ($hasOutput) {
             $htmlCleaner = new HtmlCleaner;
             $generatedHtml = $htmlCleaner->cleanAndFormat(Blade::render($content));
+
             return CodeBlockComponent::render($generatedHtml, $language);
         }
 

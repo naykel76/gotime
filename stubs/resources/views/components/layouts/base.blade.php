@@ -5,7 +5,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
-        @if ($nofollow)
+        @if (app()->environment('staging') || $nofollow )
             <meta name="robots" content="noindex,follow">
         @endif
         @includeFirst(['components.layouts.partials.head', 'gotime::components.layouts.partials.head'])

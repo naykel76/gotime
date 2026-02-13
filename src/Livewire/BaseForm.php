@@ -19,7 +19,7 @@ abstract class BaseForm extends Component
     // CHECK: This method is not currently called anywhere. I believe this
     // intention is for it to be called in the mount method of the child class.
     // What is the benefit of this approach vs just putting the code in the
-    // mount method of the child class? 
+    // mount method of the child class?
     public function afterMount(Model $model)
     {
         $this->loadFormConfig($this->configKey());

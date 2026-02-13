@@ -169,15 +169,27 @@
             100% {
                 transform: translate(50px, 50px);
             }
-        }  
+        }
     </style>
-    <div class="bg-gradient overflow-hidden">
-        <div class="flex-centered h-screen">
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
+    <div class="bg-gradient overflow-hidden relative">
+        @if (Route::has('login'))
+            <nav class="flex items-center justify-end gap-05 pxy">
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="btn red"> Dashboard </a>
+                @else
+                    <a class="btn dark-outline py-0375 px-1.25" href="{{ route('login') }}">Log in</a>
 
+                    @if (Route::has('register'))
+                        <a class="btn dark py-0375 px-1.25" href="{{ route('register') }}">Register</a>
+                    @endif
+                @endauth
+            </nav>
+        @endif
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="flex-centered h-screen">
             <div class="content">
                 <img src="{{ asset('logo.svg') }}" class="h-5" alt="Naykel logo" />
                 <h1 class="mt-2">GOTIME</h1>
