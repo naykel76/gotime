@@ -3,12 +3,8 @@
 namespace Naykel\Gotime\DTO;
 
 /**
- * This class is used to create a Data Transfer Object (DTO) for a route. It
- * takes an object as input and sets the properties of the DTO based on the
- * properties of the input object.
- *
- * This DTO is also the basis for the NavItemDTO class, as they share many of
- * the same properties and methods.
+ * Data Transfer Object for a route item read from a nav JSON file.
+ * Normalises raw JSON properties into typed fields consumed by RouteBuilder.
  */
 class RouteDTO
 {
@@ -59,12 +55,6 @@ class RouteDTO
      * Override the layout for this specific item.
      */
     public ?string $layout;
-
-    /**
-     * Layout options/modifiers for this specific item.
-     * Useful for passing CSS classes, styles, or configuration to the layout.
-     */
-    public array $layoutOptions;
 
     public function __construct(object $item)
     {

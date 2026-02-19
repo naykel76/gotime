@@ -6,15 +6,17 @@ use Illuminate\Support\Collection;
 
 class NavDTO
 {
+    public Collection $menuItems;
+
     /**
      * NavDTO constructor.
      *
-     * @param  Collection  $menuItems  Collection of navigation items.
+     * @param  object  $menu  The raw menu object from the JSON file.
      * @param  string  $menuName  The name of the navigation menu.
      */
-    public function __construct(public Collection $menuItems, private string $menuName)
+    public function __construct(object $menu, private string $menuName)
     {
-        $this->menuItems = collect($menuItems->get('links'))
+        $this->menuItems = collect($menu->links ?? [])
             ->map(function ($item) {
                 // Handle imports from other menu files
                 if (isset($item->import)) {
@@ -39,9 +41,10 @@ class NavDTO
     protected function resolveImport(object $item): NavItemDTO
     {
         $importPath = $item->import;
-        $parts = explode('.', $importPath);
+        // Limit to 2 parts so menuname can contain dots (e.g. "nav.docs.components" → filename=nav, menuname=docs.components)
+        $parts = explode('.', $importPath, 2);
 
-        if (count($parts) < 1 || count($parts) > 2) {
+        if (empty($parts[0])) {
             throw new \InvalidArgumentException("Import path must be in format 'filename' or 'filename.menuname'. Got: $importPath");
         }
 
@@ -177,16 +180,16 @@ class NavDTO
     {
         // If include is specified, only return matching links
         if (isset($item->include) && is_array($item->include)) {
-            return array_filter($links, function ($link) use ($item) {
+            return array_values(array_filter($links, function ($link) use ($item) {
                 return in_array(strtolower($link->name), array_map('strtolower', $item->include));
-            });
+            }));
         }
 
         // If exclude is specified, return all except matching links
         if (isset($item->exclude) && is_array($item->exclude)) {
-            return array_filter($links, function ($link) use ($item) {
+            return array_values(array_filter($links, function ($link) use ($item) {
                 return ! in_array(strtolower($link->name), array_map('strtolower', $item->exclude));
-            });
+            }));
         }
 
         // No filter specified, return all links

@@ -40,7 +40,7 @@ class Nav extends Component
             throw new \InvalidArgumentException("There is no menu object named '$menuName' found in the `$this->filename` json file.");
         }
 
-        return new NavDTO(collect($this->file->$menuName), $menuName);
+        return new NavDTO($this->file->$menuName, $menuName);
     }
 
     /**

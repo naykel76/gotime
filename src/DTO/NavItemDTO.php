@@ -68,7 +68,7 @@ class NavItemDTO
         $this->hasChildren = property_exists($item, 'children');
         $this->url = $this->handleUrl($item);
         $this->permissions = $this->processPermissions($item->permissions ?? null);
-        $this->hasChildren ? $this->handleChildren($item->children) : $this->children = null;
+        $this->children = $this->hasChildren ? $this->buildChildren($item->children) : null;
     }
 
     /**
@@ -119,7 +119,7 @@ class NavItemDTO
     {
         // if there is a URL set and it is an external link, use it as is and return
         if (isset($item->url) && $this->isExternalLink($item->url)) {
-            return $this->url = $item->url;
+            return $item->url;
         }
 
         // if the item is a parent without a route or url you are safe to assume
@@ -167,13 +167,14 @@ class NavItemDTO
     }
 
     /**
-     * Transforms each child of a parent item into a new instance of NavItemDTO.
+     * Transforms each child of a parent item into NavItemDTO instances.
      *
      * @param  array  $children  The children of the parent item.
+     * @return array<int, NavItemDTO>
      */
-    protected function handleChildren(array $children): void
+    protected function buildChildren(array $children): array
     {
-        $this->children = array_map(function ($child) {
+        return array_map(function ($child) {
             return new self($child);
         }, $children);
     }

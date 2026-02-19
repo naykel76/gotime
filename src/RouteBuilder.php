@@ -121,11 +121,6 @@ class RouteBuilder
         $viewPath = $item->view;
         $data = [];
 
-        // Add layout options to data if present
-        if (! empty($item->layoutOptions)) {
-            $data['layoutOptions'] = $item->layoutOptions;
-        }
-
         // Per-item layout override takes highest priority
         if ($item->layout) {
             $data['path'] = $viewPath;

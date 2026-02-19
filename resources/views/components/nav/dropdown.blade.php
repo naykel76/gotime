@@ -18,11 +18,7 @@
                         </div>
                     </li>
                 @else
-                    <li class="order-{{ $order }}">
-                        <a href="{{ $item->url }}" {{ $active ? 'class="active"' : '' }}>
-                            <x-gotime::icon-label :label="$item->name" :$icon :$iconType />
-                        </a>
-                    </li>
+                    @include('gotime::components.nav.partials.item-link')
                 @endif
             @endcanany
         @endforeach
