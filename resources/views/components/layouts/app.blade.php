@@ -1,12 +1,4 @@
-<x-gt-app-layout layout="base" :$pageTitle>
-
-    @if(class_exists(\Naykel\Devit\DevitServiceProvider::class))
-        @includeIf('devit::components.dev-toolbar')
-    @else
-        @if(config('authit.allow_register') && Route::has('login'))
-            @includeFirst(['components.layouts.partials.top-toolbar', 'gotime::components.layouts.partials.top-toolbar'])
-        @endif
-    @endif
+<x-gt-app-layout layout="base" :pageTitle="$pageTitle ?? null">
 
     @includeFirst(['components.layouts.partials.navbar', 'gotime::components.layouts.partials.navbar'])
 

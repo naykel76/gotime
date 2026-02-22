@@ -1,6 +1,6 @@
 @props(['hasAside' => true])
 
-<x-gt-app-layout layout="base" :$pageTitle>
+<x-gt-app-layout layout="base" :pageTitle="$pageTitle ?? null">
 
     @if (class_exists(\Naykel\Devit\DevitServiceProvider::class))
         @includeIf('devit::components.dev-toolbar')
@@ -9,8 +9,8 @@
             @includeFirst([ 'components.layouts.partials.top-toolbar', 'gotime::components.layouts.partials.top-toolbar', ])
         @endif
     @endif
-
-    @includeFirst(['components.layouts.partials.navbar', 'gotime::components.layouts.partials.navbar'])
+.partials.nav
+    @includeFirst(['components.layoutsbar', 'gotime::components.layouts.partials.navbar'])
 
     @isset($top)
         {{ $top }}
