@@ -113,7 +113,6 @@ class GotimeServiceProvider extends ServiceProvider
     protected function registerFormComponents(): void
     {
         $this->registerComponentX('input.datepicker', 'datepicker');
-        $this->registerComponentX('input.editor', 'editor');
         $this->registerComponentX('input.pikaday', 'pikaday');
         $this->registerComponentX('input.radio', 'radio');
         $this->registerComponentX('input.textarea', 'textarea');
