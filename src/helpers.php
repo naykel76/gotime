@@ -6,6 +6,36 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 // -- FILES AND FILESYSTEM --
 // ------------------------------------------------------------------
 
+if (! function_exists('getFormFieldName')) {
+    /**
+     * Extract the field name from wire:model attribute or explicit 'for' parameter.
+     * Prioritizes wire:model to support Livewire binding, falls back to 'for' prop.
+     *
+     * @param  \Illuminate\View\ComponentAttributeBag  $attributes  The component attributes
+     * @param  string|null  $for  The explicit 'for' parameter
+     * @param  string  $componentName  Component name for error messages
+     * @return string The extracted field name
+     *
+     * @throws \InvalidArgumentException If neither wire:model nor 'for' is provided
+     */
+    function getFormFieldName($attributes, ?string $for, string $componentName = 'component'): string
+    {
+        $fieldName = $attributes->whereStartsWith('wire:model')->first() ?? $for;
+
+        if (! isset($fieldName)) {
+            throw new InvalidArgumentException(
+                "The `$componentName` component requires either a `for` or `wire:model` attribute to be set."
+            );
+        }
+
+        return $fieldName;
+    }
+}
+
+// ------------------------------------------------------------------
+// -- FILES AND FILESYSTEM --
+// ------------------------------------------------------------------
+
 if (! function_exists('getJsonFile')) {
     function getJsonFile(string $path, bool $returnAsArray = false): array|object
     {
@@ -28,16 +58,16 @@ if (! function_exists('getFile')) {
     }
 }
 
-if (! function_exists('fileExists')) {
-    function fileExists(string $path): string|false
-    {
-        if (! file_exists($path)) {
-            throw new FileNotFoundException("File does not exist at path {$path}.");
-        }
+// if (! function_exists('fileExists')) {
+//     function fileExists(string $path): string|false
+//     {
+//         if (! file_exists($path)) {
+//             throw new FileNotFoundException("File does not exist at path {$path}.");
+//         }
 
-        return true;
-    }
-}
+//         return true;
+//     }
+// }
 
 // ------------------------------------------------------------------
 // -- URL PATH CONVERSION HELPERS --
@@ -62,27 +92,27 @@ if (! function_exists('toPath')) {
     }
 }
 
-if (! function_exists('toDot')) {
-    /**
-     * Convert url or path to dot notation
-     */
-    function toDot(string $input): string
-    {
-        return str_replace('/', '.', ltrim($input, '.'));
-    }
-}
+// if (! function_exists('toDot')) {
+//     /**
+//      * Convert url or path to dot notation
+//      */
+//     function toDot(string $input): string
+//     {
+//         return str_replace('/', '.', ltrim($input, '.'));
+//     }
+// }
 
-if (! function_exists('numSegments')) {
-    /**
-     * Count the number of segments in a path
-     */
-    function numSegments(string $path, bool $trim = true): int
-    {
-        $path = $trim ? trim($path, '/') : $path;
+// if (! function_exists('numSegments')) {
+//     /**
+//      * Count the number of segments in a path
+//      */
+//     function numSegments(string $path, bool $trim = true): int
+//     {
+//         $path = $trim ? trim($path, '/') : $path;
 
-        return count(explode('/', $path));
-    }
-}
+//         return count(explode('/', $path));
+//     }
+// }
 
 if (! function_exists('dotLastSegment')) {
     /**
@@ -107,15 +137,15 @@ if (! function_exists('calcPercentage')) {
     }
 }
 
-// ------------------------------------------------------------------
-// -- MATH HELPERS --
-// ------------------------------------------------------------------
+// // ------------------------------------------------------------------
+// // --  --
+// // ------------------------------------------------------------------
 
-if (! function_exists('getWord')) {
-    function getWord(string $string, int $position = 0): ?string
-    {
-        $words = preg_split('/\s+/', trim($string));
+// if (! function_exists('getWord')) {
+//     function getWord(string $string, int $position = 0): ?string
+//     {
+//         $words = preg_split('/\s+/', trim($string));
 
-        return $words[$position] ?? null;
-    }
-}
+//         return $words[$position] ?? null;
+//     }
+// }

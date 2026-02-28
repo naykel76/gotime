@@ -1,30 +1,20 @@
-@props([ 'controlOnly' => false, 'placeholder' => null, 'options' => [], ])
-{{-- do not add `for` in the props to let this do its job --}}
+@props([
+    'for' => null,
+    'options' => [],
+    'placeholder' => null,
+    'componentName' => 'select',
+])
+
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
-    if (!isset($for)) {
-        throw new InvalidArgumentException('The form control requires either a `for` or `wire:model` attribute to be specified.');
-    }
+    $for = getFormFieldName($attributes, $for, $componentName);
 @endphp
 
-@if ($controlOnly)
-    <x-gotime::input.control-select {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
-        {{ $slot }}
-    </x-gotime::input.control-select>
-@else
+<x-gotime::.input.partials.control-group :$for>
     @if (empty($options))
-        <x-gotime::v2.input.partials.control-group :$for>
-            <x-gotime::input.control-select {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
-                {{ $slot }}
-            </x-gotime::input.control-select>
-        </x-gotime::v2.input.partials.control-group>
+        <x-gotime::.input.controls.select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
+            {{ $slot }}
+        </x-gotime::.input.controls.select>
     @else
-        <x-gotime::v2.input.partials.control-group :$for>
-            <x-gotime::input.control-select {{ $attributes->except(['label', 'help-text', 'rowClass']) }}>
-                @foreach ($options as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                @endforeach
-            </x-gotime::input.control-select>
-        </x-gotime::v2.input.partials.control-group>
+        <x-gotime::.input.controls.select :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} :$options />
     @endif
-@endif
+</x-gotime::.input.partials.control-group>

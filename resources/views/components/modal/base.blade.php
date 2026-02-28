@@ -7,7 +7,7 @@
         'sm' => 'container-sm',
         'md' => 'container-md',
         'lg' => 'container-lg',
-        'xl' => 'container',
+        'xl' => 'container-xl',
     ][$maxWidth ?? 'sm'];
 @endphp
 

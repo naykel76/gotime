@@ -19,35 +19,46 @@ trait Formable
     /**
      * Set form properties from model attributes.
      *
-     * Iterates over the model's attributes and sets matching form properties
-     * if they exist on the form object. Properties are type-cast appropriately
-     * based on their declared type hints.
+     * Safely transfers model attributes to matching form properties with
+     * defensive type casting. Handles edge cases where database drivers
+     * return unexpected types (e.g., numeric columns as strings).
      *
-     * This method only processes attributes that exist on the model, so form
-     * properties without corresponding model attributes will retain their
-     * default values.
+     * Type Handling:
+     * - string: Converts null to empty string for form binding
+     * - bool: Explicit cast to ensure boolean type
+     * - int: Handles string numbers from DB, converts empty strings to null
+     * - array: Wraps scalar values, preserves arrays, uses [] for empty
+     * - untyped: Treats as string (null becomes '')
+     * - other types: Assigned directly
+     *
+     * Only processes attributes that exist on the model. Form properties
+     * without corresponding model attributes retain their default values.
      */
     protected function setFormProperties(Model $model): void
     {
         foreach ($model->getAttributes() as $property => $value) {
             if (property_exists($this, $property)) {
-                // Use PHP Reflection to inspect the property's declared type.
-                // This is necessary because PHP doesn't provide a direct way to
-                // access a property's type hint at runtime without reflection.
+                // Get cast value, not raw DB value
+                $value = $model->$property;
+
                 $reflection = new \ReflectionProperty($this, $property);
                 $type = $reflection->getType();
 
-                // Handle type casting for form properties:
-                // - For int: avoid casting '' to 0, which can be misleading.
-                // - For array: ensure only arrays are assigned, wrap non-empty
-                //   scalars in an array, use [] for empty values.
-                if ($type && $type->getName() === 'int') {
-                    $this->$property = ($value === null || $value === '') ? null : (int) $value;
-                } elseif ($type && $type->getName() === 'array') {
-                    $this->$property = is_array($value) ? $value : (empty($value) ? [] : [$value]);
-                } else {
+                if (! $type) {
                     $this->$property = $value ?? '';
+
+                    continue;
                 }
+
+                $typeName = $type->getName();
+
+                match ($typeName) {
+                    'string' => $this->$property = $value ?? '',
+                    'bool' => $this->$property = (bool) $value,
+                    'int' => $this->$property = ($value === null || $value === '') ? null : (int) $value,
+                    'array' => $this->$property = is_array($value) ? $value : (empty($value) ? [] : [$value]),
+                    default => $this->$property = $value,
+                };
             }
         }
     }

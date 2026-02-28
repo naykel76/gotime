@@ -1,8 +1,3 @@
-{{--
-The `position` attribute has been created for easy positioning when used with
-inputs. This may not work for all use cases but it ticks the box for now!
---}}
-
 @props(['position'])
 
 @php
@@ -21,7 +16,7 @@ inputs. This may not work for all use cases but it ticks the box for now!
     </div>
 
     <div x-show="open" x-transition.duration style="display: none;"
-        {{ $attributes->merge(['class' => 'absolute right-0 minw-18 z-100 bx pxy-075 mt-05 txt-xs fw4 light']) }}>
+        {{ $attributes->merge(['class' => 'absolute right-0 min-w-18 z-100 bx pxy-075 mt-05 txt-xs light']) }}>
         {{ $slot }}
     </div>
 </span>

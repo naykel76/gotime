@@ -1,18 +1,12 @@
-@props(['controlOnly' => false])
-{{-- do not add `for` in the props to let this do its job --}}
+@props([
+    'for' => null,
+    'componentName' => 'textarea',
+])
+
 @php
-    $for = $attributes->whereStartsWith('wire:model')->first() ?? $for;
-    if (!isset($for)) {
-        throw new Exception('Neither `wire:model` nor the`for` attribute is set on the form control.');
-    }
+    $for = getFormFieldName($attributes, $for, $componentName);
 @endphp
 
-@if ($controlOnly)
-    <textarea {{ $for ? "name=$for id=$for" : null }}
-        {{ $attributes->class(['bdr-red' => $errors->has($for)]) }}>
-    </textarea>
-@else
-    <x-gotime::v2.input.partials.control-group :$for>
-        <textarea {{ $for ? "name=$for id=$for" : null }} {{ $attributes->class(['bdr-red' => $errors->has($for)]) }}> </textarea>
-    </x-gotime::v2.input.partials.control-group>
-@endif
+<x-gotime::.input.partials.control-group :$for>
+    <x-gotime::.input.controls.textarea :$for {{ $attributes->except(['label', 'help-text', 'helpText', 'helpTextTop', 'rowClass', 'tooltip']) }} />
+</x-gotime::.input.partials.control-group>

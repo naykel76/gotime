@@ -1,15 +1,13 @@
-{{-- This component uses sidebar::class --}}
-
 <div x-cloak x-data="{ open: false }" @keydown.escape.window="open = false">
 
     {{ $toggle }}
 
-    <div x-show="open" x-on:click="open = !open" class="overlay"></div>
+    <div x-show="open" x-on:click="open = false" class="overlay"></div>
 
     <div class="sidebar transition w-20 light"
-        :class="{'-translate-x-full opacity-0':open === false, 'translate-x-0 opacity-1': open === true}">
+        :class="{ '-translate-x-full opacity-0': open === false, 'translate-x-0 opacity-1': open === true }">
 
-        @if(!isset($header))
+        @if (!isset($header))
             <div class="flex justify-between px-075 py-05 va-c bdr-b">
                 <div class="logo">
                     <a href="{{ url('/') }}"><img src="{{ config('gotime.logo.path') }}" alt="{{ config('app.name') }}"
@@ -34,4 +32,3 @@
     </div>
 
 </div>
-

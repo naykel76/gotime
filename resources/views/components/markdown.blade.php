@@ -1,4 +1,15 @@
-{!! $renderedContent !!}
+<main class="markdown-content flex-1 min-w-0">
+    <div class="container-md py-3">
+        {!! $content !!}
+    </div>
+</main>
+
+@if ($toc)
+    <nav class="right-sidebar fs-0">
+        <h2 class="txt-1 font-semibold txt-gray-900 mb-05">On This Page</h2>
+        {!! $toc !!}
+    </nav>
+@endif
 
 @pushOnce('head')
     <style>

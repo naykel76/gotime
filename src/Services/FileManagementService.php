@@ -35,25 +35,16 @@ class FileManagementService
 
     /**
      * Replace a given string within a given file.
-     *
-     * @param  string  $search
-     * @param  string  $replace
-     * @param  string  $path
-     * @return void
      */
-    public function replaceInFile($search, $replace, $path)
+    public function replaceInFile(string $search, string $replace, string $path): void
     {
         file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
 
     /**
      * A given string exists within a given file.
-     *
-     * @param  string  $path
-     * @param  string  $search
-     * @return bool
      */
-    public function stringInFile($path, $search)
+    public function stringInFile(string $path, string $search): bool
     {
         return str_contains(file_get_contents($path), $search);
     }

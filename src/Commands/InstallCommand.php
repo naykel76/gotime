@@ -3,42 +3,46 @@
 namespace Naykel\Gotime\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 
 class InstallCommand extends Command
 {
     /**
      * The name and signature of the console command.
-     *
-     * @var string
      */
     protected $signature = 'gotime:install';
 
     /**
      * The console command description.
-     *
-     * @var string
      */
     protected $description = 'Install Gotime resources';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
+        $this->info('Installing Gotime...');
 
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
                 '@erbelion/vite-plugin-laravel-purgecss' => '^0.4.2',
                 'autoprefixer' => '^10.4.21',
-                'nk_jtb' => '^0.15.0',
+                'nk_jtb' => '^0.22.0',
                 'postcss' => '^8.5.6',
-                'sass' => '^1.90.0',
+                'sass' => '^1.93.3',
             ] + $packages;
         });
+
+        // NPM Dev Packages...
+        $this->updateNodePackages(function ($packages) {
+            return [
+                '@alpinejs/collapse' => '^3.15.4',
+                '@alpinejs/sort' => '^3.15.4',
+                'filepond' => '^4.32.10',
+                'filepond-plugin-file-validate-size' => '^2.2.8',
+                'filepond-plugin-file-validate-type' => '^1.2.9',
+                'filepond-plugin-image-preview' => '^4.6.12',
+            ] + $packages;
+        }, false);
 
         // NPM Scripts...
         $this->updateNodeScripts(function ($scripts) {
@@ -52,33 +56,43 @@ class InstallCommand extends Command
             ] + $scripts;
         });
 
-        // Resources...
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/navs', resource_path('navs'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/scss', resource_path('scss'));
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/resources/views', resource_path('views'));
+        // Remove tailwindcss packages...
+        $this->removeNodePackages([
+            '@tailwindcss/vite',
+            'tailwindcss',
+        ]);
 
-        // NK::TD change this to a prompt so it is not installed each time
-        copy(__DIR__ . '/../../config/markdown.php', base_path('config/markdown.php'));
-
-        // Assets...
-        copy(__DIR__ . '/../../resources/publishable/.env.example', base_path('.env.example'));
-        copy(__DIR__ . '/../../resources/publishable/vite.config.js', base_path('vite.config.js'));
-        copy(__DIR__ . '/../../resources/publishable/readme.md', base_path('readme.md'));
+        File::copyDirectory(__DIR__ . '/../../stubs', base_path());
         copy(__DIR__ . '/../../pint.json', base_path('pint.json'));
-        copy(__DIR__ . '/../../.gitignore', base_path('.gitignore'));
 
-        // Public...
-        (new Filesystem)->copyDirectory(__DIR__ . '/../../resources/publishable/public/', public_path());
+        // Add to .gitignore
+        $gitignorePath = base_path('.gitignore');
 
-        // Routes...
-        copy(__DIR__ . '/../routes.php', base_path('routes/web.php'));
+        if (File::exists($gitignorePath)) {
+            $existingContent = File::get($gitignorePath);
+            $entriesToAdd = array_filter([
+                '/.agents',
+                '/.cursor',
+                '/.github',
+                '/.vscode',
+                '/tmp',
+                'nk_tasks.md',
+            ], fn($entry) => ! str_contains($existingContent, $entry));
+
+            if (! empty($entriesToAdd)) {
+                File::append($gitignorePath, "\n" . implode("\n", $entriesToAdd));
+            }
+        }
+
+        // Clean up
+        File::deleteDirectory(resource_path('css'));
+
+        if (File::exists(resource_path('views/welcome.blade.php'))) {
+            File::delete(resource_path('views/welcome.blade.php'));
+        }
 
         $this->info('Gotime scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
-
-        // clean up
-        shell_exec('rm -rf ' . resource_path('css'));
-        if (file_exists(resource_path('views/welcome.blade.php'))) unlink(resource_path('views/welcome.blade.php'));
 
         return Command::SUCCESS;
     }
@@ -126,6 +140,31 @@ class InstallCommand extends Command
         );
 
         ksort($packages['scripts']);
+
+        file_put_contents(
+            base_path('package.json'),
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
+        );
+    }
+
+    /**
+     * Remove packages from the "package.json" file.
+     */
+    protected static function removeNodePackages(array $packagesToRemove)
+    {
+        if (! file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
+
+        foreach (['dependencies', 'devDependencies'] as $key) {
+            if (array_key_exists($key, $packages)) {
+                foreach ($packagesToRemove as $package) {
+                    unset($packages[$key][$package]);
+                }
+            }
+        }
 
         file_put_contents(
             base_path('package.json'),

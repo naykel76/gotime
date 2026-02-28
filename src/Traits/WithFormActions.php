@@ -2,6 +2,7 @@
 
 namespace Naykel\Gotime\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 
 trait WithFormActions
@@ -43,17 +44,18 @@ trait WithFormActions
     /**
      * Create a new model instance.
      *
-     * This method creates a new model instance using the form's createNewModel
-     * method, initializes the form with the model, and shows the modal dialog.
+     * Creates a new model instance and initialises the form with it. If the form
+     * has a custom createNewModel() method, it will be used. Otherwise, a new
+     * instance is created using $modelClass.
      */
     #[On('create-model')]
     public function create(): void
     {
-        if (! method_exists($this->form::class, 'createNewModel')) {
-            throw new \Exception('The createNewModel method is not defined in the class: ' . $this->form::class);
-        }
+        $this->resetFormData();
 
-        $model = $this->form->createNewModel($this->initialData ?? []);
+        $model = method_exists($this->form, 'createNewModel')
+            ? $this->form->createNewModel($this->initialData ?? [])
+            : $this->modelClass::make($this->initialData ?? []);
 
         $this->form->init($model);
 
@@ -61,46 +63,84 @@ trait WithFormActions
     }
 
     /**
-     * Save the current form data and handle post-save actions.
+     * Save the current form data.
      *
-     * This method validates and persists the model, handles notifications,
-     * dispatches events, and manages redirection based on the action parameter.
-     * After successful save, the form is reset to prepare for the next operation.
+     * Delegates to the form object's save() method to persist the model,
+     * dispatches notifications and events.
+     *
+     * @return Model The model that was persisted
      */
-    public function save(?string $action = null): void
+    public function save(): Model
     {
-        // this must happen before the form is saved, otherwise there will be an
-        // `id` and the model will not be new
-        $isNewModel = $this->isNewModel();
-
-        // call the save method from the Crudable trait and persist the model
         $model = $this->form->save();
-
-        // this only needs to redirect on the first save
-        if (! $isNewModel && $action == 'save_edit') {
-            $this->dispatch('notify', 'Saved successfully!');
-
-            return;
-        }
-
-        if ($action) {
-            $this->handleRedirect($this->routePrefix, $action, $model->id);
-        }
-
         $this->dispatch('notify', 'Saved successfully!');
         $this->dispatch('model-saved');
 
-        $this->resetForm();
+        return $model;
     }
 
     /**
-     * Delete a model instance from the database and and optionally handle redirection.
+     * Save and close the modal.
+     */
+    public function saveAndClose(): void
+    {
+        $this->save();
+        $this->closeModal();
+    }
+
+    /**
+     * Save and redirect to the create route.
+     *
+     * Requires $routePrefix to be set.
+     */
+    public function saveAndNew(): void
+    {
+        $this->save();
+        $this->handleRedirect('save_new');
+    }
+
+    /**
+     * Save and redirect to the edit route.
+     *
+     * For existing models, this notifies without redirecting.
+     * Requires $routePrefix to be set.
+     */
+    public function saveAndEdit(): void
+    {
+        $model = $this->save();
+
+        if (! $this->isNewModel()) {
+            return;
+        }
+
+        $this->handleRedirect('save_edit', $model);
+    }
+
+    /**
+     * Handles redirection based on the provided action.
+     *
+     * Used for route-based workflows. Laravel's route model binding automatically
+     * uses the model's route key (slug, uuid, or id) based on route definition.
+     */
+    private function handleRedirect(string $action, ?Model $model = null): void
+    {
+        match ($action) {
+            'save_close' => redirect(route("{$this->routePrefix}.index")),
+            'save_new' => redirect(route("{$this->routePrefix}.create")),
+            'save_edit' => redirect(route("{$this->routePrefix}.edit", $model)),
+            default => throw new \Exception("Invalid action: $action"),
+        };
+    }
+
+    /**
+     * Delete a model instance from the database.
      */
     #[On('delete-model')]
     public function delete(?int $id = null): void
     {
         $this->modelClass::findOrFail($id)->delete();
         $this->dispatch('model-deleted');
+        $this->dispatch('notify', 'Deleted successfully!');
         $this->reset('selectedId');
     }
 
@@ -123,46 +163,45 @@ trait WithFormActions
     }
 
     /**
-     * Handles redirection based on the provided action.
+     * Cancels the current form action and closes the modal.
      *
-     * @param  string  $routePrefix  The prefix for the route.
-     * @param  string  $action  The action to be performed 'save_close', 'delete_close' ...
-     * @param  int  $id  The optional ID for routes that require it.
-     *
-     * @throws \Exception Throws an exception if an invalid action is provided.
-     */
-    private function handleRedirect(string $routePrefix, string $action, ?int $id = null)
-    {
-        return match ($action) {
-            'save_close', 'delete_close' => redirect(route("$this->routePrefix.index")),
-            'save_new' => redirect(route("$routePrefix.create")),
-            'save_edit', 'save_stay' => redirect(route("$routePrefix.edit", $id)),
-            default => throw new \Exception("Invalid action: $action"),
-        };
-    }
-
-    /**
-     * Cancels the current form action and resets all form state.
-     *
-     * This method resets the form to a clean state and closes the modal.
-     * The form will be properly initialized when create/edit methods are called.
+     * This method closes the modal dialog. The form state remains unchanged
+     * and will be properly initialized when create/edit methods are called again.
      */
     public function cancel(): void
     {
-        $this->resetForm();
-        $this->dispatch('close-modal');
+        $this->resetFormData(); // Not strictly necessary but handles edge cases cleanly
+        $this->closeModal();
     }
 
     /**
-     * Resets the form and UI state to a completely fresh state.
-     *
-     * This method resets form data, UI properties (modal visibility, selected ID),
-     * and clears error bags to ensure a clean state for the next operation.
+     * Closes the modal by resetting modal-related state.
      */
-    public function resetForm(): void
+    private function closeModal(): void
+    {
+        $this->reset(['showModal', 'selectedId']);
+    }
+
+    /**
+     * Resets only the form data and errors, without affecting modal state.
+     */
+    private function resetFormData(): void
     {
         $this->form->reset();
-        $this->reset(['showModal', 'selectedId']);
         $this->resetErrorBag();
+    }
+
+    public function imageUrl()
+    {
+        if ($this->form->tmpUpload) {
+            return $this->form->tmpUpload->temporaryUrl();
+        }
+
+        // editing model exists
+        if (isset($this->form->editing)) {
+            return $this->form->editing->featuredImageUrl();
+        }
+
+        return url('/svg/placeholder.svg');
     }
 }

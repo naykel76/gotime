@@ -1,15 +1,3 @@
-@props(['text', 'withIcon' => false])
-
-{{-- at first glance it may not make sense to set the `text` value here, but
-this allow us to omit the text value for icon only buttons --}}
-
-@if (!isset($text) && $withIcon)
-    @php
-        $text = '';
-    @endphp
-@endif
-
-{{-- do not use control layout here, just style manually when the component is used --}}
-<x-gotime::button.control-button {{ $attributes->merge(['type' => 'submit']) }} text="{{ $text ?? 'Submit' }}">
+<x-gt-button.base {{ $attributes->merge(['class' => 'btn', 'type' => 'submit']) }}>
     {{ $slot }}
-</x-gotime::button.control-button>
+</x-gt-button.base>

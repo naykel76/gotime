@@ -8,28 +8,33 @@ use Naykel\Gotime\DTO\RouteDTO;
 class RouteBuilder
 {
     /**
-     * @var array Data for view
+     * @var array Data passed to the view
      */
     protected array $data = [];
 
     /**
-     * @var array|object Menu groups from json file
+     * @var array|object Menu groups from JSON file
      */
     protected array|object $menus;
 
     /**
-     * @var bool When set to true nav.json files will be cached
+     * @var bool When set to true, nav.json files will be cached
      */
     protected bool $cache = false;
 
     /**
-     * @var string Layout to use for markdown content
+     * @var string Default layout for markdown content
+     *             Use Laravel view notation: 'gotime::components.layouts.markdown' for package layout
+     *             or 'components.layouts.markdown' for local layout
      */
-    protected string $markdownLayout = 'components.layouts.markdown';
+    protected string $markdownLayout = 'gotime::components.layouts.markdown';
 
     /**
-     * @param  string  $filename  The name of the JSON file to read routes from.
-     * @param  string|null  $layout  Default layout for all views
+     * @param  string  $filename  The name of the JSON file to read routes from (without .json extension)
+     * @param  string|null  $layout  Default layout for all views (uses Laravel view notation)
+     *                               Examples: 'gotime::components.layouts.app' (package)
+     *                               'components.layouts.app' (local)
+     *                               'layouts.app' (local)
      */
     public function __construct(
         protected string $filename,
@@ -41,8 +46,10 @@ class RouteBuilder
 
     /**
      * Create routes from the navigation file. Iterates through all menu groups
-     * and processes their links to generate routes (the menu grouping itself
-     * is ignored - we just need to process all links).
+     * and processes their links to generate Laravel routes.
+     *
+     * Note: The menu grouping structure (e.g., 'main', 'footer') is used for
+     * organization in the JSON file but doesn't affect route generation.
      */
     public function create(): void
     {
@@ -53,22 +60,29 @@ class RouteBuilder
     }
 
     /**
-     * Processes route links. If a link is a parent and has children, it
-     * recursively calls itself to process the child links, unless
-     * 'exclude_child_routes' is set to true.
+     * Recursively processes route links from the JSON structure.
      *
-     * @param  array  $links  The links to process.
+     * For each link:
+     * - Creates a route (unless 'exclude_route' is true)
+     * - Recursively processes children (unless 'exclude_child_routes' is true)
+     *
+     * @param  array  $links  The links to process
      */
     protected function processLinks(array $links): void
     {
         foreach ($links as $routeItem) {
+            // Skip import entries - they're handled by NavDTO for display only
+            if (isset($routeItem->import)) {
+                continue;
+            }
+
             $item = new RouteDTO($routeItem);
 
             if ($item->excludeRoute === false) {
                 $this->make($item);
             }
 
-            // check for child routes and process them recursively when applicable
+            // Check for child routes and process them recursively when applicable
             if ($item->isParent && empty($routeItem->exclude_child_routes)) {
                 $this->processLinks($routeItem->children);
             }
@@ -76,9 +90,9 @@ class RouteBuilder
     }
 
     /**
-     * Process a single route item and create a route (if applicable).
+     * Process a single route item and create the corresponding Laravel route.
      *
-     * @param  RouteDTO  $item  The route item to process.
+     * @param  RouteDTO  $item  The route item to process
      */
     protected function make(RouteDTO $item): void
     {
@@ -90,25 +104,34 @@ class RouteBuilder
 
     /**
      * Resolve the view path and data for a route item.
-     * Priority: markdown type > constructor layout > default view path
+     *
+     * Resolution priority:
+     * 1. Per-item layout → uses $item->layout
+     * 2. Constructor layout → uses $this->layout
+     * 3. Direct view → uses $item->view directly
+     *
+     * When a layout is used, the original view path is passed as $data['path']
+     * so the layout can render it.
      *
      * @param  RouteDTO  $item  The route item to resolve
-     * @return array Contains 'view' (the blade file) and 'data' (additional context)
+     * @return array Contains 'view' (the blade file path) and 'data' (additional context)
      */
     protected function resolveView(RouteDTO $item): array
     {
         $viewPath = $item->view;
-        $data = ['type' => $item->type ?? null];
+        $data = [];
 
-        if ($item->type === 'md') {
+        // Per-item layout override takes highest priority
+        if ($item->layout) {
             $data['path'] = $viewPath;
 
             return [
-                'view' => $this->markdownLayout,
+                'view' => $item->layout,
                 'data' => $data,
             ];
         }
 
+        // Constructor layout is next priority
         if ($this->layout) {
             $data['path'] = $viewPath;
 
@@ -118,6 +141,7 @@ class RouteBuilder
             ];
         }
 
+        // No layout: render the view directly
         return [
             'view' => $viewPath,
             'data' => $data,
@@ -127,10 +151,10 @@ class RouteBuilder
     /**
      * Create a Laravel route for the given URL and view path.
      *
-     * @param  string  $url  The URL for the route.
-     * @param  string  $view  The view path for the route.
-     * @param  string|null  $name  The name of the route.
-     * @param  array  $data  Data to pass to the view.
+     * @param  string  $url  The URL path for the route
+     * @param  string  $view  The view path (using Laravel view notation)
+     * @param  string|null  $name  The named route identifier
+     * @param  array  $data  Data to pass to the view
      */
     private function createRoute(string $url, string $view, ?string $name, array $data): void
     {
@@ -140,10 +164,12 @@ class RouteBuilder
     }
 
     /**
-     * Get the menu groups from the json file
+     * Get the menu groups from the JSON file.
      *
-     * @param  string  $filename  The name of the JSON file to read routes from.
-     * @return object The menu groups from the JSON file.
+     * Reads from resources/navs/{$filename}.json and optionally caches the result.
+     *
+     * @param  string  $filename  The name of the JSON file (without .json extension)
+     * @return object The menu groups from the JSON file
      */
     protected function getMenusFromJson(string $filename): object
     {
@@ -153,10 +179,10 @@ class RouteBuilder
     }
 
     /**
-     * Get menu names (keys) from the navigation file
+     * Extract menu names (keys) from the navigation file object.
      *
-     * @param  object  $obj  The object to get the keys from.
-     * @return array The keys of the object.
+     * @param  object  $obj  The menu object
+     * @return array The menu names as an array of strings
      */
     private function getMenuNames(object $obj): array
     {

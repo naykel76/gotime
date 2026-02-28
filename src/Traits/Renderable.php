@@ -23,7 +23,7 @@ trait Renderable
 
         return view($this->getView(), $data)
             ->layout(AppLayout::class, [
-                'pageTitle' => $this->pageTitle ?? null,
+                'title' => $this->title ?? null,
                 'layout' => $this->layout ?? config('gotime.livewire_layout'),
             ]);
     }

@@ -5,10 +5,6 @@
         <div class="container">
     @endif
 
-    @if ($hasTitle)
-        <h1>{{ $pageTitle }}</h1>
-    @endif
-
     {{ $slot }}
 
     @if ($hasContainer)

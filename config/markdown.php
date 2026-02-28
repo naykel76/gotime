@@ -47,8 +47,9 @@ return [
         League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension::class,
         League\CommonMark\Extension\Table\TableExtension::class,
         League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension::class,
-        \Naykel\Gotime\Extensions\Markdown\AccordionCodeRendererExtension::class,
+        League\CommonMark\Extension\TableOfContents\TableOfContentsExtension::class,
         \Naykel\Gotime\Extensions\Markdown\CodeRendererExtension::class,
+        \Naykel\Gotime\Extensions\Markdown\Component\ComponentExtension::class,
     ],
 
     // CodeRendererExtension::$allowBladeForNextDocument = true
@@ -61,6 +62,17 @@ return [
         'max_heading_level' => 4,
         'min_heading_level' => 1,
         'symbol' => ' #', // NK: removes the symbol from the heading link
+    ],
+
+    // https://commonmark.thephpleague.com/2.x/extensions/table-of-contents/
+    'table_of_contents' => [
+        'html_class' => 'toc',
+        'position' => 'top',
+        'style' => 'bullet',
+        'min_heading_level' => 2,
+        'max_heading_level' => 4,
+        'normalize' => 'relative',
+        'placeholder' => null,
     ],
 
     /*

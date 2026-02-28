@@ -120,7 +120,7 @@ trait HasFormattedDates
     /**
      * Format a date attribute using the specified or default format.
      */
-    public function formatDate(string $attribute, ?string $format = null): ?string
+    public function formAt(string $attribute, ?string $format = null): ?string
     {
         $format = $format ?? $this->getDefaultDateFormat();
 
@@ -135,39 +135,38 @@ trait HasFormattedDates
     | These methods provide formatted date strings for common date attributes.
     |
     */
-
-    public function createdAtDate(?string $format = null): ?string
+    public function createdAt(?string $format = null): ?string
     {
-        return $this->formatDate('created_at', $format);
+        return $this->formAt('created_at', $format);
     }
 
-    public function updatedAtDate(?string $format = null): ?string
+    public function updatedAt(?string $format = null): ?string
     {
-        return $this->formatDate('updated_at', $format);
+        return $this->formAt('updated_at', $format);
     }
 
-    public function startDate(?string $format = null): ?string
+    public function publishedAt(?string $format = null): ?string
     {
-        return $this->formatDate('start_date', $format);
+        return $this->formAt('published_at', $format);
     }
 
-    public function endDate(?string $format = null): ?string
+    public function startedAt(?string $format = null): ?string
     {
-        return $this->formatDate('end_date', $format);
+        return $this->formAt('started_at', $format);
     }
 
-    public function startedAtDate(?string $format = null): ?string
+    public function endedAt(?string $format = null): ?string
     {
-        return $this->formatDate('started_at', $format);
+        return $this->formAt('ended_at', $format);
     }
 
-    public function publishedAtDate(?string $format = null): ?string
+    public function completedAt(?string $format = null): ?string
     {
-        return $this->formatDate('published_at', $format);
+        return $this->formAt('completed_at', $format);
     }
 
-    public function completedAtDate(?string $format = null): ?string
+    public function expiredAt(?string $format = null): ?string
     {
-        return $this->formatDate('completed_at', $format);
+        return $this->formAt('expired_at', $format);
     }
 }

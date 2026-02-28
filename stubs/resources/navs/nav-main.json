@@ -1,0 +1,11 @@
+{
+    "main": {
+        "links": [
+            {
+                "name": "Home",
+                "route_name": "home",
+                "exclude_route": true
+            }
+        ]
+    }
+}
