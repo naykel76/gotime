@@ -13,6 +13,9 @@ abstract class BaseForm extends Component
 
     public string $title = '';
     public string $routePrefix = '';
+    public string $createTitle = 'Create';
+    public string $editTitlePrefix = 'Edit';
+    public ?string $titleField = 'title';
 
     abstract protected function configKey(): string;
 
@@ -32,5 +35,34 @@ abstract class BaseForm extends Component
         return $this->view([
             'title' => $this->title,
         ]);
+    }
+
+    public function formTitle(): string
+    {
+        if (! $this->isEditing()) {
+            return $this->createTitle;
+        }
+
+        $fieldValue = $this->editingLabel();
+
+        if (blank($fieldValue)) {
+            return $this->editTitlePrefix;
+        }
+
+        return "{$this->editTitlePrefix} - {$fieldValue}";
+    }
+
+    protected function isEditing(): bool
+    {
+        return isset($this->form, $this->form->editing) && filled($this->form->editing?->id);
+    }
+
+    protected function editingLabel(): ?string
+    {
+        if (! $this->titleField) {
+            return null;
+        }
+
+        return $this->form->{$this->titleField} ?? null;
     }
 }
