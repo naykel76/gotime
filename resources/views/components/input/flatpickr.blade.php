@@ -48,7 +48,7 @@
                         });
                     }
                 })"
-                {{ $attributes->class(['bdr-red z-100 placeholder-red-400' => $errors->has($for), 'w-full']) }}>
+                {{ $attributes->class(['bdr-red z-higher placeholder-red-400' => $errors->has($for), 'w-full']) }}>
 
 
         </x-gotime::input.partials.control-with-addons>

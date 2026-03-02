@@ -120,7 +120,7 @@ trait HasFormattedDates
     /**
      * Format a date attribute using the specified or default format.
      */
-    public function formAt(string $attribute, ?string $format = null): ?string
+    public function formatDate(string $attribute, ?string $format = null): ?string
     {
         $format = $format ?? $this->getDefaultDateFormat();
 
@@ -137,36 +137,36 @@ trait HasFormattedDates
     */
     public function createdAt(?string $format = null): ?string
     {
-        return $this->formAt('created_at', $format);
+        return $this->formatDate('created_at', $format);
     }
 
     public function updatedAt(?string $format = null): ?string
     {
-        return $this->formAt('updated_at', $format);
+        return $this->formatDate('updated_at', $format);
     }
 
     public function publishedAt(?string $format = null): ?string
     {
-        return $this->formAt('published_at', $format);
+        return $this->formatDate('published_at', $format);
     }
 
     public function startedAt(?string $format = null): ?string
     {
-        return $this->formAt('started_at', $format);
+        return $this->formatDate('started_at', $format);
     }
 
     public function endedAt(?string $format = null): ?string
     {
-        return $this->formAt('ended_at', $format);
+        return $this->formatDate('ended_at', $format);
     }
 
     public function completedAt(?string $format = null): ?string
     {
-        return $this->formAt('completed_at', $format);
+        return $this->formatDate('completed_at', $format);
     }
 
     public function expiredAt(?string $format = null): ?string
     {
-        return $this->formAt('expired_at', $format);
+        return $this->formatDate('expired_at', $format);
     }
 }

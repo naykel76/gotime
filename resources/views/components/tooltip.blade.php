@@ -16,7 +16,7 @@
     </div>
 
     <div x-show="open" x-transition.duration style="display: none;"
-        {{ $attributes->merge(['class' => 'absolute right-0 min-w-18 z-100 bx pxy-075 mt-05 txt-xs light']) }}>
+        {{ $attributes->merge(['class' => 'absolute right-0 min-w-18 z-higher bx pxy-075 mt-05 txt-xs light']) }}>
         {{ $slot }}
     </div>
 </span>
