@@ -1,6 +1,7 @@
 @props([
     'for' => null,
     'componentName' => 'input.toggle',
+    'rowClass' => null,
 ])
 
 @php
