@@ -12,7 +12,7 @@
     
     @if (!empty($options))
         @foreach ($options as $value => $label)
-            <x-gotime::.input.radio :for="$for" :value="$value" :label="$label" />
+            <x-gotime::input.radio :for="$for" :value="$value" :label="$label" />
         @endforeach
     @else
         {{ $slot }}

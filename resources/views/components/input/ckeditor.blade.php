@@ -13,6 +13,6 @@ editor. Just use the control and build from scratch instead --}}
     }
 @endphp
 
-<x-gotime::.input.partials.control-group :$for>
-    <x-gotime::.input.controls.ckeditor :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
-</x-gotime::.input.partials.control-group>
+<x-gotime::input.partials.control-group :$for>
+    <x-gotime::input.controls.ckeditor :$for {{ $attributes->except(['label', 'help-text', 'rowClass']) }} />
+</x-gotime::input.partials.control-group>

@@ -12,7 +12,7 @@
     
     @if (!empty($options))
         @foreach ($options as $value => $label)
-            <x-gotime::.input.checkbox :for="$for" :value="$value" :label="$label" />
+            <x-gotime::input.checkbox :for="$for" :value="$value" :label="$label" />
         @endforeach
     @else
         {{ $slot }}
