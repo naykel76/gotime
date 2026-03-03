@@ -15,8 +15,7 @@
     <x-gt-icon name="{{ $icon }}" class="wh-1 opacity-70" />
     @unless ($iconOnly)
         @if ($text != '' || $slot->isNotEmpty())
-            <span>{{ $slot->isNotEmpty() ? $slot : ($text != '' ? $text : '') }}</span>
+            <span class="ml-025 font-semibold">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
         @endif
-        <span class="ml-025 font-semibold">{{ $slot->isNotEmpty() ? $slot : $text }}</span>
     @endunless
 </x-gt-button.base>
