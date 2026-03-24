@@ -93,10 +93,11 @@ trait WithFormActions
      *
      * Requires $routePrefix to be set.
      */
-    public function saveAndNew(): void
+    public function saveAndNew(): mixed
     {
         $this->save();
-        $this->handleRedirect('save_new');
+
+        return $this->handleRedirect('save_new');
     }
 
     /**
@@ -105,15 +106,17 @@ trait WithFormActions
      * For existing models, this notifies without redirecting.
      * Requires $routePrefix to be set.
      */
-    public function saveAndEdit(): void
+    public function saveAndEdit(): mixed
     {
+        // Capture before save() so the ID isn't set yet on new models
+        $isNew = $this->isNewModel();
         $model = $this->save();
 
-        if (! $this->isNewModel()) {
-            return;
+        if (! $isNew) {
+            return null;
         }
 
-        $this->handleRedirect('save_edit', $model);
+        return $this->handleRedirect('save_edit', $model);
     }
 
     /**
@@ -122,12 +125,12 @@ trait WithFormActions
      * Used for route-based workflows. Laravel's route model binding automatically
      * uses the model's route key (slug, uuid, or id) based on route definition.
      */
-    private function handleRedirect(string $action, ?Model $model = null): void
+    private function handleRedirect(string $action, ?Model $model = null): mixed
     {
-        match ($action) {
-            'save_close' => redirect(route("{$this->routePrefix}.index")),
-            'save_new' => redirect(route("{$this->routePrefix}.create")),
-            'save_edit' => redirect(route("{$this->routePrefix}.edit", $model)),
+        return match ($action) {
+            'save_close' => $this->redirectRoute("{$this->routePrefix}.index"),
+            'save_new' => $this->redirectRoute("{$this->routePrefix}.create"),
+            'save_edit' => $this->redirectRoute("{$this->routePrefix}.edit", $model),
             default => throw new \Exception("Invalid action: $action"),
         };
     }
@@ -157,8 +160,12 @@ trait WithFormActions
      *
      * @return bool Returns true if the model is new (without an ID), false otherwise.
      */
-    private function isNewModel(): bool
+    protected function isNewModel(): bool
     {
+        if (! isset($this->form) || ! isset($this->form->editing)) {
+            return true;
+        }
+
         return is_null($this->form->editing->id);
     }
 
@@ -191,17 +198,9 @@ trait WithFormActions
         $this->resetErrorBag();
     }
 
-    public function imageUrl()
+
+    protected function titlePrefix(): string
     {
-        if ($this->form->tmpUpload) {
-            return $this->form->tmpUpload->temporaryUrl();
-        }
-
-        // editing model exists
-        if (isset($this->form->editing)) {
-            return $this->form->editing->featuredImageUrl();
-        }
-
-        return url('/svg/placeholder.svg');
+        return $this->isNewModel() ? 'Create' : 'Edit';
     }
 }

@@ -13,7 +13,6 @@ trait HasConfig
 
         // Index-specific properties
         $indexConfig = $config['section'];
-        $this->setIfExists($indexConfig, 'title');
         $this->setIfExists($indexConfig, 'perPage');
         $this->setIfExists($indexConfig, 'searchableFields');
         $this->setIfExists($indexConfig, 'filterableFields');
@@ -30,7 +29,6 @@ trait HasConfig
 
         // Form-specific properties
         $formConfig = $config['section'];
-        $this->setIfExists($formConfig, 'title');
     }
 
     protected function getResourceConfig(string $resource, string $section): array

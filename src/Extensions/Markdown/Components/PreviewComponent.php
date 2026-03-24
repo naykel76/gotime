@@ -4,8 +4,10 @@ namespace Naykel\Gotime\Extensions\Markdown\Components;
 
 class PreviewComponent
 {
-    public static function render(string $content, string $wrapperClass = ''): string
+    public static function render(string $content, string $previewClass = ''): string
     {
-        return '<div class="code-preview-container' . $wrapperClass . '">' . $content . '</div>';
+        $className = htmlspecialchars(trim('code-preview-container ' . $previewClass));
+
+        return '<div class="' . $className . '">' . $content . '</div>';
     }
 }

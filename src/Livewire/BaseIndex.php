@@ -2,6 +2,7 @@
 
 namespace Naykel\Gotime\Livewire;
 
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -24,10 +25,22 @@ abstract class BaseIndex extends Component
     public function mount(): void
     {
         $this->loadIndexConfig($this->configKey());
+        $this->title = $this->resolveTitle();
         $this->afterConfigLoaded();
     }
 
     protected function afterConfigLoaded(): void {}
+
+    protected function resolveTitle(): string
+    {
+        if (filled($this->title)) {
+            return $this->title;
+        }
+
+        return (string) Str::of($this->configKey())
+            ->replace(['.', '_', '-'], ' ')
+            ->headline();
+    }
 
     #[Computed]
     public function items()
@@ -47,10 +60,8 @@ abstract class BaseIndex extends Component
         return $query;
     }
 
-    public function render()
-    {
-        return $this->view([
-            'title' => $this->title,
-        ]);
-    }
+    // public function render()
+    // {
+    //     return $this->view();
+    // }
 }

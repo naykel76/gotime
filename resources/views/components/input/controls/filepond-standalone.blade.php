@@ -1,3 +1,4 @@
+@php($acceptedTypes = $accepts())
 <div x-data="{ initFilePond, loading: false }" wire:ignore x-init="initFilePond()">
     <input type="file" x-ref="input" style="display:none">
     {{-- <x-gt-loading-indicator x-show="loading" /> --}}
@@ -31,7 +32,7 @@
 
             FilePond.setOptions({
                 allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
-                maxFileSize: '{{ $maxFileSize }}KB',
+                maxFileSize: '{{ $maxFileSize }}MB',
                 server: {
                     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                         @this.upload('{{ $attributes['wire:model'] }}', file,
@@ -53,7 +54,7 @@
             });
             // Create a new FilePond instance and attach it to the input element
             const pond = FilePond.create(this.$refs.input, {
-                acceptedFileTypes: @json($accepts())
+                acceptedFileTypes: @json($acceptedTypes)
             });
 
             // Show loader on start
@@ -85,6 +86,6 @@
                 // the tmpUpload property in the form. This is ugly but it works.
                 @this.call('clearTmpUpload');
             });
-        }
+        };
     </script>
 @endpush

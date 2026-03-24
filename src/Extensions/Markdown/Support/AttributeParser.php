@@ -58,16 +58,16 @@ class AttributeParser
     {
         $attributes = [];
 
-        // Match quoted attributes: attr="value" or attr='value' (supports +attr="value")
-        preg_match_all('/([\w+]+)=(["\'])(.+?)\2/', $string, $quotedMatches, PREG_SET_ORDER);
+        // Match quoted attributes: attr="value" or attr='value' (supports +attr="value" and hyphenated keys)
+        preg_match_all('/([\w+-]+)=(["\'])(.+?)\2/', $string, $quotedMatches, PREG_SET_ORDER);
         foreach ($quotedMatches as $match) {
             // Strip + prefix from key if present
             $key = ltrim($match[1], '+');
             $attributes[$key] = $match[3];
         }
 
-        // Match unquoted attributes: attr=value (supports +attr=value)
-        preg_match_all('/([\w+]+)=(\S+)/', $string, $unquotedMatches, PREG_SET_ORDER);
+        // Match unquoted attributes: attr=value (supports +attr=value and hyphenated keys)
+        preg_match_all('/([\w+-]+)=(\S+)/', $string, $unquotedMatches, PREG_SET_ORDER);
         foreach ($unquotedMatches as $match) {
             // Strip + prefix from key if present
             $key = ltrim($match[1], '+');
@@ -79,7 +79,7 @@ class AttributeParser
 
         // Match boolean flags (words without = sign)
         // Remove all key=value pairs first, then split remaining words
-        $withoutPairs = preg_replace('/[\w+]+=(?:["\'][^"\']*["\']|\S+)/', '', $string);
+        $withoutPairs = preg_replace('/[\w+-]+=(?:["\'][^"\']*["\']|\S+)/', '', $string);
         $words = preg_split('/\s+/', trim($withoutPairs), -1, PREG_SPLIT_NO_EMPTY);
 
         foreach ($words as $word) {

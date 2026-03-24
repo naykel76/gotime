@@ -13,9 +13,10 @@ class DemoComponent
         string $language = 'html',
         bool $isCollapsible = false,
         string $wrapperClass = '',
+        string $previewClass = '',
         string $title = 'Show Code'
     ): string {
-        $previewHtml = PreviewComponent::render(Blade::render($bladeContent), '');
+        $previewHtml = PreviewComponent::render(Blade::render($bladeContent), $previewClass);
         $wrapperAttr = $wrapperClass ? ' class="' . $wrapperClass . '"' : '';
 
         if ($isCollapsible) {
@@ -33,9 +34,10 @@ class DemoComponent
         string $language = 'html',
         bool $isCollapsible = false,
         string $wrapperClass = '',
+        string $previewClass = '',
         string $title = 'Show Code'
     ): string {
-        $previewHtml = PreviewComponent::render(Blade::render($bladeContent), '');
+        $previewHtml = PreviewComponent::render(Blade::render($bladeContent), $previewClass);
         $wrapperAttr = $wrapperClass ? ' class="' . $wrapperClass . '"' : '';
 
         $generatedHtml = (new HtmlCleaner)->cleanAndFormat(Blade::render($bladeContent));

@@ -83,4 +83,13 @@ return [
         ],
     ],
 
+    /**
+     * ----------------------------------------------------------------------
+     * File Upload Settings
+     * ----------------------------------------------------------------------
+     * Global max upload size in MB. Components can override locally via
+     * max-file-size when needed.
+     */
+    'max_file_size' => env('NK_MAX_FILE_SIZE', 300),
+
 ];

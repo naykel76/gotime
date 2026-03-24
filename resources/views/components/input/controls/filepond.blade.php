@@ -1,6 +1,7 @@
 {{-- pass the Livewire component instance to the initFilePond function so it can interact with Livewire --}}
+@php($acceptedTypes = $accepts())
 <div x-data="{ initFilePond, loading: false }" wire:ignore x-init="initFilePond($wire)">
-    <input type="file" x-ref="input" style="display:none">
+    <input type="file" x-ref="input" style="display:none" @if ($acceptedTypes) accept="{{ implode(',', $acceptedTypes) }}" @endif>
 </div>
 
 @push('scripts')
@@ -18,7 +19,7 @@
                 maxFileSize: '{{ $maxFileSize }}MB',
 
                 // Allowed MIME types (retrieved from the Blade component)
-                acceptedFileTypes: @json($accepts()),
+                acceptedFileTypes: @json($acceptedTypes),
 
                 // Configure FilePond to use Livewire's built-in upload and revert handlers
                 server: {

@@ -13,6 +13,7 @@ Enhanced code blocks with Torchlight syntax highlighting and preview functionali
 - Syntax highlighting via Torchlight
 - Copy-to-clipboard button
 - Optional code preview toggle
+- Separate wrapper and preview container class attributes for demo layouts
 - Long code line handling (stores code in hidden textarea)
 
 **Usage:**
@@ -20,6 +21,30 @@ Enhanced code blocks with Torchlight syntax highlighting and preview functionali
 ```markdown
 ```php
 // Your code here
+```
+
+### Code Block Attributes
+
+Use these with fenced code blocks:
+
+- `class="..."` → outer demo wrapper class
+- `preview-class="..."` → class applied to `.code-preview-container`
+- `+demo` / `+demo-folded` → render preview and code together
+
+Example:
+
+```markdown
+```html +demo-folded class="bx" preview-class="grid gap lg:cols-3 tac"
+<div class="bdr">
+    <code>bdr</code><br> Default border (1px)
+</div>
+<div class="bdr-2">
+    <code>bdr-2</code><br> 2px border
+</div>
+<div class="bdr-3">
+    <code>bdr-3</code><br> 3px border
+</div>
+```
 ```
 
 ```

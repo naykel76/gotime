@@ -36,6 +36,7 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         $isCollapsible = isset($attributes['collapse']) || isset($attributes['demo-folded']);
         $wrapperClass = $attributes['class'] ?? '';
+        $previewClass = $attributes['preview-class'] ?? $attributes['previewClass'] ?? '';
         $title = $attributes['title'] ?? 'Show Code';
 
         $hasPreview = isset($attributes['preview']) || isset($attributes['demo']) || isset($attributes['demo-folded']);
@@ -44,14 +45,15 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 
         if ($hasPreview && $hasCode) {
             if ($hasOutput) {
-                return DemoComponent::renderWithOutput($content, $content, $language, $isCollapsible, $wrapperClass, $title);
+                return DemoComponent::renderWithOutput($content, $content, $language, $isCollapsible, $wrapperClass, $previewClass, $title);
             }
 
-            return DemoComponent::render($content, $content, $language, $isCollapsible, $wrapperClass, $title);
+            return DemoComponent::render($content, $content, $language, $isCollapsible, $wrapperClass, $previewClass, $title);
         }
 
         if ($hasPreview) {
-            $previewHtml = PreviewComponent::render(Blade::render($content), $wrapperClass);
+            $previewContainerClass = $previewClass ?: $wrapperClass;
+            $previewHtml = PreviewComponent::render(Blade::render($content), $previewContainerClass);
             if ($isCollapsible) {
                 $codeHtml = CollapsibleCodeComponent::render('', $language, false, $title, 'Copy Output');
 
