@@ -203,4 +203,18 @@ trait WithFormActions
     {
         return $this->isNewModel() ? 'Create' : 'Edit';
     }
+    
+    public function imageUrl()
+    {
+        if ($this->form->tmpUpload) {
+            return $this->form->tmpUpload->temporaryUrl();
+        }
+
+        // editing model exists
+        if (isset($this->form->editing)) {
+            return $this->form->editing->featuredImageUrl();
+        }
+
+        return url('/svg/placeholder.svg');
+    }
 }
