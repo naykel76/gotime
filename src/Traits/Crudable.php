@@ -50,10 +50,18 @@ trait Crudable
                 $this->beforePersistHook($validatedData);
             }
 
-            return $this->editing::updateOrCreate(
-                ['id' => $this->editing->id],
-                $validatedData
-            );
+            // Prevent mass assignment errors — id is never fillable and must
+            // not be passed to create() or update(). Remove it after the hook
+            // so beforePersistHook() still has access to it if needed.
+            unset($validatedData['id']);
+
+            if ($this->editing->exists) {
+                $this->editing->update($validatedData);
+
+                return $this->editing;
+            }
+
+            return $this->editing::create($validatedData);
         });
 
         return $this->editing;
