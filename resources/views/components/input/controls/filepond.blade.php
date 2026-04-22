@@ -33,7 +33,7 @@
                             // On success of the Livewire upload, call FilePond's load method
                             (uploadedFilename) => {
                                 load(uploadedFilename);
-                                // $wire.dispatch('file-uploaded');
+                                $wire.dispatch('file-uploaded');
                             },
 
                             // On error
