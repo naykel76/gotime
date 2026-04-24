@@ -40,7 +40,9 @@ class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
         $title = $attributes['title'] ?? 'Show Code';
 
         $hasPreview = isset($attributes['preview']) || isset($attributes['demo']) || isset($attributes['demo-folded']);
-        $hasCode = isset($attributes['code']) || isset($attributes['demo']) || isset($attributes['demo-folded']);
+        $hasCodeOverride = collect(array_keys($attributes))
+            ->contains(fn(string $key): bool => str_starts_with($key, 'code-'));
+        $hasCode = isset($attributes['code']) || isset($attributes['demo']) || isset($attributes['demo-folded']) || $hasCodeOverride;
         $hasOutput = isset($attributes['output']);
 
         if ($hasPreview && $hasCode) {

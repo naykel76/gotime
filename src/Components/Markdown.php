@@ -2,16 +2,13 @@
 
 namespace Naykel\Gotime\Components;
 
+use Closure;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 
 class Markdown extends Component
 {
-    /**
-     * Markdown content loaded from disk
-     */
-    protected string $fileContent;
-
     /**
      * Processed HTML content (without TOC)
      */
@@ -27,17 +24,17 @@ class Markdown extends Component
         protected bool $absolute = false,
         protected bool $withToc = false,
         protected string $layout = 'gotime::components.markdown',
-    ) {
-        $this->fileContent = $this->getFileContent();
-        $this->processMarkdown();
-    }
+    ) {}
 
     /**
-     * Load markdown file content from disk.
-     * Defaults to resources/views/ for relative paths.
+     * Resolve markdown source from file path or slot content.
      */
-    protected function getFileContent(): string
+    protected function getMarkdownContent(HtmlString|string|null $slot = null): string
     {
+        if ($this->path === '') {
+            return trim((string) $slot);
+        }
+
         $filePath = $this->absolute
             ? $this->path . '.md'
             : resource_path('views/' . $this->path) . '.md';
@@ -48,9 +45,9 @@ class Markdown extends Component
     /**
      * Convert markdown to HTML and separate TOC from content.
      */
-    protected function processMarkdown(): void
+    protected function processMarkdown(string $markdown): void
     {
-        $rendered = $this->renderMarkdownToHtml();
+        $rendered = $this->renderMarkdownToHtml($markdown);
 
         $this->toc = $this->extractToc($rendered);
         $this->content = $this->removeTocFromHtml($rendered);
@@ -59,9 +56,9 @@ class Markdown extends Component
     /**
      * Render markdown content to HTML using Blade's markdown directive.
      */
-    protected function renderMarkdownToHtml(): string
+    protected function renderMarkdownToHtml(string $markdown): string
     {
-        return Blade::render('@markdown($file)', ['file' => $this->fileContent]);
+        return Blade::render('@markdown($file)', ['file' => $markdown]);
     }
 
     /**
@@ -126,11 +123,15 @@ class Markdown extends Component
         return $depth === 0 ? substr($html, $start, $pos - $start) : null;
     }
 
-    public function render()
+    public function render(): Closure
     {
-        return view($this->layout)->with([
-            'content' => $this->content,
-            'toc' => $this->withToc ? $this->toc : null,
-        ]);
+        return function (array $data) {
+            $this->processMarkdown($this->getMarkdownContent($data['slot'] ?? null));
+
+            return view($this->layout)->with([
+                'content' => $this->content,
+                'toc' => $this->withToc ? $this->toc : null,
+            ]);
+        };
     }
 }
