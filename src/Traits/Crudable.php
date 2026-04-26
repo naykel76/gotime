@@ -96,7 +96,7 @@ trait Crudable
     private function getStorageConfig(): array
     {
         return array_merge([
-            'dbColumn' => 'file_name',
+            'dbColumn' => 'file_path',
             'disk' => 'public',
             'path' => '',
         ], $this->storage ?? []);
