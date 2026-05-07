@@ -13,7 +13,7 @@ class HtmlCleaner
     public function clean(string $html): string
     {
         // Remove Livewire/Blade comment artifacts
-        $html = preg_replace('/<!--\[if (BLOCK|ENDBLOCK)\]><!\\\[endif\]-->/', '', $html);
+        $html = preg_replace('/<!--\[if (?:BLOCK|ENDBLOCK)\]><!\[endif\]-->/', '', $html);
 
         // Remove outermost div with wire:snapshot (Livewire wrapper) but keep its contents
         $html = preg_replace('/^<div[^>]*wire:snapshot="[^"]*"[^>]*>\s*(.*?)\s*<\/div>$/s', '$1', trim($html));
