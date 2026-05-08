@@ -93,7 +93,8 @@ class GotimeServiceProvider extends ServiceProvider
         $this->registerComponentX('errors');
         $this->registerComponentX('toast');
 
-        $this->registerComponentX('accordion.base', 'accordion');
+        $this->registerComponentX('accordion.base', 'accordion'); // yes, theses are the same
+        $this->registerComponentX('accordion.base', 'accordion.base'); // yes, theses are the same
         $this->registerComponentX('box.base', 'box');
 
         // Modals and Boxes
