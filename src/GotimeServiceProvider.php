@@ -83,62 +83,62 @@ class GotimeServiceProvider extends ServiceProvider
 
     protected function registerComponents()
     {
-        $this->registerComponentX('loading-indicator');
-        $this->registerComponentX('spinner');
-        $this->registerComponentX('tooltip');
+        $this->registerComponent('loading-indicator');
+        $this->registerComponent('spinner');
+        $this->registerComponent('tooltip');
 
-        $this->registerComponentX('sidebar');
+        $this->registerComponent('sidebar');
         // Alerts, Notifications, and Messages
-        $this->registerComponentX('alert');
-        $this->registerComponentX('errors');
-        $this->registerComponentX('toast');
+        $this->registerComponent('alert');
+        $this->registerComponent('errors');
+        $this->registerComponent('toast');
 
-        $this->registerComponentX('accordion.base', 'accordion'); // yes, theses are the same
-        $this->registerComponentX('accordion.base', 'accordion.base'); // yes, theses are the same
-        $this->registerComponentX('box.base', 'box');
+        $this->registerComponent('accordion.base', 'accordion'); // yes, theses are the same
+        $this->registerComponent('accordion.base', 'accordion.base'); // yes, theses are the same
+        $this->registerComponent('box.base', 'box');
 
         // Modals and Boxes
-        $this->registerComponentX('modal.base', 'modal'); // yes, theses are the same
-        $this->registerComponentX('modal.base', 'modal.base'); // yes, theses are the same
-        $this->registerComponentX('modal.variants.confirm', 'modal.confirm');
-        $this->registerComponentX('modal.variants.delete', 'modal.delete');
-        $this->registerComponentX('modal.variants.dialog', 'modal.dialog');
+        $this->registerComponent('modal.base', 'modal'); // yes, theses are the same
+        $this->registerComponent('modal.base', 'modal.base'); // yes, theses are the same
+        $this->registerComponent('modal.variants.confirm', 'modal.confirm');
+        $this->registerComponent('modal.variants.delete', 'modal.delete');
+        $this->registerComponent('modal.variants.dialog', 'modal.dialog');
 
         // Tables and Lists
-        $this->registerComponentX('table.table', 'table');
-        $this->registerComponentX('table.th', 'table.th');
+        $this->registerComponent('table.table', 'table');
+        $this->registerComponent('table.th', 'table.th');
 
         // toolbars
-        $this->registerComponentX('toolbar.title-bar', 'title-bar');
+        $this->registerComponent('toolbar.title-bar', 'title-bar');
     }
 
     protected function registerFormComponents(): void
     {
         // buttons
-        $this->registerComponentX('button.action'); // shell only
-        $this->registerComponentX('button.base');
-        $this->registerComponentX('button.default', 'button');
-        $this->registerComponentX('button.primary');
-        $this->registerComponentX('button.secondary');
-        $this->registerComponentX('button.submit', 'submit');
-        $this->registerComponentX('resource-action'); // the works
+        $this->registerComponent('button.action'); // shell only
+        $this->registerComponent('button.base');
+        $this->registerComponent('button.default', 'button');
+        $this->registerComponent('button.primary');
+        $this->registerComponent('button.secondary');
+        $this->registerComponent('button.submit', 'submit');
+        $this->registerComponent('resource-action'); // the works
 
         // inputs
-        $this->registerComponentX('input.checkbox', 'checkbox');
-        $this->registerComponentX('input.ckeditor', 'ckeditor');
-        $this->registerComponentX('input.email', 'input.email');
-        $this->registerComponentX('input.flatpickr', 'flatpickr');
-        $this->registerComponentX('input.input', 'input');
-        $this->registerComponentX('input.password', 'input.password');
-        $this->registerComponentX('input.pikaday', 'pikaday');
-        $this->registerComponentX('input.select', 'select');
-        $this->registerComponentX('input.slim-select', 'slim-select');
-        $this->registerComponentX('input.textarea', 'textarea');
-        $this->registerComponentX('input.toggle', 'toggle');
-        $this->registerComponentX('livewire-search-input', 'search-input');
-        // $this->registerComponentX('input.datepicker', 'datepicker');
-        // $this->registerComponentX('input.editor', 'editor');
-        // $this->registerComponentX('input.radio', 'radio');
+        $this->registerComponent('input.checkbox', 'checkbox');
+        $this->registerComponent('input.ckeditor', 'ckeditor');
+        $this->registerComponent('input.email', 'input.email');
+        $this->registerComponent('input.flatpickr', 'flatpickr');
+        $this->registerComponent('input.input', 'input');
+        $this->registerComponent('input.password', 'input.password');
+        $this->registerComponent('input.pikaday', 'pikaday');
+        $this->registerComponent('input.select', 'select');
+        $this->registerComponent('input.slim-select', 'slim-select');
+        $this->registerComponent('input.textarea', 'textarea');
+        $this->registerComponent('input.toggle', 'toggle');
+        $this->registerComponent('livewire-search-input', 'search-input');
+        // $this->registerComponent('input.datepicker', 'datepicker');
+        // $this->registerComponent('input.editor', 'editor');
+        // $this->registerComponent('input.radio', 'radio');
 
     }
 
@@ -147,7 +147,7 @@ class GotimeServiceProvider extends ServiceProvider
      * @param  string  $alias  use when component name and path are !=
      * @param  string  $prefix  (gtl for special livewire components)
      */
-    protected function registerComponentX(string $component, ?string $alias = null, string $prefix = 'gt'): void
+    protected function registerComponent(string $component, ?string $alias = null, string $prefix = 'gt'): void
     {
         Blade::component('gotime::components.' . $component, "$prefix-" . ($alias ?? $component));
     }
