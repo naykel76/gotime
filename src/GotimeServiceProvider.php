@@ -9,6 +9,7 @@ use Naykel\Gotime\Components\Filepond;
 use Naykel\Gotime\Components\Icon;
 use Naykel\Gotime\Components\Markdown;
 use Naykel\Gotime\Components\Nav;
+use Naykel\Gotime\Services\FileManagementService;
 
 class GotimeServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,7 @@ class GotimeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/markdown.php', 'markdown');
 
         $this->app->singleton('filemanagement', function ($app) {
-            return new \Naykel\Gotime\Services\FileManagementService;
+            return new FileManagementService;
         });
     }
 
@@ -44,6 +45,10 @@ class GotimeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/gotime.php' => config_path('gotime.php'),
             ], 'gotime-config');
+
+            $this->publishes([
+                __DIR__ . '/../resources/views/components/nav' => resource_path('views/components/nav'),
+            ], 'gotime-nav');
         }
     }
 

@@ -60,11 +60,11 @@ class Nav extends Component
 
     public function render()
     {
-        $viewPath = view()->exists("components.$this->layout")
-            ? "components.$this->layout"
-            : "gotime::components.nav.$this->layout";
-
-        return view($viewPath)->with([
+        return view()->first([
+            "components.nav.$this->layout",
+            "components.$this->layout",
+            "gotime::components.nav.$this->layout",
+        ], [
             'menuItems' => $this->getMenu($this->menuname)->menuItems,
         ]);
     }
